@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+  angular:
+    container_name: ui-angular
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/ui'
+      - '/usr/src/ui/node_modules'
+    ports:
+      - '4200:4200'

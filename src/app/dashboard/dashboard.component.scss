@@ -1,0 +1,9 @@
+.dashboard-wrap {
+    min-height: calc(100vh - 149px);
+}
+ 
+.timeline-wrap {
+    padding: 10px;
+    height: calc(100vh - 35px);
+    overflow-y: scroll;
+}

@@ -1,0 +1,50 @@
+ <button
+    class="btn btn-link timeline-clear-btn"
+    mat-mini-fab 
+    aria-label=""
+    matTooltip="Clear all"
+    (click)="clearNotifications()"
+  >
+  <mat-icon 
+    matBadge="{{ history.length }}" 
+    matBadgeColor="warn" 
+    class="timeline-clear-badge"
+  >delete</mat-icon>
+</button>
+
+<ul #timeline class="timeline timeline-simple">
+  <li 
+    #timelineElement [@cardsAnimation] 
+    *ngFor="let item of history" 
+    class="timeline-inverted timeline-item"
+  >
+    <div class="timeline-badge">
+      <svg-icon class="source-type" src="{{getTypeIcon(item.type)}}"></svg-icon>
+      <h6 class="timestamp">{{ item.date | date: 'HH:mm' }}</h6>
+    </div>
+    <div class="timeline-panel unread">
+      <div class="timeline-heading">
+        <span class="label label-danger">{{ item.title | truncate: '35' }}</span>
+      </div>
+      <div class="timeline-body">
+        <p class="content">{{ item.text | truncate: '100' }}</p>
+      </div>
+      <div class="chips">
+        <mat-chip-list>
+          <mat-chip *ngFor="let chip of item.tags">{{ chip }}</mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <button 
+        mat-button 
+        matSuffix 
+        mat-icon-button 
+        aria-label="Delete" 
+        class="notification-delete btn-danger" 
+        (click)="removeNotification(item.id)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>

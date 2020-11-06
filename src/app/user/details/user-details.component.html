@@ -1,0 +1,145 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-text">
+            <div class="card-text">
+              <h4 class="card-title">User ({{ user.id }})</h4>
+            </div>
+
+            <button
+              *ngIf="!isExternalUser"
+              [hideIfUnauthorized]="permissions.CAN_UPDATE_USER"
+              type="button"
+              class="btn btn-primary btn-round btn-fab add-btn"
+              (click)="editUser(user)"
+            >
+              <span class="material-icons">edit</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      [ngModel]="user.name"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Email address</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      [ngModel]="user.email"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="phone"
+                      [ngModel]="user.phone"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Role</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="role"
+                      [ngModel]="user.role | titlecase"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Registered At</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="created"
+                      [ngModel]="user.createdAt | date"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Street Adress</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="street"
+                      [ngModel]="user.address?.street"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="city"
+                      [ngModel]="user.address?.city"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="country"
+                      [ngModel]="user.address?.country"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Postal Code</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="zip"
+                      [ngModel]="user.address?.zip"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

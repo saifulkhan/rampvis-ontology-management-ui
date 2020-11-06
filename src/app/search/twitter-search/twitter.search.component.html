@@ -1,0 +1,54 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>list_alt</mat-icon>
+            </div>
+            <h4 class="card-title">Tweets Search</h4>
+          </div>
+          <div class="card-body" style="min-height: 200px;">
+            <div class="row">
+              <div class="col-md-8 offset-md-2 d-flex">
+                <mat-form-field class="col-md-2">
+                  <mat-label>Type</mat-label>
+                  <select [(ngModel)]="searchType" matNativeControl required>
+                    <option [value]="searchTypes.KEYWORD">Keyword</option>
+                    <option [value]="searchTypes.USERNAME">Username</option>
+                  </select>
+                </mat-form-field>
+                <mat-form-field class="col-md-10">
+                  <input matInput type="text" name="search" [(ngModel)]="twitterQuery" placeholder="{{ 'Enter Twitter ' + searchType + '...' }}" />
+                </mat-form-field>
+                <button (click)="query()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="searchResults && filteredSearchResults && searchResults.length">
+              <hr/>
+              <mat-form-field class="col-md-4">
+                <input
+                  matInput
+                  type="text"
+                  name="search"
+                  [(ngModel)]="filterValue"
+                  (keyup)="searchTerm$.next($event.target.value)"
+                  placeholder="Filter by keywords..."
+                />
+              </mat-form-field>
+              <div class="mt-3">
+                <div *ngFor="let result of filteredSearchResults" [innerHTML]="result"></div>
+              </div>
+            </div>
+            <div *ngIf="isLoadingResults" class="spinner-background" style="top: 100px;">
+              <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate"></mat-progress-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

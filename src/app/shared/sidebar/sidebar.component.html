@@ -1,0 +1,123 @@
+<div class="logo">
+  <!-- Logo -->
+  <a class="simple-text logo-mini">
+    <div class="logo-img">
+      <img src="../../../assets/logo/hart.svg" alt="" style="width: 35px;"/>
+    </div>
+  </a>
+  <a class="simple-text text-justify logo-normal" style="font-weight: bold" href="">HART</a>
+</div>
+
+
+<div class="sidebar-wrapper">
+
+  <div class="user">
+    <div class="photo">
+      <img src="../../../assets/img/faces/avatar.svg"/>
+    </div>
+    <div class="user-info">
+      <a class="collapsed" data-toggle="collapse" href="#collapseExample">
+        <span>
+          <span [attr.title]="user.name.length > 17 ? user.name : null" class="username-text-ellipsis"
+                style="font-weight: bold"> {{user.name}}
+          </span>
+          <b class="caret"></b>
+        </span>
+      </a>
+      <div class="collapse" id="collapseExample">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+              <span class="sidebar-mini"> </span>
+              <span class="sidebar-normal">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+              <span class="sidebar-mini"> </span>
+              <span class="sidebar-normal">Profile</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+              <span class="sidebar-mini"> </span>
+              <span (click)="logout()" class="sidebar-normal">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Similar code in NavBar-->
+
+  <!-- <div *ngIf="isMobileMenu()">
+    <form class="navbar-form">
+      <span class="bmd-form-group">
+        <div class="input-group no-border">
+          <input class="form-control" placeholder="Search..." type="text" value="">
+          <button class="btn btn-white btn-round btn-just-icon" mat-raised-button type="submit">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </span>
+    </form>
+    <ul class="nav navbar-nav nav-mobile-menu">
+      <li class="nav-item dropdown">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-toggle="dropdown" href="#pablo"
+           id="navbarDropdownMenuLink">
+          <i class="material-icons">notifications</i>
+          <span class="notification">3</span>
+          <p>
+            <span class="d-lg-none d-md-block">Some Actions</span>
+          </p>
+        </a>
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#">You have 5 new notifications</a>
+          <a class="dropdown-item" href="#">Another Notification</a>
+          <a class="dropdown-item" href="#">Another One</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#pablo">
+          <i class="material-icons">person</i>
+          <p>
+            <span class="d-lg-none d-md-block">Account</span>
+          </p>
+        </a>
+      </li>
+    </ul>
+  </div> -->
+
+  <ul class="nav">
+    <li *ngFor="let menuitem of menuItems" class="nav-item" routerLinkActive="active">
+      <!--If is a single link-->
+      <a *ngIf="menuitem.type === 'link'" [routerLink]="[menuitem.path]" class="nav-link">
+        <i class="material-icons">{{menuitem.icontype}}</i>
+        <p style="font-weight: bold">{{menuitem.title}}</p>
+      </a>
+
+      <!--If it have a submenu-->
+      <a (click)="updatePS()" *ngIf="menuitem.type === 'sub'" class="nav-link" data-toggle="collapse"
+         href="#{{menuitem.collapse}}">
+        <i class="material-icons">{{menuitem.icontype}}</i>
+        <p style="font-weight: bold">{{menuitem.title}}<b class="caret"></b></p>
+      </a>
+
+      <!--Display the submenu items-->
+      <div *ngIf="menuitem.type === 'sub'" class="collapse" id="{{menuitem.collapse}}">
+        <ul class="nav">
+          <li *ngFor="let childitem of menuitem.children" class="nav-item" routerLinkActive="active">
+            <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
+              <span class="sidebar-mini">{{childitem.ab}}</span>
+              <span class="sidebar-normal">{{childitem.title}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+  </ul>
+
+</div>

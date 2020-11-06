@@ -1,0 +1,21 @@
+<gridster id="grid" [options]="options">
+  <gridster-item id="{{item.id}}" class="dashboard-card" [item]="item" *ngFor="let item of dashboard">
+    <div class="card-wrap">
+      <div class="button-wrap">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button class="card-options menu-btn" mat-menu-item *ngIf="!item.hasContent" (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">Remove</button>
+        </mat-menu>
+      </div>
+      <div class="title-wrap">
+        {{item.component}}
+      </div>
+      <div class="component-wrap">
+        <ng-template #widgetPlaceholder widget-placeholder></ng-template>
+      </div>
+    </div>
+  </gridster-item>
+
+</gridster>

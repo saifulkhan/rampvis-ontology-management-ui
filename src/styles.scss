@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+.ag-theme-alpine {
+    @include ag-theme-alpine();
+}
+
+.angular-list-grid {
+  width: 100%;
+  height: 235px;
+}
+
+.z-index-max {
+  z-index: 99999 !important;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  z-index: 9999 !important;
+}
+.mat-dialog-content {
+  display: inline !important;
+}
+.cdk-global-scrollblock {
+  overflow: hidden !important;
+}
+.cdk-global-overlay-wrapper {
+  overflow-y: scroll !important;
+  pointer-events: all !important;
+}

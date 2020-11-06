@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>{{ type | titlecase }} User</h2>
+<mat-dialog-content>
+  <form #modalForm [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input formControlName="email" matInput/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Enter password</mat-label>
+      <input formControlName="password" matInput/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select formControlName="role" placeholder="Select role">
+        <mat-option *ngFor="let role of roles" [value]="role">{{ role | titlecase }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button 
+        mat-raised-button
+        class="btn btn-warning"
+        [mat-dialog-close]="undefined"
+      >
+        Cancel
+      </button>
+      
+      <button 
+        mat-raised-button 
+        class="btn btn-primary"
+        (click)="submit()"
+        [disabled]="!form.valid"
+        type="submit"
+      >
+        Save
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

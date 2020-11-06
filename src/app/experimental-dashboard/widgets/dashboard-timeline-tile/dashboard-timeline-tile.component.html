@@ -1,0 +1,19 @@
+<ul class="timeline timeline-simple">
+  <li *ngFor="let item of events" class="timeline-inverted">
+    <div class="timeline-badge {{item.category}}">
+      <img src="{{item.icon}}" alt="">
+    </div>
+    <div class="timeline-panel">
+      <div class="timeline-heading">
+        <span class="label label-danger">
+          <p class="title">{{item.title}}</p>
+        </span>
+      </div>
+      <div class="timeline-body">
+        <p class="content">{{item.message}}</p>
+        <a class="content" href="{{item.url}}">{{item.url}}</a>
+      </div>
+      <h6>{{item.displayTime}}</h6>
+    </div>
+  </li>
+</ul>

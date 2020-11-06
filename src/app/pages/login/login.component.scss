@@ -1,0 +1,23 @@
+.pl-3_4 {
+    padding-left: 3.4rem !important;
+}
+
+div.card-header.card-header-primary.text-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  div.social-line {
+    width: 50%;
+    .logo-icon {
+      font-size: 6em;
+    }
+  }
+  
+  h2.logo-title {
+    width: 50%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+  }
+}

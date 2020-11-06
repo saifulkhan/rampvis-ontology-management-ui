@@ -1,0 +1,64 @@
+<div class="main-content dashboard-wrap">
+  <div class="container-fluid page-wrap">
+
+    <div class="row"> <!--row-1-->
+      <div class="col-md-9"> <!--col-1-->
+
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>playlist_add</mat-icon>
+            </div>
+            <h4 class="card-title">New</h4>
+          </div>
+          <div class="card-body">
+            <app-mining-table 
+              [data]="newMinings" 
+              (check)="check($event)" 
+              (showPdf)="showPdf($event)" 
+              (remove)="remove($event)"
+            > 
+            </app-mining-table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>playlist_add_check</mat-icon>
+            </div>
+            <h4 class="card-title">Checked</h4>
+          </div>
+          <div class="card-body">
+            <app-mining-table 
+              [data]="checkedMinings" 
+              (check)="check($event)" 
+              (showPdf)="showPdf($event)" 
+              (remove)="remove($event)"
+            > 
+            </app-mining-table>
+          </div>
+        </div>
+
+      </div> <!--col-1-->
+
+      <div class="col-md-3"> <!--col-2-->
+
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>notification_important</mat-icon>
+            </div>
+            <h4 class="card-title">Timeline</h4>
+          </div>
+          <div class="timeline-wrap">
+            <timeline [timelineStream]="timelineStream"></timeline>
+          </div>
+        </div>
+
+      </div> <!--col-2-->
+    
+    </div> <!--row-1-->
+
+  </div>
+</div>

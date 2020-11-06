@@ -1,0 +1,28 @@
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>P1</mat-label>
+    <input matInput type="number" [(ngModel)]="clonedSettings.schedulerIntervals.p1">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>P2</mat-label>
+    <input matInput type="number" [(ngModel)]="clonedSettings.schedulerIntervals.p2">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>P3</mat-label>
+    <input matInput type="number" [(ngModel)]="clonedSettings.schedulerIntervals.p3">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Default</mat-label>
+    <input matInput type="number" [(ngModel)]="clonedSettings.schedulerIntervals.def">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Threads</mat-label>
+    <mat-select [(ngModel)]="clonedSettings.threads">
+      <mat-option *ngFor="let thread of clonedSettings.threadOptions" [value]="thread">{{thread}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="float-right">
+  <button mat-raised-button class="btn btn-warning" mat-dialog-close>CANCEL</button>
+  <button mat-raised-button class="btn btn-primary" (click)="submit()">UPDATE</button>
+</mat-dialog-actions>

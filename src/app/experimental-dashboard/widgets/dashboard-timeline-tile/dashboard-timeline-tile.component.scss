@@ -1,0 +1,51 @@
+.timeline-badge {
+  overflow: hidden;
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+p {
+  &.title {
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+div.timeline-panel {
+  
+  p {
+    color: #3C4858;
+  }
+
+  a {
+    color: rgb(61, 131, 179);
+  }
+
+  .content {
+    font-size: 0.8em;
+  }
+
+  &.unread {
+    &.danger {
+      box-shadow: 0 0 20px #DE5340;
+    }
+    &.warning {
+      box-shadow: 0 0 20px #EE9D37;
+    }
+    &.success {
+      box-shadow: 0 0 20px #6AAD5B;
+    }
+    &.info {
+      box-shadow: 0 0 20px #5AB9D1;
+      max-width: unset;
+    }
+  }
+}

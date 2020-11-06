@@ -1,0 +1,55 @@
+
+<div class="wrapper wrapper-full-page">
+  <div class="page-header login-page header-filter" filter-color="white" style="background-image: url('./assets/img/bg1.svg'); background-size: cover; background-position: top center;">
+    <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+
+    <div class="container">
+       <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
+
+          <form class="form" #loginForm="ngForm" (ngSubmit)="login()">
+
+            <div class="card card-login card-hidden">
+              <div class="card-header card-header-primary text-center">
+                <h4></h4>
+              </div>
+
+              <div class="card-body">
+                <p class="card-description text-center">Please enter your registered email and password</p>
+
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                    </div>
+                    <input type="text" (keydown.enter)="login()" name="username" [(ngModel)]="user.username" class="form-control" placeholder="Username..." required>
+                  </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    <input type="password" (keydown.enter)="login()" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Password..." required>
+                  </div>
+                  <mat-error class="pl-3_4" *ngIf="status">{{status}}</mat-error>
+                </span>
+              </div>
+              <div class="card-footer justify-content-center">
+                <a (click)="login()" class="btn btn-primary btn-md">Login</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <div *ngIf="spinner" class="spinner-background">
+      <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate"> </mat-progress-spinner>
+    </div>
+  </div>
+</div>

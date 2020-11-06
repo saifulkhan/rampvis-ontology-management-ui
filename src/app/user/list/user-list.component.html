@@ -1,0 +1,81 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>people_alt</mat-icon>
+            </div>
+            <h4 class="card-title">Users</h4>
+          </div>
+          <div class="card-body">
+            <button (click)="createUser()" [hideIfUnauthorized]="permissions.CAN_CREATE_USER" [matTooltipPosition]="'left'" class="btn btn-primary btn-round btn-fab float-right card-btn" matTooltip="Create User" type="button">
+              <mat-icon>add</mat-icon>
+            </button>
+
+            <mat-form-field class="pull-left mt-1 col-md-4">
+              <input (keyup)="onSearchUsers($event.target.value)" matInput name="search" placeholder="Search users..." type="text" />
+            </mat-form-field>
+
+            <div>
+              <table [dataSource]="dataSource" mat-table matSort>
+                <!-- Username Column -->
+                <ng-container matColumnDef="name">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>User Name</th>
+                  <td *matCellDef="let user" mat-cell>{{ user.name }}</td>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
+                  <td *matCellDef="let user" mat-cell>{{ user.email }}</td>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="role">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Role</th>
+                  <td *matCellDef="let user" mat-cell>{{ user.role }}</td>
+                </ng-container>
+
+                <!-- Registered Column -->
+                <ng-container matColumnDef="createdAt">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Registered</th>
+                  <td *matCellDef="let user" mat-cell>{{ user.createdAt | date: 'short' }}</td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th *matHeaderCellDef class="text-center" mat-header-cell>Actions</th>
+                  <td *matCellDef="let user" class="td-actions text-center text-nowrap" mat-cell>
+                    <button (click)="editUser(user)" [hideIfUnauthorized]="permissions.CAN_UPDATE_USER" [matTooltipPosition]="'left'" class="btn btn-warning btn-link" mat-icon-button matTooltip="Edit" type="button">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button
+                      (click)="enableOrDisableUser(user)"
+                      [hideIfUnauthorized]="permissions.CAN_DELETE_USER"
+                      [matTooltipPosition]="'left'"
+                      [ngClass]="{ 'btn-danger': !user.deleted, 'btn-success': user.deleted }"
+                      class="btn btn-danger btn-link"
+                      mat-icon-button
+                      matTooltip="{{ user.deleted ? 'Enable' : 'Disable' }}"
+                      type="button"
+                    >
+                      <mat-icon *ngIf="!user.deleted">close</mat-icon>
+                      <mat-icon *ngIf="user.deleted">power_settings_new</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="usersTable.headerRow" mat-header-row></tr>
+                <tr *matRowDef="let row; columns: usersTable.headerRow" [class.row-text-lightgray]="row.deleted" mat-row></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[50, 100, 200]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
