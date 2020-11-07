@@ -8,6 +8,8 @@ export class BaseFormComponent {
      * (for example JSON value from API)
      */
     protected setFormValues(values: object, group: FormGroup = this.form) {
+        console.log('BaseFormComponent: setControlValueToGroup: name = ', name, ', values = ', values)
+
         Object.keys(values).forEach((key) => {
             if (values[key] instanceof Array) {
                 this.setArrayValueToGroup(group, values[key], key);
@@ -27,11 +29,15 @@ export class BaseFormComponent {
      * Just patch formControl with value
      */
     private setControlValueToGroup(group: FormGroup, value: any, name: string) {
+        console.log('BaseFormComponent: setControlValueToGroup 1: name = ', name, ', value = ', value)
+
         if (!group.contains(name)) {
             group.addControl(name, new FormControl(''));
         }
 
-        group.get(name).patchValue(value);
+        console.log('BaseFormComponent: setControlValueToGroup 2: name = ', name, ', value = ', value)
+
+        if (value) group.get(name).patchValue(value);
     }
 
     /**

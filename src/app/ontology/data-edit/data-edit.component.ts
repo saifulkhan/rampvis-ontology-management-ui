@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
+import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
 import { OntoData } from '../models/onto-data.model';
 import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
-import { BaseFormComponent } from '../nestedforms/base-form.component';
+import { BaseFormComponent } from '../../shared/forms/base-form.component';
 
 @Component({
     selector: 'app-data-edit',
@@ -39,44 +39,37 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         this.models = Object.keys(MODEL).map((k) => MODEL[k]);
         this.analytics = Object.keys(ANALYTICS).map((k) => ANALYTICS[k]);
 
+    }
+
+    ngOnInit(): void {
         this.form = this.fb.group({
-            url: [this.data.url, Validators.required],
-            endpoint: [this.data.endpoint, Validators.required],
-            description: [this.data.description, Validators.required],
-            source: [this.data.source],
-            model: [this.data.model],
-            analytics: [this.data.analytics],
-            addresses: this.fb.array([this.initAddress()]),
-
-            notes: new FormArray([]),
+            url: new FormControl('', [Validators.required]),
+            endpoint: new FormControl('', [Validators.required]),
+            description: new FormControl('', [Validators.required]),
+            source: new FormControl(''),
+            model: new FormControl(''),
+            analytics: new FormControl(''),
+            query_params: new FormArray([]),
         });
+
+        console.log(this.data);
+        this.setFormValues(this.data);
     }
 
-    ngOnInit(): void {}
-
-    initAddress() {
-        // initialize our address
-        return this.fb.group({
-            street: ['', Validators.required],
-            postcode: [''],
-        });
+    addQueryparam() {
+        const queryParams = this.form.get('query_params') as FormArray;
+        queryParams.push(new FormGroup({}));
+        console.log('addQueryparam: value = ', this.form.value);
     }
 
-    addAddress() {
-        // add address to the list
-        const control = <FormArray>this.form.controls['addresses'];
-        control.push(this.initAddress());
-    }
-
-    removeAddress(i: number) {
-        // remove address from the list
-        const control = <FormArray>this.form.controls['addresses'];
-        control.removeAt(i);
+    removeQueryparam(index: number) {
+        const queryParams = this.form.get('query_params') as FormArray;
+        queryParams.removeAt(index);
+        console.log('removeQueryparam: value = ', this.form.value);
     }
 
     save() {
         this.form.updateValueAndValidity();
-
         if (!this.form.valid) {
             this.utilService.getFormValidationErrors(this.form);
             this.localNotificationService.error({ message: 'You must complete the required fields.' });
@@ -84,6 +77,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         }
         const result = this.form.value;
         result.id = this.data.id;
+        console.log('save: value = ', this.form.value);
         this.matDialogRef.close(result);
     }
 

@@ -1,4 +1,4 @@
-<h5 mat-dialog-title>{{ dialogType | titlecase  }} Data</h5>
+<h5 mat-dialog-title>{{ dialogType | titlecase }} Data</h5>
 
 <mat-dialog-content>
   <form [formGroup]="form" #modalForm>
@@ -6,7 +6,7 @@
       <mat-label>URL Code</mat-label>
       <input formControlName="url" matInput />
     </mat-form-field>
-    
+
     <mat-form-field>
       <mat-label>Endpoint</mat-label>
       <input formControlName="endpoint" matInput />
@@ -35,55 +35,44 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- list of addresses -->
-    <div formArrayName="addresses">
-      <div *ngFor="let address of form.controls.addresses.controls; let i=index">
-          <!-- address header, show remove button when more than one address available -->
-          <div>
-              <span>Address {{i + 1}}</span>
-              <span *ngIf="form.controls.addresses.controls.length > 1" 
-                  (click)="removeAddress(i)">
-              </span>
-          </div>
-
-          <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-          <div [formGroupName]="i">
-              <!--street-->
-              <div>
-                  <label>street</label>
-                  <input type="text" formControlName="street">
-                  <!--display error message if street is not valid-->
-                  <small [hidden]="form.controls.addresses.controls[i].controls.street.valid">
-                      Street is required
-                  </small>
-              </div>
-              <!--postcode-->
-              <div>
-                  <label>postcode</label>
-                  <input type="text" formControlName="postcode">
-              </div>
-            </div>
+    <!-- query parameters-->
+    <ng-container *ngIf="form.controls['query_params'] && form.controls['query_params']['controls']">
+      <div *ngFor="let group of form.controls['query_params']['controls']; let i = index">
+        <app-queryparam-edit [formGroup]="group"></app-queryparam-edit>
+        <!--
+        <button 
+          (click)="removeQueryparam(i)" 
+          [matTooltipPosition]="'left'" 
+          class="btn btn-danger btn-link float-right" 
+          mat-icon-button matTooltip="Remove query parameter" 
+          type="button"
+        ><mat-icon>close</mat-icon></button>  
+        -->
       </div>
-    </div>
+    </ng-container>
 
+    <button 
+      (click)="addQueryparam()" 
+      [matTooltipPosition]="'left'" 
+      class="btn btn-primary btn-link float-left" 
+      mat-icon-button matTooltip="Add query parameters" 
+      type="button"
+    ><mat-icon>add_circle</mat-icon>add query parameters</button>
+    <!-- query parameters -->
+    
     <mat-dialog-actions align="end">
       <button 
-        mat-raised-button
-        class="btn btn-warning"
-        [mat-dialog-close]="undefined" 
-      >
-        Cancel
-      </button>
+        mat-raised-button 
+        class="btn btn-warning" 
+        [mat-dialog-close]="undefined"
+      >Cancel</button>
 
       <button 
         mat-raised-button 
-        class="btn btn-primary"
+        class="btn btn-primary" 
         (click)="save()" 
         [disabled]="!form.valid" 
-        type="submit"
-      >
-        Save
-      </button>
+        type="submit">Save</button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>

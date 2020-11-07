@@ -83,14 +83,12 @@
                 </td>
                 </ng-container>
 
-                
                 <ng-container matColumnDef="query_params">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Query Parameters</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
-                      <mat-chip *ngFor="let keyVal of row.query_params | keyvalue" 
-                        [class.collection-text-lightgray]="keyVal.key"
-                      >{{ keyVal.key }}
+                      <mat-chip *ngFor="let query_params of row.query_params" >
+                        {{ query_params.query }}
                       </mat-chip>
                     </mat-chip-list>
                   </td>
@@ -103,7 +101,7 @@
                       (click)="onClickEdit(row)" 
                       [matTooltipPosition]="'left'" 
                       class="btn btn-warning btn-link" 
-                      mat-icon-button matTooltip="Edit row" 
+                      mat-icon-button matTooltip="Edit" 
                       type="button"
                     >
                       <mat-icon>edit</mat-icon>
@@ -113,7 +111,7 @@
                       (click)="onClickDelete(row.id)" 
                       [matTooltipPosition]="'left'" 
                       class="btn btn-danger btn-link" 
-                      mat-icon-button matTooltip="Remove row" 
+                      mat-icon-button matTooltip="Delete" 
                       type="button"
                     >
                       <mat-icon>close</mat-icon>

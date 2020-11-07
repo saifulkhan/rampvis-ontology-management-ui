@@ -14,9 +14,7 @@ import { DataEditComponent } from './data-edit/data-edit.component';
 import { DataListComponent } from './data-list/data-list.component';
 import { PageListComponent } from './page-list/page-list.component';
 import { PageEditComponent } from './page-edit/page-edit.component';
-
-import { NoteComponent } from './nestedforms/note.component';
-import { ProfileCommonComponent } from './nestedforms/profile-common.component';
+import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
 
 @NgModule({
     declarations: [
@@ -26,8 +24,7 @@ import { ProfileCommonComponent } from './nestedforms/profile-common.component';
       DataEditComponent,
       PageListComponent,
       PageEditComponent,
-      NoteComponent,
-      ProfileCommonComponent,
+      QueryparamEditComponent,
     ],
     imports: [
         CommonModule,

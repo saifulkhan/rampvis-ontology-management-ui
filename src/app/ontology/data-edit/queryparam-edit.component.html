@@ -1,0 +1,50 @@
+<div class="card" [formGroup]="formGroup">
+    <div class="card-header">
+      <button 
+        (click)="removeSelf()" 
+        [matTooltipPosition]="'left'" 
+        class="btn btn-danger btn-link float-right" 
+        mat-icon-button matTooltip="Remove" 
+        type="button"
+      ><mat-icon>cancel</mat-icon></button>  
+    </div>
+
+    <div class="card-body">
+
+			<!-- <div class="form-group">
+					<label>Title</label>
+					<input class="form-control" formControlName="title" [class.is-invalid]="formGroup.get('title').errors" />
+					<div *ngIf="formGroup.get('title').errors" class="invalid-feedback">Title must be filled</div>
+			</div> -->
+
+			<!-- <div class="form-group">
+					<label>Content</label>
+					<textarea class="form-control" rows="3" formControlName="content" [class.is-invalid]="formGroup.get('content').errors"></textarea>
+					<div *ngIf="formGroup.get('content').errors" class="invalid-feedback">Note cannot be without content, please fill it</div>
+			</div> -->
+				
+			<mat-form-field>
+				<mat-label>Query</mat-label>
+				<input formControlName="query" matInput />
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-chip-list mat-chip-list #chipList aria-label="" formControlName="params">
+					<mat-chip 
+						(removed)="remove(tag)" 
+						*ngFor="let tag of formGroup.get('params').value" [removable]="removable"
+						[selectable]="selectable"
+					>{{tag}}<mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+					</mat-chip>
+					<input 
+						(matChipInputTokenEnd)="add($event)" 
+						[matChipInputAddOnBlur]="addOnBlur" 
+						[matChipInputFor]="chipList"
+						[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+						placeholder="Parameters"
+					>
+				</mat-chip-list>
+			</mat-form-field>
+			
+    </div>
+</div>

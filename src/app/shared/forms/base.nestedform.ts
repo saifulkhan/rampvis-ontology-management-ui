@@ -23,7 +23,7 @@ export class BaseNestedform implements OnInit {
      */
     public removeSelf() {
         if (!(this.formGroup.parent instanceof FormArray)) {
-            alert('Sorry, cannot remove couse it is not an array item');
+            alert('BaseNestedform: Cannot remove, not an array!');
             return;
         }
 
@@ -37,6 +37,8 @@ export class BaseNestedform implements OnInit {
          */
         Object.keys(this.nestedFormGroup.controls).forEach((key) => {
             const nestedControl = this.nestedFormGroup.get(key);
+            
+            console.log('BaseNestedform: key = ', key, this.formGroup.contains(key));
 
             /**
              * If control not specified yet, just add it to form with all
@@ -47,20 +49,25 @@ export class BaseNestedform implements OnInit {
                 return;
             }
 
+
             const parentControl = this.formGroup.get(key);
 
             /**
-             * Restore validator from our subform rules if parentControl don't has any
+             * Restore validator from our sub-form rules if parentControl don't has any
              */
             if (!parentControl.validator && nestedControl.validator) {
                 parentControl.setValidators(nestedControl.validator);
             }
+
+            console.log('BaseNestedform: key = ', key, 'p value = ', parentControl.value);
 
             /**
              * Restore default value, if it specified in nested control, but not parent control
              */
             if ([null, '', undefined].includes(parentControl.value) && ![null, '', undefined].includes(nestedControl.value)) {
                 parentControl.patchValue(nestedControl.value);
+
+                // console.log('BaseNestedform: key = ', key, 'n value = ', nestedControl.value);
             }
         });
     }
