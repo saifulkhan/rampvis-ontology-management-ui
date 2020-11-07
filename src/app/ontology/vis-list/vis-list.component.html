@@ -1,0 +1,119 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>drag_indicator</mat-icon>
+            </div>
+            <h4 class="card-title">Visualization Functions</h4>
+          </div>
+
+          <div class="card-body">
+            <button 
+              (click)="onClickCreateVis()" 
+              class="btn btn-primary btn-round btn-fab float-right card-btn" 
+              mat-mini-fab
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            
+            <div class="toolbar">
+              <mat-form-field class="pull-left mt-1 col-md-4">
+                <input 
+                  (keyup)="filterDataSource()" 
+                  [(ngModel)]="searchTerm" 
+                  matInput 
+                  name="search" 
+                  placeholder="Filter..." 
+                  type="text" 
+                />
+              </mat-form-field> 
+            </div>
+
+            <div>
+              <table 
+                [dataSource]="tableDataSource" 
+                mat-table 
+                matSort 
+                matSortActive="created" 
+                matSortDirection="desc" 
+                matSortDisableClear="true"
+              >
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="function">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Function</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.function }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.type }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+                  <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+                    <button 
+                      (click)="onClickEditVis(row)" 
+                      [matTooltipPosition]="'left'" 
+                      class="btn btn-warning btn-link" 
+                      mat-icon-button matTooltip="Edit row" 
+                      type="button"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button 
+                      (click)="onClickDeleteVis(row.id)" 
+                      [matTooltipPosition]="'left'" 
+                      class="btn btn-danger btn-link" 
+                      mat-icon-button matTooltip="Remove row" 
+                      type="button"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+                <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+              </table>
+
+              <div *ngIf="spinner" class="spinner-background">
+                <mat-progress-spinner 
+                  class="progress-spinner-container" 
+                  color="primary" 
+                  diameter="100" 
+                  mode="indeterminate"
+                > 
+              </mat-progress-spinner>
+              </div>
+              <mat-paginator 
+                [length]="visList.length" 
+                [pageSizeOptions]="[50, 100, 150, 200]" 
+                [pageSize]="100" 
+                showFirstLastButtons
+              >
+              </mat-paginator>
+            </div>
+          </div>
+          <!-- end content-->
+        </div>
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

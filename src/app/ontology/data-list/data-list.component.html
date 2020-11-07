@@ -1,0 +1,143 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>drag_indicator</mat-icon>
+            </div>
+            <h4 class="card-title">Data</h4>
+          </div>
+
+          <div class="card-body">
+            <button 
+              (click)="onClickCreate()" 
+              class="btn btn-primary btn-round btn-fab float-right card-btn" 
+              mat-mini-fab
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            
+            <div class="toolbar">
+              <mat-form-field class="pull-left mt-1 col-md-4">
+                <input 
+                  (keyup)="filterDataSource()" 
+                  [(ngModel)]="searchTerm" 
+                  matInput 
+                  name="search" 
+                  placeholder="Filter..." 
+                  type="text" 
+                />
+              </mat-form-field> 
+            </div>
+
+            <div>
+              <table 
+                [dataSource]="tableDataSource" 
+                mat-table 
+                matSort 
+                matSortActive="created" 
+                matSortDirection="desc" 
+                matSortDisableClear="true"
+              >
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="url">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>URL</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.url }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="endpoint">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Endpoint</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.endpoint }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="metadata">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Metadata</th>
+                  <td *matCellDef="let row" mat-cell> 
+                  <mat-chip-list>
+                    <mat-chip *ngIf="row.source">{{ row.source }}</mat-chip>
+                    <mat-chip *ngIf="row.analytics">{{ row.analytics }}</mat-chip>
+                    <mat-chip *ngIf="row.model">{{ row.model }}</mat-chip>
+                  </mat-chip-list>
+                </td>
+                </ng-container>
+
+                
+                <ng-container matColumnDef="query_params">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Query Parameters</th>
+                  <td *matCellDef="let row" mat-cell>
+                    <mat-chip-list>
+                      <mat-chip *ngFor="let keyVal of row.query_params | keyvalue" 
+                        [class.collection-text-lightgray]="keyVal.key"
+                      >{{ keyVal.key }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+                  <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+                    <button 
+                      (click)="onClickEdit(row)" 
+                      [matTooltipPosition]="'left'" 
+                      class="btn btn-warning btn-link" 
+                      mat-icon-button matTooltip="Edit row" 
+                      type="button"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button 
+                      (click)="onClickDelete(row.id)" 
+                      [matTooltipPosition]="'left'" 
+                      class="btn btn-danger btn-link" 
+                      mat-icon-button matTooltip="Remove row" 
+                      type="button"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+                <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+              </table>
+
+              <div *ngIf="spinner" class="spinner-background">
+                <mat-progress-spinner 
+                  class="progress-spinner-container" 
+                  color="primary" 
+                  diameter="100" 
+                  mode="indeterminate"
+                > 
+              </mat-progress-spinner>
+              </div>
+              <mat-paginator 
+                [length]="dataList.length" 
+                [pageSizeOptions]="[50, 100, 150, 200]" 
+                [pageSize]="100" 
+                showFirstLastButtons
+              >
+              </mat-paginator>
+            </div>
+          </div>
+          <!-- end content-->
+        </div>
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

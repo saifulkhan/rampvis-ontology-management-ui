@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { PrivateLayoutComponent } from './private-layout.component';
 import { Role } from '../../shared/models/role.enum';
 
@@ -8,11 +7,15 @@ export const PrivateLayoutRoutes: Routes = [
 		path: '',
 		component: PrivateLayoutComponent,
 		children: [
-			// add all pages for authenticated user navigation
 			{
 				path: 'dashboard',
 				data: { allowedRoles: [Role.ADMIN, Role.USER] },
 				loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
+			},
+			{
+				path: 'ontology',
+				data: { allowedRoles: [Role.ADMIN] },
+				loadChildren: () => import('../../ontology/ontology.module').then(m => m.OntologyModule)
 			},
 			{
 				path: 'experimental-dashboard',

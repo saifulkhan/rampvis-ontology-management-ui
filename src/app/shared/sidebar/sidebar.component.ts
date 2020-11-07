@@ -35,6 +35,19 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN, Role.USER],
     },
     {
+        path: '/ontology',
+        title: 'Ontology',
+        type: 'sub',
+        icontype: 'drag_indicator',
+        roles: [Role.ADMIN],
+        collapse: 'users',
+        children: [
+            { path: 'vis', title: 'Visualization', ab: 'V' },
+            { path: 'data', title: 'Data', ab: 'D' },
+            { path: 'page', title: 'Page', ab: 'P' },
+        ],
+    },
+    {
         path: '/collection',
         title: 'Scraper',
         type: 'link',
