@@ -12,7 +12,7 @@
 
           <div class="card-body">
             <button 
-              (click)="onClickCreateVis()" 
+              (click)="onClickCreate()" 
               class="btn btn-primary btn-round btn-fab float-right card-btn" 
               mat-mini-fab
             >
@@ -43,7 +43,18 @@
               >
                 <ng-container matColumnDef="id">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+                  <td *matCellDef="let row" mat-cell>
+                    {{ row.id }}  
+                    <button 
+                    cdkCopyToClipboard="{{ row.id }}"
+                    [matTooltipPosition]="'left'" 
+                    class="btn btn-light btn-link" 
+                    mat-icon-button matTooltip="Copy to clipboard" 
+                    type="button"  
+                    >
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="function">
@@ -65,7 +76,7 @@
                   <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
                   <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
                     <button 
-                      (click)="onClickEditVis(row)" 
+                      (click)="onClickEdit(row)" 
                       [matTooltipPosition]="'left'" 
                       class="btn btn-warning btn-link" 
                       mat-icon-button matTooltip="Edit row" 
@@ -75,7 +86,7 @@
                     </button>
 
                     <button 
-                      (click)="onClickDeleteVis(row.id)" 
+                      (click)="onClickDelete(row.id)" 
                       [matTooltipPosition]="'left'" 
                       class="btn btn-danger btn-link" 
                       mat-icon-button matTooltip="Remove row" 

@@ -1,7 +1,7 @@
 import { Deserializable } from 'src/app/shared/models/deserializable.model';
-import { ANALYTICS, MODEL, SOURCE } from "./data-types";
+import { ANALYTICS, MODEL, SOURCE } from "./onto-data-types";
 
-export class Data implements Deserializable {
+export class OntoData implements Deserializable {
     public id: string = '';
     public url: string = '';
     public endpoint: string = '';

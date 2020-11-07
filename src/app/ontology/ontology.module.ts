@@ -12,34 +12,37 @@ import { VisListComponent } from './vis-list/vis-list.component';
 import { VisEditComponent } from './vis-edit/vis-edit.component';
 import { DataEditComponent } from './data-edit/data-edit.component';
 import { DataListComponent } from './data-list/data-list.component';
+import { PageListComponent } from './page-list/page-list.component';
+import { PageEditComponent } from './page-edit/page-edit.component';
+
+import { NoteComponent } from './nestedforms/note.component';
+import { ProfileCommonComponent } from './nestedforms/profile-common.component';
 
 @NgModule({
-  declarations: [
-    VisListComponent,
-    VisEditComponent,
-    DataListComponent,
-    DataEditComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(OntologyRoutes),
-    FormsModule,
-    MaterialModule,
-    DirectivesModule,
-		MatFormFieldModule,
-		ReactiveFormsModule
-  ],
-  providers: [
-    OntologyService
-  ],
-  entryComponents: [
-    VisEditComponent,
-    DataEditComponent,
-	]
+    declarations: [
+      VisListComponent, 
+      VisEditComponent, 
+      DataListComponent, 
+      DataEditComponent,
+      PageListComponent,
+      PageEditComponent,
+      NoteComponent,
+      ProfileCommonComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(OntologyRoutes),
+        FormsModule,
+        MaterialModule,
+        DirectivesModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+    ],
+    providers: [OntologyService],
+    entryComponents: [
+      VisEditComponent, 
+      DataEditComponent,
+      PageEditComponent,
+    ],
 })
-export class OntologyModule { }
-
-
-
-
-
+export class OntologyModule {}

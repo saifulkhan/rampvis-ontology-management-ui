@@ -10,7 +10,7 @@ import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntologyService } from '../ontology.service';
-import { Data } from '../models/data.model';
+import { OntoData } from '../models/onto-data.model';
 import { DataEditComponent } from '../data-edit/data-edit.component';
 
 @Component({
@@ -22,12 +22,12 @@ export class DataListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<Data> = new MatTableDataSource([]);
+    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
     public tableData: TableData = {
         headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'query_params', 'actions'],
         dataRows: [],
     };
-    public dataList: Data[] = [];
+    public dataList: OntoData[] = [];
     spinner = false;
     public searchTerm: string;
 
@@ -48,10 +48,10 @@ export class DataListComponent implements OnInit {
     }
 
     public onClickCreate(): void {
-        this.openVisEditModal('new', new Data());
+        this.openVisEditModal('new', new OntoData());
     }
 
-    public onClickEdit(data: Data): void {
+    public onClickEdit(data: OntoData): void {
         this.openVisEditModal('edit', data);
     }
 
@@ -69,7 +69,7 @@ export class DataListComponent implements OnInit {
     // private methods
     //
     private loadDataList() {
-        this.ontologyService.getAllData().subscribe((res: Data[]) => {
+        this.ontologyService.getAllData().subscribe((res: OntoData[]) => {
             if (res) {
                 this.dataList = res;
                 this.setTableData(this.dataList);
@@ -78,7 +78,7 @@ export class DataListComponent implements OnInit {
         });
     }
 
-    private openVisEditModal(dialogType: string, data: Data): void {
+    private openVisEditModal(dialogType: string, data: OntoData): void {
         const dialogOpt = { width: '40%', data: { dialogType, data: data } };
         const matDialogRef = this.matDialog.open(DataEditComponent, dialogOpt);
 
@@ -86,7 +86,7 @@ export class DataListComponent implements OnInit {
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | Data): Observable<any> => {
+                    (source: null | OntoData): Observable<any> => {
                         if (!source) return of(false);
                         //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
                         //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
@@ -94,13 +94,13 @@ export class DataListComponent implements OnInit {
                     },
                 ),
             )
-            .subscribe((response: Data | false) => {
+            .subscribe((response: OntoData | false) => {
                 if (!response) return;
                 this.loadDataList();
             });
     }
 
-    private setTableData(sources: Array<Data>): void {
+    private setTableData(sources: Array<OntoData>): void {
         this.tableDataSource.data = sources;
     }
 }

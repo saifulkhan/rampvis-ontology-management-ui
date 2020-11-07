@@ -6,14 +6,13 @@ import { LocalNotificationService } from 'src/app/services/common/local-notifica
 import { UtilService } from '../../services/util.service';
 import { OntoData } from '../models/onto-data.model';
 import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
-import { BaseFormComponent } from '../nestedforms/base-form.component';
 
 @Component({
-    selector: 'app-data-edit',
-    templateUrl: './data-edit.component.html',
-    styleUrls: ['./data-edit.component.scss'],
+    selector: 'app-page-edit',
+    templateUrl: './page-edit.component.html',
+    styleUrls: ['./page-edit.component.scss'],
 })
-export class DataEditComponent extends BaseFormComponent implements OnInit {
+export class PageEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
     form: FormGroup;
     dialogType = ''; // dialog type: edit or new
@@ -25,13 +24,11 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        public matDialogRef: MatDialogRef<DataEditComponent>,
+        public matDialogRef: MatDialogRef<PageEditComponent>,
         @Inject(MAT_DIALOG_DATA) data,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService,
     ) {
-        super();
-
         console.log('VisEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
@@ -46,9 +43,9 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             source: [this.data.source],
             model: [this.data.model],
             analytics: [this.data.analytics],
-            addresses: this.fb.array([this.initAddress()]),
-
-            notes: new FormArray([]),
+            addresses: this.fb.array([
+                this.initAddress(),
+            ])
         });
     }
 
@@ -58,7 +55,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         // initialize our address
         return this.fb.group({
             street: ['', Validators.required],
-            postcode: [''],
+            postcode: ['']
         });
     }
 
@@ -67,12 +64,13 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         const control = <FormArray>this.form.controls['addresses'];
         control.push(this.initAddress());
     }
-
+    
     removeAddress(i: number) {
         // remove address from the list
         const control = <FormArray>this.form.controls['addresses'];
         control.removeAt(i);
     }
+
 
     save() {
         this.form.updateValueAndValidity();
@@ -82,8 +80,8 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             this.localNotificationService.error({ message: 'You must complete the required fields.' });
             return;
         }
-        const result = this.form.value;
-        result.id = this.data.id;
+		const result = this.form.value;
+		result.id = this.data.id;
         this.matDialogRef.close(result);
     }
 

@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 
 import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
-import { Vis } from '../models/vis.model';
-import { VIS_TYPE } from '../models/vis-type.enum';
+import { OntoVis } from '../models/onto-vis.model';
+import { VIS_TYPE } from '../models/onto-vis-type.enum';
 
 @Component({
     selector: 'app-vis-edit',
@@ -16,10 +16,9 @@ export class VisEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
     form: FormGroup;
     dialogType = ''; // dialog type: edit or new
-    vis: Vis;
+    vis: OntoVis;
 
     public types = [];
-    public selectedType = '';
 
     constructor(
         private fb: FormBuilder,

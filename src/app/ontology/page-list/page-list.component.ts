@@ -1,5 +1,4 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -10,25 +9,25 @@ import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
-import { OntoVis } from '../models/onto-vis.model';
 import { OntologyService } from '../ontology.service';
-import { VisEditComponent } from '../vis-edit/vis-edit.component';
+import { OntoData } from '../models/onto-data.model';
+import { DataEditComponent } from '../data-edit/data-edit.component';
 
 @Component({
-    selector: 'app-vis-list',
-    templateUrl: './vis-list.component.html',
-    styleUrls: ['./vis-list.component.scss'],
+    selector: 'app-page-list',
+    templateUrl: './page-list.component.html',
+    styleUrls: ['./page-list.component.scss'],
 })
-export class VisListComponent implements OnInit {
+export class PageListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource([]);
+    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'function', 'type', 'description', 'actions'],
+        headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'query_params', 'actions'],
         dataRows: [],
     };
-    public visList: OntoVis[] = [];
+    public dataList: OntoData[] = [];
     spinner = false;
     public searchTerm: string;
 
@@ -40,8 +39,8 @@ export class VisListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('VisListComponent: ngOnInit:');
-        this.loadVisList();
+        console.log('DataListComponent: ngOnInit:');
+        this.loadDataList();
     }
 
     public filterDataSource(): void {
@@ -49,11 +48,11 @@ export class VisListComponent implements OnInit {
     }
 
     public onClickCreate(): void {
-        this.openVisEditModal('new', new OntoVis());
+        this.openVisEditModal('new', new OntoData());
     }
 
-    public onClickEdit(vis: OntoVis): void {
-        this.openVisEditModal('edit', vis);
+    public onClickEdit(data: OntoData): void {
+        this.openVisEditModal('edit', data);
     }
 
     public onClickDelete(sourceId: string): void {
@@ -69,25 +68,25 @@ export class VisListComponent implements OnInit {
     //
     // private methods
     //
-    private loadVisList() {
-        this.ontologyService.getAllVis().subscribe((res: OntoVis[]) => {
+    private loadDataList() {
+        this.ontologyService.getAllData().subscribe((res: OntoData[]) => {
             if (res) {
-                this.visList = res;
-                this.setTableData(this.visList);
-                console.log('VisListComponent: loadVisList: visList = ', this.visList);
+                this.dataList = res;
+                this.setTableData(this.dataList);
+                console.log('DataListComponent: loadDataList: dataList = ', this.dataList);
             }
         });
     }
 
-    private openVisEditModal(dialogType: string, vis: OntoVis): void {
-        const dialogOpt = { width: '40%', data: { dialogType, vis } };
-        const matDialogRef = this.matDialog.open(VisEditComponent, dialogOpt);
+    private openVisEditModal(dialogType: string, data: OntoData): void {
+        const dialogOpt = { width: '40%', data: { dialogType, data: data } };
+        const matDialogRef = this.matDialog.open(DataEditComponent, dialogOpt);
 
         matDialogRef
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | OntoVis): Observable<any> => {
+                    (source: null | OntoData): Observable<any> => {
                         if (!source) return of(false);
                         //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
                         //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
@@ -95,13 +94,13 @@ export class VisListComponent implements OnInit {
                     },
                 ),
             )
-            .subscribe((response: OntoVis | false) => {
+            .subscribe((response: OntoData | false) => {
                 if (!response) return;
-                this.loadVisList();
+                this.loadDataList();
             });
     }
 
-    private setTableData(sources: Array<OntoVis>): void {
+    private setTableData(sources: Array<OntoData>): void {
         this.tableDataSource.data = sources;
     }
 }
