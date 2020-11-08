@@ -58,7 +58,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="url">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>URL</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>URL Code</th>
                   <td *matCellDef="let row" mat-cell>{{ row.url }}</td>
                 </ng-container>
 
@@ -73,7 +73,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="metadata">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Metadata</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
                   <td *matCellDef="let row" mat-cell> 
                   <mat-chip-list>
                     <mat-chip *ngIf="row.source">{{ row.source }}</mat-chip>
@@ -84,7 +84,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="query_params">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Query Parameters</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Query</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
                       <mat-chip *ngFor="let query_params of row.query_params" >

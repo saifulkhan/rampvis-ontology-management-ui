@@ -6,7 +6,8 @@ import { BaseNestedform } from '../../shared/forms/base.nestedform';
 
 @Component({
     selector: 'app-queryparam-edit',
-    templateUrl: './queryparam-edit.component.html'
+    templateUrl: './queryparam-edit.component.html',
+    styleUrls: ['./queryparam-edit.component.scss'],
 })
 export class QueryparamEditComponent extends BaseNestedform {
     // tag chip related
