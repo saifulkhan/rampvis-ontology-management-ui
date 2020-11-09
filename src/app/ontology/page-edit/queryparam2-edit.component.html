@@ -1,0 +1,33 @@
+<div class="card" [formGroup]="formGroup">
+  <div class="card-header">
+		<button (click)="removeSelf()" 
+			[matTooltipPosition]="'left'" 
+			matTooltip="Remove"
+			class="btn btn-warning btn-link float-right" 
+			mat-icon-button 
+			type="button"
+		>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+				<mat-form-field>
+					<mat-select formControlName="query" placeholder="Query">
+						<mat-option *ngFor="let d of queryList" [value]="d">{{ d }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			
+      <div class="col-md-8">
+				<mat-form-field>
+					<mat-select formControlName="params" placeholder="Params">
+						<mat-option *ngFor="let d of paramsList" [value]="d">{{ d }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

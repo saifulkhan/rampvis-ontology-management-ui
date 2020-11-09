@@ -1,0 +1,34 @@
+<div class="card" [formGroup]="formGroup">
+  <div class="card-header">
+    <button (click)="removeSelf()" [matTooltipPosition]="'left'" class="btn btn-warning btn-link float-right" mat-icon-button matTooltip="Remove" type="button">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+
+    <mat-form-field>
+      <mat-select formControlName="visId" placeholder="Vis ID">
+        <mat-option *ngFor="let d of visList" [value]="d">{{ d }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
+      <div *ngFor="let d of formGroup.controls['bindData']['controls']; let i = index">
+        <app-binddata-edit [formGroup]="d"></app-binddata-edit>
+      </div>
+    </ng-container>
+
+    <button
+      (click)="onClickBindData()"
+      [matTooltipPosition]="'left'"
+      class="btn btn-primary btn-link float-left"
+      mat-icon-button
+      matTooltip="Bind data"
+      type="button"
+    >
+      <mat-icon>add_circle</mat-icon>Data
+    </button>
+    
+  </div>
+</div>

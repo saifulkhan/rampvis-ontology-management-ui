@@ -1,85 +1,44 @@
-<h3 mat-dialog-title>{{ dialogType | titlecase  }} Source</h3>
+<h5 mat-dialog-title>{{ dialogType | titlecase }} Page</h5>
 
 <mat-dialog-content>
-  <form [formGroup]="form" #modalForm>
+  <form [formGroup]="formGroup" #modalForm>
     <mat-form-field>
-      <mat-label>URL Code</mat-label>
-      <input formControlName="url" matInput />
-    </mat-form-field>
-    
-    <mat-form-field>
-      <mat-label>Endpoint</mat-label>
-      <input formControlName="endpoint" matInput />
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput />
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Description</mat-label>
-      <input formControlName="description" matInput />
+      <mat-label>Num. of rows</mat-label>
+      <input formControlName="nrow" matInput />
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-select formControlName="source" placeholder="Source">
-        <mat-option *ngFor="let d of sources" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select formControlName="analytics" placeholder="Analytics">
-        <mat-option *ngFor="let d of analytics" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select formControlName="model" placeholder="Model">
-        <mat-option *ngFor="let d of models" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- list of addresses -->
-    <div formArrayName="addresses">
-      <div *ngFor="let address of form.controls.addresses.controls; let i=index">
-          <!-- address header, show remove button when more than one address available -->
-          <div>
-              <span>Address {{i + 1}}</span>
-              <span *ngIf="form.controls.addresses.controls.length > 1" 
-                  (click)="removeAddress(i)">
-              </span>
-          </div>
-
-          <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-          <div [formGroupName]="i">
-              <!--street-->
-              <div>
-                  <label>street</label>
-                  <input type="text" formControlName="street">
-                  <!--display error message if street is not valid-->
-                  <small [hidden]="form.controls.addresses.controls[i].controls.street.valid">
-                      Street is required
-                  </small>
-              </div>
-              <!--postcode-->
-              <div>
-                  <label>postcode</label>
-                  <input type="text" formControlName="postcode">
-              </div>
-            </div>
+    <ng-container *ngIf="formGroup.controls['bindVis'] && formGroup.controls['bindVis']['controls']">
+      <div *ngFor="let d of formGroup.controls['bindVis']['controls']; let i = index">
+        <app-bindvis-edit [formGroup]="d"></app-bindvis-edit>
       </div>
-    </div>
+    </ng-container>
 
+    <button 
+      (click)="onClickBindVis()" 
+      [matTooltipPosition]="'left'" 
+      class="btn btn-primary btn-link float-left" 
+      mat-icon-button matTooltip="Bind vis. function" 
+      type="button"
+    ><mat-icon>add_circle</mat-icon>Vis</button>
+    
     <mat-dialog-actions align="end">
       <button 
-        mat-raised-button
-        class="btn btn-warning"
-        [mat-dialog-close]="undefined" 
+        mat-raised-button 
+        class="btn btn-warning" 
+        [mat-dialog-close]="undefined"
       >Cancel</button>
 
       <button 
         mat-raised-button 
-        class="btn btn-primary"
+        class="btn btn-primary" 
         (click)="save()" 
-        [disabled]="!form.valid" 
-        type="submit"
-      >Save</button>
+        [disabled]="!formGroup.valid" 
+        type="submit">Save</button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>

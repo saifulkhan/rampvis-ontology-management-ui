@@ -15,7 +15,7 @@ import { BaseFormComponent } from '../../shared/forms/base-form.component';
 })
 export class DataEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
-    form: FormGroup;
+    formGroup: FormGroup;
     dialogType = ''; // dialog type: edit or new
     data: OntoData;
 
@@ -42,14 +42,14 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.form = this.fb.group({
+        this.formGroup = this.fb.group({
             url: new FormControl('', [Validators.required]),
             endpoint: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required]),
             source: new FormControl(''),
             model: new FormControl(''),
             analytics: new FormControl(''),
-            query_params: new FormArray([]),
+            queryParams: new FormArray([]),
         });
 
         console.log(this.data);
@@ -57,27 +57,27 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
     }
 
     addQueryparam() {
-        const queryParams = this.form.get('query_params') as FormArray;
+        const queryParams = this.formGroup.get('queryParams') as FormArray;
         queryParams.push(new FormGroup({}));
-        console.log('addQueryparam: value = ', this.form.value);
+        console.log('addQueryparam: value = ', this.formGroup.value);
     }
 
     removeQueryparam(index: number) {
-        const queryParams = this.form.get('query_params') as FormArray;
+        const queryParams = this.formGroup.get('queryParams') as FormArray;
         queryParams.removeAt(index);
-        console.log('removeQueryparam: value = ', this.form.value);
+        console.log('removeQueryparam: value = ', this.formGroup.value);
     }
 
     save() {
-        this.form.updateValueAndValidity();
-        if (!this.form.valid) {
-            this.utilService.getFormValidationErrors(this.form);
+        this.formGroup.updateValueAndValidity();
+        if (!this.formGroup.valid) {
+            this.utilService.getFormValidationErrors(this.formGroup);
             this.localNotificationService.error({ message: 'You must complete the required fields.' });
             return;
         }
-        const result = this.form.value;
+        const result = this.formGroup.value;
         result.id = this.data.id;
-        console.log('save: value = ', this.form.value);
+        console.log('save: value = ', this.formGroup.value);
         this.matDialogRef.close(result);
     }
 

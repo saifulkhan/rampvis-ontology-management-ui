@@ -1,7 +1,7 @@
 <h5 mat-dialog-title>{{ dialogType | titlecase }} Data</h5>
 
 <mat-dialog-content>
-  <form [formGroup]="form" #modalForm>
+  <form [formGroup]="formGroup" #modalForm>
     <mat-form-field>
       <mat-label>URL Code</mat-label>
       <input formControlName="url" matInput />
@@ -36,9 +36,9 @@
     </mat-form-field>
 
     <!-- query parameters-->
-    <ng-container *ngIf="form.controls['query_params'] && form.controls['query_params']['controls']">
-      <div *ngFor="let group of form.controls['query_params']['controls']; let i = index">
-        <app-queryparam-edit [formGroup]="group"></app-queryparam-edit>
+    <ng-container *ngIf="formGroup.controls['queryParams'] && formGroup.controls['queryParams']['controls']">
+      <div *ngFor="let d of formGroup.controls['queryParams']['controls']; let i = index">
+        <app-queryparam-edit [formGroup]="d"></app-queryparam-edit>
         <!--
         <button 
           (click)="removeQueryparam(i)" 
@@ -57,7 +57,7 @@
       class="btn btn-primary btn-link float-left" 
       mat-icon-button matTooltip="Add query parameters" 
       type="button"
-    ><mat-icon>add_circle</mat-icon>add query parameters</button>
+    ><mat-icon>add_circle</mat-icon>query-params</button>
     <!-- query parameters -->
     
     <mat-dialog-actions align="end">
@@ -71,7 +71,7 @@
         mat-raised-button 
         class="btn btn-primary" 
         (click)="save()" 
-        [disabled]="!form.valid" 
+        [disabled]="!formGroup.valid" 
         type="submit">Save</button>
     </mat-dialog-actions>
   </form>

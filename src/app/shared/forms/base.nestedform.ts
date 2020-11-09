@@ -2,14 +2,12 @@ import { Input, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
 export class BaseNestedform implements OnInit {
-    /**
-     * Parent form for which @this will be a nested
-     */
+    // Parent form for which @this will be a nested
     @Input() formGroup: FormGroup;
+    // If we pass parent id, e.g., BindDataEditComponent pass dataId to QueryParam2EditComponent
+    @Input() id: string; 
 
-    /**
-     * Nested (self) control group
-     */
+    // Nested (self) control group
     public nestedFormGroup: FormGroup;
 
     constructor() {}
@@ -18,20 +16,7 @@ export class BaseNestedform implements OnInit {
         this.init();
     }
 
-    /**
-     * Method to remove nested from itself without emitting events to parent form
-     */
-    public removeSelf() {
-        if (!(this.formGroup.parent instanceof FormArray)) {
-            alert('BaseNestedform: Cannot remove, not an array!');
-            return;
-        }
-
-        const parentForm = this.formGroup.parent as FormArray;
-        parentForm.removeAt(parentForm.controls.indexOf(this.formGroup));
-    }
-
-    private init() {
+    private init() {        
         /**
          * Merge parent form controls with nested form controls to be the same
          */
@@ -70,5 +55,18 @@ export class BaseNestedform implements OnInit {
                 // console.log('BaseNestedform: key = ', key, 'n value = ', nestedControl.value);
             }
         });
+    }
+
+    /**
+     * Method to remove nested from itself without emitting events to parent form
+     */
+    public removeSelf() {
+        if (!(this.formGroup.parent instanceof FormArray)) {
+            alert('BaseNestedform: Cannot remove, not an array!');
+            return;
+        }
+
+        const parentForm = this.formGroup.parent as FormArray;
+        parentForm.removeAt(parentForm.controls.indexOf(this.formGroup));
     }
 }

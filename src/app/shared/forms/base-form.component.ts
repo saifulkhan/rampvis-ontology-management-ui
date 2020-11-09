@@ -1,13 +1,13 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export class BaseFormComponent {
-    form: FormGroup = new FormGroup({});
+    formGroup: FormGroup = new FormGroup({});
 
     /**
      * restore FormGroup structure from plain object value
      * (for example JSON value from API)
      */
-    protected setFormValues(values: object, group: FormGroup = this.form) {
+    protected setFormValues(values: object, group: FormGroup = this.formGroup) {
         console.log('BaseFormComponent: setControlValueToGroup: name = ', name, ', values = ', values)
 
         Object.keys(values).forEach((key) => {

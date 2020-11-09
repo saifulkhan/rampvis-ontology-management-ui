@@ -15,6 +15,9 @@ import { DataListComponent } from './data-list/data-list.component';
 import { PageListComponent } from './page-list/page-list.component';
 import { PageEditComponent } from './page-edit/page-edit.component';
 import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
+import { BindVisEditComponent } from './page-edit/bindvis-edit.component';
+import { BindDataEditComponent } from './page-edit/binddata-edit.component';
+import { Queryparam2EditComponent } from './page-edit/queryparam2-edit.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +28,9 @@ import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
       PageListComponent,
       PageEditComponent,
       QueryparamEditComponent,
+      BindVisEditComponent,
+      BindDataEditComponent,
+      Queryparam2EditComponent,
     ],
     imports: [
         CommonModule,

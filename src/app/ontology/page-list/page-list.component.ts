@@ -10,8 +10,8 @@ import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntologyService } from '../ontology.service';
-import { OntoData } from '../models/onto-data.model';
-import { DataEditComponent } from '../data-edit/data-edit.component';
+import { OntoPage } from '../models/onto-page.model';
+import { PageEditComponent } from '../page-edit/page-edit.component';
 
 @Component({
     selector: 'app-page-list',
@@ -22,12 +22,12 @@ export class PageListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
+    public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'query_params', 'actions'],
+        headerRow: ['id', 'title', 'bindVis', 'actions'],
         dataRows: [],
     };
-    public dataList: OntoData[] = [];
+    public pageList: OntoPage[] = [];
     spinner = false;
     public searchTerm: string;
 
@@ -40,19 +40,19 @@ export class PageListComponent implements OnInit {
 
     ngOnInit(): void {
         console.log('DataListComponent: ngOnInit:');
-        this.loadDataList();
+        this.loadPageList();
     }
 
-    public filterDataSource(): void {
+    public filterTableDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }
 
     public onClickCreate(): void {
-        this.openVisEditModal('new', new OntoData());
+        this.openPageEditModal('new', new OntoPage());
     }
 
-    public onClickEdit(data: OntoData): void {
-        this.openVisEditModal('edit', data);
+    public onClickEdit(page: OntoPage): void {
+        this.openPageEditModal('edit', page);
     }
 
     public onClickDelete(sourceId: string): void {
@@ -68,25 +68,25 @@ export class PageListComponent implements OnInit {
     //
     // private methods
     //
-    private loadDataList() {
-        this.ontologyService.getAllData().subscribe((res: OntoData[]) => {
+    private loadPageList() {
+        this.ontologyService.getAllPage().subscribe((res: OntoPage[]) => {
             if (res) {
-                this.dataList = res;
-                this.setTableData(this.dataList);
-                console.log('DataListComponent: loadDataList: dataList = ', this.dataList);
+                this.pageList = res;
+                this.setTableData(this.pageList);
+                console.log('DataListComponent: loadPageList: pageList = ', this.pageList);
             }
         });
     }
 
-    private openVisEditModal(dialogType: string, data: OntoData): void {
-        const dialogOpt = { width: '40%', data: { dialogType, data: data } };
-        const matDialogRef = this.matDialog.open(DataEditComponent, dialogOpt);
+    private openPageEditModal(dialogType: string, page: OntoPage): void {
+        const dialogOpt = { width: '40%', data: { dialogType, data: page } };
+        const matDialogRef = this.matDialog.open(PageEditComponent, dialogOpt);
 
         matDialogRef
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | OntoData): Observable<any> => {
+                    (source: null | OntoPage): Observable<any> => {
                         if (!source) return of(false);
                         //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
                         //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
@@ -94,13 +94,13 @@ export class PageListComponent implements OnInit {
                     },
                 ),
             )
-            .subscribe((response: OntoData | false) => {
+            .subscribe((response: OntoPage | false) => {
                 if (!response) return;
-                this.loadDataList();
+                this.loadPageList();
             });
     }
 
-    private setTableData(sources: Array<OntoData>): void {
+    private setTableData(sources: Array<OntoPage>): void {
         this.tableDataSource.data = sources;
     }
 }

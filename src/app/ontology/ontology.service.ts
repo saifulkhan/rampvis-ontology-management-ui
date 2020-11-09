@@ -4,12 +4,16 @@ import { Observable } from 'rxjs';
 import { APIService } from '../services/api.service';
 import { OntoVis } from './models/onto-vis.model';
 import { OntoData } from './models/onto-data.model';
+import { OntoPage } from './models/onto-page.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
 })
 export class OntologyService {
     private url = '/ontology';
+
+    ontoDataList: OntoData[] = [];
 
     constructor(private api: APIService) {}
 
@@ -36,6 +40,18 @@ export class OntologyService {
     // Data
     //
     public getAllData(): Observable<Array<OntoData>> {
-        return this.api.get<Array<OntoData>>(`${this.url}/data`);
+        return this.api.get<Array<OntoData>>(`${this.url}/data`).pipe(
+            map((res) => {
+                this.ontoDataList = res;
+                return this.ontoDataList;
+            }),
+        );
+    }
+
+    //
+    // Page
+    //
+    public getAllPage(): Observable<Array<OntoPage>> {
+        return this.api.get<Array<OntoPage>>(`${this.url}/page`);
     }
 }

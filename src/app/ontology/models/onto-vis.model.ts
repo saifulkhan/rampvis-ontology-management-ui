@@ -4,7 +4,7 @@ import { VIS_TYPE } from './onto-vis-type.enum';
 export class OntoVis implements Deserializable {
     public id: string = '';
     public function: string = '';
-    public type: VIS_TYPE = undefined as any;
+    public type: VIS_TYPE = '' as VIS_TYPE;
     public description: string = '';
 
     deserialize(input: any) {

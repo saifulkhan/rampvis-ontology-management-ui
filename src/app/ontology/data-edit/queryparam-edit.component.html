@@ -29,19 +29,20 @@
 			</mat-form-field>
 
 			<mat-form-field>
-				<mat-chip-list mat-chip-list #chipList aria-label="" formControlName="params">
+				<mat-chip-list mat-chip-list #chipList formControlName="params">
 					<mat-chip 
-						(removed)="remove(tag)" 
-						*ngFor="let tag of formGroup.get('params').value" [removable]="removable"
+						(removed)="remove(d)" 
+						*ngFor="let d of formGroup.get('params').value" [removable]="removable"
 						[selectable]="selectable"
-					>{{tag}}<mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+					>
+					{{ d }}
+					<mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
 					</mat-chip>
 					<input 
 						(matChipInputTokenEnd)="add($event)" 
 						[matChipInputAddOnBlur]="addOnBlur" 
 						[matChipInputFor]="chipList"
 						[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-						placeholder="Parameters"
 					>
 				</mat-chip-list>
 			</mat-form-field>
