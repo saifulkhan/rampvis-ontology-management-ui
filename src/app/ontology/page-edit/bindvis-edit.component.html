@@ -1,6 +1,11 @@
 <div class="card" [formGroup]="formGroup">
   <div class="card-header">
-    <button (click)="removeSelf()" [matTooltipPosition]="'left'" class="btn btn-warning btn-link float-right" mat-icon-button matTooltip="Remove" type="button">
+    <button (click)="removeSelf()" 
+      [matTooltipPosition]="'left'" 
+      class="btn btn-danger btn-link float-right" 
+      mat-icon-button matTooltip="Remove" 
+      type="button"
+    >
       <mat-icon>cancel</mat-icon>
     </button>
   </div>
@@ -22,12 +27,12 @@
     <button
       (click)="onClickBindData()"
       [matTooltipPosition]="'left'"
-      class="btn btn-primary btn-link float-left"
+      class="btn btn-success btn-link float-left"
       mat-icon-button
       matTooltip="Bind data"
       type="button"
     >
-      <mat-icon>add_circle</mat-icon>Data
+      <mat-icon>add_circle</mat-icon>
     </button>
     
   </div>

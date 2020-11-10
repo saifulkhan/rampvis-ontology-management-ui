@@ -8,7 +8,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Num. of rows</mat-label>
+      <mat-label>Num. of rows (layout)</mat-label>
       <input formControlName="nrow" matInput />
     </mat-form-field>
 
@@ -18,13 +18,13 @@
       </div>
     </ng-container>
 
-    <button 
+    <button
       (click)="onClickBindVis()" 
       [matTooltipPosition]="'left'" 
-      class="btn btn-primary btn-link float-left" 
-      mat-icon-button matTooltip="Bind vis. function" 
+      class="btn btn-success btn-link float-left" 
+      mat-icon-button matTooltip="Bind vis function" 
       type="button"
-    ><mat-icon>add_circle</mat-icon>Vis</button>
+    ><mat-icon>add_circle</mat-icon></button>
     
     <mat-dialog-actions align="end">
       <button 
@@ -33,7 +33,7 @@
         [mat-dialog-close]="undefined"
       >Cancel</button>
 
-      <button 
+      <button
         mat-raised-button 
         class="btn btn-primary" 
         (click)="save()" 
