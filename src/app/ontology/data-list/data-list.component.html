@@ -69,11 +69,11 @@
 
                 <ng-container matColumnDef="description">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+                  <td *matCellDef="let row" mat-cell>{{ row.description | truncate: '50'  }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="metadata">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type (s)</th>
                   <td *matCellDef="let row" mat-cell> 
                   <mat-chip-list>
                     <mat-chip *ngIf="row.source">{{ row.source }}</mat-chip>
@@ -83,12 +83,12 @@
                 </td>
                 </ng-container>
 
-                <ng-container matColumnDef="query_params">
+                <ng-container matColumnDef="queryParams">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Query</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
-                      <mat-chip *ngFor="let query_params of row.query_params" >
-                        {{ query_params.query }}
+                      <mat-chip *ngFor="let d of row.queryParams" >
+                        {{ d.query }}
                       </mat-chip>
                     </mat-chip-list>
                   </td>

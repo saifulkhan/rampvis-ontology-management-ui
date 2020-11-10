@@ -24,7 +24,7 @@ export class DataListComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'query_params', 'actions'],
+        headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'queryParams', 'actions'],
         dataRows: [],
     };
     public dataList: OntoData[] = [];
@@ -86,10 +86,10 @@ export class DataListComponent implements OnInit {
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | OntoData): Observable<any> => {
-                        if (!source) return of(false);
-                        //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
-                        //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
+                    (ontoData: null | OntoData): Observable<any> => {
+                        if (!ontoData) return of(false);
+                        if (dialogType === 'new') return this.ontologyService.createData(ontoData);
+                        if (dialogType === 'edit') return this.ontologyService.updateData(ontoData);
                         return of(false);
                     },
                 ),

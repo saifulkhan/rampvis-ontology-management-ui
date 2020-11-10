@@ -14,6 +14,8 @@ export class OntologyService {
     private url = '/ontology';
 
     ontoDataList: OntoData[] = [];
+    ontoVisList: OntoVis[] = [];
+    ontoPageList: OntoPage[] = [];
 
     constructor(private api: APIService) {}
 
@@ -24,16 +26,12 @@ export class OntologyService {
         return this.api.get<Array<OntoVis>>(`${this.url}/vis`);
     }
 
-    public getUser(id: string): Observable<OntoVis> {
-        return this.api.get<OntoVis>(`${this.url}/${id}`);
+    public createVis(ontoVis: OntoVis): Observable<OntoVis> {
+        return this.api.post<OntoVis>(`${this.url}/vis/create`, ontoVis);
     }
 
-    public createUser(user: OntoVis): Observable<OntoVis> {
-        return this.api.post<OntoVis>(this.url, user);
-    }
-
-    public updateUser(user: OntoVis): Observable<any> {
-        return this.api.put(`${this.url}/${user.id}`, user);
+    public updateVis(ontoVis: OntoVis): Observable<OntoVis> {
+        return this.api.put(`${this.url}/vis/update`, ontoVis);
     }
 
     //
@@ -48,10 +46,26 @@ export class OntologyService {
         );
     }
 
+    public createData(ontoData: OntoData): Observable<OntoData> {
+        return this.api.post<OntoData>(`${this.url}/data/create`, ontoData);
+    }
+
+    public updateData(ontoData: OntoData): Observable<OntoData> {
+        return this.api.put(`${this.url}/data/update`, ontoData);
+    }
+
     //
     // Page
     //
     public getAllPage(): Observable<Array<OntoPage>> {
         return this.api.get<Array<OntoPage>>(`${this.url}/page`);
+    }
+
+    public createPage(ontoPage: OntoPage): Observable<OntoPage> {
+        return this.api.post<OntoPage>(`${this.url}/page/create`, ontoPage);
+    }
+
+    public updatePage(ontoPage: OntoPage): Observable<OntoPage> {
+        return this.api.put(`${this.url}/page/update`, ontoPage);
     }
 }

@@ -15,8 +15,9 @@ import { BaseFormComponent } from '../../shared/forms/base-form.component';
 })
 export class DataEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
+ 
     formGroup: FormGroup;
-    dialogType = ''; // dialog type: edit or new
+    dialogType = ''; // dialogType: edit or new
     data: OntoData;
 
     public sources = [];
@@ -46,9 +47,9 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             url: new FormControl('', [Validators.required]),
             endpoint: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required]),
-            source: new FormControl(''),
-            model: new FormControl(''),
-            analytics: new FormControl(''),
+            source: new FormControl(),
+            model: new FormControl(),
+            analytics: new FormControl(),
             queryParams: new FormArray([]),
         });
 
@@ -56,19 +57,13 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         this.setFormValues(this.data);
     }
 
-    addQueryparam() {
+    public addQueryparams() {
         const queryParams = this.formGroup.get('queryParams') as FormArray;
         queryParams.push(new FormGroup({}));
         console.log('addQueryparam: value = ', this.formGroup.value);
     }
 
-    removeQueryparam(index: number) {
-        const queryParams = this.formGroup.get('queryParams') as FormArray;
-        queryParams.removeAt(index);
-        console.log('removeQueryparam: value = ', this.formGroup.value);
-    }
-
-    save() {
+    public save() {
         this.formGroup.updateValueAndValidity();
         if (!this.formGroup.valid) {
             this.utilService.getFormValidationErrors(this.formGroup);
@@ -81,7 +76,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         this.matDialogRef.close(result);
     }
 
-    close() {
+    public close() {
         this.matDialogRef.close();
     }
 }

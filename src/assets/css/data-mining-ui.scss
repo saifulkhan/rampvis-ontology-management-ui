@@ -121,3 +121,11 @@ div.spinner-background {
         position: absolute;
     }
 }
+
+.mat-select {
+    .mat-select-value-text {
+        span {
+            font-size: inherit !important;
+        }
+    }
+} 

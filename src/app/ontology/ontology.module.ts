@@ -18,6 +18,7 @@ import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
 import { BindVisEditComponent } from './page-edit/bindvis-edit.component';
 import { BindDataEditComponent } from './page-edit/binddata-edit.component';
 import { Queryparam2EditComponent } from './page-edit/queryparam2-edit.component';
+import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { Queryparam2EditComponent } from './page-edit/queryparam2-edit.component
         DirectivesModule,
         MatFormFieldModule,
         ReactiveFormsModule,
+        CustomPipesModule,
     ],
     providers: [OntologyService],
     entryComponents: [

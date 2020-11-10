@@ -87,10 +87,10 @@ export class VisListComponent implements OnInit {
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | OntoVis): Observable<any> => {
-                        if (!source) return of(false);
-                        //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
-                        //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
+                    (ontoVis: null | OntoVis): Observable<any> => {
+                        if (!ontoVis) return of(false);
+                            if (dialogType === 'new') return this.ontologyService.createVis(ontoVis);
+                            if (dialogType === 'edit') return this.ontologyService.updateVis(ontoVis);
                         return of(false);
                     },
                 ),
