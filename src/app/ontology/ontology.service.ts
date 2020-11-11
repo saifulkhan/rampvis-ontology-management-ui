@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { APIService } from '../services/api.service';
 import { OntoVis } from './models/onto-vis.model';
 import { OntoData } from './models/onto-data.model';
 import { OntoPage } from './models/onto-page.model';
-import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -30,6 +30,7 @@ export class OntologyService {
         return this.api.post<OntoVis>(`${this.url}/vis/create`, ontoVis);
     }
 
+    // TODO: update pass param id
     public updateVis(ontoVis: OntoVis): Observable<OntoVis> {
         return this.api.put(`${this.url}/vis/update`, ontoVis);
     }
@@ -50,8 +51,20 @@ export class OntologyService {
         return this.api.post<OntoData>(`${this.url}/data/create`, ontoData);
     }
 
+    // TODO: update pass param id
     public updateData(ontoData: OntoData): Observable<OntoData> {
         return this.api.put(`${this.url}/data/update`, ontoData);
+    }
+
+    public getData(dataId: string): Observable<OntoData> {
+        console.log('getData: ontoDataList = ', this.ontoDataList);
+        const ontoData = this.ontoDataList.find((d: OntoData) => d.id === dataId);
+        if (ontoData) {
+            return of(ontoData)
+        }
+        else { 
+            return this.api.get<OntoData>(`${this.url}/data/${dataId}`) 
+        }
     }
 
     //
@@ -65,6 +78,7 @@ export class OntologyService {
         return this.api.post<OntoPage>(`${this.url}/page/create`, ontoPage);
     }
 
+    // TODO: update pass param id
     public updatePage(ontoPage: OntoPage): Observable<OntoPage> {
         return this.api.put(`${this.url}/page/update`, ontoPage);
     }

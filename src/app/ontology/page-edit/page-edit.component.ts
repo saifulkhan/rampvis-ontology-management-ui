@@ -43,7 +43,7 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
     ngOnInit(): void {
         this.formGroup = this.fb.group({
             title: new FormControl('', [Validators.required]),
-            nrow: new FormControl('', [Validators.required]),
+            nrow: new FormControl(0, [Validators.required]),
             bindVis: new FormArray([]),
         });
 
@@ -82,7 +82,7 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         }
         const result = this.formGroup.value;
         result.id = this.data.id;
-        console.log('save: value = ', this.formGroup.value);
+        console.log('PageEditComponent: save: value = ', this.formGroup.value);
         this.matDialogRef.close(result);
     }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ReplaySubject } from 'rxjs';
+
 import { BaseNestedform } from '../../shared/forms/base.nestedform';
 import { OntologyService } from '../ontology.service';
 import { OntoData, QueryParams } from '../models/onto-data.model';
@@ -11,15 +12,10 @@ import { OntoData, QueryParams } from '../models/onto-data.model';
     styleUrls: ['./queryparam2-edit.component.scss'],
 })
 export class Queryparam2EditComponent extends BaseNestedform {
-    // tag chip related
-    visible = true;
-    selectable = true;
-    removable = true;
-    addOnBlur = true;
-    readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+    parentDataId: string;
 
-    queryList = [];
-    paramsList = [];
+    public queryList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
+    public paramsList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
 
     constructor(private ontologyService: OntologyService) {
         super();
@@ -27,15 +23,28 @@ export class Queryparam2EditComponent extends BaseNestedform {
             query: new FormControl('', [Validators.required]),
             params: new FormControl([], [Validators.required]),
         });
+
     }
 
     ngAfterViewInit() {
-        let ontoData: OntoData = this.ontologyService.ontoDataList.find(d => d.id === this.id);
-        this.queryList = ontoData.queryParams.map((d: QueryParams) => d.query);
-        this.paramsList = [].concat.apply([], ontoData.queryParams.map((d: QueryParams) => d.params));
+        this.parentDataId = this.id;
+        this.loadQueryParams();
+    }
 
-        console.log(this.queryList, this.paramsList)
-    }	
+    loadQueryParams() {
+        console.log('Queryparam2EditComponent: parentDataId: ', this.parentDataId);
 
+        this.ontologyService.getData(this.parentDataId).subscribe((res: OntoData) => {
+            if (res) {
+                let q = res.queryParams.map((d: QueryParams) => d.query);
+                let p = [].concat.apply( [], res.queryParams.map((d: QueryParams) => d.params), );
+                this.queryList.next(q.slice());
+                this.paramsList.next(p.slice());
+        
+                console.log('Queryparam2EditComponent: loadQueryParams: ', this.queryList, this.paramsList);
+            }
+        });
 
+       
+    }
 }

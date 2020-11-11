@@ -16,7 +16,7 @@
       <div class="col-md-4">
 				<mat-form-field>
 					<mat-select formControlName="query" placeholder="Query">
-						<mat-option *ngFor="let d of queryList" [value]="d">{{ d }}</mat-option>
+						<mat-option *ngFor="let d of queryList | async" [value]="d">{{ d }}</mat-option>
 					</mat-select>
 				</mat-form-field>
 			</div>
@@ -24,7 +24,7 @@
       <div class="col-md-8">
 				<mat-form-field>
 					<mat-select formControlName="params" placeholder="Params">
-						<mat-option *ngFor="let d of paramsList" [value]="d">{{ d }}</mat-option>
+						<mat-option *ngFor="let d of paramsList | async" [value]="d">{{ d }}</mat-option>
 					</mat-select>
 				</mat-form-field>
       </div>

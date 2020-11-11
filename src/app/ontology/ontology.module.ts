@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { RouterModule } from '@angular/router';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { OntologyRoutes } from './ontology.routing';
 import { DirectivesModule } from '../shared/directives/directives.module';
@@ -41,6 +42,7 @@ import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
         DirectivesModule,
         MatFormFieldModule,
         ReactiveFormsModule,
+        NgxMatSelectSearchModule,
         CustomPipesModule,
     ],
     providers: [OntologyService],

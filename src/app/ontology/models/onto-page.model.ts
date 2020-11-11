@@ -3,7 +3,7 @@ import { QueryParams } from './onto-data.model';
 
 export class BindData implements Deserializable {
     public dataId: string = '';
-    public queryParams: QueryParams[] = [];
+    public queryParams: QueryParams[] = undefined;
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -13,7 +13,7 @@ export class BindData implements Deserializable {
 
 export class BindVis implements Deserializable {
     visId: string = '';
-    bindData: BindData[] = [];
+    bindData: BindData[] = undefined;
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -24,7 +24,7 @@ export class BindVis implements Deserializable {
 export class OntoPage implements Deserializable {
     public id: string = '';
     public title: string = '';
-    public bindVis: BindVis[] = [];
+    public bindVis: BindVis[] = undefined;
     public nrow: number = 0;
 
     deserialize(input: any) {

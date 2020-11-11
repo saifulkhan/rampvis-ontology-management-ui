@@ -1,7 +1,7 @@
 import { Input, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
-export class BaseNestedform implements OnInit {
+export class BaseNestedform  implements OnInit {
     // Parent form for which @this will be a nested
     @Input() formGroup: FormGroup;
     // If we pass parent id, e.g., BindDataEditComponent pass dataId to QueryParam2EditComponent

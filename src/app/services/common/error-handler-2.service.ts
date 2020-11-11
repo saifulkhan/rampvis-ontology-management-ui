@@ -15,19 +15,20 @@ export class ErrorHandler2Service {
 		if (!error) {
 			error = {};
 		}
-		const message: string = this.processError(error.rejection || error);
+		const code: string = this.processErrorCode(error.rejection || error);
+		const message: string = this.processErrorMessage(error.rejection || error);
 
 		// Debugging purpose
 		//console.log('ErrorHandler2Service: error = ', error);
-		//console.log('ErrorHandler2Service: message = ', message, ', showErrorNotification = ', showErrorNotification);
+		//console.log('ErrorHandler2Service: code = ', code, ', message = ', message);
 
-		if (message && showErrorNotification) {
-			this.localNotificationService.info({ message: message, title: 'Server' });
+		if (code && showErrorNotification) {
+			this.localNotificationService.info({ message: `${code} : ${message}`, title: 'Server' });
 		}
 		return message;
 	}
 
-	private processError(error: any): string {
+	private processErrorCode(error: any): string {
 		if (!error) {
 			return null;
 		}
@@ -45,6 +46,18 @@ export class ErrorHandler2Service {
 		}
 		if (error.status === 500) {
 			return 'Something went wrong';
+		}
+
+		return null;
+	}
+
+	private processErrorMessage(error: any): string {
+		if (!error) {
+			return null;
+		}
+
+		if (error.error && error.error.message) {
+			return error.error.message
 		}
 
 		return null;

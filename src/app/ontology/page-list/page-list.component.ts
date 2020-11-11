@@ -39,7 +39,7 @@ export class PageListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('DataListComponent: ngOnInit:');
+        console.log('PageListComponent: ngOnInit:');
         this.loadPageList();
     }
 
@@ -73,23 +73,26 @@ export class PageListComponent implements OnInit {
             if (res) {
                 this.pageList = res;
                 this.setTableData(this.pageList);
-                console.log('DataListComponent: loadPageList: pageList = ', this.pageList);
+                console.log('PageListComponent: loadPageList: pageList = ', this.pageList);
             }
         });
     }
 
-    private openPageEditModal(dialogType: string, page: OntoPage): void {
-        const dialogOpt = { width: '40%', data: { dialogType, data: page } };
+    private openPageEditModal(dialogType: string, ontoPage: OntoPage): void {
+        const dialogOpt = { width: '40%', data: { dialogType, data: ontoPage } };
         const matDialogRef = this.matDialog.open(PageEditComponent, dialogOpt);
 
         matDialogRef
             .afterClosed()
             .pipe(
                 mergeMap(
-                    (source: null | OntoPage): Observable<any> => {
-                        if (!source) return of(false);
-                        //if (dialogType === 'new') return this.ontologyService.createVis(this.collection.id, source);
-                        //if (dialogType === 'edit') return this.sourceService.updateSource(source.id, source);
+                    (ontoPage: null | OntoPage): Observable<any> => {
+                        if (!ontoPage) return of(false);
+
+                        console.log('PageListComponent: openPageEditModal: dialog afterClosed, ontoPage = ', ontoPage);
+
+                        if (dialogType === 'new') return this.ontologyService.createPage(ontoPage);
+                        if (dialogType === 'edit') return this.ontologyService.updatePage(ontoPage);
                         return of(false);
                     },
                 ),

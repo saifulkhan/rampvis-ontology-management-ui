@@ -15,7 +15,7 @@ export class OntoData implements Deserializable {
     public id: string = '';
     public url: string = '';
     public endpoint: string = '';
-    public queryParams: QueryParams[] = [];
+    public queryParams: QueryParams[] = undefined;
     public description: string = '';
     public source: SOURCE = undefined;
     public model: MODEL = undefined;

@@ -13,8 +13,15 @@
   <div class="card-body">
 
     <mat-form-field>
-      <mat-select formControlName="dataId" placeholder="Data ID">
-        <mat-option *ngFor="let d of dataList" [value]="d">{{ d }}</mat-option>
+      <mat-select formControlName="dataId" placeholder="Data ID" #singleSelect>
+        <mat-option>
+          <ngx-mat-select-search 
+            [formControl]="dataIdFilterCtrl"
+            placeholderLabel="Find data id..." 
+            noEntriesFoundLabel="No matching data id found"
+          ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let d of filteredDataId | async" [value]="d">{{ d }}</mat-option>
       </mat-select>
     </mat-form-field>
 
