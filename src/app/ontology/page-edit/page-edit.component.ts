@@ -7,6 +7,7 @@ import { UtilService } from '../../services/util.service';
 import { OntoData } from '../models/onto-data.model';
 import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
 import { BaseFormComponent } from '../../shared/forms/base-form.component';
+import { OntoPage } from '../models/onto-page.model';
 
 @Component({
     selector: 'app-page-edit',
@@ -17,7 +18,7 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
     formGroup: FormGroup;
     dialogType = ''; // dialog type: edit or new
-    data: OntoData;
+    data: OntoPage;
 
     public sources = [];
     public models = [];
@@ -51,12 +52,7 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         this.setFormValues(this.data);
 
         //console.log('PageEditComponent', this.formGroup.value)
-        console.log(
-            'PageEditComponent: control values = ',
-            this.formGroup.controls['title'].value,
-            this.formGroup.controls['nrow'].value,
-            this.formGroup.controls['bindVis'].value,
-        );
+        console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrow'].value, this.formGroup.controls['bindVis'].value, );
     }
 
     onClickBindVis() {

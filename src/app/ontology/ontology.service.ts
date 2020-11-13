@@ -27,12 +27,15 @@ export class OntologyService {
     }
 
     public createVis(ontoVis: OntoVis): Observable<OntoVis> {
-        return this.api.post<OntoVis>(`${this.url}/vis/create`, ontoVis);
+        return this.api.post<OntoVis>(`${this.url}/vis`, ontoVis);
     }
 
-    // TODO: update pass param id
     public updateVis(ontoVis: OntoVis): Observable<OntoVis> {
-        return this.api.put(`${this.url}/vis/update`, ontoVis);
+        return this.api.put(`${this.url}/vis/${ontoVis.id}`, ontoVis);
+    }
+
+    public deleteVis(visId: string): Observable<OntoPage> {
+        return this.api.delete(`${this.url}/vis/${visId}`);
     }
 
     //
@@ -48,23 +51,22 @@ export class OntologyService {
     }
 
     public createData(ontoData: OntoData): Observable<OntoData> {
-        return this.api.post<OntoData>(`${this.url}/data/create`, ontoData);
+        return this.api.post<OntoData>(`${this.url}/data`, ontoData);
     }
 
-    // TODO: update pass param id
     public updateData(ontoData: OntoData): Observable<OntoData> {
-        return this.api.put(`${this.url}/data/update`, ontoData);
+        return this.api.put(`${this.url}/data/${ontoData.id}`, ontoData);
     }
 
     public getData(dataId: string): Observable<OntoData> {
         console.log('getData: ontoDataList = ', this.ontoDataList);
         const ontoData = this.ontoDataList.find((d: OntoData) => d.id === dataId);
-        if (ontoData) {
-            return of(ontoData)
-        }
-        else { 
-            return this.api.get<OntoData>(`${this.url}/data/${dataId}`) 
-        }
+        if (ontoData) return of(ontoData)
+        else return this.api.get<OntoData>(`${this.url}/data/${dataId}`) 
+    }
+
+    public deleteData(dataId: string): Observable<OntoPage> {
+        return this.api.delete(`${this.url}/data/${dataId}`);
     }
 
     //
@@ -75,11 +77,14 @@ export class OntologyService {
     }
 
     public createPage(ontoPage: OntoPage): Observable<OntoPage> {
-        return this.api.post<OntoPage>(`${this.url}/page/create`, ontoPage);
+        return this.api.post<OntoPage>(`${this.url}/page`, ontoPage);
     }
 
-    // TODO: update pass param id
     public updatePage(ontoPage: OntoPage): Observable<OntoPage> {
-        return this.api.put(`${this.url}/page/update`, ontoPage);
+        return this.api.put(`${this.url}/page/${ontoPage.id}`, ontoPage);
+    }
+
+    public deletePage(pageId: string): Observable<OntoPage> {
+        return this.api.delete(`${this.url}/page/${pageId}`);
     }
 }

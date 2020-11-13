@@ -55,14 +55,14 @@ export class PageListComponent implements OnInit {
         this.openPageEditModal('edit', page);
     }
 
-    public onClickDelete(sourceId: string): void {
-        // this.dialogService.warn('Delete Source', 'Are you sure you want to delete this?', 'Delete').then((result) => {
-        //     if (result.value) {
-        //         this.collectionService.removeSourceFromCollection(this.collection.id, sourceId).subscribe((res: any) => {
-        //             this.loadVisList();
-        //         });
-        //     }
-        // });
+    public onClickDelete(pageId: string): void {
+        this.dialogService.warn('Delete Page', 'Are you sure you want to delete this?', 'Delete').then((result) => {
+            if (result.value) {
+                this.ontologyService.deletePage(pageId).subscribe((res: any) => {
+                    this.loadPageList();
+                });
+            }
+        });
     }
 
     //

@@ -33,7 +33,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
     ) {
         super();
 
-        console.log('VisEditComponent: data = ', data);
+        console.log('DataEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
         this.sources = Object.keys(SOURCE).map((k) => SOURCE[k]);
@@ -53,7 +53,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             queryParams: new FormArray([]),
         });
 
-        console.log(this.data);
+        console.log('DataEditComponent: data = ', this.data, 'queryParams = ', this.data.queryParams);
         this.setFormValues(this.data);
     }
 

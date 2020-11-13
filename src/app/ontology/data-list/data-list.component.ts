@@ -55,14 +55,14 @@ export class DataListComponent implements OnInit {
         this.openVisEditModal('edit', data);
     }
 
-    public onClickDelete(sourceId: string): void {
-        // this.dialogService.warn('Delete Source', 'Are you sure you want to delete this?', 'Delete').then((result) => {
-        //     if (result.value) {
-        //         this.collectionService.removeSourceFromCollection(this.collection.id, sourceId).subscribe((res: any) => {
-        //             this.loadVisList();
-        //         });
-        //     }
-        // });
+    public onClickDelete(dataId: string): void {
+        this.dialogService.warn('Delete Data', 'Are you sure you want to delete this?', 'Delete').then((result) => {
+            if (result.value) {
+                this.ontologyService.deleteData(dataId).subscribe((res: any) => {
+                    this.loadDataList();
+                });
+            }
+        });
     }
 
     //

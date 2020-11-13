@@ -13,7 +13,7 @@ export class BindData implements Deserializable {
 
 export class BindVis implements Deserializable {
     visId: string = '';
-    bindData: BindData[] = undefined;
+    bindData: BindData[] = [];
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -24,7 +24,7 @@ export class BindVis implements Deserializable {
 export class OntoPage implements Deserializable {
     public id: string = '';
     public title: string = '';
-    public bindVis: BindVis[] = undefined;
+    public bindVis: BindVis[] = [];
     public nrow: number = 0;
 
     deserialize(input: any) {

@@ -56,14 +56,14 @@ export class VisListComponent implements OnInit {
         this.openVisEditModal('edit', vis);
     }
 
-    public onClickDelete(sourceId: string): void {
-        // this.dialogService.warn('Delete Source', 'Are you sure you want to delete this?', 'Delete').then((result) => {
-        //     if (result.value) {
-        //         this.collectionService.removeSourceFromCollection(this.collection.id, sourceId).subscribe((res: any) => {
-        //             this.loadVisList();
-        //         });
-        //     }
-        // });
+    public onClickDelete(visId: string): void {
+        this.dialogService.warn('Delete Vis', 'Are you sure you want to delete this?', 'Delete').then((result) => {
+            if (result.value) {
+                this.ontologyService.deleteVis(visId).subscribe((res: any) => {
+                    this.loadVisList();
+                });
+            }
+        });
     }
 
     //
