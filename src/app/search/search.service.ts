@@ -7,11 +7,11 @@ import {APIService} from '../services/api.service';
 
 @Injectable()
 export class SearchService {
-	private url = environment.components.apiPy + '/twitter';
+	private url = environment.components.apiPy + '/search';
 
 	public static SEARCH_TYPE: any = {
         KEYWORD: 'keyword',
-        USERNAME: 'username'
+        PHRASE: 'phrase'
     };
 
 	constructor(private api: APIService, private http: HttpClient) {
@@ -22,7 +22,7 @@ export class SearchService {
 
 		if(type == SearchService.SEARCH_TYPE.KEYWORD) {
 			query = `${this.url}/search?keywords=${term}`;
-		} else if(type == SearchService.SEARCH_TYPE.USERNAME) {
+		} else if(type == SearchService.SEARCH_TYPE.PHRASE) {
 			query = `${this.url}/user?user_name=${term}`;
 		}
 

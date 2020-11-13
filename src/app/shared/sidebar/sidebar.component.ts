@@ -27,11 +27,18 @@ export interface ChildrenItems {
 
 // Sidebar items
 export const ROUTES: RouteInfo[] = [
-    {
+    /*{
         path: '/dashboard',
         title: 'Dashboard',
         type: 'link',
         icontype: 'dashboard',
+        roles: [Role.ADMIN, Role.USER],
+    },*/
+    {
+        path: '/search',
+        title: 'Search',
+        type: 'link',
+        icontype: 'search',
         roles: [Role.ADMIN, Role.USER],
     },
     {
@@ -47,20 +54,15 @@ export const ROUTES: RouteInfo[] = [
             { path: 'page', title: 'Page', ab: 'P' },
         ],
     },
-    {
+
+    /*{
         path: '/collection',
         title: 'Scraper',
         type: 'link',
         icontype: 'find_in_page',
         roles: [Role.ADMIN, Role.USER],
     },
-    {
-        path: '/search',
-        title: 'Search',
-        type: 'link',
-        icontype: 'search',
-        roles: [Role.ADMIN, Role.USER],
-    },
+    
     {
         path: '/admin',
         title: 'Administration',
@@ -73,7 +75,7 @@ export const ROUTES: RouteInfo[] = [
             { path: 'users', title: 'Users', ab: 'USR' },
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
-    },
+    },*/
 ];
 
 @Component({

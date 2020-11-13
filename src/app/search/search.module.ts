@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../material.module';
 import { SearchRoutes } from './search.routing';
 import { SearchService } from './search.service';
-import { TwitterSearchComponent } from './twitter-search/twitter.search.component';
+import { TwitterSearchComponent } from './page-search/page.search.component';
 
 @NgModule({
 	imports: [

@@ -5,9 +5,9 @@
         <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
-              <mat-icon>list_alt</mat-icon>
+              <mat-icon>search</mat-icon>
             </div>
-            <h4 class="card-title">Tweets Search</h4>
+            <h4 class="card-title">Search</h4>
           </div>
           <div class="card-body" style="min-height: 200px;">
             <div class="row">
@@ -16,11 +16,11 @@
                   <mat-label>Type</mat-label>
                   <select [(ngModel)]="searchType" matNativeControl required>
                     <option [value]="searchTypes.KEYWORD">Keyword</option>
-                    <option [value]="searchTypes.USERNAME">Username</option>
+                    <option [value]="searchTypes.PHRASE">Phrase</option>
                   </select>
                 </mat-form-field>
                 <mat-form-field class="col-md-10">
-                  <input matInput type="text" name="search" [(ngModel)]="twitterQuery" placeholder="{{ 'Enter Twitter ' + searchType + '...' }}" />
+                  <input matInput type="text" name="search" [(ngModel)]="searchQuery" placeholder="{{ 'Enter ' + searchType + '...' }}" />
                 </mat-form-field>
                 <button (click)="query()" class="btn btn-primary btn-round btn-fab float-right card-btn">
                   <mat-icon>search</mat-icon>

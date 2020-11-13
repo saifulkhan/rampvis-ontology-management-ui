@@ -7,11 +7,11 @@ import { ErrorHandler2Service } from 'src/app/services/common/error-handler-2.se
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-twitter-search',
-    templateUrl: 'twitter.search.component.html',
+    selector: 'app-page-search',
+    templateUrl: 'page.search.component.html',
 })
 export class TwitterSearchComponent implements OnInit, AfterViewInit {
-    twitterQuery: string;
+    searchQuery: string;
     filterValue: string;
     searchTerm$ = new BehaviorSubject<string>('');
     searchResults: Array<string> = [];
@@ -55,11 +55,11 @@ export class TwitterSearchComponent implements OnInit, AfterViewInit {
     }
 
     query(): void {
-        if (!this.twitterQuery) {
+        if (!this.searchQuery) {
             return;
         }
         this.isLoadingResults = true;
-        const query: string = this.twitterQuery;
+        const query: string = this.searchQuery;
 
         this.clearResults();
 
