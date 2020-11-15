@@ -93,7 +93,11 @@
                 </ng-container>
 
                 <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-                <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+                <tr 
+                  *matRowDef="let row; columns: tableData.headerRow" 
+                  mat-row
+                  [class.page-text-lightgray]="!row.released"
+                ></tr>
               </table>
 
               <div *ngIf="spinner" class="spinner-background">

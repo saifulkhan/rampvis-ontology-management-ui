@@ -25,8 +25,9 @@ export class OntoPage implements Deserializable {
     public id: string = '';
     public title: string = '';
     public bindVis: BindVis[] = [];
-    public nrow: number = 0;
-
+    public nrows: number = 0;
+    public released: boolean = false;
+    
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

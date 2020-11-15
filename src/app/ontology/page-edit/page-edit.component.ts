@@ -44,15 +44,15 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
     ngOnInit(): void {
         this.formGroup = this.fb.group({
             title: new FormControl('', [Validators.required]),
-            nrow: new FormControl(0, [Validators.required]),
+            nrows: new FormControl(0, [Validators.required]),
             bindVis: new FormArray([]),
+            released: new FormControl(false, [Validators.required]),
         });
 
         console.log('PageEditComponent: data = ', this.data);
         this.setFormValues(this.data);
 
-        //console.log('PageEditComponent', this.formGroup.value)
-        console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrow'].value, this.formGroup.controls['bindVis'].value, );
+        console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrows'].value, this.formGroup.controls['bindVis'].value, );
     }
 
     onClickBindVis() {
