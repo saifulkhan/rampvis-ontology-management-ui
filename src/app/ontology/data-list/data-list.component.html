@@ -42,9 +42,8 @@
                 matSortDisableClear="true"
               >
                 <ng-container matColumnDef="id">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Copy ID</th>
                   <td *matCellDef="let row" mat-cell>
-                    {{ row.id }}
                     <button 
                       cdkCopyToClipboard="{{ row.id }}"
                       [matTooltipPosition]="'left'" 

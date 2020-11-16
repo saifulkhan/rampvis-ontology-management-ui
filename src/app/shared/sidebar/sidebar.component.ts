@@ -33,14 +33,14 @@ export const ROUTES: RouteInfo[] = [
         type: 'link',
         icontype: 'dashboard',
         roles: [Role.ADMIN, Role.USER],
-    },*/
+    },
     {
         path: '/search',
         title: 'Search',
         type: 'link',
         icontype: 'search',
         roles: [Role.ADMIN, Role.USER],
-    },
+    },*/
     {
         path: '/ontology',
         title: 'Ontology',
@@ -54,7 +54,6 @@ export const ROUTES: RouteInfo[] = [
             { path: 'page', title: 'Page', ab: 'P' },
         ],
     },
-
     /*{
         path: '/collection',
         title: 'Scraper',
@@ -62,7 +61,7 @@ export const ROUTES: RouteInfo[] = [
         icontype: 'find_in_page',
         roles: [Role.ADMIN, Role.USER],
     },
-    
+    */
     {
         path: '/admin',
         title: 'Administration',
@@ -71,11 +70,11 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'users',
         children: [
-            { path: 'bots', title: 'Bots', ab: 'ATB' },
+            { path: 'bots', title: 'Agents', ab: 'ATB' },
             { path: 'users', title: 'Users', ab: 'USR' },
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
-    },*/
+    },
 ];
 
 @Component({

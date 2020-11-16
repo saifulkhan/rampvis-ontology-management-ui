@@ -42,9 +42,8 @@
                 matSortDisableClear="true"
               >
                 <ng-container matColumnDef="id">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Copy ID</th>
                   <td *matCellDef="let row" mat-cell>
-                    {{ row.id }}
                     <button 
                       cdkCopyToClipboard="{{ row.id }}"
                       [matTooltipPosition]="'left'" 
@@ -54,6 +53,13 @@
                     >
                       <mat-icon>content_copy</mat-icon>
                     </button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+                  <td *matCellDef="let row" mat-cell>
+                    <mat-icon *ngIf="row.released" class="green-icon">check_circle_outline</mat-icon> 
                   </td>
                 </ng-container>
 
@@ -96,7 +102,6 @@
                 <tr 
                   *matRowDef="let row; columns: tableData.headerRow" 
                   mat-row
-                  [class.page-text-lightgray]="!row.released"
                 ></tr>
               </table>
 

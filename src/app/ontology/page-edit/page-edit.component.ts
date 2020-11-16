@@ -4,7 +4,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
-import { OntoData } from '../models/onto-data.model';
 import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
 import { BaseFormComponent } from '../../shared/forms/base-form.component';
 import { OntoPage } from '../models/onto-page.model';
@@ -51,23 +50,16 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
 
         console.log('PageEditComponent: data = ', this.data);
         this.setFormValues(this.data);
-
-        console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrows'].value, this.formGroup.controls['bindVis'].value, );
+        // console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrows'].value, this.formGroup.controls['bindVis'].value, );
     }
 
     onClickBindVis() {
-        console.log('onClickBindVis: ', this.formGroup.get('bindVis'));
-        console.log('onClickBindVis: ', this.formGroup.controls['bindVis'].value);
-
+        // console.log('onClickBindVis: ', this.formGroup.get('bindVis'));
+        // console.log('onClickBindVis: ', this.formGroup.controls['bindVis'].value);
         const bindVis = this.formGroup.get('bindVis') as FormArray;
         bindVis.push(new FormGroup({}));
-
-        console.log('onClickBindVis: value = ', bindVis);
+        // console.log('onClickBindVis: value = ', bindVis);
     }
-
-    //
-    //
-    //
 
     save() {
         this.formGroup.updateValueAndValidity();

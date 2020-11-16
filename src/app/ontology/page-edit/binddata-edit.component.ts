@@ -14,12 +14,12 @@ import { take, takeUntil } from 'rxjs/operators';
     styleUrls: ['./binddata-edit.component.scss'],
 })
 export class BindDataEditComponent extends BaseNestedform {
-    dataIds: string[] = [];
+    ontoDataList: OntoData[] = [];
 
     // Control for the MatSelect filter keyword.
     public dataIdFilterCtrl: FormControl = new FormControl();
     // List of OntoVis filtered by search keyword for multi-selection.
-    public filteredDataId: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
+    public filteredDataId: ReplaySubject<OntoData[]> = new ReplaySubject<OntoData[]>(1);
     @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
     // Subject that emits when the component has been destroyed.
     private _onDestroy = new Subject<void>();
@@ -38,11 +38,11 @@ export class BindDataEditComponent extends BaseNestedform {
     private loadDataList() {
         this.ontologyService.getAllData().subscribe((res: OntoData[]) => {
             if (res) {
-                this.dataIds = res.map((d) => d.id);
-                console.log('BindDataEditComponent: loadDataList: dataIds = ', this.dataIds);
+                this.ontoDataList = res;
+                // console.log('BindDataEditComponent: loadDataList: dataIds = ', this.ontoDataList);
 
                 // load the initial dataIds list
-                this.filteredDataId.next(this.dataIds.slice());
+                this.filteredDataId.next(this.ontoDataList.slice());
                 // listen for search field value changes
                 this.dataIdFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
                     this.filterDataIds();
@@ -63,35 +63,33 @@ export class BindDataEditComponent extends BaseNestedform {
             // the form control (i.e. _initializeSelection())
             // this needs to be done after the filteredDataIds are loaded initially
             // and after the mat-option elements are available
-            this.singleSelect.compareWith = (a: string, b: string) => a && b && a === b;
+            this.singleSelect.compareWith = (a: OntoData, b: OntoData) => a && b && a === b;
         });
     }
 
     protected filterDataIds() {
-        if (!this.dataIds) {
+        if (!this.ontoDataList) {
             return;
         }
         // get the search keyword
         let search = this.dataIdFilterCtrl.value;
-
-        // console.log('filterDataIds:',search, this.dataIds.filter((visIs) => visIs.toLowerCase().indexOf(search) > -1), );
         
         if (!search) {
-            this.filteredDataId.next(this.dataIds.slice());
+            this.filteredDataId.next(this.ontoDataList.slice());
             return;
         } else {
             search = search.toLowerCase();
         }
         // filter the dataIds
-        this.filteredDataId.next(this.dataIds.filter((visId) => visId.toLowerCase().indexOf(search) > -1));
+        // console.log('filterDataIds:',search, this.dataIds.filter((visIs) => visIs.toLowerCase().indexOf(search) > -1), );
+        this.filteredDataId.next(this.ontoDataList.filter((ontoData) => ontoData.endpoint.toLowerCase().indexOf(search) > -1));
     }
 
     onClickBindQueryParams() {
-        console.log('onClickBindQueryParams: ', this.formGroup.get('queryParams'));
-        console.log('onClickBindQueryParams: ', this.formGroup.controls['queryParams'].value);
-
+        // console.log('onClickBindQueryParams: ', this.formGroup.get('queryParams'));
+        // console.log('onClickBindQueryParams: ', this.formGroup.controls['queryParams'].value);
         const ctl = this.formGroup.get('queryParams') as FormArray;
         ctl.push(new FormGroup({}));
-        console.log('onClickBindQueryParams: value = ', ctl);
+        // console.log('onClickBindQueryParams: value = ', ctl);
     }
 }

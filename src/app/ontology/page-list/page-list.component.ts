@@ -24,7 +24,7 @@ export class PageListComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'title', 'bindVis', 'actions'],
+        headerRow: ['id', 'status', 'title', 'bindVis', 'actions'],
         dataRows: [],
     };
     public pageList: OntoPage[] = [];

@@ -5,7 +5,7 @@
         <div class="card-icon">
           <mat-icon>android</mat-icon>
         </div>
-        <h4 class="card-title">Automated Bots</h4>
+        <h4 class="card-title">Agents</h4>
       </div>
       <div class="card-body">
         <!--status card-->
@@ -51,11 +51,12 @@
                 <h5 *ngIf="schedulerStatus === 'state_stopped'" class="text-danger">STOPPED</h5>
                 <h5 *ngIf="schedulerStatus === 'state_running'" class="text-success">RUNNING</h5>
                 <h5 *ngIf="schedulerStatus === 'state_paused'" class="text-warning">PAUSED</h5>
+                <h5 *ngIf="schedulerStatus === 'state_error'" class="text-danger">ERROR</h5>
               </div>
               <!--col status-->
 
               <!--col configuration table-->
-              <div class="col-md-9">
+              <!-- <div class="col-md-9">
                 <table mat-table [dataSource]="[settings]">
                   <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Variable Name</th>
@@ -100,8 +101,9 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table>
-              </div>
+              </div> -->
               <!--col configuration table-->
+
             </div>
           </div>
         </div>

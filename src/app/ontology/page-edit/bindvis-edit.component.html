@@ -17,15 +17,15 @@
         <mat-option>
           <ngx-mat-select-search 
             [formControl]="visIdFilterCtrl"
-            placeholderLabel="Find vis id..." 
-            noEntriesFoundLabel="No matching vis id found"
+            placeholderLabel="Find vis functions..." 
+            noEntriesFoundLabel="No matching vis function found"
           ></ngx-mat-select-search>
         </mat-option>
 
-        <mat-option *ngFor="let d of filteredVisId | async" [value]="d">{{ d }}</mat-option>
+        <mat-option *ngFor="let d of filteredVisId | async" [value]="d.id">{{ d.function }}</mat-option>
       </mat-select>
     </mat-form-field>
-
+    
     <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
       <div *ngFor="let d of formGroup.controls['bindData']['controls']; let i = index">
         <app-binddata-edit [formGroup]="d"></app-binddata-edit>

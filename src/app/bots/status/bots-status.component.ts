@@ -43,7 +43,7 @@ export class BotsStatusComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         // TEST CONFIGS ONLY - DELETE
-        this.schedulerStatus = SCHEDULER_STATE.STATE_RUNNING;
+        this.schedulerStatus = SCHEDULER_STATE.STATE_ERROR;
 
         
         this.botsService.getSettings().subscribe(res => this.settings = res);
