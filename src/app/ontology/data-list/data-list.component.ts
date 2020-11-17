@@ -43,6 +43,12 @@ export class DataListComponent implements OnInit {
         this.loadDataList();
     }
 
+    ngAfterViewInit(): void {
+        this.tableDataSource.paginator = this.paginator;
+        this.tableDataSource.sort = this.sort;
+    }
+
+
     public filterDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }

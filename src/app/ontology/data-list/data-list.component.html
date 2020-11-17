@@ -42,7 +42,7 @@
                 matSortDisableClear="true"
               >
                 <ng-container matColumnDef="id">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Copy ID</th>
+                  <th *matHeaderCellDef mat-header-cell>Copy ID</th>
                   <td *matCellDef="let row" mat-cell>
                     <button 
                       cdkCopyToClipboard="{{ row.id }}"
@@ -72,7 +72,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="metadata">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type (s)</th>
+                  <th *matHeaderCellDef mat-header-cell>Type (s)</th>
                   <td *matCellDef="let row" mat-cell> 
                   <mat-chip-list>
                     <mat-chip *ngIf="row.source">{{ row.source }}</mat-chip>
@@ -83,7 +83,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="queryParams">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Query</th>
+                  <th *matHeaderCellDef mat-header-cell>Query</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
                       <mat-chip *ngFor="let d of row.queryParams" >
@@ -134,7 +134,7 @@
               <mat-paginator 
                 [length]="dataList.length" 
                 [pageSizeOptions]="[50, 100, 150, 200]" 
-                [pageSize]="100" 
+                [pageSize]="50" 
                 showFirstLastButtons
               >
               </mat-paginator>

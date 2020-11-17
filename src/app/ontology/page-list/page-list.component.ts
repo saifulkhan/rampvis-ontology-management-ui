@@ -43,6 +43,11 @@ export class PageListComponent implements OnInit {
         this.loadPageList();
     }
 
+    ngAfterViewInit(): void {
+        this.tableDataSource.paginator = this.paginator;
+        this.tableDataSource.sort = this.sort;
+    }
+
     public filterTableDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }
