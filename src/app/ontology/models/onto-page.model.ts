@@ -1,5 +1,11 @@
-import { Deserializable } from 'src/app/shared/models/deserializable.model';
+import { Deserializable } from '../../shared/models/deserializable.model';
 import { QueryParams } from './onto-data.model';
+
+export enum PUBLISH_TYPE {
+    TEST = 'test',
+    REVIEW = 'review',
+    RELEASE = 'release',
+}
 
 export class BindData implements Deserializable {
     public dataId: string = '';
@@ -24,9 +30,9 @@ export class BindVis implements Deserializable {
 export class OntoPage implements Deserializable {
     public id: string = '';
     public title: string = '';
-    public bindVis: BindVis[] = [];
-    public nrows: number = 0;
-    public released: boolean = false;
+    public bindVis: BindVis[] = undefined;
+    public nrows: number = undefined;
+    public publishType: PUBLISH_TYPE = undefined as any;
     
     deserialize(input: any) {
         Object.assign(this, input);

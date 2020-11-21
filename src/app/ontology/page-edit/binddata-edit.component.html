@@ -21,7 +21,7 @@
             noEntriesFoundLabel="No matching data found"
           ></ngx-mat-select-search>
         </mat-option>
-        <mat-option *ngFor="let d of filteredDataId | async" [value]="d.id">{{ d.endpoint }}</mat-option>
+        <mat-option *ngFor="let d of filteredDataId | async" [value]="d.id">{{d.url}}{{d.endpoint}}</mat-option>
       </mat-select>
     </mat-form-field>
 

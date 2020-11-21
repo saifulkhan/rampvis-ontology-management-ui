@@ -24,16 +24,12 @@ export const PrivateLayoutRoutes: Routes = [
 			},
 			{
 				path: 'collection',
-				data: {
-					allowedRoles: [Role.ADMIN, Role.USER]
-				},
+				data: { allowedRoles: [Role.ADMIN, Role.USER] },
 				loadChildren: () => import('../../scraper/scraper.module').then(m => m.ScraperModule)
 			},
 			{
 				path: 'search',
-				data: {
-					allowedRoles: [Role.ADMIN, Role.USER]
-				},
+				data: { allowedRoles: [Role.ADMIN, Role.USER] },
 				loadChildren: () => import('../../search/search.module').then(m => m.SearchModule)
 			},
 			{
@@ -41,7 +37,7 @@ export const PrivateLayoutRoutes: Routes = [
 				data: { allowedRoles: [Role.ADMIN] },
 				children: [
 					{
-						path: 'bots',
+						path: 'agents',
 						loadChildren: () => import('../../bots/bots.module').then(m => m.BotsModule)
 					},
 					{

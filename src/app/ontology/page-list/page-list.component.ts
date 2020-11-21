@@ -1,17 +1,21 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TableData } from 'src/app/shared/models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, merge, Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
-import { mergeMap } from 'rxjs/operators';
+import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntologyService } from '../ontology.service';
-import { OntoPage } from '../models/onto-page.model';
+import { OntoPage, PUBLISH_TYPE } from '../models/onto-page.model';
 import { PageEditComponent } from '../page-edit/page-edit.component';
+import { OntoPageFilterVm } from '../models/onto-page-filter.vm';
+import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
     selector: 'app-page-list',
@@ -24,32 +28,72 @@ export class PageListComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'status', 'title', 'bindVis', 'actions'],
+        headerRow: ['id', 'date', 'title', 'bindVis', 'actions'],
         dataRows: [],
     };
-    public pageList: OntoPage[] = [];
+
+    public ontoPages: OntoPage[] = [];
+    pageListLength = 0;
+    publishType: PUBLISH_TYPE;
+    publishTypes = [];
+
+    filterPublishType$ = new BehaviorSubject<string>('');
+    searchTerm$ = new BehaviorSubject<string>('');
+
     spinner = false;
-    public searchTerm: string;
 
     constructor(
+        private route: ActivatedRoute,
         private ontologyService: OntologyService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
+        private errorHandler2Service: ErrorHandler2Service,
+        private utilService: UtilService,
     ) {}
 
     ngOnInit(): void {
         console.log('PageListComponent: ngOnInit:');
-        this.loadPageList();
+        // this.loadPageList();
+        this.publishTypes = Object.keys(PUBLISH_TYPE);
+
+        this.spinner = true;
+        this.clearTableData();
+        // this.searchTerm$.next(null);
+        // this.filterPublishType$.next(null);
+
+        this.route.params.subscribe((params) => {
+            console.log('PageListComponent: ngOnInit: route releaseType = ', this.route.snapshot.params.releaseType);
+            this.filterPublishType$.next(this.route.snapshot.params.releaseType);
+        });
     }
 
     ngAfterViewInit(): void {
         this.tableDataSource.paginator = this.paginator;
         this.tableDataSource.sort = this.sort;
+
+        this.sort.sortChange.subscribe(() => {
+            this.paginator.pageIndex = 0;
+        });
+
+        merge(this.sort.sortChange, this.paginator.page, this.searchTerm$, this.filterPublishType$)
+            .pipe(
+                tap(() => {
+                    if (!this.spinner) {
+                        this.spinner = true;
+                        this.clearTableData();
+                    }
+                }),
+                startWith(null),
+                debounceTime(1000),
+            )
+            .subscribe((res) => {
+                this.loadOntoPages(this.getFilters());
+            });
     }
 
     public filterTableDataSource(): void {
-        this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
+        // this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }
 
     public onClickCreate(): void {
@@ -61,10 +105,13 @@ export class PageListComponent implements OnInit {
     }
 
     public onClickDelete(pageId: string): void {
-        this.dialogService.warn('Delete Page', 'Are you sure you want to delete this?', 'Delete').then((result) => {
+        this.dialogService.warn('Delete', 'Are you sure you want to delete this?', 'Delete').then((result) => {
             if (result.value) {
                 this.ontologyService.deletePage(pageId).subscribe((res: any) => {
-                    this.loadPageList();
+                    this.localNotificationService.success({ message: 'Page template successfully deleted' });
+                    this.ontoPages = this.ontoPages.filter(d => d.id !== pageId);
+
+                    this.setTableData()
                 });
             }
         });
@@ -73,18 +120,39 @@ export class PageListComponent implements OnInit {
     //
     // private methods
     //
-    private loadPageList() {
-        this.ontologyService.getAllPage().subscribe((res: OntoPage[]) => {
-            if (res) {
-                this.pageList = res;
-                this.setTableData(this.pageList);
-                console.log('PageListComponent: loadPageList: pageList = ', this.pageList);
-            }
-        });
+
+    private getFilters():OntoPageFilterVm {
+        return {
+            page: this.paginator.pageIndex,
+            pageCount: this.paginator.pageSize,
+            sortBy: this.sort.active,
+            sortOrder: this.sort.direction,
+            publishType: this.filterPublishType$.value,
+            filter: this.searchTerm$.value,
+        } as OntoPageFilterVm
+    }
+
+    private loadOntoPages(ontoPageFilter: OntoPageFilterVm) {
+        this.ontologyService
+            .getPages(ontoPageFilter)
+            .pipe(
+                catchError((err) => {
+                    this.errorHandler2Service.handleError(err);
+                    return of([]);
+                }),
+            )
+            .subscribe((response: any) => {
+                this.ontoPages = response.data;
+                this.pageListLength = response.totalCount;
+
+                this.setTableData()
+            });
     }
 
     private openPageEditModal(dialogType: string, ontoPage: OntoPage): void {
-        const dialogOpt = { width: '40%', data: { dialogType, data: ontoPage } };
+        console.log('PageListComponent: openPageEditModal: ontoPage = ', ontoPage);
+
+        const dialogOpt = { width: '40%', data: { dialogType, data: this.utilService.clone(ontoPage) } };
         const matDialogRef = this.matDialog.open(PageEditComponent, dialogOpt);
 
         matDialogRef
@@ -102,13 +170,22 @@ export class PageListComponent implements OnInit {
                     },
                 ),
             )
-            .subscribe((response: OntoPage | false) => {
+            .subscribe((response: OntoPage | false) => {    
                 if (!response) return;
-                this.loadPageList();
+
+                this.localNotificationService.success({ message: 'Page template successfully created or updated' });
+                this.loadOntoPages(this.getFilters());
             });
     }
 
-    private setTableData(sources: Array<OntoPage>): void {
-        this.tableDataSource.data = sources;
+    private setTableData(): void {
+        this.tableDataSource.data = this.ontoPages;
+        this.spinner = false;
+    }
+
+    private clearTableData(): void {
+        if (this.tableDataSource) {
+            this.tableDataSource.data = [];
+        }
     }
 }

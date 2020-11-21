@@ -6,7 +6,7 @@ import { LocalNotificationService } from '../../services/common/local-notificati
 import { UtilService } from '../../services/util.service';
 import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
 import { BaseFormComponent } from '../../shared/forms/base-form.component';
-import { OntoPage } from '../models/onto-page.model';
+import { OntoPage, PUBLISH_TYPE } from '../models/onto-page.model';
 
 @Component({
     selector: 'app-page-edit',
@@ -22,6 +22,7 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
     public sources = [];
     public models = [];
     public analytics = [];
+    public publishTypes = [];
 
     constructor(
         private fb: FormBuilder,
@@ -38,14 +39,15 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         this.sources = Object.keys(SOURCE).map((k) => SOURCE[k]);
         this.models = Object.keys(MODEL).map((k) => MODEL[k]);
         this.analytics = Object.keys(ANALYTICS).map((k) => ANALYTICS[k]);
+        this.publishTypes = Object.keys(PUBLISH_TYPE).map((k) => PUBLISH_TYPE[k]);
     }
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
             title: new FormControl('', [Validators.required]),
-            nrows: new FormControl(0, [Validators.required]),
+            nrows: new FormControl(null, [Validators.required, Validators.min(1)]),
             bindVis: new FormArray([]),
-            released: new FormControl(false, [Validators.required]),
+            publishType: new FormControl('', [Validators.required]),
         });
 
         console.log('PageEditComponent: data = ', this.data);

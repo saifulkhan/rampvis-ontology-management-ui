@@ -10,6 +10,7 @@ export const OntologyRoutes: Routes = [
       { path: 'vis', component: VisListComponent },
       { path: 'data', component: DataListComponent },
       { path: 'page', component: PageListComponent },
+      { path: 'page/:releaseType', component: PageListComponent },
     ]
   }
 ];

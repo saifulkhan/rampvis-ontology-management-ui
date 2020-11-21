@@ -38,11 +38,10 @@ export class UserInfoComponent implements OnInit {
         const isEditMode = this.type === 'edit';
 
         this.form = this.fb.group({
-            name: [this.user.name, Validators.required],
-            email: [this.user.email, [Validators.required, Validators.email]],
+            name: [{ value: this.user.name, disabled: isEditMode }, Validators.required],
+            email: [{ value: this.user.email,  disabled: isEditMode}, [Validators.required, Validators.email]],
             password: isEditMode ? [this.user.password] : [this.user.password, Validators.required],
-            //'role': isEditMode ? [this.user.role, Validators.required] : [this.user.role],
-            role: [this.user.role, Validators.required],
+            role: isEditMode ? [this.user.role, Validators.required] : [this.user.role],
         });
     }
 

@@ -6,6 +6,8 @@ import { APIService } from '../services/api.service';
 import { OntoVis } from './models/onto-vis.model';
 import { OntoData } from './models/onto-data.model';
 import { OntoPage } from './models/onto-page.model';
+import { OntoPageFilterVm } from './models/onto-page-filter.vm';
+import { PaginationModel } from '../shared/models/pagination.model';
 
 @Injectable({
     providedIn: 'root',
@@ -59,7 +61,7 @@ export class OntologyService {
     }
 
     public getData(dataId: string): Observable<OntoData> {
-        console.log('getData: ontoDataList = ', this.ontoDataList);
+        console.log('OntologyService:getData: ontoDataList = ', this.ontoDataList);
         const ontoData = this.ontoDataList.find((d: OntoData) => d.id === dataId);
         if (ontoData) return of(ontoData)
         else return this.api.get<OntoData>(`${this.url}/data/${dataId}`) 
@@ -72,6 +74,17 @@ export class OntologyService {
     //
     // Page
     //
+    public getPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPage>> {
+        let query: string = `${this.url}/pages/?publishType=${filter.publishType}&page=${filter.page}&pageCount=${filter.pageCount}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
+        if (filter.filter) {
+            query = query.concat(`&filter=${filter.filter}`);
+        }
+
+        console.log('OntologyService:getPages: query = ', query);
+        return this.api.get<PaginationModel<OntoPage>>(query);
+    }
+
+    
     public getAllPage(): Observable<Array<OntoPage>> {
         return this.api.get<Array<OntoPage>>(`${this.url}/page`);
     }

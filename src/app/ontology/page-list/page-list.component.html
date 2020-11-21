@@ -7,7 +7,7 @@
             <div class="card-icon">
               <mat-icon>drag_indicator</mat-icon>
             </div>
-            <h4 class="card-title">Page Nodes</h4>
+            <h4 class="card-title">Pages - {{ filterPublishType$.value | titlecase }} </h4>
           </div>
 
           <div class="card-body">
@@ -19,17 +19,39 @@
               <mat-icon>add</mat-icon>
             </button>
             
-            <div class="toolbar">
-              <mat-form-field class="pull-left mt-1 col-md-4">
-                <input 
-                  (keyup)="filterTableDataSource()" 
-                  [(ngModel)]="searchTerm" 
-                  matInput 
-                  name="search" 
-                  placeholder="Filter..." 
-                  type="text" 
-                />
-              </mat-form-field> 
+            <div class="toolbar">             
+              <div class="row">
+                
+                <div class="col-md-2 drop-search">
+                  <mat-form-field>
+                    <input 
+                      [(ngModel)]="selectedFilter"
+                      (keyup)="searchTerm$.next(selectedFilter);"
+                      matInput 
+                      name="search" 
+                      placeholder="Filter..." 
+                      type="text" 
+                    />
+                  </mat-form-field>
+                </div>
+
+                <!-- <div class="col-md-2 drop-9">
+                  <mat-form-field>
+                    <mat-select 
+                      placeholder="Page publish state" 
+                      [(ngModel)]="selectedIncidentId"
+                      (selectionChange)="filterIncidentType$.next(selectedIncidentId);">
+                      <mat-option>Clear</mat-option>
+                      <mat-option *ngFor="let d of publishTypes | sortPipe: 'name'" [value]="d">
+                        {{ d }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+
+              </div>
+
+               
             </div>
 
             <div>
@@ -37,10 +59,15 @@
                 [dataSource]="tableDataSource" 
                 mat-table 
                 matSort 
-                matSortActive="created" 
+                matSortActive="date" 
                 matSortDirection="desc" 
                 matSortDisableClear="true"
               >
+                <ng-container matColumnDef="date">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.date | date: 'short' }}</td>
+                </ng-container>
+                
                 <ng-container matColumnDef="id">
                   <th *matHeaderCellDef mat-header-cell>Copy ID</th>
                   <td *matCellDef="let row" mat-cell>
@@ -55,14 +82,7 @@
                     </button>
                   </td>
                 </ng-container>
-
-                <ng-container matColumnDef="status">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
-                  <td *matCellDef="let row" mat-cell>
-                    <mat-icon *ngIf="row.released" class="green-icon">check_circle_outline</mat-icon> 
-                  </td>
-                </ng-container>
-
+                
                 <ng-container matColumnDef="title">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
                   <td *matCellDef="let row" mat-cell>{{ row.title }}</td>
@@ -115,7 +135,7 @@
               </mat-progress-spinner>
               </div>
               <mat-paginator 
-                [length]="pageList.length" 
+                [length]="pageListLength" 
                 [pageSizeOptions]="[50, 100, 150, 200]" 
                 [pageSize]="50" 
                 showFirstLastButtons

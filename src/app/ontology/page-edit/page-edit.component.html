@@ -2,6 +2,7 @@
 
 <mat-dialog-content>
   <form [formGroup]="formGroup" #modalForm>
+
     <mat-form-field>
       <mat-label>Title</mat-label>
       <input formControlName="title" matInput />
@@ -9,12 +10,17 @@
 
     <mat-form-field>
       <mat-label>Num. of rows (layout)</mat-label>
-      <input formControlName="nrows" matInput />
+      <input formControlName="nrows" matInput type="number"/>
     </mat-form-field>
 
-    <mat-checkbox formControlName="released">Released</mat-checkbox>
-
+    <mat-radio-group formControlName="publishType">
+      <mat-radio-button *ngFor="let d of publishTypes" [value]="d">
+        <span class="wrap-label-text">{{ d | titlecase }}</span>
+      </mat-radio-button>
+    </mat-radio-group>
+  
     <hr>
+
     <ng-container *ngIf="formGroup.controls['bindVis'] && formGroup.controls['bindVis']['controls']">
       <div *ngFor="let d of formGroup.controls['bindVis']['controls']; let i = index">
         <app-bindvis-edit [formGroup]="d"></app-bindvis-edit>
@@ -34,14 +40,19 @@
         mat-raised-button 
         class="btn btn-warning" 
         [mat-dialog-close]="undefined"
-      >Cancel</button>
+      >
+        Cancel
+      </button>
 
       <button
         mat-raised-button 
         class="btn btn-primary" 
         (click)="save()" 
         [disabled]="!formGroup.valid" 
-        type="submit">Save</button>
+        type="submit"
+        >
+          Save
+        </button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>

@@ -4,6 +4,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../models/user.model';
 import { Role } from '../models/role.enum';
+import { PUBLISH_TYPE } from '../../ontology/models/onto-page.model';
 
 declare const $: any;
 
@@ -27,6 +28,46 @@ export interface ChildrenItems {
 
 // Sidebar items
 export const ROUTES: RouteInfo[] = [
+    {
+        path: '/ontology/vis',
+        title: 'VIS Functions',
+        type: 'link',
+        icontype: 'insert_chart',
+        roles: [Role.ADMIN],
+    },
+    {
+        path: '/ontology/data',
+        title: 'Data Endpoints',
+        type: 'link',
+        icontype: 'source',
+        roles: [Role.ADMIN],
+    },
+    {
+        path: '/ontology/page',
+        title: 'Pages',
+        type: 'sub',
+        icontype: 'web',
+        roles: [Role.ADMIN],
+        collapse: 'users',
+        children: [
+            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Release', ab: 'REL' },
+            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
+            { path: `${PUBLISH_TYPE.TEST}`, title: 'Test', ab: 'TST' },
+        ],
+    },  
+    {
+        path: '/admin',
+        title: 'Administration',
+        type: 'sub',
+        icontype: 'admin_panel_settings',
+        roles: [Role.ADMIN],
+        collapse: 'users',
+        children: [
+            { path: 'agents', title: 'Agents', ab: 'ATB' },
+            { path: 'users', title: 'Users', ab: 'USR' },
+            { path: 'activities', title: 'Activities', ab: 'ACT' },
+        ],
+    },
     /*{
         path: '/dashboard',
         title: 'Dashboard',
@@ -41,7 +82,7 @@ export const ROUTES: RouteInfo[] = [
         icontype: 'search',
         roles: [Role.ADMIN, Role.USER],
     },*/
-    {
+    /*{
         path: '/ontology',
         title: 'Ontology',
         type: 'sub',
@@ -53,7 +94,7 @@ export const ROUTES: RouteInfo[] = [
             { path: 'data', title: 'Data', ab: 'D' },
             { path: 'page', title: 'Page', ab: 'P' },
         ],
-    },
+    },*/
     /*{
         path: '/collection',
         title: 'Scraper',
@@ -62,19 +103,6 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN, Role.USER],
     },
     */
-    {
-        path: '/admin',
-        title: 'Administration',
-        type: 'sub',
-        icontype: 'admin_panel_settings',
-        roles: [Role.ADMIN],
-        collapse: 'users',
-        children: [
-            { path: 'bots', title: 'Agents', ab: 'ATB' },
-            { path: 'users', title: 'Users', ab: 'USR' },
-            { path: 'activities', title: 'Activities', ab: 'ACT' },
-        ],
-    },
 ];
 
 @Component({
