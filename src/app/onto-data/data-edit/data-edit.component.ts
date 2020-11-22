@@ -4,8 +4,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
-import { OntoData } from '../models/onto-data.model';
-import { ANALYTICS, MODEL, SOURCE } from '../models/onto-data-types';
+import { OntoData } from '../../models/ontology/onto-data.model';
+import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
 import { BaseFormComponent } from '../../shared/forms/base-form.component';
 
 @Component({

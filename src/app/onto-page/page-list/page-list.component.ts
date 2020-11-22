@@ -10,10 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
-import { OntologyService } from '../ontology.service';
-import { OntoPage, PUBLISH_TYPE } from '../models/onto-page.model';
+import { OntoPageService } from '../../services/ontology/onto-page.service';
+import { OntoPage, PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 import { PageEditComponent } from '../page-edit/page-edit.component';
-import { OntoPageFilterVm } from '../models/onto-page-filter.vm';
+import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
 import { UtilService } from '../../services/util.service';
 
@@ -44,7 +44,7 @@ export class PageListComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private ontologyService: OntologyService,
+        private ontologyService: OntoPageService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,

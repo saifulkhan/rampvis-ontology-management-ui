@@ -4,9 +4,9 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 
 import { BaseNestedform } from '../../shared/forms/base.nestedform';
-import { OntologyService } from '../ontology.service';
-import { OntoData } from '../models/onto-data.model';
+import { OntoData } from '../../models/ontology/onto-data.model';
 import { take, takeUntil } from 'rxjs/operators';
+import { OntoDataService } from '../../services/ontology/onto-data.service';
 
 @Component({
     selector: 'app-binddata-edit',
@@ -24,7 +24,7 @@ export class BindDataEditComponent extends BaseNestedform {
     // Subject that emits when the component has been destroyed.
     private _onDestroy = new Subject<void>();
 
-    constructor(private ontologyService: OntologyService) {
+    constructor(private ontoDataService: OntoDataService) {
         super();
 
         this.nestedFormGroup = new FormGroup({
@@ -36,7 +36,7 @@ export class BindDataEditComponent extends BaseNestedform {
     }
 
     private loadDataList() {
-        this.ontologyService.getAllData().subscribe((res: OntoData[]) => {
+        this.ontoDataService.getAllData().subscribe((res: OntoData[]) => {
             if (res) {
                 this.ontoDataList = res;
                 // console.log('BindDataEditComponent: loadDataList: dataIds = ', this.ontoDataList);

@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import { MatSelect } from '@angular/material/select';
 
 import { BaseNestedform } from '../../shared/forms/base.nestedform';
-import { OntologyService } from '../ontology.service';
-import { OntoVis } from '../models/onto-vis.model';
-import { MatSelect } from '@angular/material/select';
+import { OntoVis } from '../../models/ontology/onto-vis.model';
+import { OntoVisService } from '../../services/ontology/onto-vis.service';
 
 @Component({
     selector: 'app-bindvis-edit',
@@ -24,7 +24,7 @@ export class BindVisEditComponent extends BaseNestedform {
     // Subject that emits when the component has been destroyed.
     private _onDestroy = new Subject<void>();
 
-    constructor(private ontologyService: OntologyService) {
+    constructor(private ontologyService: OntoVisService) {
         super();
 
         this.nestedFormGroup = new FormGroup({

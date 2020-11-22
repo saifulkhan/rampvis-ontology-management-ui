@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 
 import { BaseNestedform } from '../../shared/forms/base.nestedform';
-import { OntologyService } from '../ontology.service';
-import { OntoData, QueryParams } from '../models/onto-data.model';
+import { OntoPageService } from '../../services/ontology/onto-page.service';
+import { OntoData, QueryParams } from '../../models/ontology/onto-data.model';
+import { OntoDataService } from '../../services/ontology/onto-data.service';
 
 @Component({
     selector: 'app-queryparam2-edit',
@@ -17,13 +18,12 @@ export class Queryparam2EditComponent extends BaseNestedform {
     public queryList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
     public paramsList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
 
-    constructor(private ontologyService: OntologyService) {
+    constructor(private ontoDataService: OntoDataService) {
         super();
         this.nestedFormGroup = new FormGroup({
             query: new FormControl('', [Validators.required]),
             params: new FormControl([], [Validators.required]),
         });
-
     }
 
     ngAfterViewInit() {
@@ -34,17 +34,18 @@ export class Queryparam2EditComponent extends BaseNestedform {
     loadQueryParams() {
         console.log('Queryparam2EditComponent: parentDataId: ', this.parentDataId);
 
-        this.ontologyService.getData(this.parentDataId).subscribe((res: OntoData) => {
+        this.ontoDataService.getData(this.parentDataId).subscribe((res: OntoData) => {
             if (res) {
                 let q = res.queryParams.map((d: QueryParams) => d.query);
-                let p = [].concat.apply( [], res.queryParams.map((d: QueryParams) => d.params), );
+                let p = [].concat.apply(
+                    [],
+                    res.queryParams.map((d: QueryParams) => d.params),
+                );
                 this.queryList.next(q.slice());
                 this.paramsList.next(p.slice());
-        
+
                 console.log('Queryparam2EditComponent: loadQueryParams: ', this.queryList, this.paramsList);
             }
         });
-
-       
     }
 }

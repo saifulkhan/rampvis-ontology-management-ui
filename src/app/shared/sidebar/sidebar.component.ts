@@ -4,7 +4,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../models/user.model';
 import { Role } from '../models/role.enum';
-import { PUBLISH_TYPE } from '../../ontology/models/onto-page.model';
+import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 
 declare const $: any;
 
@@ -29,21 +29,21 @@ export interface ChildrenItems {
 // Sidebar items
 export const ROUTES: RouteInfo[] = [
     {
-        path: '/ontology/vis',
+        path: '/vis',
         title: 'VIS Functions',
         type: 'link',
         icontype: 'insert_chart',
         roles: [Role.ADMIN],
     },
     {
-        path: '/ontology/data',
+        path: '/data',
         title: 'Data Endpoints',
         type: 'link',
         icontype: 'source',
         roles: [Role.ADMIN],
     },
     {
-        path: '/ontology/page',
+        path: '/page',
         title: 'Pages',
         type: 'sub',
         icontype: 'web',

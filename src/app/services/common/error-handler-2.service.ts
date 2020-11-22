@@ -23,7 +23,7 @@ export class ErrorHandler2Service {
 		//console.log('ErrorHandler2Service: code = ', code, ', message = ', message);
 
 		if (code && showErrorNotification) {
-			this.localNotificationService.info({ message: `${code} : ${message}`, title: 'Server' });
+			this.localNotificationService.error({ message: `${code} : ${message}`, title: 'Server' });
 		}
 		return message;
 	}

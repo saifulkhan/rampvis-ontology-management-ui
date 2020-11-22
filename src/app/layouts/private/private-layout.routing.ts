@@ -13,9 +13,19 @@ export const PrivateLayoutRoutes: Routes = [
 				loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
 			},
 			{
-				path: 'ontology',
+				path: 'vis',
 				data: { allowedRoles: [Role.ADMIN] },
-				loadChildren: () => import('../../ontology/ontology.module').then(m => m.OntologyModule)
+				loadChildren: () => import('../../onto-vis/onto-vis.module').then(m => m.OntoVisModule)
+			},
+			{
+				path: 'data',
+				data: { allowedRoles: [Role.ADMIN] },
+				loadChildren: () => import('../../onto-data/onto-data.module').then(m => m.OntoDataModule)
+			},
+			{
+				path: 'page',
+				data: { allowedRoles: [Role.ADMIN] },
+				loadChildren: () => import('../../onto-page/onto-page.module').then(m => m.OntologyModule)
 			},
 			{
 				path: 'experimental-dashboard',

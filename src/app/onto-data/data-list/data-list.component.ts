@@ -9,9 +9,9 @@ import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
-import { OntologyService } from '../ontology.service';
-import { OntoData } from '../models/onto-data.model';
+import { OntoDataService } from '../../services/ontology/onto-data.service';
 import { DataEditComponent } from '../data-edit/data-edit.component';
+import { OntoData } from '../../models/ontology/onto-data.model';
 
 @Component({
     selector: 'app-data-list',
@@ -32,7 +32,7 @@ export class DataListComponent implements OnInit {
     public searchTerm: string;
 
     constructor(
-        private ontologyService: OntologyService,
+        private ontologyService: OntoDataService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
@@ -47,7 +47,6 @@ export class DataListComponent implements OnInit {
         this.tableDataSource.paginator = this.paginator;
         this.tableDataSource.sort = this.sort;
     }
-
 
     public filterDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();

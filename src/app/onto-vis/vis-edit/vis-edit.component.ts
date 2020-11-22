@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 
 import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
-import { OntoVis } from '../models/onto-vis.model';
-import { VIS_TYPE } from '../models/onto-vis-type.enum';
+import { OntoVis } from '../../models/ontology/onto-vis.model';
+import { VIS_TYPE } from '../../models/ontology/onto-vis-type.enum';
 
 @Component({
     selector: 'app-vis-edit',

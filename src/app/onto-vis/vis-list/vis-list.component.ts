@@ -10,9 +10,9 @@ import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
-import { OntoVis } from '../models/onto-vis.model';
-import { OntologyService } from '../ontology.service';
+import { OntoVis } from '../../models/ontology/onto-vis.model';
 import { VisEditComponent } from '../vis-edit/vis-edit.component';
+import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
 
 @Component({
     selector: 'app-vis-list',
@@ -33,7 +33,7 @@ export class VisListComponent implements OnInit {
     public searchTerm: string;
 
     constructor(
-        private ontologyService: OntologyService,
+        private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
@@ -64,7 +64,7 @@ export class VisListComponent implements OnInit {
     public onClickDelete(visId: string): void {
         this.dialogService.warn('Delete Vis', 'Are you sure you want to delete this?', 'Delete').then((result) => {
             if (result.value) {
-                this.ontologyService.deleteVis(visId).subscribe((res: any) => {
+                this.ontoVisService.deleteVis(visId).subscribe((res: any) => {
                     this.loadVisList();
                 });
             }
@@ -75,7 +75,7 @@ export class VisListComponent implements OnInit {
     // private methods
     //
     private loadVisList() {
-        this.ontologyService.getAllVis().subscribe((res: OntoVis[]) => {
+        this.ontoVisService.getAllVis().subscribe((res: OntoVis[]) => {
             if (res) {
                 this.visList = res;
                 this.setTableData(this.visList);
@@ -94,8 +94,8 @@ export class VisListComponent implements OnInit {
                 mergeMap(
                     (ontoVis: null | OntoVis): Observable<any> => {
                         if (!ontoVis) return of(false);
-                            if (dialogType === 'new') return this.ontologyService.createVis(ontoVis);
-                            if (dialogType === 'edit') return this.ontologyService.updateVis(ontoVis);
+                            if (dialogType === 'new') return this.ontoVisService.createVis(ontoVis);
+                            if (dialogType === 'edit') return this.ontoVisService.updateVis(ontoVis);
                         return of(false);
                     },
                 ),

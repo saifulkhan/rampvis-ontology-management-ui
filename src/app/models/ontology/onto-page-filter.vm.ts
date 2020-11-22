@@ -1,5 +1,5 @@
 import { Deserializable } from '../../shared/models/deserializable.model';
-import { PUBLISH_TYPE } from './onto-page.model';
+import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 
 export class OntoPageFilterVm implements Deserializable {
     public page: number;
