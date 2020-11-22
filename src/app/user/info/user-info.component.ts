@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { UserModalData } from '../../shared/models/modal-data.interface';
+import { UserModalData } from '../../models/modal-data.interface';
 import { UtilService } from '../../services/util.service';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { UserService } from '../user.service';
-import { User } from '../../shared/models/user.model';
+import { User } from '../../models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -39,7 +39,7 @@ export class UserInfoComponent implements OnInit {
 
         this.form = this.fb.group({
             name: [{ value: this.user.name, disabled: isEditMode }, Validators.required],
-            email: [{ value: this.user.email,  disabled: isEditMode}, [Validators.required, Validators.email]],
+            email: [{ value: this.user.email, disabled: isEditMode }, [Validators.required, Validators.email]],
             password: isEditMode ? [this.user.password] : [this.user.password, Validators.required],
             role: isEditMode ? [this.user.role, Validators.required] : [this.user.role],
         });
@@ -50,9 +50,7 @@ export class UserInfoComponent implements OnInit {
 
         if (!this.form.valid) {
             this.utils.getFormValidationErrors(this.form);
-            this.localNotificationService.warning(
-                { message: 'Please provide a dialogType, email, password and phone number for the user' }
-            );
+            this.localNotificationService.warning({ message: 'Please provide a dialogType, email, password and phone number for the user' });
             return;
         }
 

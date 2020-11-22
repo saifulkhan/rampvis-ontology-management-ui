@@ -2,7 +2,6 @@ import { Component, NgZone, OnInit, SimpleChanges, ViewChild } from '@angular/co
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from 'src/app/shared/models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -16,6 +15,7 @@ import { PageEditComponent } from '../page-edit/page-edit.component';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
 import { UtilService } from '../../services/util.service';
+import { TableData } from '../../models/table.data.interface';
 
 @Component({
     selector: 'app-page-list',

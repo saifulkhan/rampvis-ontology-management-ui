@@ -1,4 +1,4 @@
-import { Deserializable } from 'src/app/shared/models/deserializable.model';
+import { Deserializable } from 'src/app/models/deserializable.model';
 import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
 
 export class QueryParams implements Deserializable {

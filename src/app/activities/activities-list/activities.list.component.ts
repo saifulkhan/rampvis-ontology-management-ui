@@ -9,10 +9,10 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { TableData } from '../../shared/models/table.data.interface';
-import { Activity } from '../../shared/models/activity.model';
+import { TableData } from '../../models/table.data.interface';
+import { Activity } from '../../models/activity.model';
 import { ActivitiesService } from '../activities.service';
-import { ActivitiesFiterVm } from '../../shared/models/activities-filter.vm';
+import { ActivitiesFiterVm } from '../../models/activities-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
 
 @Component({

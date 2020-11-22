@@ -1,4 +1,4 @@
-import { Role } from './role.enum';
+import { Role } from '../models/role.enum';
 
 export class Activity {
     public id: string;

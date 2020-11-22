@@ -5,7 +5,7 @@ import { flatMap, map, take, tap } from 'rxjs/operators';
 import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
 
 import { BotsService, IBotSettings } from '../../services/bots.service';
-import { SCHEDULER_STATE } from '../../shared/models/scheduler-state.enum';
+import { SCHEDULER_STATE } from '../../models/scheduler-state.enum';
 import { SettingsModalComponent } from './settings-modal/settings-modal.component';
 
 @Component({

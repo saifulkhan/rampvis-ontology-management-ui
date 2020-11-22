@@ -1,4 +1,4 @@
-import { Deserializable } from './deserializable.model';
+import { Deserializable } from '../models/deserializable.model';
 import { Role } from './role.enum';
 
 export class User implements Deserializable {

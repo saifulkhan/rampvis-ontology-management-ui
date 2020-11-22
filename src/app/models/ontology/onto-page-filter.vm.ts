@@ -1,4 +1,4 @@
-import { Deserializable } from '../../shared/models/deserializable.model';
+import { Deserializable } from '../deserializable.model';
 import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 
 export class OntoPageFilterVm implements Deserializable {

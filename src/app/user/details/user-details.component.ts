@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { flatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+
 import { UserService } from '../user.service';
-import { User } from '../../shared/models/user.model';
-import { Permissions } from '../../shared/models/permissions';
+import { User } from '../../models/user.model';
+import { Permissions } from '../../models/permissions';
 import { UserInfoComponent } from '../info/user-info.component';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 

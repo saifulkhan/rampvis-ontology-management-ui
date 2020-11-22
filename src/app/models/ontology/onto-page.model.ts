@@ -1,4 +1,4 @@
-import { Deserializable } from '../../shared/models/deserializable.model';
+import { Deserializable } from '../deserializable.model';
 import { QueryParams } from './onto-data.model';
 
 export enum PUBLISH_TYPE {

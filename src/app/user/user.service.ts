@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { APIService } from '../services/api.service';
-import { User } from '../shared/models/user.model';
-import { Role } from '../shared/models/role.enum';
+import { User } from '../models/user.model';
+import { Role } from '../models/role.enum';
 
 @Injectable({
 	providedIn: 'root'

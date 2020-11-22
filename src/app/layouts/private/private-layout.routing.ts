@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { PrivateLayoutComponent } from './private-layout.component';
-import { Role } from '../../shared/models/role.enum';
+import { Role } from '../../models/role.enum';
 
 export const PrivateLayoutRoutes: Routes = [
 	{
@@ -26,16 +26,6 @@ export const PrivateLayoutRoutes: Routes = [
 				path: 'page',
 				data: { allowedRoles: [Role.ADMIN] },
 				loadChildren: () => import('../../onto-page/onto-page.module').then(m => m.OntologyModule)
-			},
-			{
-				path: 'experimental-dashboard',
-				data: { allowedRoles: [Role.ADMIN] },
-				loadChildren: () => import('../../experimental-dashboard/experimental-dashboard.module').then(m => m.ExperimentalDashboardModule)
-			},
-			{
-				path: 'collection',
-				data: { allowedRoles: [Role.ADMIN, Role.USER] },
-				loadChildren: () => import('../../scraper/scraper.module').then(m => m.ScraperModule)
 			},
 			{
 				path: 'search',

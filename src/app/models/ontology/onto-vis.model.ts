@@ -1,4 +1,4 @@
-import { Deserializable } from 'src/app/shared/models/deserializable.model';
+import { Deserializable } from 'src/app/models/deserializable.model';
 import { VIS_TYPE } from './onto-vis-type.enum';
 
 export class OntoVis implements Deserializable {

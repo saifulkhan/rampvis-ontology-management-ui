@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {APIService} from './api.service';
-import {Permissions} from '../shared/models/permissions';
+import {Permissions} from '../models/permissions';
 
 @Injectable()
 export class AuthorizationService {

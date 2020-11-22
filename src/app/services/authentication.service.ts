@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { APIService } from './api.service';
-import { User } from '../shared/models/user.model';
+import { User } from '../models/user.model';
 import { UtilService } from './util.service';
-import { Role } from '../shared/models/role.enum';
+import { Role } from '../models/role.enum';
 import { ErrorHandler2Service } from './common/error-handler-2.service';
-import { HTTP_ERROR_CODES } from '../shared/models/http-error-codes.enum';
+import { HTTP_ERROR_CODES } from '../models/http-error-codes.enum';
 import { NotificationService } from './notification.service';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from 'src/app/shared/models/table.data.interface';
+import { TableData } from '../../models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 

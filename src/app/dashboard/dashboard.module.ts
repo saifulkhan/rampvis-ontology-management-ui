@@ -10,7 +10,6 @@ import { DashboardRoutes } from './dashboard.routing';
 import { TimelineModule } from '../shared/timeline/timeline.module';
 import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
 import { PDFViewerModule } from '../shared/pdf-viewer/pdf-viewer.module';
-import { MiningTableModule } from '../shared/mining-table/mining-table.module';
 
 @NgModule({
     imports: [
@@ -22,7 +21,6 @@ import { MiningTableModule } from '../shared/mining-table/mining-table.module';
         TimelineModule,
         CustomPipesModule,
         PDFViewerModule,
-        MiningTableModule,
     ],
     declarations: [
         DashboardComponent,

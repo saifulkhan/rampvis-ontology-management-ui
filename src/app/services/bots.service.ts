@@ -4,9 +4,9 @@ import { filter, map, tap } from 'rxjs/operators';
 
 import { APIService } from './api.service';
 import { NotificationService } from './notification.service';
-import { NOTIFICATION_TYPE } from '../shared/models/notification-type.enum';
-import { Notification } from '../shared/models/notification.model';
-import { LogMessage } from '../shared/log-monitor/models/log-message.model';
+import { NOTIFICATION_TYPE } from '../models/notification-type.enum';
+import { Notification } from '../models/notification.model';
+import { LogMessage } from '../models/log-message.model';
 import { environment } from '../../environments/environment';
 
 export interface IBotSettings {

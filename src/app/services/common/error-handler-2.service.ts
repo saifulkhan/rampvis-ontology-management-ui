@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HTTP_ERROR_CODES } from '../../shared/models/http-error-codes.enum';
+import { HTTP_ERROR_CODES } from '../../models/http-error-codes.enum';
 import { HelperService } from './helper.service';
 import { LocalNotificationService } from './local-notification.service';
 

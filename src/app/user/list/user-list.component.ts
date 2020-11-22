@@ -8,12 +8,12 @@ import { mergeMap } from 'rxjs/operators';
 
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from '../../services/common/dialog.service';
-import { TableData } from '../../shared/models/table.data.interface';
+import { TableData } from '../../models/table.data.interface';
 import { JQ_TOKEN } from '../../services/common/jQuery.service';
 import { UserService } from '../user.service';
-import { User } from '../../shared/models/user.model';
-import { Permissions } from '../../shared/models/permissions';
-import { Role } from '../../shared/models/role.enum';
+import { User } from '../../models/user.model';
+import { Permissions } from '../../models/permissions';
+import { Role } from '../../models/role.enum';
 import { UserInfoComponent } from '../info/user-info.component';
 
 @Component({

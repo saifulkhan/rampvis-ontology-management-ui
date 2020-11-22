@@ -3,8 +3,8 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 import { APIService } from './api.service';
-import { Notification } from '../shared/models/notification.model';
-import { NOTIFICATION_TOPIC } from '../shared/models/notification-topic.enum';
+import { Notification } from '../models/notification.model';
+import { NOTIFICATION_TOPIC } from '../models/notification-topic.enum';
 
 @Injectable()
 export class NotificationService {

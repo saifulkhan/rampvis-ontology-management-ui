@@ -1,4 +1,4 @@
-import { LogMessage } from '../models/log-message.model';
+import { LogMessage } from '../../../models/log-message.model';
 
 export const normalizeLogMessage = (msg: LogMessage): LogMessage => ({
     ...msg,

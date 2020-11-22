@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { APIService } from '../api.service';
 import { OntoPage } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
-import { PaginationModel } from '../../shared/models/pagination.model';
+import { PaginationModel } from '../../models/pagination.model';
 
 @Injectable({
     providedIn: 'root',

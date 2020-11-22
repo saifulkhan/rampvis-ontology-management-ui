@@ -4,11 +4,11 @@ import {Location, PopStateEvent} from '@angular/common';
 import {filter} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
+import PerfectScrollbar from 'perfect-scrollbar';
 
 import {NavItem, NavItemType} from './nav-item.interface';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
-import PerfectScrollbar from 'perfect-scrollbar';
-import {User} from '../../shared/models/user.model';
+import {User} from '../../models/user.model';
 import {AuthenticationService} from '../../services/authentication.service';
 import {AuthorizationService} from '../../services/authorization.service';
 import {APIService} from '../../services/api.service';

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { User } from '../models/user.model';
-import { Role } from '../models/role.enum';
+import { User } from '../../models/user.model';
+import { Role } from '../../models/role.enum';
 import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 
 declare const $: any;
@@ -68,7 +68,8 @@ export const ROUTES: RouteInfo[] = [
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
     },
-    /*{
+    /*
+    {
         path: '/dashboard',
         title: 'Dashboard',
         type: 'link',
@@ -80,26 +81,6 @@ export const ROUTES: RouteInfo[] = [
         title: 'Search',
         type: 'link',
         icontype: 'search',
-        roles: [Role.ADMIN, Role.USER],
-    },*/
-    /*{
-        path: '/ontology',
-        title: 'Ontology',
-        type: 'sub',
-        icontype: 'drag_indicator',
-        roles: [Role.ADMIN],
-        collapse: 'users',
-        children: [
-            { path: 'vis', title: 'Visualization', ab: 'V' },
-            { path: 'data', title: 'Data', ab: 'D' },
-            { path: 'page', title: 'Page', ab: 'P' },
-        ],
-    },*/
-    /*{
-        path: '/collection',
-        title: 'Scraper',
-        type: 'link',
-        icontype: 'find_in_page',
         roles: [Role.ADMIN, Role.USER],
     },
     */
