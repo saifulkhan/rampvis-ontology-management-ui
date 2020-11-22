@@ -8,8 +8,8 @@ export const environment = {
   staging: false,
   configuration: 'development',
   components: {
-    api: 'http://localhost:2000/api/v1',      // Node
-    apiPy: 'http://localhost:3000/api-py/v1', // Python       
+    API_JS: 'http://localhost:2000/api/v1',      // Node
+    API_PY: 'http://localhost:3000/api-py/v1', // Python       
     sentry: ''
   },
   firebaseConfig: {
@@ -22,4 +22,5 @@ export const environment = {
     appId: '1:431207723497:web:c328d72aab8082587a1b78',
     measurementId: 'G-FEFMQ1VJHW'
   }
+
 };

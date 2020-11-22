@@ -3,8 +3,8 @@ export const environment = {
   staging: false,
   configuration: 'production',
   components: {
-    api: 'https://hart.horussecuretravel.com/api/v1',        // Node
-    apiPy: 'https://hart.horussecuretravel.com/api-py/v1',  // Python                           // Python       
+    API_JS: 'https://xx.com/api/v1',    
+    API_PY: 'https://xx.com/api-py/v1',
     sentry: 'https://x@sentry.io/1234'
   },
   firebaseConfig: {

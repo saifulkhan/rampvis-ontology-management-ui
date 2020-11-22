@@ -1,0 +1,26 @@
+<p mat-dialog-title>Data Stream</p>
+
+<mat-dialog-content>
+	<p> Endpoint: <a href="{{ url }}" target="_blank">{{ url }}</a> </p>
+	<hr />
+
+	<div *ngIf="loading else loaded">
+    loading ...
+	</div>
+
+	<ng-template	ng-template #loaded>
+		<p> Length: {{ length$ | async }} </p>
+		<p> Samples: </p>
+		<ngx-json-view [data]="jsonData$ | async"></ngx-json-view>  
+	</ng-template>
+	
+  <mat-dialog-actions align="end">
+    <button 
+			mat-raised-button 
+			class="btn btn-warning" 
+			[mat-dialog-close]="undefined"
+		>
+		Close
+	</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

@@ -4,7 +4,7 @@
   <form [formGroup]="formGroup" #modalForm>
     <mat-form-field>
       <mat-label>URL Code</mat-label>
-      <input formControlName="url" matInput />
+      <input formControlName="urlCode" matInput />
     </mat-form-field>
 
     <mat-form-field>
@@ -13,8 +13,10 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Description</mat-label>
-      <input formControlName="description" matInput />
+      <mat-select formControlName="dataType" placeholder="Data Type">
+        <mat-option [value]="null"></mat-option>
+        <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -37,6 +39,13 @@
         <mat-option *ngFor="let d of models" [value]="d">{{ d }}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input formControlName="description" matInput />
+    </mat-form-field>
+
+    <hr />
 
     <!-- query parameters-->
     <ng-container *ngIf="formGroup.controls['queryParams'] && formGroup.controls['queryParams']['controls']">

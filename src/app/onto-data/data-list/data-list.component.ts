@@ -12,6 +12,7 @@ import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntoDataService } from '../../services/ontology/onto-data.service';
 import { DataEditComponent } from '../data-edit/data-edit.component';
 import { OntoData } from '../../models/ontology/onto-data.model';
+import { DataViewComponent } from '../data-view/data-view.component';
 
 @Component({
     selector: 'app-data-list',
@@ -24,7 +25,7 @@ export class DataListComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
     public tableData: TableData = {
-        headerRow: ['id', 'url', 'endpoint', 'description', 'metadata', 'queryParams', 'actions'],
+        headerRow: ['id', 'urlCode', 'endpoint', 'dataType', 'metadata', 'description', 'queryParams', 'actions'],
         dataRows: [],
     };
     public dataList: OntoData[] = [];
@@ -70,6 +71,11 @@ export class DataListComponent implements OnInit {
         });
     }
 
+    public onClickViewData(data: OntoData){
+        console.log(data);
+        const dialogOpt = { width: '40%', data: data };
+        this.matDialog.open(DataViewComponent, dialogOpt);
+    }
     //
     // private methods
     //

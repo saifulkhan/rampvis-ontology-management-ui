@@ -17,7 +17,7 @@ export interface IBotSettings {
 
 @Injectable()
 export class BotsService {
-    private url = environment.components.apiPy + '/scheduler';
+    private url = environment.components.API_PY + '/scheduler';
 
     public $log: ReplaySubject<LogMessage> = new ReplaySubject<null>();
     private logs: LogMessage[] = [];

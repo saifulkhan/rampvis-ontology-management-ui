@@ -7,7 +7,7 @@ import {APIService} from '../services/api.service';
 
 @Injectable()
 export class SearchService {
-	private url = environment.components.apiPy + '/search';
+	private url = environment.components.API_JS + '/search';
 
 	public static SEARCH_TYPE: any = {
         KEYWORD: 'keyword',

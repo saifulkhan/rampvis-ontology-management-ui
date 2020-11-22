@@ -5,7 +5,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { UtilService } from '../../services/util.service';
 import { OntoData } from '../../models/ontology/onto-data.model';
-import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
+import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
 import { BaseFormComponent } from '../../shared/forms/base-form.component';
 
 @Component({
@@ -20,6 +20,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
     dialogType = ''; // dialogType: edit or new
     data: OntoData;
 
+    public dataTypes = [];
     public sources = [];
     public models = [];
     public analytics = [];
@@ -36,6 +37,8 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         console.log('DataEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
+
+        this.dataTypes = Object.keys(DATA_TYPE).map((d) => DATA_TYPE[d]);
         this.sources = Object.keys(SOURCE).map((k) => SOURCE[k]);
         this.models = Object.keys(MODEL).map((k) => MODEL[k]);
         this.analytics = Object.keys(ANALYTICS).map((k) => ANALYTICS[k]);
@@ -44,12 +47,13 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
-            url: new FormControl('', [Validators.required]),
+            urlCode: new FormControl('', [Validators.required]),
             endpoint: new FormControl('', [Validators.required]),
-            description: new FormControl('', [Validators.required]),
+            dataType: new FormControl('', [Validators.required]),
             source: new FormControl(),
             model: new FormControl(),
             analytics: new FormControl(),
+            description: new FormControl('', [Validators.required]),
             queryParams: new FormArray([]),
         });
 

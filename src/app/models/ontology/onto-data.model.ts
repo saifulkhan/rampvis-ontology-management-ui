@@ -1,5 +1,5 @@
 import { Deserializable } from 'src/app/models/deserializable.model';
-import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
+import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
 
 export class QueryParams implements Deserializable {
     query: string = '';
@@ -13,13 +13,14 @@ export class QueryParams implements Deserializable {
 
 export class OntoData implements Deserializable {
     public id: string = '';
-    public url: string = '';
+    public urlCode: string = '';
     public endpoint: string = '';
-    public queryParams: QueryParams[] = undefined;
-    public description: string = '';
+    public dataType: DATA_TYPE = undefined as any;
     public source: SOURCE = undefined;
     public model: MODEL = undefined;
     public analytics: ANALYTICS = undefined;
+    public description: string = '';
+    public queryParams: QueryParams[] = undefined;
 
     deserialize(input: any) {
         Object.assign(this, input);
