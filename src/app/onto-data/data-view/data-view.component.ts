@@ -9,12 +9,18 @@ import { environment } from '../../../environments/environment';
 @Component({
     selector: 'app-data-view',
     templateUrl: './data-view.component.html',
+    styleUrls: ['./data-view.component.scss'],
 })
 export class DataViewComponent implements OnInit {
     @ViewChild('modalForm') modalForm;
 
     public length$: ReplaySubject<number> = new ReplaySubject<number>(1);
     public jsonData$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+    public column$: ReplaySubject<string[]> = new ReplaySubject<[]>(1);
+
+    dataSource: any;
+    displayedColumns: string[] = [];
+
     public url = '';
     loading = true;
 
@@ -28,9 +34,17 @@ export class DataViewComponent implements OnInit {
 
         this.url = `${environment.components[ontoData.urlCode]}/${ontoData.endpoint}`
         this.api.get(this.url).subscribe((res: any) => {
-            this.jsonData$.next(res.slice(0, 10));
-            this.length$.next(res.length)
-            this.loading = false;
+            
+            if (res && res.length > 0) {
+                this.dataSource = res.slice(0, 10)
+                this.displayedColumns = Object.keys(res[0]);
+
+                this.jsonData$.next(res.slice(0, 10));
+                this.length$.next(res.length);
+                this.column$.next(Object.keys(res[0]));
+
+                this.loading = false;
+            }
         });
     }
 

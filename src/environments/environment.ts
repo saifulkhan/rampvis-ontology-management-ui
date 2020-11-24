@@ -9,7 +9,7 @@ export const environment = {
   configuration: 'development',
   components: {
     API_JS: 'http://localhost:2000/api/v1',      // Node
-    API_PY: 'http://localhost:3000/api-py/v1', // Python       
+    API_PY: 'http://localhost:3000/stat/v1', // Python       
     sentry: ''
   },
   firebaseConfig: {

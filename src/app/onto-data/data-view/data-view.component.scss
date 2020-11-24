@@ -1,0 +1,28 @@
+@import '../../../styles.scss';
+
+#data-view-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#data-view-table td,
+#data-view-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#data-view-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#data-view-table tr:hover {
+    background-color: #ddd;
+}
+
+#data-view-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #005eb8;
+    color: white;
+}

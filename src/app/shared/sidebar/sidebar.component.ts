@@ -39,7 +39,7 @@ export const ROUTES: RouteInfo[] = [
         path: '/data',
         title: 'Data Endpoints',
         type: 'link',
-        icontype: 'source',
+        icontype: 'storage',
         roles: [Role.ADMIN],
     },
     {
@@ -48,11 +48,11 @@ export const ROUTES: RouteInfo[] = [
         type: 'sub',
         icontype: 'web',
         roles: [Role.ADMIN],
-        collapse: 'users',
+        collapse: 'page',
         children: [
-            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Release', ab: 'REL' },
-            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
-            { path: `${PUBLISH_TYPE.TEST}`, title: 'Test', ab: 'TST' },
+            { path: `${PUBLISH_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
+            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Released Pages', ab: 'REL' },
+            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review Pages', ab: 'REV' },
         ],
     },  
     {
@@ -61,7 +61,7 @@ export const ROUTES: RouteInfo[] = [
         type: 'sub',
         icontype: 'admin_panel_settings',
         roles: [Role.ADMIN],
-        collapse: 'users',
+        collapse: 'admin',
         children: [
             { path: 'agents', title: 'Agents', ab: 'ATB' },
             { path: 'users', title: 'Users', ab: 'USR' },

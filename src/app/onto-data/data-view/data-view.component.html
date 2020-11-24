@@ -1,7 +1,8 @@
 <p mat-dialog-title>Data Stream</p>
 
 <mat-dialog-content>
-	<p> Endpoint: <a href="{{ url }}" target="_blank">{{ url }}</a> </p>
+	<h4> Endpoint:</h4>
+	<a href="{{ url }}" target="_blank">	<mat-icon>link</mat-icon></a> 
 	<hr />
 
 	<div *ngIf="loading else loaded">
@@ -9,8 +10,21 @@
 	</div>
 
 	<ng-template	ng-template #loaded>
-		<p> Length: {{ length$ | async }} </p>
-		<p> Samples: </p>
+		<h4> Length: {{ length$ | async }} </h4>
+		<h4> Data (first few rows): </h4>
+	
+		<table id="data-view-table">
+			<tr>
+				<th *ngFor="let col of column$ | async">{{col}}</th>
+			</tr>
+			<tr *ngFor="let d of jsonData$ | async">
+				<td *ngFor="let col of column$ | async">{{d[col]}}</td>
+			</tr>
+		
+		</table>	
+		
+		<br />
+		<!--JSON view-->
 		<ngx-json-view [data]="jsonData$ | async"></ngx-json-view>  
 	</ng-template>
 	

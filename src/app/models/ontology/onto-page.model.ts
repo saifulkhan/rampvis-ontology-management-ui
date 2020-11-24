@@ -2,7 +2,7 @@ import { Deserializable } from '../deserializable.model';
 import { QueryParams } from './onto-data.model';
 
 export enum PUBLISH_TYPE {
-    TEST = 'test',
+    EXAMPLE = 'example',
     REVIEW = 'review',
     RELEASE = 'release',
 }
