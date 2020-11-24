@@ -20,7 +20,7 @@ export class BindDataEditComponent extends BaseNestedform {
     public dataIdFilterCtrl: FormControl = new FormControl();
     // List of OntoVis filtered by search keyword for multi-selection.
     public filteredDataId: ReplaySubject<OntoData[]> = new ReplaySubject<OntoData[]>(1);
-    @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+    @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
     // Subject that emits when the component has been destroyed.
     private _onDestroy = new Subject<void>();
 

@@ -13,24 +13,23 @@ import { VIS_TYPE } from '../../models/ontology/onto-vis-type.enum';
     styleUrls: ['./vis-edit.component.scss'],
 })
 export class VisEditComponent implements OnInit {
-    @ViewChild('modalForm') modalForm;
+    @ViewChild('modalForm') modalForm!: any;
     form: FormGroup;
     dialogType = ''; // dialog type: edit or new
     vis: OntoVis;
-
-    public types = [];
+    public types: string[] = [];
 
     constructor(
         private fb: FormBuilder,
         public matDialogRef: MatDialogRef<VisEditComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
+        @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService,
     ) {
         console.log('VisEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.vis = { ...data.vis };
-        this.types = Object.keys(VIS_TYPE).map((k) => VIS_TYPE[k]);
+        this.types = (Object.keys(VIS_TYPE) as Array<keyof typeof VIS_TYPE>).map((k) => VIS_TYPE[k]);
 
         this.form = this.fb.group({
             function: [this.vis.function, Validators.required],

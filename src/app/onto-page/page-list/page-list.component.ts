@@ -23,10 +23,10 @@ import { TableData } from '../../models/table.data.interface';
     styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource([]);
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatTable) table!: MatTable<any>;
+    public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['id', 'date', 'title', 'bindVis', 'actions'],
         dataRows: [],
@@ -34,8 +34,8 @@ export class PageListComponent implements OnInit {
 
     public ontoPages: OntoPage[] = [];
     pageListLength = 0;
-    publishType: PUBLISH_TYPE;
-    publishTypes = [];
+    publishType!: PUBLISH_TYPE;
+    publishTypes: string[] = [];
 
     filterPublishType$ = new BehaviorSubject<string>('');
     searchTerm$ = new BehaviorSubject<string>('');
@@ -55,7 +55,8 @@ export class PageListComponent implements OnInit {
     ngOnInit(): void {
         console.log('PageListComponent: ngOnInit:');
         // this.loadPageList();
-        this.publishTypes = Object.keys(PUBLISH_TYPE);
+        this.publishTypes = (Object.keys(PUBLISH_TYPE) as Array<keyof typeof PUBLISH_TYPE>).map((k) => PUBLISH_TYPE[k]);
+
 
         this.spinner = true;
         this.clearTableData();
@@ -152,7 +153,7 @@ export class PageListComponent implements OnInit {
     private openPageEditModal(dialogType: string, ontoPage: OntoPage): void {
         console.log('PageListComponent: openPageEditModal: ontoPage = ', ontoPage);
 
-        const dialogOpt = { width: '40%', data: { dialogType, data: this.utilService.clone(ontoPage) } };
+        const dialogOpt = { width: '40%', data: { dialogType, data: this.utilService.deepCopy(ontoPage) } };
         const matDialogRef = this.matDialog.open(PageEditComponent, dialogOpt);
 
         matDialogRef

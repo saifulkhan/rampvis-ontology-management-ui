@@ -18,7 +18,7 @@ export class SettingsModalComponent {
         private utils: UtilService,
         private localNotificationService: LocalNotificationService,
     ) {
-        this.clonedSettings = utils.clone(data);
+        this.clonedSettings = utils.deepCopy(data);
     }
 
     submit(): void {

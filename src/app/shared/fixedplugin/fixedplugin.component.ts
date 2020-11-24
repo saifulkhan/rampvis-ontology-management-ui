@@ -38,7 +38,7 @@ export class FixedpluginComponent implements OnInit {
 
       }
 
-      $('.fixed-plugin a').click(function(event) {
+      $('.fixed-plugin a').click((event: any) => {
         // Alex: if we click on switch, stop propagation of the event,
         // so the dropdown will not be hide, otherwise we set the  section active
           if ($(this).hasClass('switch-trigger')) {
@@ -50,7 +50,7 @@ export class FixedpluginComponent implements OnInit {
           }
       });
 
-      $('.fixed-plugin .active-color span').click(function() {
+      $('.fixed-plugin .active-color span').click(() => {
           const $full_page_background = $('.full-page-background');
 
           $(this).siblings().removeClass('active');
@@ -70,7 +70,7 @@ export class FixedpluginComponent implements OnInit {
           }
       });
 
-      $('.fixed-plugin .background-color span').click(function() {
+      $('.fixed-plugin .background-color span').click(() => {
           $(this).siblings().removeClass('active');
           $(this).addClass('active');
           const new_color = $(this).data('color');
@@ -80,7 +80,7 @@ export class FixedpluginComponent implements OnInit {
           }
       });
 
-      $('.fixed-plugin .img-holder').click(function() {
+      $('.fixed-plugin .img-holder').click(() => {
           const $full_page_background = $('.full-page-background');
 
           $(this).parent('li').siblings().removeClass('active');
@@ -117,7 +117,7 @@ export class FixedpluginComponent implements OnInit {
           }
       });
 
-      $('.switch-sidebar-image input').change(function() {
+      $('.switch-sidebar-image input').change(() => {
           const $full_page_background = $('.full-page-background');
           const $input = $(this);
 
@@ -148,7 +148,7 @@ export class FixedpluginComponent implements OnInit {
           }
       });
 
-      $('.switch-sidebar-mini input').change(function(){
+      $('.switch-sidebar-mini input').change(() => {
           const $body = $('body');
 
           const $input = $(this);

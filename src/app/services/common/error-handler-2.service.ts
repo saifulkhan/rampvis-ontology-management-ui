@@ -1,3 +1,4 @@
+import { NullTemplateVisitor } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 import { HTTP_ERROR_CODES } from '../../models/http-error-codes.enum';
@@ -11,12 +12,12 @@ export class ErrorHandler2Service {
                 private helperService: HelperService) {
 	}
 
-	handleError(error: any, showErrorNotification: boolean = true): string {
+	handleError(error: any, showErrorNotification: boolean = true): string | null {
 		if (!error) {
 			error = {};
 		}
-		const code: string = this.processErrorCode(error.rejection || error);
-		const message: string = this.processErrorMessage(error.rejection || error);
+		const code: string | null = this.processErrorCode(error.rejection || error);
+		const message: string | null = this.processErrorMessage(error.rejection || error);
 
 		// Debugging purpose
 		//console.log('ErrorHandler2Service: error = ', error);
@@ -28,12 +29,12 @@ export class ErrorHandler2Service {
 		return message;
 	}
 
-	private processErrorCode(error: any): string {
+	private processErrorCode(error: any): string | null {
 		if (!error) {
 			return null;
 		}
 
-		if (error.error && error.error.code) {
+		if (error?.error?.code) {
 			if (HTTP_ERROR_CODES[error.error.code]) {
 				const data: any = error.error.data || {};
 				const message: string = this.helperService.template(HTTP_ERROR_CODES[error.error.code], data);
@@ -51,7 +52,7 @@ export class ErrorHandler2Service {
 		return null;
 	}
 
-	private processErrorMessage(error: any): string {
+	private processErrorMessage(error: any): string | null {
 		if (!error) {
 			return null;
 		}

@@ -90,7 +90,6 @@ export class LocalNotificationService {
         }
         if (type === LOCAL_NOTIFICATION_TYPE.success) {
             return 'check';
-            
         }
         if (type === LOCAL_NOTIFICATION_TYPE.warning) {
             return 'warning';
@@ -98,13 +97,14 @@ export class LocalNotificationService {
         }
         if (type === LOCAL_NOTIFICATION_TYPE.error) {    
             return 'error_outline';
-          
         }
         if (type === LOCAL_NOTIFICATION_TYPE.attention) {
             return 'notifications_active';
-           
         }
+
+        return 'info';
     }
+
     private getColor(type: LOCAL_NOTIFICATION_TYPE) {
 
         if (type === LOCAL_NOTIFICATION_TYPE.info) {
@@ -112,7 +112,6 @@ export class LocalNotificationService {
         }
         if (type === LOCAL_NOTIFICATION_TYPE.success) {
             return 'success';
-            
         }
         if (type === LOCAL_NOTIFICATION_TYPE.warning) {
             return 'warning';
@@ -120,15 +119,13 @@ export class LocalNotificationService {
         }
         if (type === LOCAL_NOTIFICATION_TYPE.error) {    
             return 'danger';
-          
         }
         if (type === LOCAL_NOTIFICATION_TYPE.attention) {
             return 'danger';
-           
         }
+
+        return 'info';
     }
-
-
 
 }
 

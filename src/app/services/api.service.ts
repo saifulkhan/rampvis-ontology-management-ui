@@ -7,13 +7,13 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class APIService {
-    private endpoint: string;
-    private path: '';
-    private authToken: string;
+    private endpoint!: string;
+    private path: string = '';
+    private authToken!: string;
 
     constructor(private http: HttpClient) {
         this.endpoint = environment.components.API_JS;
-        this.authToken = localStorage.getItem('api_token');
+        this.authToken = localStorage.getItem('api_token') as string;
     }
 
     getHeaders(json: boolean = true) {
@@ -38,7 +38,7 @@ export class APIService {
 
     logout() {
         localStorage.removeItem('api_token');
-        this.authToken = null;
+        this.authToken = null as any;
     }
 
     getEndpoint(url: string): string {
@@ -62,35 +62,35 @@ export class APIService {
 
     // HTTP Methods
 
-    get<T extends any>(url): Observable<T> {
+    get<T extends any>(url: string): Observable<T> {
         return this.http.get<T>(this.getEndpoint(url), this.getHeaders(false))
         .pipe(
             map((resp) => resp as T)
         );
     }
 
-    post<T extends any>(url, body: T): Observable<T> {
+    post<T extends any>(url: string, body: T): Observable<T> {
         return this.http.post<T>(this.getEndpoint(url), body, this.getHeaders())
         .pipe(
             map((resp) => resp as T)
         );
     }
 
-    put<T extends any>(url, body: T): Observable<T> {
+    put<T extends any>(url: string, body: T): Observable<T> {
         return this.http.put<T>(this.getEndpoint(url), JSON.stringify(body), this.getHeaders())
         .pipe(
             map((resp) => resp as T)
         );
     }
 
-    patch<T extends any>(url, body: T): Observable<T> {
+    patch<T extends any>(url: string, body: T): Observable<T> {
         return this.http.patch<T>(this.getEndpoint(url), body, this.getHeaders())
         .pipe(
             map((resp) => resp as T)
         );
     }
 
-    delete<T extends any>(url): Observable<T> {
+    delete<T extends any>(url: string): Observable<T> {
         return this.http.delete<T>(this.getEndpoint(url), this.getHeaders(false))
         .pipe(
             map((resp) => resp as T)

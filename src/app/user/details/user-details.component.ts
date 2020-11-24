@@ -19,7 +19,7 @@ export class UserDetailsComponent implements OnInit {
 	user: User = new User();
 	userClone: User = new User();
 	permissions = Permissions;
-	isExternalUser: boolean;
+	isExternalUser!: boolean;
 
 	constructor(
 		private userService: UserService,

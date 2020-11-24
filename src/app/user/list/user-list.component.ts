@@ -22,17 +22,17 @@ import { UserInfoComponent } from '../info/user-info.component';
     styleUrls: ['user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
 
     usersTable: TableData = {
         headerRow: ['name', 'email', 'createdAt', 'role', 'actions'],
         dataRows: [],
     };
-    dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+    dataSource: MatTableDataSource<any> = new MatTableDataSource();
     users: Array<User> = new Array<User>();
     user: User = new User();
-    userType: Role;
+    userType!: Role;
     permissions = Permissions;
 
     constructor(
@@ -118,7 +118,7 @@ export class UserListComponent implements OnInit {
     }
 
     enableOrDisableUser(user: User): void {
-        let state;
+        let state: string;
         if (user.deleted) {
             state = 'Enable';
         } else {
@@ -138,7 +138,7 @@ export class UserListComponent implements OnInit {
         });
     }
 
-    onSearchUsers(searchText) {
+    onSearchUsers(searchText: string) {
         this.dataSource.filter = searchText.trim().toLocaleLowerCase();
     }
 

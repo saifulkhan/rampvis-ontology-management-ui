@@ -18,9 +18,9 @@ import { normalizeTimelineMsg } from './helper/timeline.helper';
 })
 export class TimelineComponent implements OnChanges, AfterViewInit {
     @Input() history: Array<Timeline> = [];
-    @Input() timelineStream: Timeline;
-    @ViewChildren('timeline') timeline: QueryList<any>;
-    @ViewChildren('timelineElement') timelineElement: QueryList<HTMLLIElement>;
+    @Input() timelineStream!: Timeline;
+    @ViewChildren('timeline') timeline!: QueryList<any>;
+    @ViewChildren('timelineElement') timelineElement!: QueryList<HTMLLIElement>;
     public timelineEvents = [];
     public unseenElements = [];
 

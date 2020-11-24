@@ -6,9 +6,13 @@ import { Permissions } from '../../models/permissions';
     selector: '[disableIfUnauthorized]'
 })
 export class DisableIfUnauthorizedDirective implements OnInit {
-    @Input('disableIfUnauthorized') permission: Permissions; // Required permission passed in
+    @Input('disableIfUnauthorized') permission!: Permissions; // Required permission passed in
  
-    constructor(private el: ElementRef, private renderer: Renderer2, private authorizationService: AuthorizationService) { }
+    constructor(
+        private el: ElementRef, 
+        private renderer: Renderer2, 
+        private authorizationService: AuthorizationService
+    ) { }
  
     ngOnInit() {
         if (!this.authorizationService.hasPermission(this.permission)) {

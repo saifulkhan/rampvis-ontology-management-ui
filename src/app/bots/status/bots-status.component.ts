@@ -1,12 +1,13 @@
 import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { from, interval, Observable, of, timer } from 'rxjs';
+import { from, interval, Observable, of, ReplaySubject, timer } from 'rxjs';
 import { flatMap, map, take, tap } from 'rxjs/operators';
 import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
 
 import { BotsService, IBotSettings } from '../../services/bots.service';
 import { SCHEDULER_STATE } from '../../models/scheduler-state.enum';
 import { SettingsModalComponent } from './settings-modal/settings-modal.component';
+import { LogMessage } from '../../models/log-message.model';
 
 @Component({
     selector: 'app-bots-status',
@@ -14,9 +15,9 @@ import { SettingsModalComponent } from './settings-modal/settings-modal.componen
     styleUrls: ['./bots-status.component.scss']
 })
 export class BotsStatusComponent implements OnInit, AfterViewInit {
-    public logStream$;
-    schedulerStatus: SCHEDULER_STATE;
-    settings: IBotSettings;
+    public logStream$!: ReplaySubject<LogMessage>;
+    schedulerStatus!: SCHEDULER_STATE;
+    settings!: IBotSettings;
     displayedColumns: string[] = ['name', 'p1', 'p2', 'p3', 'default', 'threads', 'edit'];
 
     //

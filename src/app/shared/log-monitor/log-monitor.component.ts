@@ -9,14 +9,14 @@ import { normalizeLogMessage } from './helpers/log-message.helper';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogMonitorComponent implements OnChanges, AfterViewInit {
-    @Input() title;
-    @Input() logStream: LogMessage;
+    @Input() title!: string;
+    @Input() logStream!: LogMessage;
     @Input() history: LogMessage[] = [];
     @Input() theme: 'dark' | 'light' = 'dark';
     @Input() icons = true;
     @Input() customClass = 'log-container';
     @Input() animated = true;
-    @ViewChild('container', { static: false }) container: ElementRef;
+    @ViewChild('container', { static: false }) container!: ElementRef;
 
     constructor(private zone: NgZone) {}
 

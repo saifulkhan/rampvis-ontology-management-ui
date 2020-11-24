@@ -3,14 +3,13 @@ import { Deserializable } from '../models/deserializable.model';
 import { NOTIFICATION_TYPE } from './notification-type.enum';
 
 export class Notification implements Deserializable {
-    public message: LogMessage = undefined;
-    public type: NOTIFICATION_TYPE = '' as any;
+    public message!: LogMessage;
+    public type!: NOTIFICATION_TYPE;
 
     deserialize(input: INotification) {
         this.type = input.type;
 
         console.log('Notification: deserialize: type = ', this.type);
-
         // if (this.type === NOTIFICATION_TYPE.MINING_EVENT || 
         //     this.type === NOTIFICATION_TYPE.SCHEDULER_EVENT) {
         //     this.message = { ...JSON.parse(input.message), origin: this.type };

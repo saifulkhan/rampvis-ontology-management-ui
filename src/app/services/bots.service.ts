@@ -19,9 +19,9 @@ export interface IBotSettings {
 export class BotsService {
     private url = environment.components.API_PY + '/scheduler';
 
-    public $log: ReplaySubject<LogMessage> = new ReplaySubject<null>();
-    private logs: LogMessage[] = [];
-    private $logNotificationSubscription: Subscription;
+    public $log: ReplaySubject<LogMessage> = new ReplaySubject<LogMessage>();
+    private logs!: LogMessage[];
+    private $logNotificationSubscription!: Subscription;
 
     private settings: IBotSettings = {
         schedulerIntervals: {

@@ -14,21 +14,21 @@ import { BaseFormComponent } from '../../shared/forms/base-form.component';
     styleUrls: ['./data-edit.component.scss'],
 })
 export class DataEditComponent extends BaseFormComponent implements OnInit {
-    @ViewChild('modalForm') modalForm;
+    @ViewChild('modalForm') modalForm: any;
  
-    formGroup: FormGroup;
+    formGroup!: FormGroup;
     dialogType = ''; // dialogType: edit or new
     data: OntoData;
 
-    public dataTypes = [];
-    public sources = [];
-    public models = [];
-    public analytics = [];
+    public dataTypes: string[] = [];
+    public sources: string[] = [];
+    public models: string[] = [];
+    public analytics: string[] = [];
 
     constructor(
         private fb: FormBuilder,
         public matDialogRef: MatDialogRef<DataEditComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
+        @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService,
     ) {
@@ -38,10 +38,10 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
 
-        this.dataTypes = Object.keys(DATA_TYPE).map((d) => DATA_TYPE[d]);
-        this.sources = Object.keys(SOURCE).map((k) => SOURCE[k]);
-        this.models = Object.keys(MODEL).map((k) => MODEL[k]);
-        this.analytics = Object.keys(ANALYTICS).map((k) => ANALYTICS[k]);
+        this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+        this.sources = (Object.keys(SOURCE) as Array<keyof typeof SOURCE>).map((k) => SOURCE[k]);
+        this.models = (Object.keys(MODEL) as Array<keyof typeof MODEL>).map((k) => MODEL[k]);
+        this.analytics = (Object.keys(ANALYTICS) as Array<keyof typeof ANALYTICS>).map((k) => ANALYTICS[k]);
 
     }
 

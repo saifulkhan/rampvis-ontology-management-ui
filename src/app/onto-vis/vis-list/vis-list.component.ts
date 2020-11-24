@@ -20,17 +20,17 @@ import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
     styleUrls: ['./vis-list.component.scss'],
 })
 export class VisListComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource([]);
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatTable) table!: MatTable<any>;
+    public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['id', 'function', 'type', 'description', 'actions'],
         dataRows: [],
     };
     public visList: OntoVis[] = [];
     spinner = false;
-    public searchTerm: string;
+    public searchTerm!: string;
 
     constructor(
         private ontoVisService: OntoVisService,

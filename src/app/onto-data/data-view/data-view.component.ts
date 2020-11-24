@@ -12,21 +12,18 @@ import { environment } from '../../../environments/environment';
     styleUrls: ['./data-view.component.scss'],
 })
 export class DataViewComponent implements OnInit {
-    @ViewChild('modalForm') modalForm;
+    @ViewChild('modalForm') modalForm: any;
 
     public length$: ReplaySubject<number> = new ReplaySubject<number>(1);
     public jsonData$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-    public column$: ReplaySubject<string[]> = new ReplaySubject<[]>(1);
-
-    dataSource: any;
-    displayedColumns: string[] = [];
+    public column$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
 
     public url = '';
     loading = true;
 
     constructor(
         public matDialogRef: MatDialogRef<DataViewComponent>, 
-        @Inject(MAT_DIALOG_DATA) data,
+        @Inject(MAT_DIALOG_DATA) data: any,
         private api: APIService,
     ) {
         console.log('DataViewComponent: data = ', data);
@@ -36,13 +33,9 @@ export class DataViewComponent implements OnInit {
         this.api.get(this.url).subscribe((res: any) => {
             
             if (res && res.length > 0) {
-                this.dataSource = res.slice(0, 10)
-                this.displayedColumns = Object.keys(res[0]);
-
                 this.jsonData$.next(res.slice(0, 10));
                 this.length$.next(res.length);
-                this.column$.next(Object.keys(res[0]));
-
+                this.column$.next(Object.keys(res[0]) as any);
                 this.loading = false;
             }
         });

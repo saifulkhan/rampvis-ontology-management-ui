@@ -7,10 +7,11 @@ export class BaseFormComponent {
      * restore FormGroup structure from plain object value
      * (for example JSON value from API)
      */
-    protected setFormValues(values: object, group: FormGroup = this.formGroup) {
-        console.log('BaseFormComponent: setControlValueToGroup: name = ', name, ', values = ', values)
+    protected setFormValues(values: any, group: FormGroup = this.formGroup) {
+        // Debug
+        // console.log('BaseFormComponent: setControlValueToGroup: name = ', name, ', values = ', values);
 
-        Object.keys(values).forEach((key) => {
+        Object.keys(values).forEach((key: string) => {
             if (values[key] instanceof Array) {
                 this.setArrayValueToGroup(group, values[key], key);
                 return;
@@ -29,15 +30,19 @@ export class BaseFormComponent {
      * Just patch formControl with value
      */
     private setControlValueToGroup(group: FormGroup, value: any, name: string) {
-        console.log('BaseFormComponent: setControlValueToGroup 1: name = ', name, ', value = ', value)
+        // Debug
+        // console.log('BaseFormComponent: setControlValueToGroup 1: name = ', name, ', value = ', value)
 
         if (!group.contains(name)) {
             group.addControl(name, new FormControl(''));
         }
 
-        console.log('BaseFormComponent: setControlValueToGroup 2: name = ', name, ', value = ', value)
+        // Debug
+        // console.log('BaseFormComponent: setControlValueToGroup 2: name = ', name, ', value = ', value)
 
-        if (value) group.get(name).patchValue(value);
+        if (value) { 
+            group.get(name)?.patchValue(value);
+        }
     }
 
     /**

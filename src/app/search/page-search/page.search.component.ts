@@ -11,8 +11,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     templateUrl: 'page.search.component.html',
 })
 export class TwitterSearchComponent implements OnInit, AfterViewInit {
-    searchQuery: string;
-    filterValue: string;
+    searchQuery!: string;
+    filterValue!: string;
     searchTerm$ = new BehaviorSubject<string>('');
     searchResults: Array<string> = [];
     filteredSearchResults: Array<SafeHtml> = [];
@@ -22,7 +22,11 @@ export class TwitterSearchComponent implements OnInit, AfterViewInit {
     searchTypes: any = SearchService.SEARCH_TYPE;
     searchType: string = this.searchTypes.KEYWORD;
 
-    constructor(private searchService: SearchService, private sanitizer: DomSanitizer, private errorHandler2Service: ErrorHandler2Service) {}
+    constructor(
+        private searchService: SearchService, 
+        private sanitizer: DomSanitizer, 
+        private errorHandler2Service: ErrorHandler2Service,
+    ) {}
 
     ngOnInit() {}
 
@@ -38,7 +42,7 @@ export class TwitterSearchComponent implements OnInit, AfterViewInit {
                         if(this.searchTerm$.value) {
                             tags = this.searchTerm$.value.split(" ");
                         }
-                        const highlight: SafeHtml = this.highlightSearch(r, tags);
+                        const highlight: SafeHtml | null = this.highlightSearch(r, tags);
                         highlight && results.push(highlight);
                     });
                     return of(results);
@@ -79,7 +83,7 @@ export class TwitterSearchComponent implements OnInit, AfterViewInit {
         this.filterValue = "";
     }
 
-    private highlightSearch(text: string, args: Array<string>): SafeHtml {
+    private highlightSearch(text: string, args: Array<string>): SafeHtml | null {
         args = args.filter(arg => arg);
         if (!args || !args.length) {
             return text;
@@ -87,7 +91,7 @@ export class TwitterSearchComponent implements OnInit, AfterViewInit {
         args = args.map(arg => this.escapeRegExp(arg));
         const query: string = args.join('|');
 
-        // Match in a case insensitive maneer
+        // Match in a case insensitive manner
         const re = new RegExp(query, 'gi');
         const match = text.match(re);
 

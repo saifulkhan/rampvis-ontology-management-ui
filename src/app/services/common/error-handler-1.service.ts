@@ -18,10 +18,8 @@ export class ErrorHandler1Service implements ErrorHandler {
     }
 
     public handleError(error: any) {
-        
         //console.log('ErrorHandler1Service: handleError: error = ', error);
-        
-        const errorHandled: string = this.errorHandler2Service.handleError(error);
+        const errorHandled: string | null = this.errorHandler2Service.handleError(error);
 
         if (!errorHandled && (environment.production || environment.staging)) {
             if (!(error instanceof Response)) {

@@ -1,13 +1,10 @@
 import { Component, OnInit, Renderer2, ViewChild, ElementRef, Directive, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart, Event } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 import { ROUTES } from '../sidebar/sidebar.component';
-import { AuthenticationService } from '../../services/authentication.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
-import { filter } from 'rxjs/operators';
 
 const misc: any = {
     navbar_menu_visible: 0,
@@ -23,17 +20,17 @@ declare var $: any;
 })
 export class NavbarComponent implements OnInit {
     alerts: any[] = [];
-    private listTitles: any[];
+    private listTitles!: any[];
     location: Location;
     mobile_menu_visible: any = 0;
     private nativeElement: Node;
     private toggleButton: any;
     private sidebarVisible: boolean;
-    private _router: Subscription;
+    private _router!: Subscription;
 
-    private routerSubscription: Subscription;
-    private currentPath: string;
-    public pathLinks: Array<string>;
+    private routerSubscription!: Subscription;
+    private currentPath!: string;
+    public pathLinks!: Array<string>;
 
     @ViewChild('app-navbar-cmp', { static: false }) button: any;
 
@@ -115,8 +112,8 @@ export class NavbarComponent implements OnInit {
             misc.hide_sidebar_active = true;
         }
         this._router = this.router.events
-            .filter((event) => event instanceof NavigationEnd)
-            .subscribe((event: NavigationEnd) => {
+            .filter((e: Event) => e instanceof NavigationEnd)
+            .subscribe(() => {
                 this.sidebarClose();
                 const $layer = document.getElementsByClassName('close-layer')[0];
                 if ($layer) {
@@ -127,9 +124,9 @@ export class NavbarComponent implements OnInit {
         this.setPath(this.location.prepareExternalUrl(this.location.path()));
 
         this.routerSubscription = this.router.events
-            .pipe(filter((evt) => evt instanceof NavigationEnd))
-            .subscribe((response: NavigationEnd) => {
-            this.setPath(response.url);
+            .pipe(filter((e: Event) => e instanceof NavigationEnd))
+            .subscribe((e: any) => {
+                this.setPath(e.url);
             });
     }
 
@@ -137,7 +134,7 @@ export class NavbarComponent implements OnInit {
         this.routerSubscription.unsubscribe();
     }
 
-    onResize(event) {
+    onResize(event: any) {
         if ($(window).width() > 991) {
             return false;
         }
@@ -165,12 +162,12 @@ export class NavbarComponent implements OnInit {
             document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
         }
 
-        setTimeout(function () {
+        setTimeout(() => {
             $layer.classList.add('visible');
         }, 100);
 
-        $layer.onclick = function () {
-            //asign a function
+        $layer.onclick = () => {
+            //assign a function
             body.classList.remove('nav-open');
             this.mobile_menu_visible = 0;
             this.sidebarVisible = false;
@@ -180,7 +177,7 @@ export class NavbarComponent implements OnInit {
                 $layer.remove();
                 $toggle.classList.remove('toggled');
             }, 400);
-        }.bind(this);
+        };
 
         body.classList.add('nav-open');
         this.mobile_menu_visible = 1;

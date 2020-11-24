@@ -14,12 +14,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     styleUrls: ['./user-info.component.scss'],
 })
 export class UserInfoComponent implements OnInit {
-    @ViewChild('modalForm') modalForm;
-    form: FormGroup;
+    @ViewChild('modalForm') modalForm: any;
+    form!: FormGroup;
 
-    type = ''; // dialog type: edit or new
-    user: User;
-    newPassword: string;
+    type!: string; // dialog type: edit or new
+    user!: User;
+    newPassword!: string;
     roles: Array<string> = [];
 
     constructor(
@@ -32,7 +32,7 @@ export class UserInfoComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.user = this.utils.clone(this.data.user);
+        this.user = this.utils.deepCopy(this.data.user);
         this.type = this.data.assetType;
         this.roles = this.userService.getInternalUserRoles();
         const isEditMode = this.type === 'edit';

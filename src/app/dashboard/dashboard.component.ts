@@ -9,8 +9,6 @@ import { DialogService } from '../services/common/dialog.service';
     styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-    public timelineStream;
-
     constructor(
         private zone: NgZone,
         private matDialog: MatDialog,

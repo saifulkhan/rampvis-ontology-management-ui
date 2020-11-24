@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         username: '',
         password: '',
     };
-    status: string;
-    spinner: boolean;
+    status!: string;
+    spinner: boolean = false;
 
     constructor(
         private element: ElementRef, 
@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     login() {
-        this.status = undefined;
         this.spinner = true;
         this.authService
             .login(this.user.username, this.user.password)

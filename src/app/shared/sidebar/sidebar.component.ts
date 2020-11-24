@@ -92,10 +92,10 @@ export const ROUTES: RouteInfo[] = [
     styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-    public menuItems: any[];
+    public menuItems!: any[];
     ps: any;
     sidebarMini = false;
-    user: User;
+    user!: User;
 
     constructor(private authenticatedUserService: AuthenticationService) {}
 
@@ -111,6 +111,8 @@ export class SidebarComponent implements OnInit {
         this.menuItems = ROUTES.filter((menuItem) => {
             if (!menuItem.roles || (menuItem.roles && menuItem.roles.find((u) => u == this.user.role) != null)) {
                 return menuItem;
+            } else {
+                return undefined;
             }
         });
 

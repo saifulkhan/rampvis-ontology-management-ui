@@ -14,7 +14,7 @@ export class UserService {
 	constructor(private api: APIService) {
 	}
 
-	getUsers(type: Role = null): Observable<Array<User>> {
+	getUsers(type: Role = undefined as any): Observable<Array<User>> {
 		return this.loadUsers().pipe(map(u => {
 			if (type) {
 				return u.filter(f => f.role == type);

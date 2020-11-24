@@ -11,8 +11,8 @@ import { NotificationService } from './notification.service';
 
 @Injectable()
 export class AuthenticationService {
-	private jwtHelperService: JwtHelperService;
-	private user: User;
+	private jwtHelperService: JwtHelperService =  new JwtHelperService();
+	private user!: User;
 	private genericErrorMessage: any;
 
 	constructor(
@@ -21,10 +21,6 @@ export class AuthenticationService {
 		private errorHandler2Service: ErrorHandler2Service,
 		private messagingService: NotificationService,
 	) {
-
-		this.user = null;
-		this.jwtHelperService = new JwtHelperService();
-
 		const errorCode: string = this.utilService.nameOf(() => HTTP_ERROR_CODES.SERVER_EXCEPTION);
 		this.genericErrorMessage = { error: { code: errorCode } };
 	}
@@ -41,7 +37,7 @@ export class AuthenticationService {
 			}
 
 			this.logout();
-			reject();
+			return reject();
 		});
 	}
 
@@ -86,7 +82,7 @@ export class AuthenticationService {
 	logout(): void {
 		this.messagingService.unsubscribe(this.messagingService.getRegistrationToken()).subscribe();
 		this.api.logout();
-		this.user = null;
+		this.user = null as any;
 	}
 
 	private loadUser(reload: boolean = false): Promise<boolean> {

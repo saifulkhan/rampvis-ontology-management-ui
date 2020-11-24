@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import {APIService} from '../services/api.service';
@@ -18,7 +18,7 @@ export class SearchService {
 	}
 
 	queryTweets(type: string, term: string): Observable<Array<string>> {
-		let query: string;
+		let query: string = '';
 
 		if(type == SearchService.SEARCH_TYPE.KEYWORD) {
 			query = `${this.url}/search?keywords=${term}`;

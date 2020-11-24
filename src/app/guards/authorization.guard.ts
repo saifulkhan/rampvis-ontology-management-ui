@@ -29,7 +29,7 @@ export class AuthorizationGuard implements CanActivate, CanActivateChild {
     return this.isAuthenticated(isAuthorized);
   }
 
-  private isAuthenticated(isAuthorized): Promise<boolean> {
+  private isAuthenticated(isAuthorized: boolean): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // console.log('AuthorizationGuard: isAuthenticated: isAuthorized = ', isAuthorized);
 

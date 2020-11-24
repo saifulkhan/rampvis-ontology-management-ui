@@ -20,15 +20,15 @@ import { ErrorHandler2Service } from '../../services/common/error-handler-2.serv
     templateUrl: 'activities.list.component.html'
 })
 export class ActivitiesListComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<any>;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatTable) table!: MatTable<any>;
 
     public dataTable: TableData = {
         headerRow: ['name', 'role', 'type', 'action', 'createdAt'],
         dataRows: [],
     };
-    dataSource: MatTableDataSource<Activity> = new MatTableDataSource([]);
+    dataSource: MatTableDataSource<Activity> = new MatTableDataSource();
     isLoadingResults = true;
     resultsLength = 0;
     searchTerm$ = new BehaviorSubject<string>('');

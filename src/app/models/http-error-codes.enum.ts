@@ -1,4 +1,4 @@
-export const HTTP_ERROR_CODES = {
+export const HTTP_ERROR_CODES: { [key: string]: string } = {
     USER_PASSWORD_NOT_MATCH: 'User name and password do not match',
     WRONG_CREDENTIALS: 'Wrong credential',
     AUTHENTICATION_TOKEN_MISSING: 'Authentication error',
@@ -8,7 +8,7 @@ export const HTTP_ERROR_CODES = {
     REDUNDANT_UPDATE: 'Redundant update',
     USER_NOT_FOUND: 'User not found',
     USER_EMAIL_ALREADY_EXISTS: 'User/email already exists',
-        
+
     SERVER_EXCEPTION: 'Server error',
     INVALID_QUERY_PARAMETERS: 'Invalid query parameters',
 
@@ -19,5 +19,4 @@ export const HTTP_ERROR_CODES = {
 
     SOURCE_ID_DOES_NOT_EXIST: 'Source id does not exit',
     MINING_ID_DOES_NOT_EXIST: 'Mining id does not exit',
-    
-}
+};

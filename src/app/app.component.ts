@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, Event } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { filter } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-    private _router: Subscription;
+    private _router!: Subscription;
 
     constructor(private router: Router) {}
 
@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
         console.log('AppComponent: ngOnInit:');
 
         this._router = this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe((event: NavigationEnd) => {
+            .pipe(filter((event: Event) => event instanceof NavigationEnd))
+            .subscribe((event: any) => {
                 const body = document.getElementsByTagName('body')[0];
                 const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
                 if (body.classList.contains('modal-open')) {

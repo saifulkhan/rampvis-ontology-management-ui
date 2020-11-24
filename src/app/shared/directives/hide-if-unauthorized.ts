@@ -6,7 +6,7 @@ import { Permissions } from '../../models/permissions';
     selector: '[hideIfUnauthorized]'
 })
 export class HideIfUnauthorizedDirective implements OnInit {
-    @Input('hideIfUnauthorized') permission: Permissions; // Required permission passed in
+    @Input('hideIfUnauthorized') permission!: Permissions; // Required permission passed in
  
     constructor(private el: ElementRef, private authorizationService: AuthorizationService) { }
  

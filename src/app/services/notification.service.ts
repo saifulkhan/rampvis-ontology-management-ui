@@ -8,14 +8,14 @@ import { NOTIFICATION_TOPIC } from '../models/notification-topic.enum';
 
 @Injectable()
 export class NotificationService {
-    private registrationToken: string;
+    private registrationToken!: string;
     private url = '/notification';
 
     $notificationSubject: Subject<any> = new Subject<any>();
 
     constructor(
-        private angularFireMessaging: AngularFireMessaging, 
-        private api: APIService,
+        private angularFireMessaging: AngularFireMessaging,
+        private api: APIService
     ) {
         this.angularFireMessaging.messages.subscribe((message) => {
             console.log('NotificationService: message: ', message);
@@ -29,23 +29,26 @@ export class NotificationService {
     register() {
         this.angularFireMessaging.requestToken.subscribe(
             (token) => {
-                this.registrationToken = token;
-                console.log('NotificationService: register: registrationToken = ', this.registrationToken);
+                this.registrationToken = token as string;
+                console.log('NotificationService: register: registrationToken = ', this.registrationToken );
                 this.subscribe(this.registrationToken);
             },
             (err) => {
-                console.error('NotificationService: register: Unable to get permission to notify. err = ', err);
-            },
+                console.error('NotificationService: register: Unable to get permission to notify. err = ', err );
+            }
         );
     }
 
     subscribe(registrationToken: string): Observable<any> {
         // TODO not a best way
 
-        const promise: Observable<any> = this.api.post<any>(`${this.url}/subscribe`, {
-            registrationToken,
-            topics: [NOTIFICATION_TOPIC.FACEBOOK, NOTIFICATION_TOPIC.LOG],
-        });
+        const promise: Observable<any> = this.api.post<any>(
+            `${this.url}/subscribe`,
+            {
+                registrationToken,
+                topics: [NOTIFICATION_TOPIC.FACEBOOK, NOTIFICATION_TOPIC.LOG],
+            }
+        );
         promise.subscribe(
             () => {
                 // console.log('NotificationService: subscribe: success');
@@ -54,7 +57,7 @@ export class NotificationService {
             (err) => {
                 console.log('NotificationService: subscribe: error =  ', err);
                 this.unsubscribe(registrationToken);
-            },
+            }
         );
 
         return promise;
@@ -66,18 +69,21 @@ export class NotificationService {
         }
 
         // TODO not a best way
-        const promise: Observable<any> = this.api.post<any>(`${this.url}/unsubscribe`, {
-            registrationToken,
-            topics: [NOTIFICATION_TOPIC.FACEBOOK, NOTIFICATION_TOPIC.LOG],
-        });
+        const promise: Observable<any> = this.api.post<any>(
+            `${this.url}/unsubscribe`,
+            {
+                registrationToken,
+                topics: [NOTIFICATION_TOPIC.FACEBOOK, NOTIFICATION_TOPIC.LOG],
+            }
+        );
         promise.subscribe(
             () => {
-                this.registrationToken = null;
+                this.registrationToken = null as any;
             },
             (err) => {
-                this.registrationToken = null;
+                this.registrationToken = null as any;
                 console.log('NotificationService: unsubscribe: error =  ', err);
-            },
+            }
         );
 
         return promise;
@@ -93,9 +99,9 @@ export class NotificationService {
 
     private receiveMessage() {
         this.angularFireMessaging.messages.subscribe((payload: any) => {
-            const notificationData: any = new Notification().deserialize(payload.data);
-            console.log('NotificationService: receiveMessage: payload = ', payload);
-            console.log('NotificationService: receiveMessage: notification = ', notificationData);
+            const notificationData: any = new Notification().deserialize( payload.data );
+            console.log( 'NotificationService: receiveMessage: payload = ', payload );
+            console.log( 'NotificationService: receiveMessage: notification = ', notificationData );
 
             this.$notificationSubject.next(notificationData);
         });

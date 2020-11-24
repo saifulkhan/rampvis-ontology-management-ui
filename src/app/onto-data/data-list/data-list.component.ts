@@ -20,17 +20,17 @@ import { DataViewComponent } from '../data-view/data-view.component';
     styleUrls: ['./data-list.component.scss'],
 })
 export class DataListComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource([]);
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatTable) table!: MatTable<any>;
+    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['id', 'urlCode', 'endpoint', 'dataType', 'metadata', 'description', 'queryParams', 'actions'],
         dataRows: [],
     };
     public dataList: OntoData[] = [];
     spinner = false;
-    public searchTerm: string;
+    public searchTerm!: string;
 
     constructor(
         private ontologyService: OntoDataService,

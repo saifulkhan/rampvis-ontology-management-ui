@@ -13,7 +13,7 @@ import { OntoDataService } from '../../services/ontology/onto-data.service';
     styleUrls: ['./queryparam2-edit.component.scss'],
 })
 export class Queryparam2EditComponent extends BaseNestedform {
-    parentDataId: string;
+    parentDataId!: string;
 
     public queryList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
     public paramsList: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
@@ -37,13 +37,10 @@ export class Queryparam2EditComponent extends BaseNestedform {
         this.ontoDataService.getData(this.parentDataId).subscribe((res: OntoData) => {
             if (res) {
                 let q = res.queryParams.map((d: QueryParams) => d.query);
-                let p = [].concat.apply(
-                    [],
-                    res.queryParams.map((d: QueryParams) => d.params),
-                );
+                let p = [].concat.apply([], res.queryParams.map((d: any) => d.params)); // TODO type check string / string[]
+
                 this.queryList.next(q.slice());
                 this.paramsList.next(p.slice());
-
                 console.log('Queryparam2EditComponent: loadQueryParams: ', this.queryList, this.paramsList);
             }
         });

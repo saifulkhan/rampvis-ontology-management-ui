@@ -14,20 +14,20 @@ import { OntoPage, PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
     styleUrls: ['./page-edit.component.scss'],
 })
 export class PageEditComponent extends BaseFormComponent implements OnInit {
-    @ViewChild('modalForm') modalForm;
-    formGroup: FormGroup;
+    @ViewChild('modalForm') modalForm!: any;
+    formGroup!: FormGroup;
     dialogType = ''; // dialog type: edit or new
     data: OntoPage;
 
-    public sources = [];
-    public models = [];
-    public analytics = [];
-    public publishTypes = [];
+    public sources: string[] = [];
+    public models: string [] = [];
+    public analytics: string[] = [];
+    public publishTypes: string[] = [];
 
     constructor(
         private fb: FormBuilder,
         public matDialogRef: MatDialogRef<PageEditComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
+        @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService,
     ) {
@@ -36,10 +36,10 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         console.log('PageEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
-        this.sources = Object.keys(SOURCE).map((k) => SOURCE[k]);
-        this.models = Object.keys(MODEL).map((k) => MODEL[k]);
-        this.analytics = Object.keys(ANALYTICS).map((k) => ANALYTICS[k]);
-        this.publishTypes = Object.keys(PUBLISH_TYPE).map((k) => PUBLISH_TYPE[k]);
+        this.sources = (Object.keys(SOURCE) as Array<keyof typeof SOURCE>).map((k) => SOURCE[k]);
+        this.models = (Object.keys(MODEL)  as Array<keyof typeof MODEL>).map((k) => MODEL[k]);
+        this.analytics = (Object.keys(ANALYTICS) as Array<keyof typeof ANALYTICS>).map((k) => ANALYTICS[k]);
+        this.publishTypes = (Object.keys(PUBLISH_TYPE) as Array<keyof typeof PUBLISH_TYPE>).map((k) => PUBLISH_TYPE[k]);
     }
 
     ngOnInit(): void {
