@@ -8,8 +8,14 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select formControlName="type" placeholder="Select type">
-        <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+      <mat-select formControlName="type" placeholder="Select VIS type">
+        <mat-option *ngFor="let type of visTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select formControlName="dataTypes" placeholder="Select data types" multiple>
+        <mat-option *ngFor="let type of dataTypesAll" [value]="type">{{ type }}</mat-option>
       </mat-select>
     </mat-form-field>
 

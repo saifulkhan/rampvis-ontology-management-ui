@@ -68,7 +68,11 @@
 
                 <ng-container matColumnDef="dataType">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Data Type</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.dataType }}</td>
+                  <td *matCellDef="let row" mat-cell>
+                    <mat-chip-list>
+                      <mat-chip *ngIf="row.dataType">{{row.dataType}}</mat-chip>
+                    </mat-chip-list>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="metadata">
@@ -91,7 +95,7 @@
                   <th *matHeaderCellDef mat-header-cell>Query</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
-                      <mat-chip *ngFor="let d of row.queryParams" >
+                      <mat-chip *ngFor="let d of row.queryParams">
                         {{ d.query }}
                       </mat-chip>
                     </mat-chip-list>

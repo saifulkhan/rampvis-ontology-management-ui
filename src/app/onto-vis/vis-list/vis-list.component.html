@@ -63,7 +63,22 @@
 
                 <ng-container matColumnDef="type">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.type }}</td>
+                  <td *matCellDef="let row" mat-cell>
+                    <mat-chip-list>
+                      <mat-chip *ngIf="row.type ">{{ row.type  }}</mat-chip>
+                    </mat-chip-list>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dataTypes">
+                  <th *matHeaderCellDef mat-header-cell>Data Types</th>
+                  <td *matCellDef="let row" mat-cell>
+                    <mat-chip-list>
+                      <mat-chip *ngFor="let d of row.dataTypes" >
+                        {{ d }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="description">

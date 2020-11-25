@@ -25,7 +25,7 @@ export class VisListComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['id', 'function', 'type', 'description', 'actions'],
+        headerRow: ['id', 'function', 'type', 'dataTypes', 'description', 'actions'],
         dataRows: [],
     };
     public visList: OntoVis[] = [];

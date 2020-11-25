@@ -6,6 +6,7 @@ import { LocalNotificationService } from 'src/app/services/common/local-notifica
 import { UtilService } from '../../services/util.service';
 import { OntoVis } from '../../models/ontology/onto-vis.model';
 import { VIS_TYPE } from '../../models/ontology/onto-vis-type.enum';
+import { DATA_TYPE } from 'src/app/models/ontology/onto-data-types';
 
 @Component({
     selector: 'app-vis-edit',
@@ -15,9 +16,10 @@ import { VIS_TYPE } from '../../models/ontology/onto-vis-type.enum';
 export class VisEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;
     form: FormGroup;
-    dialogType = ''; // dialog type: edit or new
+    dialogType: string; // dialog type: edit or new
     vis: OntoVis;
-    public types: string[] = [];
+    public visTypes: string[];
+    public dataTypesAll: string[];
 
     constructor(
         private fb: FormBuilder,
@@ -29,11 +31,13 @@ export class VisEditComponent implements OnInit {
         console.log('VisEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.vis = { ...data.vis };
-        this.types = (Object.keys(VIS_TYPE) as Array<keyof typeof VIS_TYPE>).map((k) => VIS_TYPE[k]);
+        this.visTypes = (Object.keys(VIS_TYPE) as Array<keyof typeof VIS_TYPE>).map((k) => VIS_TYPE[k]);
+        this.dataTypesAll = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((k) => DATA_TYPE[k]);
 
         this.form = this.fb.group({
             function: [this.vis.function, Validators.required],
             type: [this.vis.type, Validators.required],
+            dataTypes: [this.vis.dataTypes, Validators.required],
             description: [this.vis.description, Validators.required],
         });
     }
