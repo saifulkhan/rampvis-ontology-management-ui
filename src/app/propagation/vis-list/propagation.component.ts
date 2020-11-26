@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TableData } from '../../models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
@@ -31,16 +31,26 @@ export class PropagationComponent implements OnInit {
     spinner = false;
     public searchTerm!: string;
 
+    filterPublishType$ = new BehaviorSubject<string>('');
+
     constructor(
+        private route: ActivatedRoute,
         private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
-    ) {}
+    ) {
+       
+    }
 
     ngOnInit(): void {
+        this.route.params.subscribe((params) => {
+            console.log('PropagationComponent: ngOnInit: route releaseType = ', this.route.snapshot.params.releaseType);
+            this.filterPublishType$.next(this.route.snapshot.params.releaseType);
+        });
+
         console.log('VisListComponent: ngOnInit:');
-        this.loadVisList();
+        // this.loadVisList();
     }
 
     ngAfterViewInit(): void {

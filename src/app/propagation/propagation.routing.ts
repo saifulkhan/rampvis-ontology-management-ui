@@ -6,8 +6,8 @@ export const PropagationRoutes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: PageListComponent },
-      { path: ':releaseType', component: PageListComponent },
+      { path: '', component: PropagationComponent },
+      { path: ':releaseType', component: PropagationComponent },
     ]
   }
 ];
