@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.enum';
 import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
+import { PROPAGATION_TYPE } from '../../models/ontology/propagation-type.enum';
 
 declare const $: any;
 
@@ -42,6 +43,18 @@ export const ROUTES: RouteInfo[] = [
         icontype: 'storage',
         roles: [Role.ADMIN],
     },
+    {
+        path: '/propagation',
+        title: 'Propagation',
+        type: 'sub',
+        icontype: 'nat',
+        roles: [Role.ADMIN],
+        collapse: 'propagation',
+        children: [
+            { path: `${PROPAGATION_TYPE.ONE_TO_ONE}`, title: '1-1 Propagation', ab: '1-1' },
+            { path: `${PROPAGATION_TYPE.ONE_TO_N}`, title: '1-N Propagation', ab: '1-N' },
+        ],
+    },  
     {
         path: '/page',
         title: 'Pages',

@@ -1,8 +1,10 @@
 <p mat-dialog-title>Data Stream</p>
 
 <mat-dialog-content>
-	<h4> Endpoint:</h4>
-	<a href="{{ url }}" target="_blank">	<mat-icon>link</mat-icon></a> 
+	<h4>
+		Endpoint: <a href="{{ url }}" target="_blank"><mat-icon>link</mat-icon></a> 
+	</h4>
+	
 	<hr />
 
 	<div *ngIf="loading else loaded">
@@ -11,7 +13,7 @@
 
 	<ng-template	ng-template #loaded>
 		<h4> Length: {{ length$ | async }} </h4>
-		<h4> Data (first few rows): </h4>
+		<h4> Data (first 10 rows): </h4>
 	
 		<table id="data-view-table">
 			<tr>

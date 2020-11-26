@@ -23,6 +23,11 @@ export const PrivateLayoutRoutes: Routes = [
 				loadChildren: () => import('../../onto-data/onto-data.module').then(m => m.OntoDataModule)
 			},
 			{
+				path: 'propagation',
+				data: { allowedRoles: [Role.ADMIN] },
+				loadChildren: () => import('../../propagation/propagation.module').then(m => m.PropagationModule)
+			},
+			{
 				path: 'page',
 				data: { allowedRoles: [Role.ADMIN] },
 				loadChildren: () => import('../../onto-page/onto-page.module').then(m => m.OntologyModule)
