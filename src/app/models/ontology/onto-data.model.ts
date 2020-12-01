@@ -1,5 +1,5 @@
 import { Deserializable } from 'src/app/models/deserializable.model';
-import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
+import { ANALYTICS, DATA_TYPE, MODEL, SOURCE, } from '../../models/ontology/onto-data-types';
 
 export class QueryParams implements Deserializable {
     query!: string;
@@ -19,7 +19,9 @@ export class OntoData implements Deserializable {
     public source!: SOURCE;
     public model!: MODEL;
     public analytics!: ANALYTICS;
-    public description!: string;
+    public productDesc!: string;
+    public streamDesc!: string;
+    public date!: Date;
     public queryParams!: QueryParams[];
 
     deserialize(input: any) {

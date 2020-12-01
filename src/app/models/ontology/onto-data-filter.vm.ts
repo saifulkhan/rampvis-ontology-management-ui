@@ -1,12 +1,12 @@
 import { Deserializable } from '../deserializable.model';
-import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
+import { DATA_TYPE } from './onto-data-types';
 
-export class OntoPageFilterVm implements Deserializable {
+export class OntoDataFilterVm implements Deserializable {
     public page!: number;
     public pageCount!: number;
     public sortBy!: string;
     public sortOrder!: string;
-    public publishType!: PUBLISH_TYPE;
+    public dataType!: DATA_TYPE;
     public filter!: string;
 
     deserialize(input: any) {

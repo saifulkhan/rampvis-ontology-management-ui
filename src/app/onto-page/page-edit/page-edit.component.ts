@@ -16,12 +16,8 @@ import { OntoPage, PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
 export class PageEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;
     formGroup!: FormGroup;
-    dialogType = ''; // dialog type: edit or new
+    dialogType: string; // dialog type: edit or new
     data: OntoPage;
-
-    public sources: string[] = [];
-    public models: string [] = [];
-    public analytics: string[] = [];
     public publishTypes: string[] = [];
 
     constructor(
@@ -36,18 +32,14 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         console.log('PageEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
-        this.sources = (Object.keys(SOURCE) as Array<keyof typeof SOURCE>).map((k) => SOURCE[k]);
-        this.models = (Object.keys(MODEL)  as Array<keyof typeof MODEL>).map((k) => MODEL[k]);
-        this.analytics = (Object.keys(ANALYTICS) as Array<keyof typeof ANALYTICS>).map((k) => ANALYTICS[k]);
         this.publishTypes = (Object.keys(PUBLISH_TYPE) as Array<keyof typeof PUBLISH_TYPE>).map((k) => PUBLISH_TYPE[k]);
     }
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
-            title: new FormControl('', [Validators.required]),
-            nrows: new FormControl(null, [Validators.required, Validators.min(1)]),
-            bindVis: new FormArray([]),
             publishType: new FormControl('', [Validators.required]),
+            nrows: new FormControl(null, [Validators.required, Validators.min(1)]),
+            bindings: new FormArray([]),
         });
 
         console.log('PageEditComponent: data = ', this.data);
@@ -58,8 +50,8 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
     onClickBindVis() {
         // console.log('onClickBindVis: ', this.formGroup.get('bindVis'));
         // console.log('onClickBindVis: ', this.formGroup.controls['bindVis'].value);
-        const bindVis = this.formGroup.get('bindVis') as FormArray;
-        bindVis.push(new FormGroup({}));
+        const bindings = this.formGroup.get('bindings') as FormArray;
+        bindings.push(new FormGroup({}));
         // console.log('onClickBindVis: value = ', bindVis);
     }
 

@@ -22,11 +22,11 @@
             <div class="toolbar">
               <mat-form-field class="pull-left mt-1 col-md-4">
                 <input 
-                  (keyup)="filterDataSource()" 
-                  [(ngModel)]="searchTerm" 
+                [(ngModel)]="selectedFilter"
+                (keyup)="searchTerm$.next(selectedFilter);"
                   matInput 
                   name="search" 
-                  placeholder="Filter..." 
+                  placeholder="Filter by data product or stream..." 
                   type="text" 
                 />
               </mat-form-field> 
@@ -37,7 +37,7 @@
                 [dataSource]="tableDataSource" 
                 mat-table 
                 matSort 
-                matSortActive="created" 
+                matSortActive="date" 
                 matSortDirection="desc" 
                 matSortDisableClear="true"
               >
@@ -57,17 +57,22 @@
                 </ng-container>
 
                 <ng-container matColumnDef="urlCode">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>URL Code</th>
+                  <th *matHeaderCellDef mat-header-cell>URL Code</th>
                   <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="endpoint">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Endpoint</th>
+                  <th *matHeaderCellDef mat-header-cell>Endpoint</th>
                   <td *matCellDef="let row" mat-cell>{{ row.endpoint | truncate: '75' }}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="date">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.date | date: 'short' }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="dataType">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Data Type</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
                   <td *matCellDef="let row" mat-cell>
                     <mat-chip-list>
                       <mat-chip *ngIf="row.dataType">{{row.dataType}}</mat-chip>
@@ -86,9 +91,14 @@
                 </td>
                 </ng-container>
 
-                <ng-container matColumnDef="description">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.description | truncate: '50'  }}</td>
+                <ng-container matColumnDef="productDesc">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Product</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.productDesc | truncate: '50'  }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="streamDesc">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Stream</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.streamDesc | truncate: '50'  }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">
@@ -141,7 +151,7 @@
               </mat-progress-spinner>
               </div>
               <mat-paginator 
-                [length]="dataList.length" 
+                [length]="dataListLength" 
                 [pageSizeOptions]="[50, 100, 150, 200]" 
                 [pageSize]="50" 
                 showFirstLastButtons

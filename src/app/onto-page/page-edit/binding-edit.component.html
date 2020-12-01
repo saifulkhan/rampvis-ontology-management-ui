@@ -13,20 +13,37 @@
   <div class="card-body">
 
     <mat-form-field>
-      <mat-select formControlName="visId" placeholder="Vis ID" #singleSelect>
+      <mat-select formControlName="visId" placeholder="VIS" #singleSelect>
         <mat-option>
           <ngx-mat-select-search 
             [formControl]="visIdFilterCtrl"
-            placeholderLabel="Find vis functions..." 
+            placeholderLabel="Find VIS functions..." 
             noEntriesFoundLabel="No matching vis function found"
           ></ngx-mat-select-search>
         </mat-option>
-
-        <mat-option *ngFor="let d of filteredVisId | async" [value]="d.id">{{ d.function }}</mat-option>
+        <mat-option *ngFor="let d of filteredVisId | async" [value]="d.id">
+          {{ d.function }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
     
-    <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
+    <mat-form-field>
+      <mat-select formControlName="dataIds" placeholder="Data" [multiple]="true" #multiSelect>
+        <mat-option>
+          <ngx-mat-select-search 
+              [formControl]="dataIdFilterCtrl"
+              placeholderLabel="Find data streams..." 
+              noEntriesFoundLabel="No data stream found"
+            ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let d of filteredDataIds | async" [value]="d.id">
+          {{d.urlCode}}{{d.endpoint}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    
+    <!-- <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
       <div *ngFor="let d of formGroup.controls['bindData']['controls']; let i = index">
         <app-binddata-edit [formGroup]="d"></app-binddata-edit>
       </div>
@@ -41,7 +58,7 @@
       type="button"
     >
       <mat-icon>add_circle</mat-icon>
-    </button>
+    </button> -->
     
   </div>
 </div>

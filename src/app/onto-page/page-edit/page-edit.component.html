@@ -4,11 +4,6 @@
   <form [formGroup]="formGroup" #modalForm>
 
     <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input formControlName="title" matInput />
-    </mat-form-field>
-
-    <mat-form-field>
       <mat-label>Num. of rows (layout)</mat-label>
       <input formControlName="nrows" matInput type="number"/>
     </mat-form-field>
@@ -21,9 +16,9 @@
   
     <hr>
 
-    <ng-container *ngIf="formGroup.controls['bindVis'] && formGroup.controls['bindVis']['controls']">
-      <div *ngFor="let d of formGroup.controls['bindVis']['controls']; let i = index">
-        <app-bindvis-edit [formGroup]="d"></app-bindvis-edit>
+    <ng-container *ngIf="formGroup.controls['bindings'] && formGroup.controls['bindings']['controls']">
+      <div *ngFor="let d of formGroup.controls['bindings']['controls']; let i = index">
+        <app-binding-edit [formGroup]="d"></app-binding-edit>
       </div>
     </ng-container>
 

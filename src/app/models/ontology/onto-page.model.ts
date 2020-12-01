@@ -7,19 +7,9 @@ export enum PUBLISH_TYPE {
     RELEASE = 'release',
 }
 
-export class BindData implements Deserializable {
-    public dataId!: string;
-    public queryParams!: QueryParams[];
-
-    deserialize(input: any) {
-        Object.assign(this, input);
-        return this;
-    }
-}
-
-export class BindVis implements Deserializable {
+export class Binding implements Deserializable {
     visId!: string;
-    bindData!: BindData[];
+    dataIds!: string[];
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -29,10 +19,9 @@ export class BindVis implements Deserializable {
 
 export class OntoPage implements Deserializable {
     public id!: string;
-    public title!: string;
-    public bindVis!: BindVis[];
-    public nrows!: number;
     public publishType!: PUBLISH_TYPE;
+    public nrows!: number;
+    public bindings!: Binding[];
 
     deserialize(input: any) {
         Object.assign(this, input);

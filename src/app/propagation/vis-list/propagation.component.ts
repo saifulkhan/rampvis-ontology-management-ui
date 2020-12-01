@@ -6,12 +6,14 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TableData } from '../../models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 
-import { mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntoVis } from '../../models/ontology/onto-vis.model';
 import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
+import { OntoDataService } from 'src/app/services/ontology/onto-data.service';
 
 @Component({
     selector: 'app-propagation',
@@ -33,13 +35,28 @@ export class PropagationComponent implements OnInit {
 
     filterPublishType$ = new BehaviorSubject<string>('');
 
+
+    searchForm: FormControl = new FormControl();
+    searchResult: any = [];
+
+
+
     constructor(
         private route: ActivatedRoute,
         private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
+        private _formBuilder: FormBuilder,
+        private ontoDataService: OntoDataService,
+
     ) {
+        this.searchForm.valueChanges
+        .subscribe(data => {
+            this.ontoDataService.searchData(data).subscribe(response =>{
+                this.searchResult = response
+            })
+        })
        
     }
 
@@ -51,12 +68,17 @@ export class PropagationComponent implements OnInit {
 
         console.log('VisListComponent: ngOnInit:');
         // this.loadVisList();
+
+       
     }
 
     ngAfterViewInit(): void {
         this.tableDataSource.paginator = this.paginator;
         this.tableDataSource.sort = this.sort;
     }
+
+
+ 
 
     public filterDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();

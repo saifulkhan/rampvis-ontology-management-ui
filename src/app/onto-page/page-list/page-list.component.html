@@ -29,7 +29,7 @@
                       (keyup)="searchTerm$.next(selectedFilter);"
                       matInput 
                       name="search" 
-                      placeholder="Filter..." 
+                      placeholder="Filter by ID..." 
                       type="text" 
                     />
                   </mat-form-field>
@@ -72,7 +72,7 @@
                   <th *matHeaderCellDef mat-header-cell>Copy ID</th>
                   <td *matCellDef="let row" mat-cell>
                     <button 
-                      cdkCopyToClipboard="{{ row.id }}"
+                      cdkCopyToClipboard="{{row.id}}"
                       [matTooltipPosition]="'left'" 
                       class="btn btn-light btn-link" 
                       mat-icon-button matTooltip="Copy to clipboard" 
@@ -80,17 +80,13 @@
                     >
                       <mat-icon>content_copy</mat-icon>
                     </button>
+                    {{row.id}}
                   </td>
                 </ng-container>
                 
-                <ng-container matColumnDef="title">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.title }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="bindVis">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>No. binding</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.bindVis.length }}</td>
+                <ng-container matColumnDef="bindings">
+                  <th *matHeaderCellDef mat-header-cell>No. binding</th>
+                  <td *matCellDef="let row" mat-cell>{{ row.bindings.length }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">

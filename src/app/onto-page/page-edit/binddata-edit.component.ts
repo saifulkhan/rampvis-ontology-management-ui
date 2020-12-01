@@ -36,9 +36,9 @@ export class BindDataEditComponent extends BaseNestedform {
     }
 
     private loadDataList() {
-        this.ontoDataService.getAllData().subscribe((res: OntoData[]) => {
+        this.ontoDataService.getAllData1().subscribe((res: any) => {
             if (res) {
-                this.ontoDataList = res;
+                this.ontoDataList = res.date;
                 // console.log('BindDataEditComponent: loadDataList: dataIds = ', this.ontoDataList);
 
                 // load the initial dataIds list

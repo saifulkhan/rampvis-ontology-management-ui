@@ -53,7 +53,8 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             source: new FormControl(),
             model: new FormControl(),
             analytics: new FormControl(),
-            description: new FormControl('', [Validators.required]),
+            productDesc: new FormControl('', [Validators.required]),
+            streamDesc: new FormControl('', [Validators.required]),
             queryParams: new FormArray([]),
         });
 
