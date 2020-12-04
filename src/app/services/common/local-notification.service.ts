@@ -1,6 +1,7 @@
 import {Injectable, Inject} from '@angular/core';
 import { PRIMARY_OUTLET } from '@angular/router';
-import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+
+import { TruncatePipe } from '../../pipes/truncate.pipe';
 import {JQ_TOKEN} from './jQuery.service';
 
 declare var $: any;

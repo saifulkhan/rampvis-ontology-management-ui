@@ -7,7 +7,7 @@ import { MaterialModule } from '../material.module';
 import { BotsRoutes } from './bots.routing';
 import { BotsStatusComponent } from './status/bots-status.component';
 import { BotsService } from '../services/bots.service';
-import { LogMonitorModule } from '../shared/log-monitor/log-monitor.module';
+import { LogMonitorModule } from '../components/log-monitor/log-monitor.module';
 import { SettingsModalComponent } from './status/settings-modal/settings-modal.component';
 
 @NgModule({

@@ -7,13 +7,13 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxJsonViewModule } from 'ng-json-view';
 
 import { OntoDataRoutes } from './onto-data.routing';
-import { DirectivesModule } from '../shared/directives/directives.module';
+import { DirectivesModule } from '../directives/directives.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DataEditComponent } from './data-edit/data-edit.component';
 import { DataListComponent } from './data-list/data-list.component';
 import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
-import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
+import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { DataViewComponent } from './data-view/data-view.component';
 
 @NgModule({

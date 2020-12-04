@@ -7,7 +7,7 @@ import { PrivateLayoutRoutes } from './private-layout.routing';
 import { SidebarModule } from '../../shared/sidebar/sidebar.module';
 import { FooterModule } from '../../shared/footer/footer.module';
 import { NavbarModule } from '../../shared/navbar/navbar.module';
-import { DirectivesModule } from '../../shared/directives/directives.module';
+import { DirectivesModule } from '../../directives/directives.module';
 import { FixedpluginModule } from '../../shared/fixedplugin/fixedplugin.module';
 
 @NgModule({

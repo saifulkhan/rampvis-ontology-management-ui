@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { OntologyRoutes } from './onto-page.routing';
-import { DirectivesModule } from '../shared/directives/directives.module';
+import { DirectivesModule } from '../directives/directives.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { OntoPageService } from '../services/ontology/onto-page.service';
 import { PageListComponent } from './page-list/page-list.component';
@@ -14,7 +14,7 @@ import { PageEditComponent } from './page-edit/page-edit.component';
 import { BindingEditComponent } from './page-edit/binding-edit.component';
 import { BindDataEditComponent } from './page-edit/binddata-edit.component';
 import { Queryparam2EditComponent } from './page-edit/queryparam2-edit.component';
-import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
+import { CustomPipesModule } from '../pipes/custom-pipes.module';
 
 @NgModule({
     declarations: [

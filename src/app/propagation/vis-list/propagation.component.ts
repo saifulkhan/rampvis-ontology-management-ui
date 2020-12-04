@@ -12,8 +12,10 @@ import { map, mergeMap, startWith } from 'rxjs/operators';
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntoVis } from '../../models/ontology/onto-vis.model';
-import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
-import { OntoDataService } from 'src/app/services/ontology/onto-data.service';
+import { OntoVisService } from '../../services/ontology/onto-vis.service';
+import { OntoDataService } from '../../services/ontology/onto-data.service';
+import { DATA_TYPE } from '../../models/ontology/onto-data-types';
+import { OntoDataSearch } from '../../models/ontology/onto-data.model';
 
 @Component({
     selector: 'app-propagation',
@@ -26,7 +28,14 @@ export class PropagationComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['id', 'function', 'type', 'dataTypes', 'description', 'actions'],
+        headerRow: [
+            'id',
+            'function',
+            'type',
+            'dataTypes',
+            'description',
+            'actions',
+        ],
         dataRows: [],
     };
     public visList: OntoVis[] = [];
@@ -35,11 +44,13 @@ export class PropagationComponent implements OnInit {
 
     filterPublishType$ = new BehaviorSubject<string>('');
 
-
     searchForm: FormControl = new FormControl();
-    searchResult: any = [];
-
-
+    dataTypes: string[] = [];
+    dataType!: DATA_TYPE;
+    searchQuery!: string;
+    suggestedList: OntoDataSearch[] = [];
+    searchResults: any = [];
+    toHighlight: string = '';
 
     constructor(
         private route: ActivatedRoute,
@@ -48,28 +59,32 @@ export class PropagationComponent implements OnInit {
         private localNotificationService: LocalNotificationService,
         private dialogService: DialogService,
         private _formBuilder: FormBuilder,
-        private ontoDataService: OntoDataService,
-
+        private ontoDataService: OntoDataService
     ) {
-        this.searchForm.valueChanges
-        .subscribe(data => {
-            this.ontoDataService.searchData(data).subscribe(response =>{
-                this.searchResult = response
-            })
-        })
-       
+        this.dataTypes = (Object.keys(DATA_TYPE) as Array< keyof typeof DATA_TYPE >).map((d) => DATA_TYPE[d]);
+
+        this.searchForm.valueChanges.subscribe((query) => {
+            if (!query || query === ' ') { 
+                return;
+            }
+
+            this.toHighlight = query;
+            this.ontoDataService.suggest(query, this.dataType).subscribe((res) => {
+                this.suggestedList = res;
+                console.log('PropagationComponent: suggested = ', res);
+            });
+        });
     }
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
-            console.log('PropagationComponent: ngOnInit: route releaseType = ', this.route.snapshot.params.releaseType);
-            this.filterPublishType$.next(this.route.snapshot.params.releaseType);
+            console.log( 'PropagationComponent: ngOnInit: route releaseType = ', this.route.snapshot.params.releaseType );
+            this.filterPublishType$.next(
+                this.route.snapshot.params.releaseType
+            );
         });
 
-        console.log('VisListComponent: ngOnInit:');
         // this.loadVisList();
-
-       
     }
 
     ngAfterViewInit(): void {
@@ -77,27 +92,52 @@ export class PropagationComponent implements OnInit {
         this.tableDataSource.sort = this.sort;
     }
 
+    public search() {
+        console.log( 'PropagationComponent: search: searchQuery = ', this.searchQuery );
 
- 
+        if (!this.searchQuery || this.searchQuery === ' ') {
+            return;
+        }
+        this.spinner = true;
+        this.clearResults();
+
+        this.ontoDataService.search(this.searchQuery, this.dataType).subscribe(
+            (result) => {
+                this.searchResults = result;
+                // this.filteredSearchResults = result.filter((f) => f);
+                console.log( 'PropagationComponent: search: searchResults = ', this.searchResults );
+            },
+            (err) => {},
+            () => (this.spinner = false)
+        );
+    }
+
+    private clearResults(): void {
+        this.searchResults.splice(0, this.searchResults.length);
+        // this.filteredSearchResults.splice(0, this.filteredSearchResults.length);
+        // this.filterValue = "";
+    }
 
     public filterDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }
 
-    public onClickCreate(): void {
-     }
+    public onClickCreate(): void {}
 
-    public onClickEdit(vis: OntoVis): void {
-     }
+    public onClickEdit(vis: OntoVis): void {}
 
     public onClickDelete(visId: string): void {
-        this.dialogService.warn('Delete Vis', 'Are you sure you want to delete this?', 'Delete').then((result) => {
-            if (result.value) {
-                this.ontoVisService.deleteVis(visId).subscribe((res: any) => {
-                    this.loadVisList();
-                });
-            }
-        });
+        this.dialogService
+            .warn( 'Delete Vis', 'Are you sure you want to delete this?', 'Delete' )
+            .then((result) => {
+                if (result.value) {
+                    this.ontoVisService
+                        .deleteVis(visId)
+                        .subscribe((res: any) => {
+                            this.loadVisList();
+                        });
+                }
+            });
     }
 
     //
@@ -108,14 +148,21 @@ export class PropagationComponent implements OnInit {
             if (res) {
                 this.visList = res;
                 this.setTableData(this.visList);
-                console.log('VisListComponent: loadVisList: visList = ', this.visList);
+                console.log(
+                    'VisListComponent: loadVisList: visList = ',
+                    this.visList
+                );
             }
         });
     }
 
- 
-
     private setTableData(sources: Array<OntoVis>): void {
         this.tableDataSource.data = sources;
+    }
+
+
+    public onSelectVisId(value: any) {
+        console.log('PropagationComponent:onSelectVisId: value = ', value);
+        
     }
 }

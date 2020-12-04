@@ -3,9 +3,10 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { APIService } from '../api.service';
-import { OntoData } from '../../models/ontology/onto-data.model';
+import { OntoData, OntoDataSearch } from '../../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
+import { DATA_TYPE } from 'src/app/models/ontology/onto-data-types';
 
 @Injectable({
     providedIn: 'root',
@@ -49,7 +50,19 @@ export class OntoDataService {
         return this.api.delete(`${this.url}/${dataId}`);
     }
 
-    public searchData(key: string): Observable<OntoData> {
-        return this.api.get(`${this.url}/search/?query=${key}`);
+    public suggest(query: string, dataType: DATA_TYPE = undefined as any): Observable<OntoDataSearch[]> {
+        let url: string = `${this.url}/suggest/?query=${query}`
+        if (dataType) {
+            url = url.concat(`&dataType=${dataType}`);
+        }
+        return this.api.get(url);
+    }
+
+    public search(query: string, dataType: DATA_TYPE = undefined as any): Observable<OntoData[]> {
+        let url: string = `${this.url}/search/?query=${query}`
+        if (dataType) {
+            url = url.concat(`&dataType=${dataType}`);
+        }
+        return this.api.get(url);
     }
 }

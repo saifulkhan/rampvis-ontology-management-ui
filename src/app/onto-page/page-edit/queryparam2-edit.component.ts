@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 
-import { BaseNestedform } from '../../shared/forms/base.nestedform';
+import { BaseNestedform } from '../../components/forms/base.nestedform';
 import { OntoPageService } from '../../services/ontology/onto-page.service';
 import { OntoData, QueryParams } from '../../models/ontology/onto-data.model';
 import { OntoDataService } from '../../services/ontology/onto-data.service';

@@ -4,13 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { RouterModule } from '@angular/router';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { PropagationRoutes } from './propagation.routing';
-import { DirectivesModule } from '../shared/directives/directives.module';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { PropagationComponent } from './vis-list/propagation.component';
-import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
+import { CustomPipesModule } from '../pipes/custom-pipes.module';
+import { VisSelectionModule } from '../components/vis-selection/vis-selection.module';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
+        VisSelectionModule
     ],
     providers: [OntoVisService],
     entryComponents: [],

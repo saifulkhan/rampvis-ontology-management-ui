@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { UsersRoutes } from './user.routing';
 import { UserService } from './user.service';
 import { UserListComponent } from './list/user-list.component';
-import { DirectivesModule } from '../shared/directives/directives.module';
+import { DirectivesModule } from '../directives/directives.module';
 import { UserInfoComponent } from './info/user-info.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { MatFormFieldModule } from '@angular/material/form-field';

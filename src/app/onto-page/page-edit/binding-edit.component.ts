@@ -4,7 +4,7 @@ import { forkJoin, ReplaySubject, Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 
-import { BaseNestedform } from '../../shared/forms/base.nestedform';
+import { BaseNestedform } from '../../components/forms/base.nestedform';
 import { OntoVis } from '../../models/ontology/onto-vis.model';
 import { OntoVisService } from '../../services/ontology/onto-vis.service';
 import { OntoData } from '../../models/ontology/onto-data.model';
@@ -30,7 +30,7 @@ export class BindingEditComponent extends BaseNestedform {
     @ViewChild('multiSelect', { static: true }) multiSelect!: MatSelect;
 
     constructor(
-        private ontologyService: OntoVisService,
+        private ontoVisService: OntoVisService,
         private ontoDataService: OntoDataService,
     ) {
         super();
@@ -53,7 +53,7 @@ export class BindingEditComponent extends BaseNestedform {
     }
 
     private loadVisList() {
-        this.ontologyService.getAllVis().subscribe((res: OntoVis[]) => {
+        this.ontoVisService.getAllVis().subscribe((res: OntoVis[]) => {
             if (res) {
                 this.ontoVisList = res;
                 console.log('BindingEditComponent: loadVisList: ontoVisList = ', this.ontoVisList);

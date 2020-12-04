@@ -25,3 +25,10 @@ TODO
 
 ## Firebase 
 Make sure, during an update, the Firebase version in the `package.json` and in `firebase-messaging-sw` are same. 
+
+
+
+
+# Notes
+
+- Vis Selection component

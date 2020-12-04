@@ -7,9 +7,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
-import { TimelineModule } from '../shared/timeline/timeline.module';
-import { CustomPipesModule } from '../shared/pipes/custom-pipes.module';
-import { PDFViewerModule } from '../shared/pdf-viewer/pdf-viewer.module';
+import { TimelineModule } from '../components/timeline/timeline.module';
+import { CustomPipesModule } from '../pipes/custom-pipes.module';
+import { PDFViewerModule } from '../components/pdf-viewer/pdf-viewer.module';
 
 @NgModule({
     imports: [

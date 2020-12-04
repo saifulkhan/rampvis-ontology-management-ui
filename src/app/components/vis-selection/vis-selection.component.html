@@ -1,0 +1,16 @@
+<mat-select
+  (selectionChange)="selectedVisId.emit($event.value)"
+  placeholder="Select VIS Function"
+  #singleSelect
+>
+  <mat-option>
+    <ngx-mat-select-search
+      [formControl]="visIdFilterCtrl"
+      placeholderLabel="Search VIS function..."
+      noEntriesFoundLabel="No matching VIS function found!"
+    ></ngx-mat-select-search>
+  </mat-option>
+  <mat-option *ngFor="let d of filteredVisId | async" [value]="d.id">
+    {{ d.function }}
+  </mat-option>
+</mat-select>

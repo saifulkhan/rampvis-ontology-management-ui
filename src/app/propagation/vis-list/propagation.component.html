@@ -1,42 +1,107 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary card-header-icon">
-            <div class="card-icon">
-              <mat-icon>drag_indicator</mat-icon>
-            </div>
-            <h4 class="card-title">Propagation - {{ filterPublishType$.value | titlecase }}</h4>
+
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>nat</mat-icon>
+        </div>
+        <h4 class="card-title">
+          Propagation - {{ filterPublishType$.value | titlecase }}
+        </h4>
+      </div>
+
+      <div class="card-body">
+        <!--select vis function-->
+
+        <div class="row">
+          <div class="col-md-3">
+            <app-vis-selection (selectedVisId)="onSelectVisId($event)">
+            </app-vis-selection>
           </div>
 
-          <div class="card-body">
+          <!--table vis function-->
+        </div>
+
+        <!--table example data binding-->
+
+       
+      </div>
+      <!-- end content-->
+    </div>
+    <!--  end card  -->
 
 
+    <div class="card">
+      <!-- <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>nat</mat-icon>
+        </div>
+      </div> -->
 
-            <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <input type="text" placeholder="search word" aria-label="Number" matInput [formControl]="searchForm" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let item of searchResult" [value]="item">
-                    {{ item.productDesc }} {{item.streamDesc }}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </form>
+      <div class="card-body">
+       
+        <!--data stream search-->
+        <div class="row">
+          <div class="col-md-9 offset-md-2 d-flex">
+            <mat-form-field class="col-md-3">
+              <mat-select [(ngModel)]="dataType" placeholder="Data Type">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let d of dataTypes" [value]="d">{{
+                  d
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
+            <mat-form-field class="col-md-9">
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="searchQuery"
+                [formControl]="searchForm"
+                [matAutocomplete]="auto"
+                placeholder="Search data product or stream"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let d of suggestedList"
+                  [value]="d.streamDesc + ' ' + d.productDesc"
+                >
+                  <span
+                    [innerHTML]="d.streamDesc | highlight: toHighlight"
+                    style="float: left"
+                  ></span
+                  >&nbsp;
+                  <span
+                    [innerHTML]="d.productDesc | highlight: toHighlight"
+                    style="color: darkgray; font-size: small; float: right"
+                  ></span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
 
-
-
-            <button 
-              (click)="onClickCreate()" 
-              class="btn btn-primary btn-round btn-fab float-right card-btn" 
-              mat-mini-fab
+            <button
+              (click)="search()"
+              class="btn btn-primary btn-round btn-fab float-right card-btn"
             >
-              <mat-icon>add</mat-icon>
+              <mat-icon>search</mat-icon>
             </button>
-            
-            <div class="toolbar">
+          </div>
+        </div>
+
+        <!--propagation button-->
+
+        <div>
+          <button
+            (click)="onClickCreate()"
+            mat-raised-button
+            class="btn btn-primary float-right"
+          >
+            Propagate
+          </button>
+        </div>
+
+        <!-- <div class="toolbar">
               <mat-form-field class="pull-left mt-1 col-md-4">
                 <input 
                   (keyup)="filterDataSource()" 
@@ -47,115 +112,131 @@
                   type="text" 
                 />
               </mat-form-field> 
-            </div>
+            </div> -->
 
-            <div>
-              <table 
-                [dataSource]="tableDataSource" 
-                mat-table 
-                matSort 
-                matSortActive="created" 
-                matSortDirection="desc" 
-                matSortDisableClear="true"
+        <div>
+          <table
+            [dataSource]="tableDataSource"
+            mat-table
+            matSort
+            matSortActive="created"
+            matSortDirection="desc"
+            matSortDisableClear="true"
+          >
+            <ng-container matColumnDef="id">
+              <th *matHeaderCellDef mat-header-cell>Copy ID</th>
+              <td *matCellDef="let row" mat-cell>
+                <button
+                  cdkCopyToClipboard="{{ row.id }}"
+                  [matTooltipPosition]="'left'"
+                  class="btn btn-light btn-link"
+                  mat-icon-button
+                  matTooltip="Copy to clipboard"
+                  type="button"
+                >
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="function">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>
+                Function
+              </th>
+              <td *matCellDef="let row" mat-cell>{{ row.function }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+              <td *matCellDef="let row" mat-cell>
+                <mat-chip-list>
+                  <mat-chip *ngIf="row.type">{{ row.type }}</mat-chip>
+                </mat-chip-list>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dataTypes">
+              <th *matHeaderCellDef mat-header-cell>Data Types</th>
+              <td *matCellDef="let row" mat-cell>
+                <mat-chip-list>
+                  <mat-chip *ngFor="let d of row.dataTypes">
+                    {{ d }}
+                  </mat-chip>
+                </mat-chip-list>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>
+                Description
+              </th>
+              <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th *matHeaderCellDef class="text-center actions" mat-header-cell>
+                Actions
+              </th>
+              <td
+                *matCellDef="let row"
+                class="td-actions text-center text-nowrap"
+                mat-cell
               >
-                <ng-container matColumnDef="id">
-                  <th *matHeaderCellDef mat-header-cell>Copy ID</th>
-                  <td *matCellDef="let row" mat-cell>
-                    <button 
-                    cdkCopyToClipboard="{{ row.id }}"
-                    [matTooltipPosition]="'left'" 
-                    class="btn btn-light btn-link" 
-                    mat-icon-button matTooltip="Copy to clipboard" 
-                    type="button"  
-                    >
-                      <mat-icon>content_copy</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
+                <button
+                  (click)="onClickEdit(row)"
+                  [matTooltipPosition]="'left'"
+                  class="btn btn-warning btn-link"
+                  mat-icon-button
+                  matTooltip="Edit row"
+                  type="button"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
 
-                <ng-container matColumnDef="function">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Function</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.function }}</td>
-                </ng-container>
+                <button
+                  (click)="onClickDelete(row.id)"
+                  [matTooltipPosition]="'left'"
+                  class="btn btn-danger btn-link"
+                  mat-icon-button
+                  matTooltip="Remove row"
+                  type="button"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </td>
+            </ng-container>
 
-                <ng-container matColumnDef="type">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-                  <td *matCellDef="let row" mat-cell>
-                    <mat-chip-list>
-                      <mat-chip *ngIf="row.type ">{{ row.type  }}</mat-chip>
-                    </mat-chip-list>
-                  </td>
-                </ng-container>
+            <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+            <tr
+              *matRowDef="let visList; columns: tableData.headerRow"
+              mat-row
+            ></tr>
+          </table>
 
-                <ng-container matColumnDef="dataTypes">
-                  <th *matHeaderCellDef mat-header-cell>Data Types</th>
-                  <td *matCellDef="let row" mat-cell>
-                    <mat-chip-list>
-                      <mat-chip *ngFor="let d of row.dataTypes" >
-                        {{ d }}
-                      </mat-chip>
-                    </mat-chip-list>
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="description">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
-                  <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="actions">
-                  <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
-                  <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
-                    <button 
-                      (click)="onClickEdit(row)" 
-                      [matTooltipPosition]="'left'" 
-                      class="btn btn-warning btn-link" 
-                      mat-icon-button matTooltip="Edit row" 
-                      type="button"
-                    >
-                      <mat-icon>edit</mat-icon>
-                    </button>
-
-                    <button 
-                      (click)="onClickDelete(row.id)" 
-                      [matTooltipPosition]="'left'" 
-                      class="btn btn-danger btn-link" 
-                      mat-icon-button matTooltip="Remove row" 
-                      type="button"
-                    >
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-
-                <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-                <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
-              </table>
-
-              <div *ngIf="spinner" class="spinner-background">
-                <mat-progress-spinner 
-                  class="progress-spinner-container" 
-                  color="primary" 
-                  diameter="100" 
-                  mode="indeterminate"
-                > 
-              </mat-progress-spinner>
-              </div>
-              <mat-paginator 
-                [length]="visList.length" 
-                [pageSizeOptions]="[50, 100, 150, 200]" 
-                [pageSize]="50" 
-                showFirstLastButtons
-              >
-              </mat-paginator>
-            </div>
+          <div *ngIf="spinner" class="spinner-background">
+            <mat-progress-spinner
+              class="progress-spinner-container"
+              color="primary"
+              diameter="100"
+              mode="indeterminate"
+            >
+            </mat-progress-spinner>
           </div>
-          <!-- end content-->
+          <mat-paginator
+            [length]="visList.length"
+            [pageSizeOptions]="[50, 100, 150, 200]"
+            [pageSize]="50"
+            showFirstLastButtons
+          >
+          </mat-paginator>
         </div>
-        <!--  end card  -->
+        <!--end table-->
+
       </div>
-      <!-- end col-md-12 -->
+      <!-- end content-->
     </div>
-    <!-- end row -->
+    <!--  end card  -->
+
+
   </div>
 </div>

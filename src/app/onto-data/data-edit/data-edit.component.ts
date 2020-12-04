@@ -6,7 +6,7 @@ import { LocalNotificationService } from '../../services/common/local-notificati
 import { UtilService } from '../../services/util.service';
 import { OntoData } from '../../models/ontology/onto-data.model';
 import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
-import { BaseFormComponent } from '../../shared/forms/base-form.component';
+import { BaseFormComponent } from '../../components/forms/base-form.component';
 
 @Component({
     selector: 'app-data-edit',
