@@ -20,67 +20,37 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select formControlName="source" placeholder="Source">
-        <mat-option [value]="null"></mat-option>
-        <mat-option *ngFor="let d of sources" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select formControlName="analytics" placeholder="Analytics">
-        <mat-option [value]="null"></mat-option>
-        <mat-option *ngFor="let d of analytics" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select formControlName="model" placeholder="Model">
-        <mat-option [value]="null"></mat-option>
-        <mat-option *ngFor="let d of models" [value]="d">{{ d }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Product</mat-label>
-      <input formControlName="productDesc" matInput />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Stream</mat-label>
-      <input formControlName="streamDesc" matInput />
+      <mat-label>Description</mat-label>
+      <input formControlName="description" matInput />
     </mat-form-field>
 
     <hr />
 
-    <!-- query parameters-->
-    <ng-container *ngIf="formGroup.controls['queryParams'] && formGroup.controls['queryParams']['controls']">
-      <div *ngFor="let d of formGroup.controls['queryParams']['controls']; let i = index">
-        <app-queryparam-edit [formGroup]="d"></app-queryparam-edit>
+    <!-- keywords-->
+    <ng-container *ngIf="formGroup.controls['keywords'] && formGroup.controls['keywords']['controls']">
+      <div *ngFor="let d of formGroup.controls['keywords']['controls']; let i = index">
+        <app-keywords-edit [formGroup]="d"></app-keywords-edit>
       </div>
     </ng-container>
 
-    <button 
-      (click)="addQueryparams()" 
-      [matTooltipPosition]="'left'" 
-      class="btn btn-success btn-link float-left" 
-      mat-icon-button matTooltip="Add Query Params" 
+    <button
+      (click)="addKeywords()"
+      [matTooltipPosition]="'left'"
+      class="btn btn-success btn-link float-left"
+      mat-icon-button
+      matTooltip="Add keywords"
       type="button"
-    ><mat-icon>add_circle</mat-icon></button>
-    <!-- query parameters -->
-    
-    <mat-dialog-actions align="end">
-      <button 
-        mat-raised-button 
-        class="btn btn-warning" 
-        [mat-dialog-close]="undefined"
-      >Cancel</button>
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    <!-- keywords -->
 
-      <button 
-        mat-raised-button 
-        class="btn btn-primary" 
-        (click)="save()" 
-        [disabled]="!formGroup.valid" 
-        type="submit">Save</button>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button class="btn btn-warning" [mat-dialog-close]="undefined">Cancel</button>
+
+      <button mat-raised-button class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid" type="submit">
+        Save
+      </button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>

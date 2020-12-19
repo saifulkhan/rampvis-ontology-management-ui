@@ -5,8 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TableData } from '../../models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import { LocalNotificationService } from '../../services/common/local-notification.service';
@@ -38,7 +38,10 @@ export class PropagationComponent implements OnInit {
         ],
         dataRows: [],
     };
+
     public visList: OntoVis[] = [];
+    public visList$: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1);
+
     spinner = false;
     public searchTerm!: string;
 
@@ -52,7 +55,11 @@ export class PropagationComponent implements OnInit {
     searchResults: any = [];
     toHighlight: string = '';
 
+
+    formGroup: FormGroup;
+
     constructor(
+        private zone: NgZone,
         private route: ActivatedRoute,
         private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
@@ -61,6 +68,12 @@ export class PropagationComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private ontoDataService: OntoDataService
     ) {
+
+        this.formGroup = new FormGroup({
+            visId: new FormControl('')
+        });
+
+
         this.dataTypes = (Object.keys(DATA_TYPE) as Array< keyof typeof DATA_TYPE >).map((d) => DATA_TYPE[d]);
 
         this.searchForm.valueChanges.subscribe((query) => {
@@ -79,12 +92,10 @@ export class PropagationComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             console.log( 'PropagationComponent: ngOnInit: route releaseType = ', this.route.snapshot.params.releaseType );
-            this.filterPublishType$.next(
-                this.route.snapshot.params.releaseType
-            );
+            this.filterPublishType$.next(this.route.snapshot.params.releaseType);
         });
 
-        // this.loadVisList();
+        this.zone.run(() =>  this.loadVisList());
     }
 
     ngAfterViewInit(): void {
@@ -146,12 +157,10 @@ export class PropagationComponent implements OnInit {
     private loadVisList() {
         this.ontoVisService.getAllVis().subscribe((res: OntoVis[]) => {
             if (res) {
-                this.visList = res;
+                this.visList = [...res];
+                this.visList$.next(res.slice());
                 this.setTableData(this.visList);
-                console.log(
-                    'VisListComponent: loadVisList: visList = ',
-                    this.visList
-                );
+                console.log( 'PropagationComponent: loadVisList: visList = ', this.visList );
             }
         });
     }
@@ -164,5 +173,12 @@ export class PropagationComponent implements OnInit {
     public onSelectVisId(value: any) {
         console.log('PropagationComponent:onSelectVisId: value = ', value);
         
+    }
+
+
+    optionSelected(input: HTMLInputElement) {
+        input.blur();
+        input.setSelectionRange(0, 0)
+        input.focus();
     }
 }

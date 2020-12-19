@@ -23,3 +23,25 @@ div.spinner-background {
 .mat-option-text.mat-option-text {
   white-space: normal;
 }
+
+
+
+
+:host {
+  display: block;
+}
+
+.select {
+  max-width: 100px;
+  margin-left: 0.7rem;
+}
+
+.search-form-field {
+  width: 35rem;
+}
+
+.divider {
+  height: 1em;
+  color: currentColor;
+  margin: 0 0.75rem;
+}

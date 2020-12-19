@@ -41,9 +41,8 @@ export class UtilService {
 
     nameOf(prop: () => string) {
         const r = /\.([^\.;]+);?\s*\}$/.exec(prop.toString());
-        return (r && r.length) ? r[1] : '';
+        return r && r.length ? r[1] : '';
     }
-
 
     goToLink(url: string) {
         window.open(url, '_blank');
@@ -55,7 +54,10 @@ export class UtilService {
             const controlErrors: ValidationErrors = form.get(key).errors;
             if (controlErrors != null) {
                 Object.keys(controlErrors).forEach((keyError) => {
-                    console.log( 'Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError] );
+                    console.log(
+                        'Key control: ' + key + ', keyError: ' + keyError + ', err value: ',
+                        controlErrors[keyError]
+                    );
                 });
             }
         });

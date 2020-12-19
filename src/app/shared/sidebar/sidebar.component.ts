@@ -31,23 +31,23 @@ export interface ChildrenItems {
 export const ROUTES: RouteInfo[] = [
     {
         path: '/vis',
-        title: 'VIS Functions',
+        title: 'VIS FUNCTIONS',
         type: 'link',
         icontype: 'insert_chart',
         roles: [Role.ADMIN],
     },
     {
         path: '/data',
-        title: 'Data Endpoints',
+        title: 'DATA',
         type: 'link',
         icontype: 'storage',
         roles: [Role.ADMIN],
     },
     {
         path: '/propagation',
-        title: 'Propagation',
+        title: 'PROPAGATION',
         type: 'sub',
-        icontype: 'nat',
+        icontype: 'playlist_add',
         roles: [Role.ADMIN],
         collapse: 'propagation',
         children: [
@@ -57,20 +57,20 @@ export const ROUTES: RouteInfo[] = [
     },  
     {
         path: '/page',
-        title: 'Pages',
+        title: 'PAGES & BINDINGS',
         type: 'sub',
         icontype: 'web',
         roles: [Role.ADMIN],
         collapse: 'page',
         children: [
-            { path: `${PUBLISH_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
-            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Released Pages', ab: 'REL' },
-            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review Pages', ab: 'REV' },
+            { path: `${PUBLISH_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXB' },
+            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
+            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Released', ab: 'REL' },
         ],
     },  
     {
         path: '/admin',
-        title: 'Administration',
+        title: 'ADMIN',
         type: 'sub',
         icontype: 'admin_panel_settings',
         roles: [Role.ADMIN],

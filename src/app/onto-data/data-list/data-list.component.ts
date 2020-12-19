@@ -28,7 +28,7 @@ export class DataListComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['id', 'urlCode', 'endpoint', 'date', 'dataType', 'metadata', 'productDesc', 'streamDesc', 'actions'],
+        headerRow: ['id', 'urlCode', 'endpoint', 'date', 'dataType', 'keywords', 'description', 'actions'],
         dataRows: [],
     };
 

@@ -2,24 +2,26 @@
   <!-- Logo -->
   <a class="simple-text logo-mini">
     <div class="logo-img">
-      <img src="../../../assets/logo/ramp-vis.png" alt="" style="width: 40px;"/>
+      <img src="../../../assets/logo/ramp-vis.png" alt="" style="width: 50px" />
     </div>
   </a>
-  <a class="simple-text text-justify logo-normal text-primary" href="">ONTOLOGY</a>
+  <a class="simple-text text-justify logo-normal text-primary" href=""> &nbsp; ONTO-VIS</a>
 </div>
 
-
 <div class="sidebar-wrapper">
-
   <div class="user">
     <div class="photo">
-      <img src="../../../assets/img/faces/avatar.svg"/>
+      <img src="../../../assets/img/faces/avatar.svg" />
     </div>
     <div class="user-info">
       <a class="collapsed" data-toggle="collapse" href="#collapseExample">
         <span>
-          <span [attr.title]="user.name.length > 17 ? user.name : null" class="username-text-ellipsis"
-                style="font-weight: bold"> {{user.name}}
+          <span
+            [attr.title]="user.name.length > 17 ? user.name : null"
+            class="username-text-ellipsis"
+            style="font-weight: bold"
+          >
+            {{ user.name }}
           </span>
           <b class="caret"></b>
         </span>
@@ -94,30 +96,33 @@
     <li *ngFor="let menuitem of menuItems" class="nav-item" routerLinkActive="active">
       <!--If is a single link-->
       <a *ngIf="menuitem.type === 'link'" [routerLink]="[menuitem.path]" class="nav-link">
-        <i class="material-icons">{{menuitem.icontype}}</i>
-        <p style="font-weight: bold">{{menuitem.title}}</p>
+        <i class="material-icons">{{ menuitem.icontype }}</i>
+        <p style="font-weight: bold">{{ menuitem.title }}</p>
       </a>
 
       <!--If it have a submenu-->
-      <a (click)="updatePS()" *ngIf="menuitem.type === 'sub'" class="nav-link" data-toggle="collapse"
-         href="#{{menuitem.collapse}}">
-        <i class="material-icons">{{menuitem.icontype}}</i>
-        <p style="font-weight: bold">{{menuitem.title}}<b class="caret"></b></p>
+      <a
+        (click)="updatePS()"
+        *ngIf="menuitem.type === 'sub'"
+        class="nav-link"
+        data-toggle="collapse"
+        href="#{{ menuitem.collapse }}"
+      >
+        <i class="material-icons">{{ menuitem.icontype }}</i>
+        <p style="font-weight: bold">{{ menuitem.title }}<b class="caret"></b></p>
       </a>
 
       <!--Display the submenu items-->
-      <div *ngIf="menuitem.type === 'sub'" class="collapse" id="{{menuitem.collapse}}">
+      <div *ngIf="menuitem.type === 'sub'" class="collapse" id="{{ menuitem.collapse }}">
         <ul class="nav">
           <li *ngFor="let childitem of menuitem.children" class="nav-item" routerLinkActive="active">
             <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
-              <span class="sidebar-mini">{{childitem.ab}}</span>
-              <span class="sidebar-normal">{{childitem.title}}</span>
+              <span class="sidebar-mini">{{ childitem.ab }}</span>
+              <span class="sidebar-normal">{{ childitem.title }}</span>
             </a>
           </li>
         </ul>
       </div>
     </li>
-
   </ul>
-
 </div>

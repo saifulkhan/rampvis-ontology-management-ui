@@ -1,0 +1,18 @@
+<mat-select
+  [placeholder]="placeholder"
+  (selectionChange)="onChange($event.value)"
+  (selectionChange)="onSelectVis.emit($event.value)"
+  (blur)="onTouched()"
+  #singleSelect
+>
+  <mat-option>
+    <ngx-mat-select-search
+      [formControl]="dataIdFilterCtrl"
+      [placeholderLabel]="placeholderLabel"
+      noEntriesFoundLabel="No match found!"
+    ></ngx-mat-select-search>
+  </mat-option>
+  <mat-option *ngFor="let d of filteredDataId$ | async" [value]="d.id">
+    {{ d.function }}
+  </mat-option>
+</mat-select>

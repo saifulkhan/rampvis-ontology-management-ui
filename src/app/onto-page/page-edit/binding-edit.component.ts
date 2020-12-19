@@ -17,22 +17,20 @@ import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
     styleUrls: ['./binding-edit.component.scss'],
 })
 export class BindingEditComponent extends BaseNestedform {
-
     ontoVisList: OntoVis[] = [];
-    public visIdFilterCtrl: FormControl = new FormControl();                            // Control for the MatSelect filter keyword.
-    public filteredVisId: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1);   // List of OntoVis filtered by search keyword for multi-selection.
+    public visList$: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1);
+
+    public visIdFilterCtrl: FormControl = new FormControl(); // Control for the MatSelect filter keyword.
+    public filteredVisId: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1); // List of OntoVis filtered by search keyword for multi-selection.
     @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
-    private _onDestroy = new Subject<void>();                                           // Subject that emits when the component has been destroyed.
+    private _onDestroy = new Subject<void>(); // Subject that emits when the component has been destroyed.
 
     ontoDataList: OntoData[] = [];
-    public dataIdFilterCtrl: FormControl = new FormControl();                            // Control for the MatSelect filter keyword.
+    public dataIdFilterCtrl: FormControl = new FormControl(); // Control for the MatSelect filter keyword.
     public filteredDataIds: ReplaySubject<OntoData[]> = new ReplaySubject<OntoData[]>(1); // List of OntoVis filtered by search keyword for multi-selection.
     @ViewChild('multiSelect', { static: true }) multiSelect!: MatSelect;
 
-    constructor(
-        private ontoVisService: OntoVisService,
-        private ontoDataService: OntoDataService,
-    ) {
+    constructor(private ontoVisService: OntoVisService, private ontoDataService: OntoDataService) {
         super();
 
         this.nestedFormGroup = new FormGroup({
@@ -42,7 +40,6 @@ export class BindingEditComponent extends BaseNestedform {
 
         this.loadDataList();
         this.loadVisList();
-    
     }
 
     ngAfterViewInit() {}
@@ -65,16 +62,16 @@ export class BindingEditComponent extends BaseNestedform {
                     this.filterVisIds();
                 });
 
+                this.visList$.next(res.slice());
+
                 this.setInitialVisValue();
             }
         });
     }
-    
+
     // Sets the initial value after the filteredVisIds are loaded initially
     protected setInitialVisValue() {
-        this.filteredVisId
-            .pipe(take(1), takeUntil(this._onDestroy))
-            .subscribe(() => {
+        this.filteredVisId.pipe(take(1), takeUntil(this._onDestroy)).subscribe(() => {
             // setting the compareWith property to a comparison function
             // triggers initializing the selection according to the initial value of
             // the form control (i.e. _initializeSelection())
@@ -101,8 +98,6 @@ export class BindingEditComponent extends BaseNestedform {
         this.filteredVisId.next(this.ontoVisList.filter((visId) => visId.function.toLowerCase().indexOf(search) > -1));
     }
 
-
-  
     private loadDataList() {
         this.ontoDataService.getAllData1().subscribe((res: any) => {
             if (res) {
@@ -112,12 +107,10 @@ export class BindingEditComponent extends BaseNestedform {
                 // load the initial dataIds list
                 this.filteredDataIds.next(this.ontoDataList.slice());
                 // listen for search field value changes
-                this.dataIdFilterCtrl.valueChanges
-                .pipe(takeUntil(this._onDestroy))
-                .subscribe(() => {
+                this.dataIdFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
                     this.filterDataIds();
                 });
-                
+
                 this.setInitialDataValue();
             }
         });
@@ -125,9 +118,7 @@ export class BindingEditComponent extends BaseNestedform {
 
     // Sets the initial value after the filteredDataIds are loaded initially
     protected setInitialDataValue() {
-        this.filteredDataIds
-        .pipe(take(1), takeUntil(this._onDestroy))
-        .subscribe(() => {
+        this.filteredDataIds.pipe(take(1), takeUntil(this._onDestroy)).subscribe(() => {
             // setting the compareWith property to a comparison function
             // triggers initializing the selection according to the initial value of
             // the form control (i.e. _initializeSelection())
@@ -143,7 +134,7 @@ export class BindingEditComponent extends BaseNestedform {
         }
         // get the search keyword
         let search = this.dataIdFilterCtrl.value;
-        
+
         console.log('BindVisEditComponent: filterDataIds: search = ', search);
 
         if (!search) {
@@ -154,9 +145,10 @@ export class BindingEditComponent extends BaseNestedform {
         }
         // filter the dataIds
         // console.log('filterDataIds:',search, this.dataIds.filter((visIs) => visIs.toLowerCase().indexOf(search) > -1), );
-        this.filteredDataIds.next(this.ontoDataList.filter((ontoData) => ontoData.endpoint.toLowerCase().indexOf(search) > -1));
+        this.filteredDataIds.next(
+            this.ontoDataList.filter((ontoData) => ontoData.endpoint.toLowerCase().indexOf(search) > -1)
+        );
     }
-
 
     public onClickBindData() {
         // console.log('onClickBindData: ', this.formGroup.get('bindData'));

@@ -15,6 +15,7 @@ import { BindingEditComponent } from './page-edit/binding-edit.component';
 import { BindDataEditComponent } from './page-edit/binddata-edit.component';
 import { Queryparam2EditComponent } from './page-edit/queryparam2-edit.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
+import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { CustomPipesModule } from '../pipes/custom-pipes.module';
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
+        CustomSingleSelectionModule,
     ],
     providers: [OntoPageService],
     entryComponents: [PageEditComponent, BindingEditComponent],

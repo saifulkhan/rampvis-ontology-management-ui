@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <mat-icon>nat</mat-icon>
+          <mat-icon>playlist_add</mat-icon>
         </div>
         <h4 class="card-title">
           Propagation - {{ filterPublishType$.value | titlecase }}
@@ -12,12 +12,37 @@
       </div>
 
       <div class="card-body">
+
         <!--select vis function-->
 
         <div class="row">
           <div class="col-md-3">
-            <app-vis-selection (selectedVisId)="onSelectVisId($event)">
-            </app-vis-selection>
+
+            <form [formGroup]='formGroup'>
+
+              <mat-form-field>
+                <app-custom-single-selection 
+                [data]="visList$ | async"
+                  formControlName="visId"
+                  placeholder="Select VIS function"  
+                  placeholderLabel="Search VIS function..."
+                >
+                </app-custom-single-selection>  
+              </mat-form-field>
+            </form>
+
+            <pre>
+              {{formGroup.value | json}}
+            </pre> 
+                
+            <mat-form-field>
+              <app-custom-single-selection 
+                [data]="visList$ | async"
+                placeholder="Select VIS function"
+                placeholderLabel="Search VIS function..."
+                (onSelectVis)="onSelectVisId($event)">
+              </app-custom-single-selection>
+            </mat-form-field>
           </div>
 
           <!--table vis function-->
@@ -41,17 +66,28 @@
 
       <div class="card-body">
        
-        <!--data stream search-->
+        <!--data stream search 1-->
+        <mat-form-field class="search-form-field" appearance="standard">
+          <mat-label>Search data streams</mat-label>
+          <app-custom-form-field-control
+            [required]="true"
+            placeholder="Start to type..."
+          ></app-custom-form-field-control>
+        </mat-form-field>
+
+
+        <!--data stream search 2-->
         <div class="row">
+
           <div class="col-md-9 offset-md-2 d-flex">
             <mat-form-field class="col-md-3">
               <mat-select [(ngModel)]="dataType" placeholder="Data Type">
                 <mat-option [value]="null"></mat-option>
-                <mat-option *ngFor="let d of dataTypes" [value]="d">{{
-                  d
-                }}</mat-option>
+                <mat-option *ngFor="let d of dataTypes" [value]="d">{{d}}</mat-option>
               </mat-select>
             </mat-form-field>
+            
+            <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
 
             <mat-form-field class="col-md-9">
               <input
@@ -61,21 +97,15 @@
                 [formControl]="searchForm"
                 [matAutocomplete]="auto"
                 placeholder="Search data product or stream"
+                #input
               />
-              <mat-autocomplete #auto="matAutocomplete">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
                 <mat-option
                   *ngFor="let d of suggestedList"
                   [value]="d.streamDesc + ' ' + d.productDesc"
                 >
-                  <span
-                    [innerHTML]="d.streamDesc | highlight: toHighlight"
-                    style="float: left"
-                  ></span
-                  >&nbsp;
-                  <span
-                    [innerHTML]="d.productDesc | highlight: toHighlight"
-                    style="color: darkgray; font-size: small; float: right"
-                  ></span>
+                  <span [innerHTML]="d.streamDesc | highlight: toHighlight"></span> | 
+                  <span [innerHTML]="d.productDesc | highlight: toHighlight"></span>
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -91,6 +121,8 @@
 
         <!--propagation button-->
 
+        <!-- <hr />
+
         <div>
           <button
             (click)="onClickCreate()"
@@ -99,7 +131,7 @@
           >
             Propagate
           </button>
-        </div>
+        </div> -->
 
         <!-- <div class="toolbar">
               <mat-form-field class="pull-left mt-1 col-md-4">
@@ -114,6 +146,7 @@
               </mat-form-field> 
             </div> -->
 
+            <!--
         <div>
           <table
             [dataSource]="tableDataSource"
@@ -230,6 +263,9 @@
           >
           </mat-paginator>
         </div>
+
+        !-->
+
         <!--end table-->
 
       </div>

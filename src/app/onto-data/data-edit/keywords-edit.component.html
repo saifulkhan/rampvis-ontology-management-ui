@@ -1,0 +1,49 @@
+<div class="card" [formGroup]="formGroup">
+  <div class="card-header">
+    <button
+      (click)="removeSelf()"
+      [matTooltipPosition]="'left'"
+      class="btn btn-danger btn-link float-right"
+      mat-icon-button
+      matTooltip="Remove"
+      type="button"
+    >
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Key</mat-label>
+          <input formControlName="key" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-8">
+        <mat-form-field>
+          <mat-label>Values</mat-label>
+          <mat-chip-list mat-chip-list #chipList formControlName="values">
+            <mat-chip
+              (removed)="remove(d)"
+              *ngFor="let d of formGroup.get('values').value"
+              [removable]="removable"
+              [selectable]="selectable"
+            >
+              {{ d }}
+              <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input
+              (matChipInputTokenEnd)="add($event)"
+              [matChipInputAddOnBlur]="addOnBlur"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            />
+          </mat-chip-list>
+        </mat-form-field>
+			</div>
+			
+    </div>
+  </div>
+</div>

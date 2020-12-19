@@ -15,11 +15,13 @@ import { DataListComponent } from './data-list/data-list.component';
 import { QueryparamEditComponent } from './data-edit/queryparam-edit.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { DataViewComponent } from './data-view/data-view.component';
+import { KeywordsEditComponent } from './data-edit/keywords-edit.component';
 
 @NgModule({
     declarations: [
       DataListComponent, 
-      DataEditComponent, 
+      DataEditComponent,
+      KeywordsEditComponent,
       QueryparamEditComponent,
       DataViewComponent,
     ],

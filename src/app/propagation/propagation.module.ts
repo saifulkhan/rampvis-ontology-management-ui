@@ -11,7 +11,8 @@ import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { PropagationComponent } from './vis-list/propagation.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { VisSelectionModule } from '../components/vis-selection/vis-selection.module';
+import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
+import { AdvancedSearchControlModule } from '../components/advanced-search-control/advanced-search-control.module';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { VisSelectionModule } from '../components/vis-selection/vis-selection.mo
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
-        VisSelectionModule
+        AdvancedSearchControlModule,
+        CustomSingleSelectionModule,
     ],
     providers: [OntoVisService],
     entryComponents: [],
