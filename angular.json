@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "data-mining-ui": {
+        "ramp-vis-onto": {
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
@@ -13,7 +13,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/data-mining-ui",
+                        "outputPath": "dist/ramp-vis-onto",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -28,7 +28,7 @@
                             "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
                             "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/sweetalert2/src/sweetalert2.scss",
-                            "src/assets/css/data-mining-ui.scss",
+                            "src/assets/css/ramp-vis-onto.scss",
                             "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css",
                             "src/assets/scss/material-dashboard.scss",
                             "src/styles.scss"
@@ -58,10 +58,10 @@
                     "configurations": {
                         "production": {
                             "fileReplacements": [
-                              {
-                                "replace": "src/environments/environment.ts",
-                                "with": "src/environments/environment.prod.ts"
-                              }
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
                             ],
                             "optimization": true,
                             "outputHashing": "all",
@@ -71,16 +71,16 @@
                             "vendorChunk": false,
                             "buildOptimizer": true,
                             "budgets": [
-                              {
-                                "type": "initial",
-                                "maximumWarning": "500kb",
-                                "maximumError": "1mb"
-                              },
-                              {
-                                "type": "anyComponentStyle",
-                                "maximumWarning": "2kb",
-                                "maximumError": "4kb"
-                              }
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
                             ]
                         }
                     }
@@ -88,18 +88,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "data-mining-ui:build"
+                        "browserTarget": "ramp-vis-onto:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "data-mining-ui:build:production"
+                            "browserTarget": "ramp-vis-onto:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "data-mining-ui:build"
+                        "browserTarget": "ramp-vis-onto:build"
                     }
                 },
                 "test": {
@@ -113,7 +113,7 @@
                             "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
                             "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/sweetalert2/src/sweetalert2.scss",
-                            "src/assets/css/data-mining-ui.scss",
+                            "src/assets/css/ramp-vis-onto.scss",
                             "src/assets/scss/material-dashboard.scss",
                             "src/styles.scss"
                         ],
@@ -147,8 +147,8 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
+                            "tsconfig.app.json", 
+                            "tsconfig.spec.json", 
                             "e2e/tsconfig.json"
                         ],
                         "exclude": ["**/node_modules/**"]
@@ -160,16 +160,16 @@
             "builder": "@angular-devkit/build-angular:protractor",
             "options": {
                 "protractorConfig": "e2e/protractor.conf.js",
-                "devServerTarget": "data-mining-ui:serve"
+                "devServerTarget": "ramp-vis-onto:serve"
             },
             "configurations": {
                 "production": {
-                    "devServerTarget": "data-mining-ui:serve:production"
+                    "devServerTarget": "ramp-vis-onto:serve:production"
                 }
             }
         }
     },
-    "defaultProject": "data-mining-ui",
+    "defaultProject": "ramp-vis-onto",
     "cli": {
         "analytics": false
     }
