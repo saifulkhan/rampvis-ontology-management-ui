@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { DataListComponent } from './data-list/data-list.component';
+import { OntoDataComponent } from './onto-data.component';
 
 export const OntoDataRoutes: Routes = [
     {
         path: '',
-        children: [{ path: '', component: DataListComponent }],
+        children: [{ path: '', component: OntoDataComponent }],
     },
 ];

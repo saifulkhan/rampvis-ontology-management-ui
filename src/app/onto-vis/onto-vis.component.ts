@@ -1,14 +1,8 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from '../models/table.data.interface';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { LocalNotificationService } from '../services/common/local-notification.service';
 import { DialogService } from '../services/common/dialog.service';
 import { OntoVis } from '../models/ontology/onto-vis.model';
 import { OntoVisEditComponent } from './display/edit/onto-vis-edit.component';
@@ -20,38 +14,19 @@ import { OntoVisService } from '../services/ontology/onto-vis.service';
     styleUrls: ['./onto-vis.component.scss'],
 })
 export class OntoVisComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
-    @ViewChild(MatTable) table!: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
-    public tableData: TableData = {
-        headerRow: ['id', 'function', 'type', 'dataTypes', 'description', 'actions'],
-        dataRows: [],
-    };
     public ontoVisArr: OntoVis[] = [];
     public ontoVisArrLength!: number;
     spinner = false;
-    public searchTerm!: string;
 
     constructor(
         private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
-        private localNotificationService: LocalNotificationService,
         private dialogService: DialogService
     ) {}
 
     ngOnInit(): void {
         console.log('OntoVisComponent: ngOnInit:');
         this.loadVisList();
-    }
-
-    ngAfterViewInit(): void {
-        this.tableDataSource.paginator = this.paginator;
-        this.tableDataSource.sort = this.sort;
-    }
-
-    public filterDataSource(): void {
-        this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }
 
     public onClickCreate(): void {
@@ -77,7 +52,6 @@ export class OntoVisComponent implements OnInit {
             if (res) {
                 this.ontoVisArr = res;
                 this.ontoVisArrLength = this.ontoVisArr.length;
-                this.setTableData(this.ontoVisArr);
                 console.log('OntoVisComponent: loadVisList: ontoVisArr = ', this.ontoVisArr);
             }
         });
@@ -103,9 +77,5 @@ export class OntoVisComponent implements OnInit {
                 if (!response) return;
                 this.loadVisList();
             });
-    }
-
-    private setTableData(sources: Array<OntoVis>): void {
-        this.tableDataSource.data = sources;
     }
 }

@@ -2,18 +2,18 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { LocalNotificationService } from '../../services/common/local-notification.service';
-import { UtilService } from '../../services/util.service';
-import { Keywords, keywordsArrayToObject, KeywordsMapped, keywordsObjectToArray, OntoData, } from '../../models/ontology/onto-data.model';
-import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
-import { BaseFormComponent } from '../../components/forms/base-form.component';
+import { LocalNotificationService } from '../../../services/common/local-notification.service';
+import { UtilService } from '../../../services/util.service';
+import { Keywords, keywordsArrayToObject, KeywordsMapped, keywordsObjectToArray, OntoData, } from '../../../models/ontology/onto-data.model';
+import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../../models/ontology/onto-data-types';
+import { BaseFormComponent } from '../../../components/forms/base-form.component';
 
 @Component({
-    selector: 'app-data-edit',
-    templateUrl: './data-edit.component.html',
-    styleUrls: ['./data-edit.component.scss'],
+    selector: 'app-onto-data-edit',
+    templateUrl: './onto-data-edit.component.html',
+    styleUrls: ['./onto-data-edit.component.scss'],
 })
-export class DataEditComponent extends BaseFormComponent implements OnInit {
+export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm: any;
 
     formGroup!: FormGroup;
@@ -23,7 +23,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        public matDialogRef: MatDialogRef<DataEditComponent>,
+        public matDialogRef: MatDialogRef<OntoDataEditComponent>,
         @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService
@@ -45,7 +45,7 @@ export class DataEditComponent extends BaseFormComponent implements OnInit {
             queryParams: new FormArray([]),
         });
 
-        console.log('DataEditComponent:ngOnInit: data = ', this.data);
+        console.log('OntoDataEditComponent:ngOnInit: data = ', this.data);
 
         this.setFormValues(this.data);
     }

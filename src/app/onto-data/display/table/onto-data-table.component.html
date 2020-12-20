@@ -1,0 +1,128 @@
+<mat-form-field class="pull-left mt-1 col-md-4">
+  <input
+    matInput
+    type="text"
+    name="search"
+    [(ngModel)]="filterTerm"
+    (keyup)="filterTerm$.next(filterTerm)"
+    placeholder="Filter data stream..."
+  />
+</mat-form-field>
+
+<table
+  [dataSource]="tableDataSource"
+  mat-table
+  matSort
+  matSortActive="date"
+  matSortDirection="desc"
+  matSortDisableClear="true"
+>
+  <ng-container matColumnDef="id">
+    <th *matHeaderCellDef mat-header-cell>Copy ID</th>
+    <td *matCellDef="let row" mat-cell>
+      <button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        mat-icon-button
+        matTooltip="Copy to clipboard"
+        type="button"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="urlCode">
+    <th *matHeaderCellDef mat-header-cell>URL Code</th>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="endpoint">
+    <th *matHeaderCellDef mat-header-cell>Endpoint</th>
+    <td *matCellDef="let row" mat-cell>{{ row.endpoint | truncate: "75" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+    <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="dataType">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip *ngIf="row.dataType">{{ row.dataType }}</mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="keywords">
+    <th *matHeaderCellDef mat-header-cell>Keywords</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip *ngFor="let d of row.keywords | keyvalue">{{ d.key }} : {{ d.value }}</mat-chip>
+        <!-- <mat-chip *ngIf="row.analytics">{{ row.analytics }}</mat-chip>
+                    <mat-chip *ngIf="row.model">{{ row.model }}</mat-chip> -->
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "50" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+      <button
+        (click)="onClickEditOntoData.emit(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        mat-icon-button
+        matTooltip="Edit"
+        type="button"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        (click)="onClickDeleteOntoData.emit(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-danger btn-link"
+        mat-icon-button
+        matTooltip="Delete"
+        type="button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="View data"
+        type="button"
+      >
+        <mat-icon>grid_on</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+  <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+</table>
+
+<div *ngIf="spinner" class="spinner-background">
+  <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+<mat-paginator
+  [length]="ontoDataArrLength"
+  [pageSizeOptions]="[50, 100, 150, 200]"
+  [pageSize]="50"
+  showFirstLastButtons
+>
+</mat-paginator>

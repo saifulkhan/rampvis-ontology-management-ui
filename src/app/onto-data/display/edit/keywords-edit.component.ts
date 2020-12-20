@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
-import { BaseNestedform } from '../../components/forms/base.nestedform';
+import { BaseNestedform } from '../../../components/forms/base.nestedform';
 
 @Component({
     selector: 'app-keywords-edit',
