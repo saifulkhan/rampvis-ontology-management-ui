@@ -1,0 +1,27 @@
+<div class="main-content">
+  <div class="container-fluid">
+    
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>insert_chart</mat-icon>
+        </div>
+        <h4 class="card-title">VIS Functions</h4>
+      </div>
+
+      <div class="card-body">
+        <button (click)="onClickCreate()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
+          <mat-icon>add</mat-icon>
+        </button>
+
+        <app-onto-vis-table
+          [ontoVisArr]="ontoVisArr"
+          [ontoVisArrLength]="ontoVisArrLength"
+          (onClickEditOntoVis)="onClickEdit($event)"
+          (onClickDeleteOntoVis)="onClickDelete($event)"
+        >
+        </app-onto-vis-table>
+      </div>
+    </div>
+  </div>
+</div>

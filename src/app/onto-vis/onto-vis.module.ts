@@ -9,15 +9,12 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { OntoVisRoutes } from './onto-vis.routing';
 import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
-import { VisListComponent } from './vis-list/vis-list.component';
-import { VisEditComponent } from './vis-edit/vis-edit.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
+import { OntoVisDisplayModule } from './display/onto-vis-display.module';
+import { OntoVisComponent } from './onto-vis.component';
 
 @NgModule({
-    declarations: [
-      VisListComponent, 
-      VisEditComponent,
-    ],
+    declarations: [OntoVisComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(OntoVisRoutes),
@@ -28,8 +25,9 @@ import { CustomPipesModule } from '../pipes/custom-pipes.module';
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
+        OntoVisDisplayModule,
     ],
     providers: [OntoVisService],
-    entryComponents: [VisEditComponent],
+    entryComponents: [],
 })
 export class OntoVisModule {}

@@ -3,17 +3,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 import { LocalNotificationService } from 'src/app/services/common/local-notification.service';
-import { UtilService } from '../../services/util.service';
-import { OntoVis } from '../../models/ontology/onto-vis.model';
-import { VIS_TYPE } from '../../models/ontology/onto-vis-type.enum';
+import { UtilService } from '../../../services/util.service';
+import { OntoVis } from '../../../models/ontology/onto-vis.model';
+import { VIS_TYPE } from '../../../models/ontology/onto-vis-type.enum';
 import { DATA_TYPE } from 'src/app/models/ontology/onto-data-types';
 
 @Component({
-    selector: 'app-vis-edit',
-    templateUrl: './vis-edit.component.html',
-    styleUrls: ['./vis-edit.component.scss'],
+    selector: 'app-onto-vis-edit',
+    templateUrl: './onto-vis-edit.component.html',
+    styleUrls: ['./onto-vis-edit.component.scss'],
 })
-export class VisEditComponent implements OnInit {
+export class OntoVisEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;
     form: FormGroup;
     dialogType: string; // dialog type: edit or new
@@ -23,12 +23,12 @@ export class VisEditComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        public matDialogRef: MatDialogRef<VisEditComponent>,
+        public matDialogRef: MatDialogRef<OntoVisEditComponent>,
         @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService,
     ) {
-        console.log('VisEditComponent: data = ', data);
+        console.log('OntoVisEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.vis = { ...data.vis };
         this.visTypes = (Object.keys(VIS_TYPE) as Array<keyof typeof VIS_TYPE>).map((k) => VIS_TYPE[k]);

@@ -3,23 +3,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from '../../models/table.data.interface';
+import { TableData } from '../models/table.data.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
-
 import { mergeMap } from 'rxjs/operators';
-import { LocalNotificationService } from '../../services/common/local-notification.service';
-import { DialogService } from 'src/app/services/common/dialog.service';
-import { OntoVis } from '../../models/ontology/onto-vis.model';
-import { VisEditComponent } from '../vis-edit/vis-edit.component';
-import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
+
+import { LocalNotificationService } from '../services/common/local-notification.service';
+import { DialogService } from '../services/common/dialog.service';
+import { OntoVis } from '../models/ontology/onto-vis.model';
+import { OntoVisEditComponent } from './display/edit/onto-vis-edit.component';
+import { OntoVisService } from '../services/ontology/onto-vis.service';
 
 @Component({
-    selector: 'app-vis-list',
-    templateUrl: './vis-list.component.html',
-    styleUrls: ['./vis-list.component.scss'],
+    selector: 'app-onto-vis',
+    templateUrl: './onto-vis.component.html',
+    styleUrls: ['./onto-vis.component.scss'],
 })
-export class VisListComponent implements OnInit {
+export class OntoVisComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
@@ -28,7 +28,8 @@ export class VisListComponent implements OnInit {
         headerRow: ['id', 'function', 'type', 'dataTypes', 'description', 'actions'],
         dataRows: [],
     };
-    public visList: OntoVis[] = [];
+    public ontoVisArr: OntoVis[] = [];
+    public ontoVisArrLength!: number;
     spinner = false;
     public searchTerm!: string;
 
@@ -36,11 +37,11 @@ export class VisListComponent implements OnInit {
         private ontoVisService: OntoVisService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
-        private dialogService: DialogService,
+        private dialogService: DialogService
     ) {}
 
     ngOnInit(): void {
-        console.log('VisListComponent: ngOnInit:');
+        console.log('OntoVisComponent: ngOnInit:');
         this.loadVisList();
     }
 
@@ -61,32 +62,30 @@ export class VisListComponent implements OnInit {
         this.openVisEditModal('edit', vis);
     }
 
-    public onClickDelete(visId: string): void {
+    public onClickDelete(vis: OntoVis): void {
         this.dialogService.warn('Delete Vis', 'Are you sure you want to delete this?', 'Delete').then((result) => {
             if (result.value) {
-                this.ontoVisService.deleteVis(visId).subscribe((res: any) => {
+                this.ontoVisService.deleteVis(vis.id).subscribe((res: any) => {
                     this.loadVisList();
                 });
             }
         });
     }
 
-    //
-    // private methods
-    //
     private loadVisList() {
         this.ontoVisService.getAllVis().subscribe((res: OntoVis[]) => {
             if (res) {
-                this.visList = res;
-                this.setTableData(this.visList);
-                console.log('VisListComponent: loadVisList: visList = ', this.visList);
+                this.ontoVisArr = res;
+                this.ontoVisArrLength = this.ontoVisArr.length;
+                this.setTableData(this.ontoVisArr);
+                console.log('OntoVisComponent: loadVisList: ontoVisArr = ', this.ontoVisArr);
             }
         });
     }
 
     private openVisEditModal(dialogType: string, vis: OntoVis): void {
         const dialogOpt = { width: '40%', data: { dialogType, vis } };
-        const matDialogRef = this.matDialog.open(VisEditComponent, dialogOpt);
+        const matDialogRef = this.matDialog.open(OntoVisEditComponent, dialogOpt);
 
         matDialogRef
             .afterClosed()
@@ -94,11 +93,11 @@ export class VisListComponent implements OnInit {
                 mergeMap(
                     (ontoVis: null | OntoVis): Observable<any> => {
                         if (!ontoVis) return of(false);
-                            if (dialogType === 'new') return this.ontoVisService.createVis(ontoVis);
-                            if (dialogType === 'edit') return this.ontoVisService.updateVis(ontoVis);
+                        if (dialogType === 'new') return this.ontoVisService.createVis(ontoVis);
+                        if (dialogType === 'edit') return this.ontoVisService.updateVis(ontoVis);
                         return of(false);
-                    },
-                ),
+                    }
+                )
             )
             .subscribe((response: OntoVis | false) => {
                 if (!response) return;
