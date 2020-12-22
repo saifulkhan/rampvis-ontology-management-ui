@@ -1,7 +1,6 @@
 import { Deserializable } from '../deserializable.model';
-import { QueryParams } from './onto-data.model';
 
-export enum PUBLISH_TYPE {
+export enum BINDING_TYPE {
     EXAMPLE = 'example',
     REVIEW = 'review',
     RELEASE = 'release',
@@ -19,7 +18,7 @@ export class Binding implements Deserializable {
 
 export class OntoPage implements Deserializable {
     public id!: string;
-    public publishType!: PUBLISH_TYPE;
+    public bindingType!: BINDING_TYPE;
     public nrows!: number;
     public bindings!: Binding[];
 

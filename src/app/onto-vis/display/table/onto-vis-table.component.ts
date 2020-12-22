@@ -14,6 +14,7 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
 export class OntoVisTableComponent implements OnInit {
     @Input() ontoVisArr!: OntoVis[];
     @Input() ontoVisArrLength!: number;
+    @Input() isEditable!: boolean;
     @Output() onClickEditOntoVis: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
     @Output() onClickDeleteOntoVis: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
 
@@ -50,7 +51,7 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     private setDataSource(): void {
-        this.tableDataSource.data = this.ontoVisArr;
         this.spinner = false;
+        this.tableDataSource.data = this.ontoVisArr;
     }
 }

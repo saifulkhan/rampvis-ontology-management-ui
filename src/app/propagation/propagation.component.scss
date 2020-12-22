@@ -1,47 +1,8 @@
-@import "../../styles.scss";
-
-div.spinner-background {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #f5f5f594;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .progress-spinner-container {
-    margin: auto;
-  }
-}
-
-.mat-select-panel mat-option.mat-option {
-  height: unset;
-}
-
-.mat-option-text.mat-option-text {
-  white-space: normal;
-}
-
-
-
-
-:host {
-  display: block;
-}
-
-.select {
-  max-width: 100px;
-  margin-left: 0.7rem;
-}
-
-.search-form-field {
-  width: 35rem;
-}
 
 .divider {
-  height: 1em;
-  color: currentColor;
-  margin: 0 0.75rem;
+  height: 1.5em;
+  margin: 20px 0 0 0;
+  background-color: darkgray;
 }
+
+ 

@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 import { LocalNotificationService } from '../../../services/common/local-notification.service';
 import { UtilService } from '../../../services/util.service';
-import { Keywords, keywordsArrayToObject, KeywordsMapped, keywordsObjectToArray, OntoData, } from '../../../models/ontology/onto-data.model';
-import { ANALYTICS, DATA_TYPE, MODEL, SOURCE } from '../../../models/ontology/onto-data-types';
+import { OntoData } from '../../../models/ontology/onto-data.model';
+import { DATA_TYPE } from '../../../models/ontology/onto-data-types';
 import { BaseFormComponent } from '../../../components/forms/base-form.component';
 
 @Component({
@@ -21,6 +23,13 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
     data: OntoData;
     public dataTypes: string[] = [];
 
+    // chips related
+    visible = true;
+    selectable = true;
+    removable = true;
+    addOnBlur = true;
+    readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
     constructor(
         private fb: FormBuilder,
         public matDialogRef: MatDialogRef<OntoDataEditComponent>,
@@ -31,7 +40,6 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
         super();
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
-        this.data.keywords = keywordsObjectToArray(this.data.keywords as Keywords);
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
     }
 
@@ -41,23 +49,30 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
             endpoint: new FormControl('', [Validators.required]),
             dataType: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required]),
-            keywords: new FormArray([], [Validators.required]),
-            queryParams: new FormArray([]),
+            keywords: new FormControl([], [Validators.required]),
         });
-
-        console.log('OntoDataEditComponent:ngOnInit: data = ', this.data);
 
         this.setFormValues(this.data);
     }
 
-    public addKeywords() {
-        const keywords = this.formGroup.get('keywords') as FormArray;
-        keywords.push(new FormGroup({}));
+    // Remove keywords chip
+    remove(k: any): void {
+        const index = this.formGroup.get('keywords')?.value.indexOf(k);
+        if (index >= 0) this.formGroup.get('keywords')?.value.splice(index, 1);
+        this.formGroup.get('keywords')?.updateValueAndValidity();
     }
 
-    public addQueryparams() {
-        const queryParams = this.formGroup.get('queryParams') as FormArray;
-        queryParams.push(new FormGroup({}));
+    // Add keywords chip
+    add(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+
+        // add
+        if ((value || '').trim()) this.formGroup.get('keywords')?.value.push(value.trim());
+        // reset the input value
+        if (input) input.value = '';
+
+        this.formGroup.get('keywords')?.updateValueAndValidity();
     }
 
     public save() {
@@ -68,9 +83,8 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
             return;
         }
 
-        const result = this.formGroup.value;
+        const result: OntoData = this.formGroup.value;
         result.id = this.data.id;
-        result.keywords = keywordsArrayToObject(result.keywords as KeywordsMapped[]);
         this.matDialogRef.close(result);
     }
 

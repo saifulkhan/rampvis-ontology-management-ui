@@ -9,39 +9,12 @@
       </div>
 
       <div class="card-body">
-        <!--Select VIS function-->
+        <!-- Select VIS function-->
         <div class="row">
-          <div class="col-md-9 offset-md-2 d-flex">
-            <mat-form-field class="col-md-4">
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="searchQuery"
-                [formControl]="searchForm"
-                [matAutocomplete]="auto"
-                placeholder="Search VIS Function"
-                #input
-              />
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
-                <mat-option *ngFor="let d of suggestedList" [value]="d.streamDesc + ' ' + d.productDesc">
-                  <span [innerHTML]="d.streamDesc | highlight: toHighlight"></span> |
-                  <span [innerHTML]="d.productDesc | highlight: toHighlight"></span>
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-
-            <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
-              <mat-icon>search</mat-icon>
-            </button>
-          </div>
-        </div>
-
-        <!-- Search VIS function-->
-        <div class="row">
-          <div class="col-md-9 offset-md-2 d-flex">
-            <mat-form-field class="col-md-4">
+          <div class="col-md-3">
+            <mat-form-field>
               <app-custom-single-selection
-                [data]="visList$ | async"
+                [data]="ontoVisArr$ | async"
                 placeholder="Select VIS function"
                 placeholderLabel="Search VIS function..."
                 (onSelectVis)="onSelectOntoVis($event)"
@@ -51,65 +24,84 @@
           </div>
         </div>
 
-        <!--table vis function-->
-        <ng-container *ngIf="loading">
-          <app-onto-vis-table
-            [ontoVisArr]="ontoVisArr"
-            [ontoVisArrLength]="ontoVisArrLength"
-            (onClickEditOntoVis)="onClickEdit($event)"
-            (onClickDeleteOntoVis)="onClickDelete($event)"
-          >
-          </app-onto-vis-table>
-        </ng-container>
+        <!--Table vis function-->
+        <app-onto-vis-table *ngIf="selectedOntoVisLen"
+          [ontoVisArr]="selectedOntoVis"
+          [ontoVisArrLength]="selectedOntoVisLen"
+          (onClickEditOntoVis)="onClickEdit($event)"
+          (onClickDeleteOntoVis)="onClickDelete($event)"
+        >
+        </app-onto-vis-table>
       </div>
       <!-- end card-body-->
     </div>
     <!--  end card  -->
 
-    <ng-container *ngIf="loading">
-      <div class="card">
-        <div class="card-body">
-          <!--data stream search 2-->
-          <div class="row">
-            <div class="col-md-9 offset-md-2 d-flex">
-              <mat-form-field class="col-md-3">
-                <mat-select [(ngModel)]="dataType" placeholder="Data Type">
-                  <mat-option [value]="null"></mat-option>
-                  <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
-                </mat-select>
-              </mat-form-field>
+    <!--Data search-->
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 offset-md-2 d-flex">
+            <mat-form-field class="col-md-3">
+              <mat-select [(ngModel)]="dataType" placeholder="Data Type">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
+            <mat-divider [vertical]="true" class="divider"></mat-divider>
 
-              <mat-form-field class="col-md-9">
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="searchQuery"
-                  [formControl]="searchForm"
-                  [matAutocomplete]="auto"
-                  placeholder="Search data product or stream"
-                  #input
-                />
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
-                  <mat-option *ngFor="let d of suggestedList" [value]="d.streamDesc + ' ' + d.productDesc">
-                    <span [innerHTML]="d.streamDesc | highlight: toHighlight"></span> |
-                    <span [innerHTML]="d.productDesc | highlight: toHighlight"></span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
+            <mat-form-field class="col-md-9">
+              <mat-icon matSuffix>search</mat-icon>
 
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="searchQuery"
+                [formControl]="searchForm"
+                [matAutocomplete]="auto"
+                placeholder="Search data streams"
+                #input
+                (keydown.enter)="search(input.value)"
+              />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
+                <mat-option *ngFor="let d of suggestedList" [value]="d.description + ' ' + d.keywords.join(', ')">
+                  <span [innerHTML]="d.description | highlight: toHighlight"></span> <b> | </b>
+                  <span [innerHTML]="d.keywords.join(', ') | highlight: toHighlight"></span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <!-- 
               <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
                 <mat-icon>search</mat-icon>
-              </button>
-            </div>
+              </button> 
+            -->
           </div>
-
-          <!--propagation button-->
         </div>
-        <!-- end content-->
+
+        <!--propagation button-->
+
+        <button 
+          mat-raised-button 
+          class="btn btn-primary float-right"
+          (click)="search()"
+        >
+          Propagate
+        </button>
+
+        <!-- -->
+        <app-onto-data-table *ngIf="ontoDataSearchResultLen > 0"
+          [ontoDataArr]="ontoDataSearchResult"
+          [ontoDataArrLength]="ontoDataSearchResultLen"
+          (onClickEditOntoData)="onClickEdit($event)"
+          (onClickDeleteOntoData)="onClickDelete($event)"
+          (fetchOntoData)="getOntoData($event)"
+        >
+        </app-onto-data-table>
       </div>
-    </ng-container>
+      <!-- end content-->
+    </div>
 
     <!--  end card  -->
   </div>

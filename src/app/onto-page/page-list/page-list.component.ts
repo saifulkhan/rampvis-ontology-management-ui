@@ -10,7 +10,7 @@ import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operato
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { OntoPageService } from '../../services/ontology/onto-page.service';
-import { OntoPage, PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
+import { OntoPage, BINDING_TYPE } from '../../models/ontology/onto-page.model';
 import { PageEditComponent } from '../page-edit/page-edit.component';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
@@ -34,7 +34,7 @@ export class PageListComponent implements OnInit {
 
     public ontoPages: OntoPage[] = [];
     pageListLength = 0;
-    publishType!: PUBLISH_TYPE;
+    publishType!: BINDING_TYPE;
     publishTypes: string[] = [];
 
     filterPublishType$ = new BehaviorSubject<string>('');
@@ -54,7 +54,7 @@ export class PageListComponent implements OnInit {
     ngOnInit(): void {
         console.log('PageListComponent: ngOnInit:');
         // this.loadPageList();
-        this.publishTypes = (Object.keys(PUBLISH_TYPE) as Array<keyof typeof PUBLISH_TYPE>).map((k) => PUBLISH_TYPE[k]);
+        this.publishTypes = (Object.keys(BINDING_TYPE) as Array<keyof typeof BINDING_TYPE>).map((k) => BINDING_TYPE[k]);
 
 
         this.spinner = true;
@@ -127,7 +127,7 @@ export class PageListComponent implements OnInit {
             pageCount: this.paginator.pageSize,
             sortBy: this.sort.active,
             sortOrder: this.sort.direction,
-            publishType: this.filterPublishType$.value,
+            bindingType: this.filterPublishType$.value,
             filter: this.searchTerm$.value,
         } as OntoPageFilterVm
     }

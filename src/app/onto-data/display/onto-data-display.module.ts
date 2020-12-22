@@ -11,16 +11,12 @@ import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { OntoDataTableComponent } from './table/onto-data-table.component';
 import { OntoDataInspectComponent } from './inspect/onto-data-inspect.component';
 import { OntoDataEditComponent } from './edit/onto-data-edit.component';
-import { KeywordsEditComponent } from './edit/keywords-edit.component';
-import { QueryparamEditComponent } from './edit/queryparam-edit.component';
  
 @NgModule({
     declarations: [
       OntoDataTableComponent,
       OntoDataEditComponent,
       OntoDataInspectComponent,
-      KeywordsEditComponent,
-      QueryparamEditComponent,
     ],
     imports: [
         CommonModule,
@@ -37,8 +33,6 @@ import { QueryparamEditComponent } from './edit/queryparam-edit.component';
       OntoDataTableComponent,
       OntoDataEditComponent,
       OntoDataInspectComponent,
-      KeywordsEditComponent,
-      QueryparamEditComponent,
     ],
    
 })

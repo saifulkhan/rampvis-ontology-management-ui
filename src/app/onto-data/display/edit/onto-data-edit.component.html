@@ -24,30 +24,31 @@
       <input formControlName="description" matInput />
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Keywords</mat-label>
+      <mat-chip-list mat-chip-list #chipList formControlName="keywords">
+        <mat-chip
+          (removed)="remove(d)"
+          *ngFor="let d of formGroup.get('keywords').value"
+          [removable]="removable"
+          [selectable]="selectable"
+        >
+          {{ d }}
+          <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          (matChipInputTokenEnd)="add($event)"
+          [matChipInputAddOnBlur]="addOnBlur"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        />
+      </mat-chip-list>
+    </mat-form-field>
+
     <hr />
-
-    <!-- keywords-->
-    <ng-container *ngIf="formGroup.controls['keywords'] && formGroup.controls['keywords']['controls']">
-      <div *ngFor="let d of formGroup.controls['keywords']['controls']; let i = index">
-        <app-keywords-edit [formGroup]="d"></app-keywords-edit>
-      </div>
-    </ng-container>
-
-    <button
-      (click)="addKeywords()"
-      [matTooltipPosition]="'left'"
-      class="btn btn-success btn-link float-left"
-      mat-icon-button
-      matTooltip="Add keywords"
-      type="button"
-    >
-      <mat-icon>add_circle</mat-icon>
-    </button>
-    <!-- keywords -->
 
     <mat-dialog-actions align="end">
       <button mat-raised-button class="btn btn-warning" [mat-dialog-close]="undefined">Cancel</button>
-
       <button mat-raised-button class="btn btn-primary" (click)="save()" [disabled]="!formGroup.valid" type="submit">
         Save
       </button>

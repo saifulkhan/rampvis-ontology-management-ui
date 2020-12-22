@@ -8,7 +8,7 @@
       <input formControlName="nrows" matInput type="number"/>
     </mat-form-field>
 
-    <mat-radio-group formControlName="publishType">
+    <mat-radio-group formControlName="bindingType">
       <mat-radio-button *ngFor="let d of publishTypes" [value]="d">
         <span class="wrap-label-text">{{ d | titlecase }}</span>
       </mat-radio-button>

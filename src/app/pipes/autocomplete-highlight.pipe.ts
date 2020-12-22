@@ -3,8 +3,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 @Pipe({ name: 'highlight' })
 export class AutocompleteHighlightPipe implements PipeTransform {
     transform(text: string, search: any): string {
-
-        console.log('AutocompleteHighlightPipe: text = ', text, ', search = ', search)
+        // console.log('AutocompleteHighlightPipe: text = ', text, ', search = ', search)
         const pattern = search
             .replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
             .split(' ')
@@ -12,8 +11,6 @@ export class AutocompleteHighlightPipe implements PipeTransform {
             .join('|');
         const regex = new RegExp(pattern, 'gi');
 
-        return search
-            ? text.replace(regex, (match) => `<b>${match}</b>`)
-            : text;
+        return search ? text.replace(regex, (match) => `<span class="search-highlight">${match}</span>`) : text;
     }
 }

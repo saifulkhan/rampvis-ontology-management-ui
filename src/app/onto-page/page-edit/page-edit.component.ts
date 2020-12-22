@@ -6,7 +6,7 @@ import { LocalNotificationService } from '../../services/common/local-notificati
 import { UtilService } from '../../services/util.service';
 import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
 import { BaseFormComponent } from '../../components/forms/base-form.component';
-import { OntoPage, PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
+import { OntoPage, BINDING_TYPE } from '../../models/ontology/onto-page.model';
 
 @Component({
     selector: 'app-page-edit',
@@ -32,12 +32,12 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
         console.log('PageEditComponent: data = ', data);
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
-        this.publishTypes = (Object.keys(PUBLISH_TYPE) as Array<keyof typeof PUBLISH_TYPE>).map((k) => PUBLISH_TYPE[k]);
+        this.publishTypes = (Object.keys(BINDING_TYPE) as Array<keyof typeof BINDING_TYPE>).map((k) => BINDING_TYPE[k]);
     }
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
-            publishType: new FormControl('', [Validators.required]),
+            bindingType: new FormControl('', [Validators.required]),
             nrows: new FormControl(null, [Validators.required, Validators.min(1)]),
             bindings: new FormArray([]),
         });

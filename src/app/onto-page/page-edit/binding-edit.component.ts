@@ -9,7 +9,6 @@ import { OntoVis } from '../../models/ontology/onto-vis.model';
 import { OntoVisService } from '../../services/ontology/onto-vis.service';
 import { OntoData } from '../../models/ontology/onto-data.model';
 import { OntoDataService } from '../../services/ontology/onto-data.service';
-import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 
 @Component({
     selector: 'app-binding-edit',

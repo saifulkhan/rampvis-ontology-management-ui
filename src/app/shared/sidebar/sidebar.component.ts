@@ -4,7 +4,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.enum';
-import { PUBLISH_TYPE } from '../../models/ontology/onto-page.model';
+import { BINDING_TYPE } from '../../models/ontology/onto-page.model';
 import { PROPAGATION_TYPE } from '../../models/ontology/propagation-type.enum';
 
 declare const $: any;
@@ -29,6 +29,13 @@ export interface ChildrenItems {
 
 // Sidebar items
 export const ROUTES: RouteInfo[] = [
+    {
+        path: '/dashboard',
+        title: 'Dashboard',
+        type: 'link',
+        icontype: 'dashboard',
+        roles: [Role.ADMIN],
+    },
     {
         path: '/vis',
         title: 'VIS Functions',
@@ -63,9 +70,9 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'page',
         children: [
-            { path: `${PUBLISH_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
-            { path: `${PUBLISH_TYPE.REVIEW}`, title: 'Review Pages', ab: 'RVP' },
-            { path: `${PUBLISH_TYPE.RELEASE}`, title: 'Released Pages', ab: 'RLP' },
+            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
+            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review Pages', ab: 'RVP' },
+            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released Pages', ab: 'RLP' },
         ],
     },  
     {

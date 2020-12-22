@@ -1,7 +1,13 @@
-//
-// The following styles are global and will apply to all elements with a matching selector
-//
+@import "../scss/material-dashboard.scss";
 
+// used by data search highlight pipe
+.search-highlight{
+  color:  $hart-primary;
+  font-weight: bold;
+}
+
+
+// tables 100% width
 table {
   width: 100%;
 
@@ -9,6 +15,10 @@ table {
     width: 100px;
   }
 }
+
+//
+// TODO: Review - the below stuff
+//
 
 svg-icon.source-type {
   svg {
@@ -122,10 +132,10 @@ div.spinner-background {
   }
 }
 
-.mat-select {
-  .mat-select-value-text {
-    span {
-      font-size: inherit !important;
-    }
-  }
-}
+// .mat-select {
+//   .mat-select-value-text {
+//     span {
+//       font-size: inherit !important;
+//     }
+//   }
+// }

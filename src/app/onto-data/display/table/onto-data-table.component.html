@@ -1,4 +1,4 @@
-<mat-form-field class="pull-left mt-1 col-md-4">
+<mat-form-field class="pull-left mt-1 col-md-4" *ngIf="isEditable">
   <input
     matInput
     type="text"
@@ -78,7 +78,7 @@
     <th *matHeaderCellDef mat-header-cell>Keywords</th>
     <td *matCellDef="let row" mat-cell>
       <mat-chip-list>
-        <mat-chip *ngFor="let d of row.keywords | keyvalue">{{ d.key }} : {{ d.value }}</mat-chip>
+        <mat-chip *ngFor="let d of row.keywords">{{ d }}</mat-chip>
       </mat-chip-list>
     </td>
   </ng-container>
@@ -87,6 +87,7 @@
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
+        *ngIf="isEditable"
         (click)="onClickEditOntoData.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
@@ -98,6 +99,7 @@
       </button>
 
       <button
+        *ngIf="isEditable"
         (click)="onClickDeleteOntoData.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-danger btn-link"

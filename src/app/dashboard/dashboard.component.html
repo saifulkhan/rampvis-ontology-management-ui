@@ -1,94 +1,58 @@
 <div class="main-content dashboard-wrap">
   <div class="container-fluid page-wrap">
     <div class="row">
-      <!--row-1-->
       <div class="col-md-9">
-        <!--col-1-->
-
-        <div class="col-md-3">
-          <form [formGroup]="formGroup">
-            <mat-form-field>
-
-              <!--custom single selection-->
-              <app-custom-single-selection
-                [data]="ontoVisArrLength$ | async"
-                formControlName="visId"
-                placeholder="Select VIS function"
-                placeholderLabel="Search VIS function..."
-              >
-              </app-custom-single-selection>
-            </mat-form-field>
-          </form>
-
-          <pre>
-            {{ formGroup.value | json }}
-          </pre>
-
-          <!--custom search form-->
-          <mat-form-field class="search-form-field" appearance="standard">
-            <mat-label>Search data streams</mat-label>
-            <app-custom-form-field-control
-              [required]="true"
-              placeholder="Start to type..."
-            ></app-custom-form-field-control>
-          </mat-form-field>
-
-          <!-- <div class="card">
-          <div class="card-header card-header-primary card-header-icon">
-            <div class="card-icon">
-              <mat-icon>playlist_add</mat-icon>
-            </div>
-            <h4 class="card-title">New</h4>
-          </div>
-          <div class="card-body">
-            <app-mining-table 
-              [data]="newMinings" 
-              (check)="check($event)" 
-              (showPdf)="showPdf($event)" 
-              (remove)="remove($event)"
-            > 
-            </app-mining-table>
-          </div>
-        </div> -->
-
-          <!-- <div class="card">
+        <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
               <mat-icon>playlist_add_check</mat-icon>
             </div>
-            <h4 class="card-title">Checked</h4>
+            <h4 class="card-title">Test</h4>
+
+            <form [formGroup]="formGroup">
+              <mat-form-field>
+                <!--custom single selection-->
+                <app-custom-single-selection
+                  [data]="ontoVisArrLength$ | async"
+                  formControlName="visId"
+                  placeholder="Select VIS function"
+                  placeholderLabel="Search VIS function..."
+                >
+                </app-custom-single-selection>
+              </mat-form-field>
+            </form>
+            <pre>{{ formGroup.value | json }}</pre>
+
+            <!--custom search form-->
+            <mat-form-field class="search-form-field" appearance="standard">
+              <mat-label>Search data streams</mat-label>
+              <app-custom-form-field-control
+                [required]="true"
+                placeholder="Start to type..."
+              ></app-custom-form-field-control>
+            </mat-form-field>
           </div>
-          <div class="card-body">
-            <app-mining-table 
-              [data]="checkedMinings" 
-              (check)="check($event)" 
-              (showPdf)="showPdf($event)" 
-              (remove)="remove($event)"
-            > 
-            </app-mining-table>
-          </div>
-        </div> -->
+          <div class="card-body"></div>
         </div>
-        <!--col-1-->
+        <!--card-->
+      </div>
+      <!--col-md-9-->
 
-        <div class="col-md-3">
-          <!--col-2-->
-
-          <!-- <div class="card">
+      <div class="col-md-3">
+        <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
               <mat-icon>notification_important</mat-icon>
             </div>
-            <h4 class="card-title">Timeline</h4>
+            <h4 class="card-title">Events</h4>
           </div>
           <div class="timeline-wrap">
             <timeline [timelineStream]="timelineStream"></timeline>
           </div>
-        </div> -->
         </div>
-        <!--col-2-->
       </div>
-      <!--row-1-->
     </div>
+    <!--col-md-3-->
   </div>
+  <!--row-->
 </div>

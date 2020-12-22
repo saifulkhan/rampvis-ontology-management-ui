@@ -19,6 +19,7 @@ import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component
 export class OntoDataTableComponent implements OnInit {
     @Input() ontoDataArr!: OntoData[];
     @Input() ontoDataArrLength!: number;
+    @Input() isEditable!: boolean;
     @Output() onClickEditOntoData: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() onClickDeleteOntoData: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() fetchOntoData: EventEmitter<OntoDataFilterVm> = new EventEmitter<OntoDataFilterVm>();
@@ -39,7 +40,7 @@ export class OntoDataTableComponent implements OnInit {
     constructor(private matDialog: MatDialog) {}
 
     ngOnInit(): void {
-        this.spinner = true;
+        // this.spinner = true;
         this.clearDataSource();
 
         this.filterTerm$.next(null as any);
@@ -57,7 +58,7 @@ export class OntoDataTableComponent implements OnInit {
             .pipe(
                 tap(() => {
                     if (!this.spinner) {
-                        this.spinner = true;
+                        //this.spinner = true;
                         this.clearDataSource();
                     }
                 }),
@@ -81,13 +82,14 @@ export class OntoDataTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        this.spinner = false;
+
         if (changes?.ontoDataArr) {
             this.setDataSource();
         }
     }
 
     public onClickViewData(data: OntoData) {
-        console.log(data);
         const dialogOpt = { width: '40%', data: data };
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
     }

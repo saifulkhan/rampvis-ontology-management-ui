@@ -18,16 +18,16 @@
             >
               <mat-icon>add</mat-icon>
             </button>
- 
-            <app-onto-data-table
-            [ontoDataArr]="ontoDataArr"
-            [ontoDataArrLength] = "ontoDataArrLength"
-            (onClickEditOntoData)="onClickEdit($event)"
-            (onClickDeleteOntoData)="onClickDelete($event)"
-            (fetchOntoData)="getOntoData($event)"
-          >
-          </app-onto-data-table>
 
+            <app-onto-data-table
+              [ontoDataArr]="ontoDataArr"
+              [ontoDataArrLength]="ontoDataArrLength"
+              [isEditable]="true"
+              (onClickEditOntoData)="onClickEdit($event)"
+              (onClickDeleteOntoData)="onClickDelete($event)"
+              (fetchOntoData)="getOntoData($event)"
+            >
+            </app-onto-data-table>
           </div>
           <!-- end content-->
         </div>

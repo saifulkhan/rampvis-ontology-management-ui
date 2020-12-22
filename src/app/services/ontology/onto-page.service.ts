@@ -20,7 +20,7 @@ export class OntoPageService {
     // Page
     //
     public getPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPage>> {
-        let query: string = `${this.url}/pages/?publishType=${filter.publishType}&page=${filter.page}&pageCount=${filter.pageCount}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
+        let query: string = `${this.url}/pages/?bindingType=${filter.bindingType}&page=${filter.page}&pageCount=${filter.pageCount}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
         if (filter.filter) {
             query = query.concat(`&filter=${filter.filter}`);
         }

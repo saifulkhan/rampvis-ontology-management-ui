@@ -13,6 +13,7 @@ import { PropagationComponent } from './propagation.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
 import { OntoVisDisplayModule } from '../onto-vis/display/onto-vis-display.module';
+import { OntoDataDisplayModule } from '../onto-data/display/onto-data-display.module';
 
 @NgModule({
     declarations: [PropagationComponent],
@@ -28,6 +29,7 @@ import { OntoVisDisplayModule } from '../onto-vis/display/onto-vis-display.modul
         CustomPipesModule,
         CustomSingleSelectionModule,
         OntoVisDisplayModule,
+        OntoDataDisplayModule,
     ],
     providers: [OntoVisService],
 })

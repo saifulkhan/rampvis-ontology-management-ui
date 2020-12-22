@@ -19,6 +19,10 @@ export class OntoVisService {
         return this.api.get<Array<OntoVis>>(`${this.url}`);
     }
 
+    public getOntoVis(id: string): Observable<OntoVis> {
+        return this.api.get<OntoVis>(`${this.url}/${id}`);
+    }
+    
     public createVis(ontoVis: OntoVis): Observable<OntoVis> {
         return this.api.post<OntoVis>(`${this.url}`, ontoVis);
     }
