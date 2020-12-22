@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { PageListComponent } from '../onto-page/page-list/page-list.component';
-import { PropagationComponent } from './vis-list/propagation.component';
+import { PropagationComponent } from './propagation.component';
 
 export const PropagationRoutes: Routes = [
   {

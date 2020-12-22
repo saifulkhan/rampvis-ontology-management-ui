@@ -1,10 +1,39 @@
 <div class="main-content dashboard-wrap">
   <div class="container-fluid page-wrap">
+    <div class="row">
+      <!--row-1-->
+      <div class="col-md-9">
+        <!--col-1-->
 
-    <div class="row"> <!--row-1-->
-      <div class="col-md-9"> <!--col-1-->
+        <div class="col-md-3">
+          <form [formGroup]="formGroup">
+            <mat-form-field>
 
-        <!-- <div class="card">
+              <!--custom single selection-->
+              <app-custom-single-selection
+                [data]="ontoVisArrLength$ | async"
+                formControlName="visId"
+                placeholder="Select VIS function"
+                placeholderLabel="Search VIS function..."
+              >
+              </app-custom-single-selection>
+            </mat-form-field>
+          </form>
+
+          <pre>
+            {{ formGroup.value | json }}
+          </pre>
+
+          <!--custom search form-->
+          <mat-form-field class="search-form-field" appearance="standard">
+            <mat-label>Search data streams</mat-label>
+            <app-custom-form-field-control
+              [required]="true"
+              placeholder="Start to type..."
+            ></app-custom-form-field-control>
+          </mat-form-field>
+
+          <!-- <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
               <mat-icon>playlist_add</mat-icon>
@@ -22,7 +51,7 @@
           </div>
         </div> -->
 
-        <!-- <div class="card">
+          <!-- <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
               <mat-icon>playlist_add_check</mat-icon>
@@ -39,12 +68,13 @@
             </app-mining-table>
           </div>
         </div> -->
+        </div>
+        <!--col-1-->
 
-      </div> <!--col-1-->
+        <div class="col-md-3">
+          <!--col-2-->
 
-      <div class="col-md-3"> <!--col-2-->
-
-        <!-- <div class="card">
+          <!-- <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
               <mat-icon>notification_important</mat-icon>
@@ -55,10 +85,10 @@
             <timeline [timelineStream]="timelineStream"></timeline>
           </div>
         </div> -->
-
-      </div> <!--col-2-->
-    
-    </div> <!--row-1-->
-
+        </div>
+        <!--col-2-->
+      </div>
+      <!--row-1-->
+    </div>
   </div>
 </div>

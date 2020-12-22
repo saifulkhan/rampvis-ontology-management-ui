@@ -16,7 +16,6 @@ import { OntoVisService } from '../services/ontology/onto-vis.service';
 export class OntoVisComponent implements OnInit {
     public ontoVisArr: OntoVis[] = [];
     public ontoVisArrLength!: number;
-    spinner = false;
 
     constructor(
         private ontoVisService: OntoVisService,

@@ -2,29 +2,28 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '../material.module';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { MaterialModule } from '../material.module';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
-import { TimelineModule } from '../components/timeline/timeline.module';
+import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { PDFViewerModule } from '../components/pdf-viewer/pdf-viewer.module';
+import { AdvancedSearchControlModule } from '../components/advanced-search-control/advanced-search-control.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(DashboardRoutes),
         FormsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
         MaterialModule,
-        AngularSvgIconModule,
-        TimelineModule,
+        CustomSingleSelectionModule,
+        // TimelineModule,
         CustomPipesModule,
-        PDFViewerModule,
+        AdvancedSearchControlModule,
     ],
-    declarations: [
-        DashboardComponent,
-    ]
+    declarations: [DashboardComponent],
 })
-
 export class DashboardModule {}

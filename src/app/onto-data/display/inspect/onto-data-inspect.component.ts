@@ -19,7 +19,7 @@ export class OntoDataInspectComponent implements OnInit {
     public column$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
 
     public url = '';
-    loading = true;
+    spinner = true;
 
     constructor(
         public matDialogRef: MatDialogRef<OntoDataInspectComponent>,
@@ -35,7 +35,7 @@ export class OntoDataInspectComponent implements OnInit {
                 this.jsonData$.next(res.slice(0, 10));
                 this.length$.next(res.length);
                 this.column$.next(Object.keys(res[0]) as any);
-                this.loading = false;
+                this.spinner = false;
             }
         });
     }

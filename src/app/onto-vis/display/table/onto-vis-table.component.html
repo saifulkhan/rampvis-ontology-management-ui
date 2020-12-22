@@ -65,6 +65,7 @@
 
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
         (click)="onClickEditOntoVis.emit(row)"

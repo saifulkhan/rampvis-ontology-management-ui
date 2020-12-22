@@ -2,14 +2,10 @@ import { Component, Input, OnInit, Output, ViewChild, EventEmitter, SimpleChange
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from '../../../models/table.data.interface';
-import { MatDialog } from '@angular/material/dialog';
 
-import { LocalNotificationService } from '../../../services/common/local-notification.service';
-import { DialogService } from 'src/app/services/common/dialog.service';
+import { TableData } from '../../../models/table.data.interface';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
-import { OntoVisService } from 'src/app/services/ontology/onto-vis.service';
- 
+
 @Component({
     selector: 'app-onto-vis-table',
     templateUrl: './onto-vis-table.component.html',
@@ -30,15 +26,9 @@ export class OntoVisTableComponent implements OnInit {
         dataRows: [],
     };
     spinner = false;
- 
     public searchTerm!: string;
 
-    constructor(
-        private ontoVisService: OntoVisService,
-        private matDialog: MatDialog,
-        private localNotificationService: LocalNotificationService,
-        private dialogService: DialogService,
-    ) {}
+    constructor() {}
 
     ngOnInit(): void {
         this.spinner = true;
@@ -50,10 +40,11 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.ontoVisArr) { this.setDataSource(); }
-      }
+        if (changes?.ontoVisArr) {
+            this.setDataSource();
+        }
+    }
 
-      
     public filterDataSource(): void {
         this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
     }

@@ -7,7 +7,6 @@ import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
 
 import { TableData } from '../../../models/table.data.interface';
-import { DialogService } from '../../../services/common/dialog.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
 import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
@@ -29,7 +28,7 @@ export class OntoDataTableComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['id', 'urlCode', 'endpoint', 'date', 'dataType', 'keywords', 'description', 'actions'],
+        headerRow: ['id', 'date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions'],
         dataRows: [],
     };
     spinner = false;
@@ -37,7 +36,7 @@ export class OntoDataTableComponent implements OnInit {
     filterTerm$ = new BehaviorSubject<string>('');
     filterDataType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
 
-    constructor(private matDialog: MatDialog, private dialogService: DialogService) {}
+    constructor(private matDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.spinner = true;

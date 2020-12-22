@@ -9,15 +9,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { PropagationRoutes } from './propagation.routing';
 import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
-import { PropagationComponent } from './vis-list/propagation.component';
+import { PropagationComponent } from './propagation.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
-import { AdvancedSearchControlModule } from '../components/advanced-search-control/advanced-search-control.module';
+import { OntoVisDisplayModule } from '../onto-vis/display/onto-vis-display.module';
 
 @NgModule({
-    declarations: [
-      PropagationComponent, 
-    ],
+    declarations: [PropagationComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(PropagationRoutes),
@@ -28,10 +26,9 @@ import { AdvancedSearchControlModule } from '../components/advanced-search-contr
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
-        AdvancedSearchControlModule,
         CustomSingleSelectionModule,
+        OntoVisDisplayModule,
     ],
     providers: [OntoVisService],
-    entryComponents: [],
 })
 export class PropagationModule {}

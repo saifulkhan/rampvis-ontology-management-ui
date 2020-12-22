@@ -1,11 +1,7 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TableData } from '../models/table.data.interface';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { DialogService } from '../services/common/dialog.service';

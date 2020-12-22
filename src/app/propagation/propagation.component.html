@@ -1,0 +1,116 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>playlist_add</mat-icon>
+        </div>
+        <h4 class="card-title">Propagation - {{ filterPublishType$.value | titlecase }}</h4>
+      </div>
+
+      <div class="card-body">
+        <!--Select VIS function-->
+        <div class="row">
+          <div class="col-md-9 offset-md-2 d-flex">
+            <mat-form-field class="col-md-4">
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="searchQuery"
+                [formControl]="searchForm"
+                [matAutocomplete]="auto"
+                placeholder="Search VIS Function"
+                #input
+              />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
+                <mat-option *ngFor="let d of suggestedList" [value]="d.streamDesc + ' ' + d.productDesc">
+                  <span [innerHTML]="d.streamDesc | highlight: toHighlight"></span> |
+                  <span [innerHTML]="d.productDesc | highlight: toHighlight"></span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Search VIS function-->
+        <div class="row">
+          <div class="col-md-9 offset-md-2 d-flex">
+            <mat-form-field class="col-md-4">
+              <app-custom-single-selection
+                [data]="visList$ | async"
+                placeholder="Select VIS function"
+                placeholderLabel="Search VIS function..."
+                (onSelectVis)="onSelectOntoVis($event)"
+              >
+              </app-custom-single-selection>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!--table vis function-->
+        <ng-container *ngIf="loading">
+          <app-onto-vis-table
+            [ontoVisArr]="ontoVisArr"
+            [ontoVisArrLength]="ontoVisArrLength"
+            (onClickEditOntoVis)="onClickEdit($event)"
+            (onClickDeleteOntoVis)="onClickDelete($event)"
+          >
+          </app-onto-vis-table>
+        </ng-container>
+      </div>
+      <!-- end card-body-->
+    </div>
+    <!--  end card  -->
+
+    <ng-container *ngIf="loading">
+      <div class="card">
+        <div class="card-body">
+          <!--data stream search 2-->
+          <div class="row">
+            <div class="col-md-9 offset-md-2 d-flex">
+              <mat-form-field class="col-md-3">
+                <mat-select [(ngModel)]="dataType" placeholder="Data Type">
+                  <mat-option [value]="null"></mat-option>
+                  <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
+
+              <mat-form-field class="col-md-9">
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="searchQuery"
+                  [formControl]="searchForm"
+                  [matAutocomplete]="auto"
+                  placeholder="Search data product or stream"
+                  #input
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
+                  <mat-option *ngFor="let d of suggestedList" [value]="d.streamDesc + ' ' + d.productDesc">
+                    <span [innerHTML]="d.streamDesc | highlight: toHighlight"></span> |
+                    <span [innerHTML]="d.productDesc | highlight: toHighlight"></span>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+              <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <!--propagation button-->
+        </div>
+        <!-- end content-->
+      </div>
+    </ng-container>
+
+    <!--  end card  -->
+  </div>
+</div>
