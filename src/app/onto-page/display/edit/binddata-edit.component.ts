@@ -3,10 +3,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 
-import { BaseNestedform } from '../../components/forms/base.nestedform';
-import { OntoData } from '../../models/ontology/onto-data.model';
+import { BaseNestedform } from '../../../components/forms/base.nestedform';
+import { OntoData } from '../../../models/ontology/onto-data.model';
 import { take, takeUntil } from 'rxjs/operators';
-import { OntoDataService } from '../../services/ontology/onto-data.service';
+import { OntoDataService } from '../../../services/ontology/onto-data.service';
 
 @Component({
     selector: 'app-binddata-edit',

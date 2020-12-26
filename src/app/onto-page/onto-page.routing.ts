@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { PageListComponent } from './page-list/page-list.component';
+import { OntoPageComponent } from './onto-page.component';
 
-export const OntologyRoutes: Routes = [
+export const OntoPageRoutes: Routes = [
     {
         path: '',
         children: [
-            { path: '', component: PageListComponent },
-            { path: ':releaseType', component: PageListComponent },
+            { path: '', component: OntoPageComponent },
+            { path: ':bindingType', component: OntoPageComponent },
         ],
     },
 ];

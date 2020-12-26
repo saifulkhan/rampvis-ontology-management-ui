@@ -12,18 +12,19 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
     styleUrls: ['./onto-vis-table.component.scss'],
 })
 export class OntoVisTableComponent implements OnInit {
-    @Input() ontoVisArr!: OntoVis[];
-    @Input() ontoVisArrLength!: number;
+    @Input() data!: OntoVis[];
+    @Input() len!: number;
     @Input() isEditable!: boolean;
-    @Output() onClickEditOntoVis: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
-    @Output() onClickDeleteOntoVis: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
+    @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onClickEdit: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
+    @Output() onClickDelete: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['id', 'function', 'type', 'dataTypes', 'description', 'actions'],
+        headerRow: ['function', 'type', 'dataTypes', 'description', 'actions'],
         dataRows: [],
     };
     spinner = false;
@@ -41,7 +42,7 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.ontoVisArr) {
+        if (changes?.data) {
             this.setDataSource();
         }
     }
@@ -52,6 +53,6 @@ export class OntoVisTableComponent implements OnInit {
 
     private setDataSource(): void {
         this.spinner = false;
-        this.tableDataSource.data = this.ontoVisArr;
+        this.tableDataSource.data = this.data;
     }
 }

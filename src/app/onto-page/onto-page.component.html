@@ -5,22 +5,23 @@
         <div class="card">
           <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
-              <mat-icon>storage</mat-icon>
+              <mat-icon>web</mat-icon>
             </div>
-            <h4 class="card-title">Data</h4>
+            <h4 class="card-title">Pages - {{ filterBindingType$.value | titlecase }}</h4>
           </div>
 
           <div class="card-body">
-            <app-onto-data-table
-              [data]="ontoDataArr"
-              [len]="ontoDataArrLength"
+            <app-onto-page-table
+              [data]="ontoPageArr"
+              [len]="ontoPageArrLen"
               [isEditable]="true"
               (onClickCreate)="onClickCreate()"
               (onClickEdit)="onClickEdit($event)"
               (onClickDelete)="onClickDelete($event)"
-              (fetchFilteredData)="getOntoData($event)"
+              (fetchFilteredData)="getOntoPages($event)"
             >
-            </app-onto-data-table>
+            </app-onto-page-table>
+
           </div>
           <!-- end card-body-->
         </div>

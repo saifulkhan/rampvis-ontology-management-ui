@@ -2,18 +2,17 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { LocalNotificationService } from '../../services/common/local-notification.service';
-import { UtilService } from '../../services/util.service';
-import { ANALYTICS, MODEL, SOURCE } from '../../models/ontology/onto-data-types';
-import { BaseFormComponent } from '../../components/forms/base-form.component';
-import { OntoPage, BINDING_TYPE } from '../../models/ontology/onto-page.model';
+import { LocalNotificationService } from '../../../services/common/local-notification.service';
+import { UtilService } from '../../../services/util.service';
+import { BaseFormComponent } from '../../../components/forms/base-form.component';
+import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
 
 @Component({
-    selector: 'app-page-edit',
-    templateUrl: './page-edit.component.html',
-    styleUrls: ['./page-edit.component.scss'],
+    selector: 'app-onto-page-edit',
+    templateUrl: './onto-page-edit.component.html',
+    styleUrls: ['./onto-page-edit.component.scss'],
 })
-export class PageEditComponent extends BaseFormComponent implements OnInit {
+export class OntoPageEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;
     formGroup!: FormGroup;
     dialogType: string; // dialog type: edit or new
@@ -22,10 +21,10 @@ export class PageEditComponent extends BaseFormComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        public matDialogRef: MatDialogRef<PageEditComponent>,
+        public matDialogRef: MatDialogRef<OntoPageEditComponent>,
         @Inject(MAT_DIALOG_DATA) data: any,
         private localNotificationService: LocalNotificationService,
-        private utilService: UtilService,
+        private utilService: UtilService
     ) {
         super();
 

@@ -1,17 +1,21 @@
 <div class="row" *ngIf="isEditable">
   <mat-form-field class="pull-left mt-1 col-md-4">
     <input
-      (keyup)="filterDataSource()"
-      [(ngModel)]="searchTerm"
+      [(ngModel)]="keyword"
+      (keyup)="filterTerm$.next(keyword)"
       matInput
       name="search"
-      placeholder="Filter..."
+      placeholder="Filter by ID..."
       type="text"
     />
   </mat-form-field>
 
   <div class="pull-right mt-1 col-md-8">
-    <button (click)="onClickCreate.emit()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
+    <button
+      (click)="onClickCreate.emit()"
+      class="btn btn-primary btn-round btn-fab float-right card-btn"
+      mat-mini-fab
+    >
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -21,43 +25,22 @@
   [dataSource]="tableDataSource"
   mat-table
   matSort
-  matSortActive="created"
+  matSortActive="date"
   matSortDirection="desc"
   matSortDisableClear="true"
 >
-  <ng-container matColumnDef="function">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Function</th>
-    <td *matCellDef="let row" mat-cell>{{ row.function }}</td>
+  <ng-container matColumnDef="date">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+    <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="type">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-    <td *matCellDef="let row" mat-cell>
-      <mat-chip-list>
-        <mat-chip *ngIf="row.type">{{ row.type }}</mat-chip>
-      </mat-chip-list>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="dataTypes">
-    <th *matHeaderCellDef mat-header-cell>Data Type</th>
-    <td *matCellDef="let row" mat-cell>
-      <mat-chip-list>
-        <mat-chip *ngFor="let d of row.dataTypes">
-          {{ d }}
-        </mat-chip>
-      </mat-chip-list>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="description">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
-    <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+  <ng-container matColumnDef="bindings">
+    <th *matHeaderCellDef mat-header-cell>No. binding</th>
+    <td *matCellDef="let row" mat-cell>{{ row.bindings.length }}</td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
-
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
         cdkCopyToClipboard="{{ row.id }}"
@@ -71,20 +54,18 @@
       </button>
 
       <button
-        *ngIf="isEditable"
         (click)="onClickEdit.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
         mat-icon-button
-        matTooltip="Edit/Update"
+        matTooltip="Edit row"
         type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
 
       <button
-        *ngIf="isEditable"
-        (click)="onClickDelete.emit(row)"
+        (click)="onClickDelete.emit(row.id)"
         [matTooltipPosition]="'left'"
         class="btn btn-danger btn-link"
         mat-icon-button
@@ -97,18 +78,12 @@
   </ng-container>
 
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-  <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+  <tr *matRowDef="let row; columns: tableData.headerRow" mat-row></tr>
 </table>
 
 <div *ngIf="spinner" class="spinner-background">
   <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate">
   </mat-progress-spinner>
 </div>
-<mat-paginator
-  *ngIf="isEditable"
-  [length]="len"
-  [pageSizeOptions]="[50, 100, 150, 200]"
-  [pageSize]="50"
-  showFirstLastButtons
->
+<mat-paginator [length]="len" [pageSizeOptions]="[50, 100, 150, 200]" [pageSize]="50" showFirstLastButtons>
 </mat-paginator>

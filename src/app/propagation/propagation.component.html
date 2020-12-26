@@ -26,10 +26,9 @@
 
         <!--Table vis function-->
         <app-onto-vis-table *ngIf="selectedOntoVisLen"
-          [ontoVisArr]="selectedOntoVis"
-          [ontoVisArrLength]="selectedOntoVisLen"
-          (onClickEditOntoVis)="onClickEdit($event)"
-          (onClickDeleteOntoVis)="onClickDelete($event)"
+          [data]="selectedOntoVis"
+          [len]="selectedOntoVisLen"
+
         >
         </app-onto-vis-table>
       </div>
@@ -92,8 +91,8 @@
 
         <!-- -->
         <app-onto-data-table *ngIf="ontoDataSearchResultLen > 0"
-          [ontoDataArr]="ontoDataSearchResult"
-          [ontoDataArrLength]="ontoDataSearchResultLen"
+          [data]="ontoDataSearchResult"
+          [len]="ontoDataSearchResultLen"
           (onClickEditOntoData)="onClickEdit($event)"
           (onClickDeleteOntoData)="onClickDelete($event)"
           (fetchOntoData)="getOntoData($event)"

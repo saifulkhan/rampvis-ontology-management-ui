@@ -1,13 +1,21 @@
-<mat-form-field class="pull-left mt-1 col-md-4" *ngIf="isEditable">
-  <input
-    matInput
-    type="text"
-    name="search"
-    [(ngModel)]="filterTerm"
-    (keyup)="filterTerm$.next(filterTerm)"
-    placeholder="Filter data stream..."
-  />
-</mat-form-field>
+<div class="row" *ngIf="isEditable">
+  <mat-form-field class="pull-left mt-1 col-md-4">
+    <input
+      matInput
+      type="text"
+      name="search"
+      [(ngModel)]="filterTerm"
+      (keyup)="filterTerm$.next(filterTerm)"
+      placeholder="Filter data stream..."
+    />
+  </mat-form-field>
+
+  <div class="pull-right mt-1 col-md-8">
+    <button (click)="onClickCreate.emit()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
 
 <table
   [dataSource]="tableDataSource"
@@ -17,22 +25,6 @@
   matSortDirection="desc"
   matSortDisableClear="true"
 >
-  <ng-container matColumnDef="id">
-    <th *matHeaderCellDef mat-header-cell>Copy ID</th>
-    <td *matCellDef="let row" mat-cell>
-      <button
-        cdkCopyToClipboard="{{ row.id }}"
-        [matTooltipPosition]="'left'"
-        class="btn btn-light btn-link"
-        mat-icon-button
-        matTooltip="Copy to clipboard"
-        type="button"
-      >
-        <mat-icon>content_copy</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
   <ng-container matColumnDef="urlCode">
     <th *matHeaderCellDef mat-header-cell>URL Code</th>
     <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
@@ -87,8 +79,19 @@
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        mat-icon-button
+        matTooltip="Copy to clipboard"
+        type="button"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button
         *ngIf="isEditable"
-        (click)="onClickEditOntoData.emit(row)"
+        (click)="onClickEdit.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
         mat-icon-button
@@ -100,7 +103,7 @@
 
       <button
         *ngIf="isEditable"
-        (click)="onClickDeleteOntoData.emit(row)"
+        (click)="onClickDelete.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-danger btn-link"
         mat-icon-button
@@ -121,9 +124,8 @@
   </mat-progress-spinner>
 </div>
 <mat-paginator
-  [length]="ontoDataArrLength"
-  [pageSizeOptions]="[50, 100, 150, 200]"
-  [pageSize]="50"
+  [length]="len" [pageSizeOptions]="[50, 100, 150, 200]" 
+  [pageSize]="50" 
   showFirstLastButtons
 >
 </mat-paginator>

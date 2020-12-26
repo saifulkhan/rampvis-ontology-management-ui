@@ -1,36 +1,35 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge } from 'rxjs';
+import { debounceTime, startWith, tap } from 'rxjs/operators';
 
+import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
-import { OntoData } from '../../../models/ontology/onto-data.model';
-import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
-import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
 
 @Component({
-    selector: 'app-onto-data-table',
-    templateUrl: './onto-data-table.component.html',
-    styleUrls: ['./onto-data-table.component.scss'],
+    selector: 'app-onto-page-table',
+    templateUrl: './onto-page-table.component.html',
+    styleUrls: ['./onto-page-table.component.scss'],
 })
-export class OntoDataTableComponent implements OnInit {
-    @Input() data!: OntoData[];
+export class OntoPageTableComponent implements OnInit {
+    @Input() data!: OntoPage[];
     @Input() len!: number;
     @Input() isEditable!: boolean;
-    @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() onClickEdit: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() onClickDelete: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() fetchFilteredData: EventEmitter<OntoDataFilterVm> = new EventEmitter<OntoDataFilterVm>();
+    @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onClickEdit: EventEmitter<OntoPage> = new EventEmitter<OntoPage>();
+    @Output() onClickDelete: EventEmitter<OntoPage> = new EventEmitter<OntoPage>();
+    @Output() fetchFilteredData: EventEmitter<OntoPageFilterVm> = new EventEmitter<OntoPageFilterVm>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
+    public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions'],
+        headerRow: ['date', 'bindings', 'actions'],
         dataRows: [],
     };
     spinner = false;
@@ -42,13 +41,16 @@ export class OntoDataTableComponent implements OnInit {
 
     ngOnInit(): void {
         this.spinner = true;
-        this.clearDataSource();
+        this.clearTableData();
 
         this.filterTerm$.next(null as any);
         this.filterType$.next(null as any);
     }
 
     ngAfterViewInit(): void {
+        this.tableDataSource.paginator = this.paginator;
+        this.tableDataSource.sort = this.sort;
+
         this.sort.sortChange.subscribe(() => {
             this.paginator.pageIndex = 0;
         });
@@ -58,24 +60,24 @@ export class OntoDataTableComponent implements OnInit {
                 tap(() => {
                     if (!this.spinner) {
                         this.spinner = true;
-                        this.clearDataSource();
+                        this.clearTableData();
                     }
                 }),
                 startWith(null),
                 debounceTime(1000)
             )
             .subscribe((res) => {
-                const ontoDataFilter = {
+                const ontoPageFilterVm = {
                     page: this.paginator.pageIndex,
                     pageCount: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
-                    dataType: this.filterType$.value,
+                    bindingType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
                     filter: this.filterTerm$.value,
-                } as OntoDataFilterVm;
+                } as OntoPageFilterVm;
 
-                console.log('OntoDataTableComponent:ngAfterViewInit: ontoDataFilter = ', ontoDataFilter);
-                this.fetchFilteredData.emit(ontoDataFilter);
+                console.log('OntoPageTableComponent:ngAfterViewInit: ontoPageFilterVm = ', ontoPageFilterVm);
+                this.fetchFilteredData.emit(ontoPageFilterVm);
             });
     }
 
@@ -92,14 +94,9 @@ export class OntoDataTableComponent implements OnInit {
         this.spinner = false;
     }
 
-    private clearDataSource(): void {
+    private clearTableData(): void {
         if (this.tableDataSource) {
             this.tableDataSource.data = [];
         }
-    }
-
-    public onClickViewData(data: OntoData) {
-        const dialogOpt = { width: '40%', data: data };
-        this.matDialog.open(OntoDataInspectComponent, dialogOpt);
     }
 }

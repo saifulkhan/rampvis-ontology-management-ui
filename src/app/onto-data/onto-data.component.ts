@@ -16,10 +16,10 @@ import { ErrorHandler2Service } from '../services/common/error-handler-2.service
     templateUrl: './onto-data.component.html',
     styleUrls: ['./onto-data.component.scss'],
 })
-export class OntoDataComponent implements OnInit {
+export class OntoDataComponent {
     public ontoDataArr!: OntoData[];
     public ontoDataArrLength!: number;
-    private ontoDataFilter!: OntoDataFilterVm;
+    private ontoDataFilterVm!: OntoDataFilterVm;
 
     constructor(
         private ontoDataService: OntoDataService,
@@ -28,8 +28,6 @@ export class OntoDataComponent implements OnInit {
         private dialogService: DialogService,
         private errorHandler2Service: ErrorHandler2Service
     ) {}
-
-    ngOnInit(): void {}
 
     public onClickCreate(): void {
         this.openVisEditModal('new', new OntoData());
@@ -43,9 +41,9 @@ export class OntoDataComponent implements OnInit {
         this.dialogService.warn('Delete Data', 'Are you sure you want to delete this?', 'Delete').then((result) => {
             if (result.value) {
                 this.ontoDataService.deleteData(data.id).subscribe((res: any) => {
-                    this.localNotificationService.success({ message: 'OntoData successfully deleted' });
+                    this.localNotificationService.success({ message: 'Successfully deleted' });
+                    this.ontoDataArr = this.ontoDataArr.filter((d) => d.id !== data.id);
                 });
-                this.ontoDataArr = this.ontoDataArr.filter((d) => d.id !== data.id);
             }
         });
     }
@@ -53,9 +51,9 @@ export class OntoDataComponent implements OnInit {
     public getOntoData(ontoDataFilter: OntoDataFilterVm) {
         console.log('OntoDataComponent:getOntoData: ontoDataFilter = ', ontoDataFilter);
 
-        this.ontoDataFilter = ontoDataFilter;
+        this.ontoDataFilterVm = ontoDataFilter;
         this.ontoDataService
-            .getAllData(ontoDataFilter)
+            .getAllData(this.ontoDataFilterVm)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);
@@ -86,7 +84,9 @@ export class OntoDataComponent implements OnInit {
             )
             .subscribe((response: OntoData | false) => {
                 if (!response) return;
-                this.getOntoData(this.ontoDataFilter);
+
+                this.localNotificationService.success({ message: 'Successfully created or updated' });
+                this.getOntoData(this.ontoDataFilterVm);
             });
     }
 }

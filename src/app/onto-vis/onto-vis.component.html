@@ -9,16 +9,13 @@
       </div>
 
       <div class="card-body">
-        <button (click)="onClickCreate()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
-          <mat-icon>add</mat-icon>
-        </button>
-
         <app-onto-vis-table
-          [ontoVisArr]="ontoVisArr"
-          [ontoVisArrLength]="ontoVisArrLength"
+          [data]="ontoVisArr"
+          [len]="ontoVisArrLength"
           [isEditable]="true"
-          (onClickEditOntoVis)="onClickEdit($event)"
-          (onClickDeleteOntoVis)="onClickDelete($event)"
+          (onClickCreate)="onClickCreate()"
+          (onClickEdit)="onClickEdit($event)"
+          (onClickDelete)="onClickDelete($event)"
         >
         </app-onto-vis-table>
       </div>

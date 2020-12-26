@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 
-import { BaseNestedform } from '../../components/forms/base.nestedform';
-import { OntoData } from '../../models/ontology/onto-data.model';
-import { OntoDataService } from '../../services/ontology/onto-data.service';
-import { QueryParams } from '../../models/ontology/query-params.model';
+import { BaseNestedform } from '../../../components/forms/base.nestedform';
+import { OntoData } from '../../../models/ontology/onto-data.model';
+import { OntoDataService } from '../../../services/ontology/onto-data.service';
+import { QueryParams } from '../../../models/ontology/query-params.model';
 
 @Component({
     selector: 'app-queryparam2-edit',
