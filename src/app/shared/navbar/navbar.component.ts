@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer2, ViewChild, ElementRef, Directive, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart, Event } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { filter } from 'rxjs/operators';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, NavigationEnd, Event } from '@angular/router';
+import { Location } from '@angular/common';
+import { filter, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { ROUTES } from '../sidebar/sidebar.component';
 
@@ -26,7 +26,6 @@ export class NavbarComponent implements OnInit {
     private nativeElement: Node;
     private toggleButton: any;
     private sidebarVisible: boolean;
-    private _router!: Subscription;
 
     private routerSubscription!: Subscription;
     private currentPath!: string;
@@ -111,8 +110,8 @@ export class NavbarComponent implements OnInit {
         if (body.classList.contains('hide-sidebar')) {
             misc.hide_sidebar_active = true;
         }
-        this._router = this.router.events
-            .filter((e: Event) => e instanceof NavigationEnd)
+        this.router.events.pipe(
+            filter((e: Event) => e instanceof NavigationEnd))
             .subscribe(() => {
                 this.sidebarClose();
                 const $layer = document.getElementsByClassName('close-layer')[0];

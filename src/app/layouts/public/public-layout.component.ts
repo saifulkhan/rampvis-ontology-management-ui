@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart, Event } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -11,7 +10,6 @@ export class PublicLayoutComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     mobile_menu_visible: any = 0;
-    private _router!: Subscription;
 
     constructor(private router: Router, private element: ElementRef) {
         this.sidebarVisible = false;
@@ -21,11 +19,11 @@ export class PublicLayoutComponent implements OnInit {
         const navbar: HTMLElement = this.element.nativeElement;
 
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-        this._router = this.router.events
-            .pipe(filter((event: Event) => event instanceof NavigationEnd))
+        this.router.events.pipe(
+            filter((event: Event) => event instanceof NavigationEnd))
             .subscribe((event: any) => {
                 this.sidebarClose();
-                const $layer = document.getElementsByClassName( 'close-layer' )[0];
+                const $layer = document.getElementsByClassName('close-layer')[0];
                 if ($layer) {
                     $layer.remove();
                 }
@@ -48,13 +46,9 @@ export class PublicLayoutComponent implements OnInit {
         $layer.setAttribute('class', 'close-layer');
 
         if (body.querySelectorAll('.wrapper-full-page')) {
-            document
-                .getElementsByClassName('wrapper-full-page')[0]
-                .appendChild($layer);
+            document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
         } else if (body.classList.contains('off-canvas-sidebar')) {
-            document
-                .getElementsByClassName('wrapper-full-page')[0]
-                .appendChild($layer);
+            document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
         }
 
         setTimeout(function () {

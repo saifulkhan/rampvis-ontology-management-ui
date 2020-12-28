@@ -2,8 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, Event } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/filter';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import { NavItem, NavItemType } from './nav-item.interface';
@@ -22,7 +20,6 @@ declare const $: any;
 })
 export class PrivateLayoutComponent implements OnInit, AfterViewInit {
     public navItems!: NavItem[];
-    private _router!: Subscription;
     private lastPoppedUrl!: string;
     private yScrollStack: number[] = [];
     url!: string;
@@ -47,8 +44,8 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
         // initialize the services
         this.messagingService.register();
 
-        const elemMainPanel = <HTMLElement>(document.querySelector('.main-panel'));
-        const elemSidebar = <HTMLElement>(document.querySelector('.sidebar .sidebar-wrapper'));
+        const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
+        const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
         this.location.subscribe((ev: PopStateEvent) => {
             this.lastPoppedUrl = ev.url as string;
         });
@@ -68,12 +65,10 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
         });
 
         this.currentUser = this.authService.getUser();
-        this.authorizationService.setUserPermissions(
-            this.apiService.getToken()
-        );
+        this.authorizationService.setUserPermissions(this.apiService.getToken());
 
-        this._router = this.router.events
-            .pipe(filter((event: Event) => event instanceof NavigationEnd))
+        this.router.events.pipe(
+            filter((event: Event) => event instanceof NavigationEnd))
             .subscribe((event: any) => {
                 elemMainPanel.scrollTop = 0;
                 elemSidebar.scrollTop = 0;
@@ -89,8 +84,8 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
             html.classList.add('perfect-scrollbar-off');
         }
 
-        this._router = this.router.events
-            .filter((event: Event) => event instanceof NavigationEnd)
+        this.router.events.pipe(
+            filter((event: Event) => event instanceof NavigationEnd))
             .subscribe((event: any) => {
                 this.navbar.sidebarClose();
             });
@@ -167,8 +162,8 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
 
     runOnRouteChange(): void {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-            const elemSidebar = <HTMLElement>(document.querySelector('.sidebar .sidebar-wrapper'));
-            const elemMainPanel = <HTMLElement>(document.querySelector('.main-panel'));
+            const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
+            const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
             let ps: PerfectScrollbar;
             ps = new PerfectScrollbar(elemSidebar);
             ps.update();
@@ -177,7 +172,10 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
 
     isMac(): boolean {
         let bool = false;
-        if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
+        if (
+            navigator.platform.toUpperCase().indexOf('MAC') >= 0 ||
+            navigator.platform.toUpperCase().indexOf('IPAD') >= 0
+        ) {
             bool = true;
         }
         return bool;
