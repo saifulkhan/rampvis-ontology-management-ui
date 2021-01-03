@@ -18,7 +18,7 @@
 </div>
 
 <table
-  [dataSource]="tableDataSource"
+  [dataSource]="dataSource"
   mat-table
   matSort
   matSortActive="date"
@@ -34,16 +34,6 @@
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
     <td *matCellDef="let row" mat-cell>
       {{ row.endpoint | truncate: "75" }}
-      <button
-        (click)="onClickViewData(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-primary btn-link"
-        mat-icon-button
-        matTooltip="View data"
-        type="button"
-      >
-        <mat-icon>open_in_new</mat-icon>
-      </button>
     </td>
   </ng-container>
 
@@ -75,8 +65,17 @@
     </td>
   </ng-container>
 
+  <!-- Action Column -->
   <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>
+      Actions
+      <!-- Selection -->
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
         cdkCopyToClipboard="{{ row.id }}"
@@ -87,6 +86,17 @@
         type="button"
       >
         <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="View data"
+        type="button"
+      >
+        <mat-icon>open_in_new</mat-icon>
       </button>
 
       <button
@@ -112,7 +122,17 @@
       >
         <mat-icon>close</mat-icon>
       </button>
+
+      <!-- Selection -->
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+
     </td>
+
   </ng-container>
 
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
@@ -123,9 +143,12 @@
   <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate">
   </mat-progress-spinner>
 </div>
+
 <mat-paginator
-  [length]="len" [pageSizeOptions]="[50, 100, 150, 200]" 
-  [pageSize]="50" 
+  [hidden]= "!isEditable"
+  [length]="len"
+  [pageSizeOptions]="[50, 100, 150, 200]"
+  [pageSize]="50"
   showFirstLastButtons
 >
 </mat-paginator>

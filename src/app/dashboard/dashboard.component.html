@@ -13,10 +13,11 @@
               <mat-form-field>
                 <!--custom single selection-->
                 <app-custom-single-selection
-                  [data]="ontoVisArrLength$ | async"
+                  [data]="data$ | async"
                   formControlName="visId"
                   placeholder="Select VIS function"
                   placeholderLabel="Search VIS function..."
+                  (onSelectId)="onSelectOntoVis($event)"
                 >
                 </app-custom-single-selection>
               </mat-form-field>
@@ -47,7 +48,7 @@
             <h4 class="card-title">Events</h4>
           </div>
           <div class="timeline-wrap">
-            <timeline [timelineStream]="timelineStream"></timeline>
+            <p>List of events </p>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
 
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
@@ -28,7 +29,7 @@ export class OntoDataTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions'],
         dataRows: [],
@@ -37,6 +38,8 @@ export class OntoDataTableComponent implements OnInit {
 
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
+
+    selection = new SelectionModel<OntoData>(true, []);
 
     constructor(private matDialog: MatDialog) {}
 
@@ -66,8 +69,8 @@ export class OntoDataTableComponent implements OnInit {
             )
             .subscribe((res) => {
                 const ontoDataFilter = {
-                    page: this.paginator.pageIndex,
-                    pageCount: this.paginator.pageSize,
+                    pageIndex: this.paginator.pageIndex,
+                    pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
                     dataType: this.filterType$.value,
@@ -88,18 +91,40 @@ export class OntoDataTableComponent implements OnInit {
     }
 
     private setDataSource(): void {
-        this.tableDataSource.data = this.data;
+        this.dataSource.data = this.data;
         this.spinner = false;
     }
 
     private clearDataSource(): void {
-        if (this.tableDataSource) {
-            this.tableDataSource.data = [];
+        if (this.dataSource) {
+            this.dataSource.data = [];
         }
     }
 
     public onClickViewData(data: OntoData) {
         const dialogOpt = { width: '40%', data: data };
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
+    }
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected()
+            ? this.selection.clear()
+            : this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: OntoData): string {
+        console.log('OntoDataTableComponent: row = ', row);
+        if (!row) {
+            return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
     }
 }

@@ -5,11 +5,12 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { MatInput } from '@angular/material/input';
 
-import { OntoVis } from '../../models/ontology/onto-vis.model';
-import { OntoVisService } from '../../services/ontology/onto-vis.service';
-import { FormFieldValue } from '../advanced-search-control/custom-form-field-control/custom-form-field-control.component';
+
+export interface CustomSingleSelectionData {
+    id: string;
+    name: string;
+}
 
 @Component({
     selector: 'app-custom-single-selection',
@@ -23,44 +24,57 @@ import { FormFieldValue } from '../advanced-search-control/custom-form-field-con
     ],
 })
 export class CustomSingleSelectionComponent
-    implements OnInit, MatFormFieldControl<FormFieldValue>, ControlValueAccessor, DoCheck {
-    @Input() placeholder: string = '';
+    implements OnInit, MatFormFieldControl<CustomSingleSelectionData>, ControlValueAccessor, DoCheck {
+    // @Input() placeholder: string = '';
     @Input() placeholderLabel: string = '';
     @Input() disabled: boolean = false;
-    @Input() data: Array<any> = [];
-    @Output() onSelectVis: EventEmitter<string> = new EventEmitter<string>();
+    @Input() data: Array<CustomSingleSelectionData> = [];
+    @Output() onSelectId: EventEmitter<string> = new EventEmitter<string>();
 
     //
     // MatFormFieldControl
     //
-    @ViewChild(MatInput, { read: ElementRef, static: true })
-    input!: ElementRef;
 
+    // value!: CustomSingleSelectionFormFieldValue;
     stateChanges: Observable<void> = new Subject<void>();
     id!: string;
-    focused!: boolean;
+
+    @Input()
+    set placeholder(value: string) {
+        this._placeholder = value;
+    }
+    get placeholder() {
+        return this._placeholder;
+    }
+    private _placeholder!: string;
+
+    // ngControl!: NgControl;
+    focused: boolean = true;
     empty!: boolean;
-    shouldLabelFloat!: boolean;
+    shouldLabelFloat: boolean = true;
     required!: boolean;
+    // disabled!: boolean;
     errorState: boolean = false;
     controlType: string = 'custom-single-selection';
-    autofilled?: boolean | undefined;
-    userAriaDescribedBy?: string | undefined;
+    autofilled?: boolean;
 
-    @HostBinding('attr.aria-describedby') describedBy = '';
+    setDescribedByIds(ids: string[]): void {
+    }
+    onContainerClick(event: MouseEvent): void {
+    }
 
     //
     // ControlValueAccessor
     //
-    public value: any = '';
+    public value!: CustomSingleSelectionData;
 
     //
     //  ngx-mat-select-search
     //
     // Control for the MatSelect filter keyword.
-    public dataIdFilterCtrl: FormControl = new FormControl();
+    public dataFilterCtrl: FormControl = new FormControl();
     // List of data {id: , other: } filtered by search keyword for multi-selection.
-    public filteredDataId$: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
+    public filteredData$: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
     @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
     // Subject that emits when the component has been destroyed.
     private _onDestroy = new Subject<void>();
@@ -68,38 +82,29 @@ export class CustomSingleSelectionComponent
     constructor(
         private focusMonitor: FocusMonitor,
         @Optional() @Self() public ngControl: NgControl,
-        public injector: Injector,
+        public injector: Injector
     ) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
         }
     }
 
-    //
-    // MatFormFieldControl
-    //
-    setDescribedByIds(ids: string[]): void {
-        this.describedBy = ids.join(' ');
-    }
-    onContainerClick(event: MouseEvent): void {
-        // this.focusMonitor.focusVia(this.input, 'program');
-    }
+    ngOnInit(): void {}
 
-    ngDoCheck(): void {
-        if (this.ngControl) {
-            this.errorState = (this.ngControl.invalid && this.ngControl.touched) as boolean;
-            // this.stateChanges.next();
-        }
-    }
 
     //
     // ControlValueAccessor
     //
 
+    ngDoCheck(): void {
+        if (this.ngControl) {
+            this.errorState = (this.ngControl.invalid && this.ngControl.touched) as boolean;
+        }
+    }
+
     // Write form value to the DOM element (model => view)
     writeValue(value: any): void {
         this.value = value;
-        console.log('CustomSelectionComponent:writeValue value = ', this.value);
     }
 
     // Write form disabled state to the DOM element (model => view)
@@ -126,9 +131,6 @@ export class CustomSingleSelectionComponent
     // ngx-mat-select-search
     //
 
-    ngOnInit(): void {
-    }
-
     ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
@@ -136,18 +138,17 @@ export class CustomSingleSelectionComponent
 
     ngOnChanges(changes: SimpleChanges) {
         // Use data.previousValue and data.firstChange for comparing old and new values
+
         if (changes.data.currentValue) {
             this.setData();
         }
     }
 
     private setData() {
-        console.log('CustomSelectionComponent:setData data = ', this.data);
-
-        // load the initial visIds list
-        this.filteredDataId$.next(this.data.slice());
+        // load the initial list
+        this.filteredData$.next(this.data.slice());
         // listen for search field value changes
-        this.dataIdFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+        this.dataFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
             this.filterDataByIds();
         });
 
@@ -156,13 +157,13 @@ export class CustomSingleSelectionComponent
 
     // Sets the initial value after the filteredVisIds are loaded initially
     protected setInitialValue() {
-        this.filteredDataId$.pipe(take(1), takeUntil(this._onDestroy)).subscribe(() => {
+        this.filteredData$.pipe(take(1), takeUntil(this._onDestroy)).subscribe(() => {
             // setting the compareWith property to a comparison function
             // triggers initializing the selection according to the initial value of
             // the form control (i.e. _initializeSelection())
             // this needs to be done after the filteredVisIds are loaded initially
             // and after the mat-option elements are available
-            this.singleSelect.compareWith = (a: OntoVis, b: OntoVis) => a && b && a === b;
+            this.singleSelect.compareWith = (a: CustomSingleSelectionData, b: CustomSingleSelectionData) => a && b && a === b;
         });
     }
 
@@ -171,15 +172,15 @@ export class CustomSingleSelectionComponent
             return;
         }
         // get the search keyword
-        let search = this.dataIdFilterCtrl.value;
+        let search = this.dataFilterCtrl.value;
         if (!search) {
-            this.filteredDataId$.next(this.data.slice());
+            this.filteredData$.next(this.data.slice());
             return;
         } else {
             search = search.toLowerCase();
         }
-        // filter the visIds
+        // filter the ids
         // console.log('search = ', search, ', filter = ', this.data.filter((visId) => visId.function.toLowerCase().indexOf(search) > -1));
-        this.filteredDataId$.next(this.data.filter((visId) => visId.function.toLowerCase().indexOf(search) > -1));
+        this.filteredData$.next(this.data.filter((d: CustomSingleSelectionData) => d.name.toLowerCase().indexOf(search) > -1));
     }
 }

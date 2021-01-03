@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ReplaySubject } from 'rxjs';
 
+import { CustomSingleSelectionData } from '../components/custom-single-selection/custom-single-selection.component';
 import { OntoVis } from '../models/ontology/onto-vis.model';
 import { DialogService } from '../services/common/dialog.service';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
@@ -16,12 +17,9 @@ export class DashboardComponent {
     formGroup: FormGroup;
     public ontoVisArr!: OntoVis[];
     public ontoVisArrLength!: number;
-    public ontoVisArrLength$: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1);
+    public data$: ReplaySubject<CustomSingleSelectionData[]> = new ReplaySubject<CustomSingleSelectionData[]>(1);
 
     constructor(
-        private zone: NgZone,
-        private matDialog: MatDialog,
-        private dialogService: DialogService,
         private ontoVisService: OntoVisService
     ) {
         this.formGroup = new FormGroup({
@@ -31,12 +29,19 @@ export class DashboardComponent {
             if (res) {
                 this.ontoVisArr = res;
                 this.ontoVisArrLength = res.length;
-                this.ontoVisArrLength$.next(res.slice());
+                this.data$.next(
+                    res.map((d: OntoVis) => {
+                        return {
+                            id: d.id,
+                            name: d.function,
+                        };
+                    })
+                );
             }
         });
     }
 
-    ngOnInit(): void {}
-
-    ngOnDestroy(): void {}
+    public onSelectOntoVis(value: any) {
+        console.log('DashboardComponent:onSelectOntoVis: value = ', value);
+    }
 }

@@ -1,44 +1,54 @@
 <div class="main-content">
   <div class="container-fluid">
+
+    <!-- Select VIS -->
+
     <div class="card">
+
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>playlist_add</mat-icon>
         </div>
-        <h4 class="card-title">Propagation - {{ filterPublishType$.value | titlecase }}</h4>
+        <h4 class="card-title">Propagation</h4>
       </div>
 
       <div class="card-body">
-        <!-- Select VIS function-->
         <div class="row">
-          <div class="col-md-3">
-            <mat-form-field>
+          <div class="pull-left mt-1 col-md-3">
+            <mat-form-field >
               <app-custom-single-selection
                 [data]="ontoVisArr$ | async"
                 placeholder="Select VIS function"
                 placeholderLabel="Search VIS function..."
-                (onSelectVis)="onSelectOntoVis($event)"
+                (onSelectId)="onSelectOntoVis($event)"
               >
               </app-custom-single-selection>
             </mat-form-field>
           </div>
+          <div class="pull-right mt-1 col-md-9">
+            <!--Propagation button-->
+            <button mat-raised-button class="btn btn-primary float-right" (click)="search()">Propagate</button>
+          </div>
         </div>
 
-        <!--Table vis function-->
-        <app-onto-vis-table *ngIf="selectedOntoVisLen"
-          [data]="selectedOntoVis"
-          [len]="selectedOntoVisLen"
-
-        >
-        </app-onto-vis-table>
+        <!--Selected VIS table-->
+        <app-onto-vis-table *ngIf="ontoVisArrLen" [data]="ontoVisArr" [len]="ontoVisArrLen"> </app-onto-vis-table>
       </div>
-      <!-- end card-body-->
     </div>
-    <!--  end card  -->
 
-    <!--Data search-->
-    <div class="card">
+    <!--Example data-->
+
+    <div class="card" *ngIf="ontoVisArrLen">
       <div class="card-body">
+        <app-onto-data-table *ngIf="ontoVisArrLen" [data]="ontoDataArr" [len]="ontoDataArrLen"> </app-onto-data-table>
+      </div>
+    </div>
+
+    <!--Search data-->
+
+    <div class="card" *ngIf="ontoVisArrLen">
+      <div class="card-body">
+
         <div class="row">
           <div class="col-md-6 offset-md-2 d-flex">
             <mat-form-field class="col-md-3">
@@ -50,9 +60,8 @@
 
             <mat-divider [vertical]="true" class="divider"></mat-divider>
 
-            <mat-form-field class="col-md-9">
-              <mat-icon matSuffix>search</mat-icon>
-
+            <mat-form-field>
+              <!-- <mat-icon matSuffix>search</mat-icon> -->
               <input
                 matInput
                 type="text"
@@ -70,38 +79,31 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+          </div>
 
-            <!-- 
-              <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
-                <mat-icon>search</mat-icon>
-              </button> 
-            -->
+          <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+            <mat-icon>search</mat-icon>
+          </button>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <app-onto-data-table
+              *ngIf="ontoDataSearchResultLen > 0"
+              [data]="ontoDataSearchResult"
+              [len]="ontoDataSearchResultLen"
+              (onClickEditOntoData)="onClickEdit($event)"
+              (onClickDeleteOntoData)="onClickDelete($event)"
+              (fetchOntoData)="getOntoData($event)"
+            >
+            </app-onto-data-table>
           </div>
         </div>
 
-        <!--propagation button-->
-
-        <button 
-          mat-raised-button 
-          class="btn btn-primary float-right"
-          (click)="search()"
-        >
-          Propagate
-        </button>
-
-        <!-- -->
-        <app-onto-data-table *ngIf="ontoDataSearchResultLen > 0"
-          [data]="ontoDataSearchResult"
-          [len]="ontoDataSearchResultLen"
-          (onClickEditOntoData)="onClickEdit($event)"
-          (onClickDeleteOntoData)="onClickDelete($event)"
-          (fetchOntoData)="getOntoData($event)"
-        >
-        </app-onto-data-table>
       </div>
-      <!-- end content-->
     </div>
 
-    <!--  end card  -->
-  </div>
-</div>
+  </div> <!--container-fluid-->
+</div> <!--main-content-->
+

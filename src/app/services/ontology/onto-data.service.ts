@@ -17,8 +17,8 @@ export class OntoDataService {
     constructor(private api: APIService) {}
 
     public getAllData(filter: OntoDataFilterVm): Observable<PaginationModel<OntoData>> {
-        let query: string = `${this.url}/?page=${filter.page}&pageCount=${filter.pageCount}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
-       
+        let query: string = `${this.url}/?page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
+
         if (filter.dataType) {
             query = query.concat(`&dataType=${filter.dataType}`);
         }

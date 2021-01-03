@@ -1,1 +1,16 @@
- 
+@import "../../../../styles.scss";
+
+// collapse / expand table
+tr.bindings-detail-row {
+  height: 0;
+}
+
+.bindings-element-detail {
+  overflow: hidden;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  background-color: white;
+  box-shadow: inset 1px 1px 8px #c1c1c1;
+  border-radius: 8px;
+}

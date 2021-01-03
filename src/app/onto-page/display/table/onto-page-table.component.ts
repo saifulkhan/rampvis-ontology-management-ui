@@ -5,6 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, merge } from 'rxjs';
 import { debounceTime, startWith, tap } from 'rxjs/operators';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
@@ -14,6 +15,13 @@ import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model
     selector: 'app-onto-page-table',
     templateUrl: './onto-page-table.component.html',
     styleUrls: ['./onto-page-table.component.scss'],
+    animations: [
+        trigger('detailExpand', [
+          state('collapsed', style({ height: '0px', minHeight: '0' })),
+          state('expanded', style({ height: '*' })),
+          transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+      ],
 })
 export class OntoPageTableComponent implements OnInit {
     @Input() data!: OntoPage[];
@@ -33,6 +41,7 @@ export class OntoPageTableComponent implements OnInit {
         dataRows: [],
     };
     spinner = false;
+    isTableExpanded = false;
 
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
@@ -68,8 +77,8 @@ export class OntoPageTableComponent implements OnInit {
             )
             .subscribe((res) => {
                 const ontoPageFilterVm = {
-                    page: this.paginator.pageIndex,
-                    pageCount: this.paginator.pageSize,
+                    pageIndex: this.paginator.pageIndex,
+                    pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
                     bindingType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
@@ -99,4 +108,15 @@ export class OntoPageTableComponent implements OnInit {
             this.tableDataSource.data = [];
         }
     }
+
+
+
+  // Toggel Rows
+  toggleTableRows() {
+    this.isTableExpanded = !this.isTableExpanded;
+
+    this.data.forEach((row: any) => {
+      row.isExpanded = this.isTableExpanded;
+    })
+  }
 }

@@ -51,18 +51,6 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
     },
     {
-        path: '/propagation',
-        title: 'Propagation',
-        type: 'sub',
-        icontype: 'playlist_add',
-        roles: [Role.ADMIN],
-        collapse: 'propagation',
-        children: [
-            { path: `${PROPAGATION_TYPE.ONE_TO_ONE}`, title: '1-1 Propagation', ab: '1-1' },
-            { path: `${PROPAGATION_TYPE.ONE_TO_N}`, title: '1-N Propagation', ab: '1-N' },
-        ],
-    },  
-    {
         path: '/page',
         title: 'Bindings & Pages',
         type: 'sub',
@@ -73,6 +61,18 @@ export const ROUTES: RouteInfo[] = [
             { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
             { path: `${BINDING_TYPE.REVIEW}`, title: 'Review Pages', ab: 'RVP' },
             { path: `${BINDING_TYPE.RELEASE}`, title: 'Released Pages', ab: 'RLP' },
+        ],
+    },
+    {
+        path: '/propagation',
+        title: 'Propagation',
+        type: 'sub',
+        icontype: 'playlist_add',
+        roles: [Role.ADMIN],
+        collapse: 'propagation',
+        children: [
+            { path: `${PROPAGATION_TYPE.ONE_TO_ONE}`, title: '1-1 Propagation', ab: '1-1' },
+            { path: `${PROPAGATION_TYPE.ONE_TO_N}`, title: '1-N Propagation', ab: '1-N' },
         ],
     },  
     {

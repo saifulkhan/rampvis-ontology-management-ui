@@ -2,14 +2,13 @@
 // TODO: Review - should we have src/assets/css/ramp-vis-onto.scss and this both?
 //
 
-
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
 
 .ag-theme-alpine {
-    @include ag-theme-alpine();
+  @include ag-theme-alpine();
 }
 
 .angular-list-grid {
@@ -33,4 +32,24 @@
 .cdk-global-overlay-wrapper {
   overflow-y: scroll !important;
   pointer-events: all !important;
+}
+
+.text-in-dot {
+  width: 100%;
+  display: inline-block;
+  flex-direction: row;
+  justify-content: center;
+
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+
+  background: #fff;
+  // border: 2px solid #666;
+  // color: #666;
+  text-align: center;
+  color: white;
+
+  font: 15px Arial, sans-serif;
 }

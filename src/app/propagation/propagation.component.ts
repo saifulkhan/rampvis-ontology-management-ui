@@ -10,6 +10,7 @@ import { DATA_TYPE } from '../models/ontology/onto-data-types';
 import { OntoData, OntoDataSearch } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CustomSingleSelectionData } from '../components/custom-single-selection/custom-single-selection.component';
 
 @Component({
     selector: 'app-propagation',
@@ -17,10 +18,15 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     styleUrls: ['./propagation.component.scss'],
 })
 export class PropagationComponent implements OnInit {
-    // vis
-    public ontoVisArr$: ReplaySubject<OntoVis[]> = new ReplaySubject<OntoVis[]>(1); // All OntoVis
-    public selectedOntoVis: OntoVis[] = []; // The selected
-    public selectedOntoVisLen: number = 0;
+    // Vis: All VIS function for dropdown and the selected VIS as array
+    public ontoVisArr$: ReplaySubject<CustomSingleSelectionData[]> = new ReplaySubject<CustomSingleSelectionData[]>(1);
+    public ontoVisArr: OntoVis[] = [];
+    public ontoVisArrLen: number = 0;
+
+    // Example binding data
+    public ontoDataArr: OntoData[] = [];
+    public ontoDataArrLen: number = 0;
+
 
     // data search form
     filterPublishType$ = new BehaviorSubject<string>('');
@@ -103,7 +109,14 @@ export class PropagationComponent implements OnInit {
     private getAllOntoVis() {
         this.ontoVisService.getAllVis().subscribe((res: OntoVis[]) => {
             if (res) {
-                this.ontoVisArr$.next(res.slice());
+                this.ontoVisArr$.next(
+                    res.map((d: OntoVis) => {
+                        return {
+                            id: d.id,
+                            name: d.function,
+                        };
+                    })
+                );
                 console.log('PropagationComponent: getAllOntoVis: ontoVisArr$ = ', res);
             }
         });
@@ -112,9 +125,16 @@ export class PropagationComponent implements OnInit {
     private getOntoVis(visId: string) {
         this.ontoVisService.getOntoVis(visId).subscribe((res: OntoVis) => {
             if (res) {
-                this.selectedOntoVis = [res];
-                this.selectedOntoVisLen = this.selectedOntoVis.length;
-                console.log('PropagationComponent: getOntoVis: ontoVisArr = ', this.selectedOntoVis);
+                this.ontoVisArr = [res];
+                this.ontoVisArrLen = this.ontoVisArr.length;
+                console.log('PropagationComponent: getOntoVis: ontoVisArr = ', this.ontoVisArr);
+
+                // TODO:
+                this.ontoVisService.getExamplePagesBindingVisId(visId).subscribe((ontoData: OntoData[]) => {
+                    console.log('PropagationComponent: getOntoVis: ontoData = ', ontoData);
+                    this.ontoDataArr = ontoData;
+                    this.ontoDataArrLen = this.ontoDataArr.length;
+                });
             }
         });
     }

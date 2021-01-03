@@ -1,33 +1,29 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary card-header-icon">
-            <div class="card-icon">
-              <mat-icon>storage</mat-icon>
-            </div>
-            <h4 class="card-title">Data</h4>
-          </div>
 
-          <div class="card-body">
-            <app-onto-data-table
-              [data]="ontoDataArr"
-              [len]="ontoDataArrLength"
-              [isEditable]="true"
-              (onClickCreate)="onClickCreate()"
-              (onClickEdit)="onClickEdit($event)"
-              (onClickDelete)="onClickDelete($event)"
-              (fetchFilteredData)="getOntoData($event)"
-            >
-            </app-onto-data-table>
-          </div>
-          <!-- end card-body-->
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>storage</mat-icon>
         </div>
-        <!--  end card  -->
+        <h4 class="card-title">Data</h4>
       </div>
-      <!-- end col-md-12 -->
+
+      <div class="card-body">
+        <app-onto-data-table
+          [data]="ontoDataArr"
+          [len]="ontoDataArrLength"
+          [isEditable]="true"
+          (onClickCreate)="onClickCreate()"
+          (onClickEdit)="onClickEdit($event)"
+          (onClickDelete)="onClickDelete($event)"
+          (fetchFilteredData)="getOntoData($event)"
+        >
+        </app-onto-data-table>
+
+      </div>
+      <!-- end card-body-->
     </div>
-    <!-- end row -->
+    <!--  end card  -->
   </div>
 </div>
