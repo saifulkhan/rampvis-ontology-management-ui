@@ -13,7 +13,8 @@
         <app-onto-data-table
           [data]="ontoDataArr"
           [len]="ontoDataArrLength"
-          [isEditable]="true"
+          [editable]="true"
+          [selectable]="false"
           (onClickCreate)="onClickCreate()"
           (onClickEdit)="onClickEdit($event)"
           (onClickDelete)="onClickDelete($event)"

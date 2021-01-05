@@ -210,6 +210,9 @@
   }
 }
 
+// SK: Commented as checkbox intermediate style is not working
+
+/*
 .mat-checkbox{
   .mat-checkbox-layout{
     .mat-checkbox-inner-container{
@@ -243,7 +246,7 @@
           background: #000;
           stroke: #000 !important;
           opacity: .26;
-        }        
+        }
       }
       .mat-checkbox-label{
         color: inherit;
@@ -255,3 +258,4 @@
 .example-margin {
   margin: 0 10px;
 }
+*/

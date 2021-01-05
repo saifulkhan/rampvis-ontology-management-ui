@@ -58,10 +58,13 @@ export class OntoDataService {
         return this.api.get(url);
     }
 
-    public search(query: string, dataType: DATA_TYPE = undefined as any): Observable<OntoData[]> {
+    public search(query: string, dataType: DATA_TYPE = undefined as any, visId: string = undefined as any): Observable<OntoData[]> {
         let url: string = `${this.url}/search/?query=${query}`
         if (dataType) {
             url = url.concat(`&dataType=${dataType}`);
+        }
+        if (visId) {
+            url = url.concat(`&visId=${visId}`);
         }
         return this.api.get(url);
     }

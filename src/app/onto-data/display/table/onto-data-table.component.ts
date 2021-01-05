@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, mergeMap, startWith, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge } from 'rxjs';
+import { debounceTime, delay, startWith, tap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { TableData } from '../../../models/table.data.interface';
@@ -20,7 +20,8 @@ import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component
 export class OntoDataTableComponent implements OnInit {
     @Input() data!: OntoData[];
     @Input() len!: number;
-    @Input() isEditable!: boolean;
+    @Input() editable!: boolean;
+    @Input() selectable!: boolean;
     @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() onClickEdit: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() onClickDelete: EventEmitter<OntoData> = new EventEmitter<OntoData>();
@@ -31,20 +32,21 @@ export class OntoDataTableComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions'],
+        headerRow: ['date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions', 'binding', 'select'],
         dataRows: [],
     };
-    spinner = false;
+
+    public selection = new SelectionModel<OntoData>(true, []);
+    public spinner = false;
 
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
 
-    selection = new SelectionModel<OntoData>(true, []);
-
-    constructor(private matDialog: MatDialog) {}
+    constructor(private matDialog: MatDialog) {
+        this.spinner = true;
+    }
 
     ngOnInit(): void {
-        this.spinner = true;
         this.clearDataSource();
 
         this.filterTerm$.next(null as any);
@@ -83,8 +85,6 @@ export class OntoDataTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.spinner = false;
-
         if (changes?.data) {
             this.setDataSource();
         }
@@ -106,12 +106,17 @@ export class OntoDataTableComponent implements OnInit {
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
     }
 
+    //
+    // Select
+    //
+
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
         const numSelected = this.selection.selected.length;
         const numRows = this.dataSource.data.length;
         return numSelected === numRows;
     }
+
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     masterToggle() {
         this.isAllSelected()
@@ -121,10 +126,13 @@ export class OntoDataTableComponent implements OnInit {
 
     /** The label for the checkbox on the passed row */
     checkboxLabel(row?: OntoData): string {
-        console.log('OntoDataTableComponent: row = ', row);
         if (!row) {
             return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
         }
         return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
+    }
+
+    public getSelection(): OntoData[] {
+        return this.selection.selected;
     }
 }

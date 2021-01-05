@@ -12,7 +12,8 @@
         <app-onto-vis-table
           [data]="ontoVisArr"
           [len]="ontoVisArrLength"
-          [isEditable]="true"
+          [editable]="true"
+          [selectable]="false"
           (onClickCreate)="onClickCreate()"
           (onClickEdit)="onClickEdit($event)"
           (onClickDelete)="onClickDelete($event)"

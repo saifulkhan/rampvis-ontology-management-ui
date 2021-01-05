@@ -52,29 +52,24 @@ export const ROUTES: RouteInfo[] = [
     },
     {
         path: '/page',
-        title: 'Bindings & Pages',
+        title: 'Pages',
         type: 'sub',
         icontype: 'web',
         roles: [Role.ADMIN],
         collapse: 'page',
         children: [
-            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example Bindings', ab: 'EXB' },
-            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review Pages', ab: 'RVP' },
-            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released Pages', ab: 'RLP' },
+            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXB' },
+            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review', ab: 'RVP' },
+            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released', ab: 'RLP' },
         ],
     },
     {
         path: '/propagation',
         title: 'Propagation',
-        type: 'sub',
+        type: 'link',
         icontype: 'playlist_add',
         roles: [Role.ADMIN],
-        collapse: 'propagation',
-        children: [
-            { path: `${PROPAGATION_TYPE.ONE_TO_ONE}`, title: '1-1 Propagation', ab: '1-1' },
-            { path: `${PROPAGATION_TYPE.ONE_TO_N}`, title: '1-N Propagation', ab: '1-N' },
-        ],
-    },  
+    },
     {
         path: '/admin',
         title: 'Administration',
@@ -88,22 +83,6 @@ export const ROUTES: RouteInfo[] = [
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
     },
-    /*
-    {
-        path: '/dashboard',
-        title: 'Dashboard',
-        type: 'link',
-        icontype: 'dashboard',
-        roles: [Role.ADMIN, Role.USER],
-    },
-    {
-        path: '/search',
-        title: 'Search',
-        type: 'link',
-        icontype: 'search',
-        roles: [Role.ADMIN, Role.USER],
-    },
-    */
 ];
 
 @Component({

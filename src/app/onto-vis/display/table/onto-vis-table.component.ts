@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, ViewChild, EventEmitter, SimpleChange
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 
 import { TableData } from '../../../models/table.data.interface';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
@@ -14,7 +15,8 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
 export class OntoVisTableComponent implements OnInit {
     @Input() data!: OntoVis[];
     @Input() len!: number;
-    @Input() isEditable!: boolean;
+    @Input() editable!: boolean;
+    @Input() selectable!: boolean;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
     @Output() onClickDelete: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
@@ -22,23 +24,27 @@ export class OntoVisTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['function', 'type', 'dataTypes', 'description', 'actions'],
+        headerRow: ['function', 'type', 'dataTypes', 'description', 'actions', 'select'],
         dataRows: [],
     };
-    spinner = false;
-    public searchTerm!: string;
 
-    constructor() {}
+    public selection = new SelectionModel<OntoVis>(true, []);
+    public spinner = false;
 
-    ngOnInit(): void {
+    public filterTerm!: string;
+
+    constructor() {
         this.spinner = true;
     }
 
+    ngOnInit(): void {
+    }
+
     ngAfterViewInit(): void {
-        this.tableDataSource.paginator = this.paginator;
-        this.tableDataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -48,11 +54,33 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     public filterDataSource(): void {
-        this.tableDataSource.filter = this.searchTerm.trim().toLowerCase();
+        this.dataSource.filter = this.filterTerm.trim().toLowerCase();
     }
 
     private setDataSource(): void {
         this.spinner = false;
-        this.tableDataSource.data = this.data;
+        this.dataSource.data = this.data;
+    }
+
+    //
+    // Select
+    //
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected()
+            ? this.selection.clear()
+            : this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+
+    public getSelection(): OntoVis[] {
+        return this.selection.selected;
     }
 }

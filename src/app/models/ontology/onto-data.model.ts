@@ -18,4 +18,5 @@ export class OntoData implements Deserializable {
 
 export class OntoDataSearch extends OntoData {
     public score: number = undefined as any;
+    public pageIds: string[] = undefined as any;
 }

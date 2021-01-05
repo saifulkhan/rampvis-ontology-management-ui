@@ -1,4 +1,4 @@
-<div class="row" *ngIf="isEditable">
+<div class="row" *ngIf="editable">
   <mat-form-field class="pull-left mt-1 col-md-4">
     <input
       matInput
@@ -69,12 +69,6 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>
       Actions
-      <!-- Selection -->
-      <mat-checkbox (change)="$event ? masterToggle() : null"
-        [checked]="selection.hasValue() && isAllSelected()"
-        [indeterminate]="selection.hasValue() && !isAllSelected()"
-        [aria-label]="checkboxLabel()">
-      </mat-checkbox>
     </th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
@@ -100,7 +94,7 @@
       </button>
 
       <button
-        *ngIf="isEditable"
+        *ngIf="editable"
         (click)="onClickEdit.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
@@ -112,7 +106,7 @@
       </button>
 
       <button
-        *ngIf="isEditable"
+        *ngIf="editable"
         (click)="onClickDelete.emit(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-danger btn-link"
@@ -123,16 +117,40 @@
         <mat-icon>close</mat-icon>
       </button>
 
-      <!-- Selection -->
+    </td>
+
+  </ng-container>
+
+  <ng-container matColumnDef="binding">
+    <th *matHeaderCellDef mat-header-cell [hidden]= "!selectable">Existing Pages</th>
+    <td *matCellDef="let row" mat-cell [hidden]= "!selectable">
+      <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange"> {{ row.pageIds?.length }}</div>
+    </td>
+  </ng-container>
+
+  <!-- Selection Column -->
+  <ng-container matColumnDef="select">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>
+      <!-- Select all row -->
       <mat-checkbox
+        [hidden]= "!selectable"
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+      >
+      </mat-checkbox>
+
+    </th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+      <!-- Select row -->
+      <mat-checkbox
+        *ngIf="selectable"
         (click)="$event.stopPropagation()"
         (change)="$event ? selection.toggle(row) : null"
         [checked]="selection.isSelected(row)"
-        [aria-label]="checkboxLabel(row)">
+      >
       </mat-checkbox>
-
     </td>
-
   </ng-container>
 
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
@@ -140,12 +158,12 @@
 </table>
 
 <div *ngIf="spinner" class="spinner-background">
-  <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="100" mode="indeterminate">
+  <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="80" mode="indeterminate">
   </mat-progress-spinner>
 </div>
 
 <mat-paginator
-  [hidden]= "!isEditable"
+  [hidden]= "!editable"
   [length]="len"
   [pageSizeOptions]="[50, 100, 150, 200]"
   [pageSize]="50"
