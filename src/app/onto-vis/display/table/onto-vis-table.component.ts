@@ -39,8 +39,7 @@ export class OntoVisTableComponent implements OnInit {
         this.spinner = true;
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     ngAfterViewInit(): void {
         this.dataSource.paginator = this.paginator;
@@ -48,7 +47,7 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.data) {
+        if (changes?.data && this.data) {
             this.setDataSource();
         }
     }
@@ -58,8 +57,8 @@ export class OntoVisTableComponent implements OnInit {
     }
 
     private setDataSource(): void {
-        this.spinner = false;
         this.dataSource.data = this.data;
+        this.spinner = false;
     }
 
     //

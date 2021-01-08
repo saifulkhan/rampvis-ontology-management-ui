@@ -48,10 +48,10 @@ export class OntoDataComponent {
         });
     }
 
-    public getOntoData(ontoDataFilter: OntoDataFilterVm) {
-        console.log('OntoDataComponent:getOntoData: ontoDataFilter = ', ontoDataFilter);
+    public filterOntoData(_ontoDataFilterVm: OntoDataFilterVm) {
+        console.log('OntoDataComponent:getOntoData: ontoDataFilter = ', _ontoDataFilterVm);
 
-        this.ontoDataFilterVm = ontoDataFilter;
+        this.ontoDataFilterVm = _ontoDataFilterVm;
         this.ontoDataService
             .getAllData(this.ontoDataFilterVm)
             .pipe(
@@ -86,7 +86,7 @@ export class OntoDataComponent {
                 if (!response) return;
 
                 this.localNotificationService.success({ message: 'Successfully created or updated' });
-                this.getOntoData(this.ontoDataFilterVm);
+                this.filterOntoData(this.ontoDataFilterVm);
             });
     }
 }

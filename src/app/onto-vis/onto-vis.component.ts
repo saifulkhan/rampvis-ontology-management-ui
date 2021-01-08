@@ -14,7 +14,7 @@ import { OntoVisService } from '../services/ontology/onto-vis.service';
     styleUrls: ['./onto-vis.component.scss'],
 })
 export class OntoVisComponent implements OnInit {
-    public ontoVisArr: OntoVis[] = [];
+    public ontoVisArr!: OntoVis[];
     public ontoVisArrLength!: number;
 
     constructor(

@@ -13,6 +13,10 @@ import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../../components/custom-single-selection/custom-single-selection.module';
 import { MaterialModule } from '../../material.module';
 import { OntoPageTableComponent } from './table/onto-page-table.component';
+import { OntoVisDisplayModule } from '../../onto-vis/display/onto-vis-display.module';
+import { OntoDataDisplayModule } from '../../onto-data/display/onto-data-display.module';
+import { OntoBindingComponent } from './binding/onto-binding.component';
+import { NgxDataTableModule } from '../../components/ngx-data-table/ngx-data-table.module';
 
 @NgModule({
     declarations: [
@@ -21,6 +25,7 @@ import { OntoPageTableComponent } from './table/onto-page-table.component';
         BindingEditComponent,
         BindDataEditComponent,
         Queryparam2EditComponent,
+        OntoBindingComponent,
     ],
     imports: [
         CommonModule,
@@ -32,6 +37,9 @@ import { OntoPageTableComponent } from './table/onto-page-table.component';
         NgxMatSelectSearchModule,
         CustomPipesModule,
         CustomSingleSelectionModule,
+        OntoVisDisplayModule,
+        OntoDataDisplayModule,
+        NgxDataTableModule,
     ],
     exports: [
         OntoPageTableComponent,

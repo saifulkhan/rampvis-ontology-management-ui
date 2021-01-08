@@ -123,12 +123,13 @@
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>
 
-<div *ngIf="spinner" class="spinner-background">
-  <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="80" mode="indeterminate">
+<div *ngIf="spinner">
+  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate">
   </mat-progress-spinner>
 </div>
+
 <mat-paginator
-  *ngIf="editable"
+  [hidden]="!editable"
   [length]="len"
   [pageSizeOptions]="[50, 100, 150, 200]"
   [pageSize]="50"

@@ -20,6 +20,7 @@ import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component
 export class OntoDataTableComponent implements OnInit {
     @Input() data!: OntoData[];
     @Input() len!: number;
+    @Input() searchable: boolean = true;
     @Input() editable!: boolean;
     @Input() selectable!: boolean;
     @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
@@ -32,7 +33,7 @@ export class OntoDataTableComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['date', 'urlCode', 'endpoint', 'description', 'dataType', 'keywords', 'actions', 'binding', 'select'],
+        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'actions', 'binding', 'select'],
         dataRows: [],
     };
 
@@ -85,7 +86,7 @@ export class OntoDataTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.data) {
+        if (changes?.data && this.data) {
             this.setDataSource();
         }
     }

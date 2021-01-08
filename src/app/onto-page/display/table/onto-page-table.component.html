@@ -88,26 +88,40 @@
       >
         <mat-icon>close</mat-icon>
       </button>
+
+      <button
+        (click)="onClickNavigatePage(row.id)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="Navigate to page"
+        type="button"
+      >
+        <mat-icon>link</mat-icon>
+      </button>
     </td>
   </ng-container>
 
   <!-- Template for details row -->
   <ng-container matColumnDef="expandedDetail">
     <td mat-cell *matCellDef="let element" [attr.colspan]="tableData.headerRow.length">
-      <div class="row bindings-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
-        <mat-list>
+      <div class="" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
+        <!-- <mat-list>
           <mat-list-item *ngFor="let b of element.bindings">
             <div mat-line>{{ b.visId }}</div>
             <div mat-line>{{ b.dataIds }}</div>
+            <app-onto-binding [data]="b"></app-onto-binding>
           </mat-list-item>
-        </mat-list>
+        </mat-list> -->
+
+        <ngx-data-table [data]="element.id"></ngx-data-table>
+        <!-- <ngx-data-table [data]="getBindingData(element) | async"></ngx-data-table> -->
       </div>
     </td>
   </ng-container>
 
-  
   <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableData.headerRow" style="border-bottom-style: hidden" ></tr>
+  <tr mat-row *matRowDef="let row; columns: tableData.headerRow" style="border-bottom-style: hidden"></tr>
   <!-- Extra row to show detail content column -->
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="bindings-detail-row"></tr>
 </table>

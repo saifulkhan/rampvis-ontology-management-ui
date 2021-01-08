@@ -1,10 +1,8 @@
 <div class="main-content">
   <div class="container-fluid">
-
     <!-- Select VIS -->
 
     <div class="card">
-
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>playlist_add</mat-icon>
@@ -13,10 +11,9 @@
       </div>
 
       <div class="card-body">
-
         <div class="row">
           <div class="pull-left mt-1 col-md-3">
-            <mat-form-field >
+            <mat-form-field>
               <app-custom-single-selection
                 [data]="ontoVisArr$ | async"
                 placeholder="Select VIS function"
@@ -27,10 +24,9 @@
             </mat-form-field>
           </div>
 
-          <div class="pull-right mt-1 col-md-6">
-          </div>
+          <div class="pull-right mt-1 col-md-7"></div>
 
-          <div class="pull-right mt-1 col-md-2">
+          <div class="pull-right mt-1 col-md-1">
             <mat-form-field>
               <mat-select [(ngModel)]="propagationType" placeholder="Propagation Type">
                 <mat-option [value]="null"></mat-option>
@@ -41,18 +37,18 @@
 
           <div class="pull-right mt-1 col-md-1">
             <!--Propagation button-->
-            <button mat-raised-button class="btn btn-primary float-right" (click)="onClickPropagate()">Propagate</button>
+            <button mat-raised-button class="btn btn-primary float-right" (click)="onClickPropagate()">
+              Propagate
+            </button>
           </div>
-
         </div>
 
         <!--Selected VIS table-->
         <app-onto-vis-table
-          *ngIf="ontoVisArrLen"
           [editable]="false"
           [selectable]="true"
-          [data]="ontoVisArr"
-          [len]="ontoVisArrLen"
+          [data]="selectedOntoVisArr"
+          [len]="selectedOntoVisArrLen"
         >
         </app-onto-vis-table>
       </div>
@@ -60,12 +56,12 @@
 
     <!--Example data-->
 
-    <div class="card" *ngIf="ontoVisArrLen">
+    <div class="card">
       <div class="card-body">
         <app-onto-data-table
-          *ngIf="ontoVisArrLen"
-          [data]="ontoDataArr"
-          [len]="ontoDataArrLen"
+          [data]="exampleOntoDataArr"
+          [len]="exampleOntoDataArrLen"
+          [searchable]="false"
           [editable]="false"
           [selectable]="false"
         >
@@ -80,20 +76,20 @@
 
         <div class="row">
 
-          <div class="col-md-10 d-flex">
-            <mat-form-field class="col-md-2">
-              <mat-select [(ngModel)]="dataType" placeholder="Data Type">
+          <div class="pull-left mt-1 col-md-1">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedDataType" placeholder="Data Type">
                 <mat-option [value]="null"></mat-option>
                 <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
               </mat-select>
             </mat-form-field>
+          </div>
 
-            <mat-divider [vertical]="true" class="divider"></mat-divider>
+          <mat-divider [vertical]="true" class="divider"></mat-divider>
 
-            <mat-form-field class="col-md-6">
-              <!--
+          <div class="pull-left mt-1 col-md-3">
+            <mat-form-field>
               <mat-icon matSuffix>search</mat-icon>
-              -->
               <input
                 matInput
                 type="text"
@@ -111,9 +107,9 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+            <!-- <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
               <mat-icon>search</mat-icon>
-            </button>
+            </button> -->
           </div>
 
         </div>
@@ -121,20 +117,18 @@
         <div class="row">
           <div class="col-md-12">
             <app-onto-data-table
-              *ngIf="ontoDataSearchResultLen"
-              #searchedOntoDataTable
               [data]="ontoDataSearchResult"
               [len]="ontoDataSearchResultLen"
               [editable]="false"
               [selectable]="true"
+              (fetchFilteredData)="filterAndSearchOntoData($event)"
             >
             </app-onto-data-table>
           </div>
         </div>
-
       </div>
     </div>
-
-  </div> <!--container-fluid-->
-</div> <!--main-content-->
-
+  </div>
+  <!--container-fluid-->
+</div>
+<!--main-content-->

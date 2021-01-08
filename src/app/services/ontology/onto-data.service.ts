@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { APIService } from '../api.service';
 import { OntoData, OntoDataSearch } from '../../models/ontology/onto-data.model';
-import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
-import { DATA_TYPE } from 'src/app/models/ontology/onto-data-types';
+import { DATA_TYPE } from '../../models/ontology/onto-data-types';
+import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
+import { OntoDataSearchFilterVm } from '../../models/ontology/onto-data-search-filter.vm';
 
 @Injectable({
     providedIn: 'root',
@@ -17,16 +17,16 @@ export class OntoDataService {
     constructor(private api: APIService) {}
 
     public getAllData(filter: OntoDataFilterVm): Observable<PaginationModel<OntoData>> {
-        let query: string = `${this.url}/?page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
+        let url: string = `${this.url}/?page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
 
         if (filter.dataType) {
-            query = query.concat(`&dataType=${filter.dataType}`);
+            url = url.concat(`&dataType=${filter.dataType}`);
         }
         if (filter.filter) {
-            query = query.concat(`&filter=${filter.filter}`);
+            url = url.concat(`&filter=${filter.filter}`);
         }
-        console.log('OntoDataService:getAllData: query = ', query);
-        return this.api.get<PaginationModel<OntoData>>(query);
+        console.log('OntoDataService:getAllData: url = ', url);
+        return this.api.get<PaginationModel<OntoData>>(url);
     }
 
     public getAllData1(): Observable<PaginationModel<OntoData>> {
@@ -51,21 +51,28 @@ export class OntoDataService {
     }
 
     public suggest(query: string, dataType: DATA_TYPE = undefined as any): Observable<OntoDataSearch[]> {
-        let url: string = `${this.url}/suggest/?query=${query}`
+        let url: string = `${this.url}/suggest/?query=${query}`;
         if (dataType) {
             url = url.concat(`&dataType=${dataType}`);
         }
         return this.api.get(url);
     }
 
-    public search(query: string, dataType: DATA_TYPE = undefined as any, visId: string = undefined as any): Observable<OntoData[]> {
-        let url: string = `${this.url}/search/?query=${query}`
-        if (dataType) {
-            url = url.concat(`&dataType=${dataType}`);
+    public search(ontoDataSearchFilterVm: OntoDataSearchFilterVm): Observable<PaginationModel<OntoData>> {
+        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}&page=${ontoDataSearchFilterVm.pageIndex}&pageCount=${ontoDataSearchFilterVm.pageSize}&sortBy=${ontoDataSearchFilterVm.sortBy}&sortOrder=${ontoDataSearchFilterVm.sortOrder}`;
+
+        if (ontoDataSearchFilterVm.dataType) {
+            url = url.concat(`&dataType=${ontoDataSearchFilterVm.dataType}`);
         }
-        if (visId) {
-            url = url.concat(`&visId=${visId}`);
+        if (ontoDataSearchFilterVm.filter) {
+            url = url.concat(`&filter=${ontoDataSearchFilterVm.filter}`);
         }
+        if (ontoDataSearchFilterVm.visId) {
+            url = url.concat(`&visId=${ontoDataSearchFilterVm.visId}`);
+        }
+
+        console.log('OntoDataService:search: url = ', url);
+
         return this.api.get(url);
     }
 }

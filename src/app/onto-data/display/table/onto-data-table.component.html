@@ -1,16 +1,16 @@
-<div class="row" *ngIf="editable">
-  <mat-form-field class="pull-left mt-1 col-md-4">
+<div class="row">
+  <mat-form-field *ngIf="searchable" class="pull-left mt-1 col-md-3">
     <input
       matInput
       type="text"
       name="search"
       [(ngModel)]="filterTerm"
       (keyup)="filterTerm$.next(filterTerm)"
-      placeholder="Filter data stream..."
+      placeholder="Filter by endpoint, id, description, keyword..."
     />
   </mat-form-field>
 
-  <div class="pull-right mt-1 col-md-8">
+  <div *ngIf="editable" class="pull-right mt-1 col-md-8">
     <button (click)="onClickCreate.emit()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
       <mat-icon>add</mat-icon>
     </button>
@@ -25,16 +25,15 @@
   matSortDirection="desc"
   matSortDisableClear="true"
 >
-  <ng-container matColumnDef="urlCode">
-    <th *matHeaderCellDef mat-header-cell>URL Code</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
+
+  <ng-container matColumnDef="index">
+    <th *matHeaderCellDef mat-header-cell>No.</th>
+    <td *matCellDef="let row let i = index" mat-cell>{{ i + 1 }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>
-      {{ row.endpoint | truncate: "75" }}
-    </td>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="description">
@@ -42,10 +41,7 @@
     <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "50" }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="date">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
-    <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
-  </ng-container>
+
 
   <ng-container matColumnDef="dataType">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
@@ -63,6 +59,12 @@
         <mat-chip *ngFor="let d of row.keywords">{{ d }}</mat-chip>
       </mat-chip-list>
     </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="date">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+    <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
   </ng-container>
 
   <!-- Action Column -->
@@ -157,8 +159,8 @@
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>
 
-<div *ngIf="spinner" class="spinner-background">
-  <mat-progress-spinner class="progress-spinner-container" color="primary" diameter="80" mode="indeterminate">
+<div *ngIf="spinner">
+  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate">
   </mat-progress-spinner>
 </div>
 
