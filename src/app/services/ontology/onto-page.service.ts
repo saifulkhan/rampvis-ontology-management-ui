@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { APIService } from '../api.service';
-import { OntoPage } from '../../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
 import { map } from 'rxjs/operators';
@@ -23,14 +23,8 @@ export class OntoPageService {
             query = query.concat(`&filter=${filter.filter}`);
         }
 
-        console.log('OntologyService:getPages: query = ', query);
         return this.api.get<PaginationModel<OntoPage>>(query).pipe(
             map((res: PaginationModel<OntoPage>) => {
-
-                for (let d of res.data) {
-                    this.getBindings(d.id).subscribe();
-                }
-
                 return res;
             })
         );
@@ -52,23 +46,7 @@ export class OntoPageService {
         return this.api.delete(`${this.url}/page/${pageId}`);
     }
 
-    map: any = new Map();
-
-    public getBindings(pageId: string): Observable<any[]> {
-        let query: string = `${this.url}/page/${pageId}/bindings`;
-
-        if (!this.map.get(pageId)) {
-            return this.api.get<any[]>(query).pipe(
-                map((res: any[]) => {
-                    console.log('not cached: ', res);
-                    this.map.set(pageId, res);
-                    return res;
-                })
-            );
-        } else {
-            console.log('cached: ');
-            console.log(this.map.get(pageId));
-            return of(this.map.get(pageId));
-        }
+    public getOntoPageExt(pageId: string): Observable<OntoPageExt> {
+        return this.api.get(`${this.url}/page/${pageId}`);
     }
 }

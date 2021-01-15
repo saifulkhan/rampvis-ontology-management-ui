@@ -1,0 +1,35 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <mat-icon>web</mat-icon>
+            </div>
+            <h4 class="card-title">Page</h4>
+          </div>
+
+          <div class="card-body">
+
+            <mat-card *ngFor="let d of ontoPageExt?.bindingExts">
+              <app-onto-vis-table
+                [data]="[d.vis]"
+                [editable]="false"
+                [selectable]="false"
+              >
+              </app-onto-vis-table>
+
+              <app-onto-data-table-b [data]="d.data"> </app-onto-data-table-b>
+            </mat-card>
+
+          </div>
+          <!-- end card-body-->
+        </div>
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

@@ -14,12 +14,14 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
 })
 export class OntoVisTableComponent implements OnInit {
     @Input() data!: OntoVis[];
-    @Input() len!: number;
+    //@Input() len!: number;
     @Input() editable!: boolean;
     @Input() selectable!: boolean;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
     @Output() onClickDelete: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
+
+    len!: number;
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -58,6 +60,8 @@ export class OntoVisTableComponent implements OnInit {
 
     private setDataSource(): void {
         this.dataSource.data = this.data;
+        this.len = this.data.length;
+
         this.spinner = false;
     }
 

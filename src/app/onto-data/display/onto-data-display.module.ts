@@ -11,10 +11,13 @@ import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { OntoDataTableComponent } from './table/onto-data-table.component';
 import { OntoDataInspectComponent } from './inspect/onto-data-inspect.component';
 import { OntoDataEditComponent } from './edit/onto-data-edit.component';
- 
+import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
+
 @NgModule({
     declarations: [
       OntoDataTableComponent,
+      OntoDataTableBComponent,
+
       OntoDataEditComponent,
       OntoDataInspectComponent,
     ],
@@ -31,9 +34,11 @@ import { OntoDataEditComponent } from './edit/onto-data-edit.component';
     ],
     exports: [
       OntoDataTableComponent,
+      OntoDataTableBComponent,
+
       OntoDataEditComponent,
       OntoDataInspectComponent,
     ],
-   
+
 })
 export class OntoDataDisplayModule {}

@@ -51,7 +51,7 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
     },
     {
-        path: '/page',
+        path: '/pages',
         title: 'Pages',
         type: 'sub',
         icontype: 'web',

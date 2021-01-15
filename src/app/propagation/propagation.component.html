@@ -44,38 +44,43 @@
         </div>
 
         <!--Selected VIS table-->
-        <app-onto-vis-table
-          [editable]="false"
-          [selectable]="true"
-          [data]="selectedOntoVisArr"
-          [len]="selectedOntoVisArrLen"
-        >
-        </app-onto-vis-table>
+        <app-onto-vis-table [editable]="false" [selectable]="true" [data]="selectedOntoVisArr"> </app-onto-vis-table>
       </div>
     </div>
 
     <!--Example data-->
 
-    <div class="card">
+    <div class="card" *ngIf="exampleOntoDataArr?.length">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>storage</mat-icon>
+        </div>
+        <h4 class="card-title">Example - Data Streams</h4>
+      </div>
       <div class="card-body">
-        <app-onto-data-table
-          [data]="exampleOntoDataArr"
-          [len]="exampleOntoDataArrLen"
-          [searchable]="false"
-          [editable]="false"
-          [selectable]="false"
-        >
-        </app-onto-data-table>
+        <app-onto-data-table-b [data]="exampleOntoDataArr"> </app-onto-data-table-b>
+      </div>
+    </div>
+
+    <!--Example pages/links-->
+
+    <div class="card" *ngIf="exampleOntoPages?.length">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>web</mat-icon>
+        </div>
+        <h4 class="card-title">Example - Links</h4>
+      </div>
+      <div class="card-body">
+        <app-onto-data-table-b [data]="exampleOntoPages"> </app-onto-data-table-b>
       </div>
     </div>
 
     <!--Search data-->
 
-    <div class="card">
+    <div class="card" *ngIf="exampleOntoDataArr?.length">
       <div class="card-body">
-
         <div class="row">
-
           <div class="pull-left mt-1 col-md-1">
             <mat-form-field>
               <mat-select [(ngModel)]="selectedDataType" placeholder="Data Type">
@@ -111,14 +116,12 @@
               <mat-icon>search</mat-icon>
             </button> -->
           </div>
-
         </div>
 
         <div class="row">
           <div class="col-md-12">
             <app-onto-data-table
               [data]="ontoDataSearchResult"
-              [len]="ontoDataSearchResultLen"
               [editable]="false"
               [selectable]="true"
               (fetchFilteredData)="filterAndSearchOntoData($event)"

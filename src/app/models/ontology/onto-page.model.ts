@@ -1,4 +1,5 @@
 import { Deserializable } from '../deserializable.model';
+import { Binding, BindingExt } from './binding.model';
 
 export enum BINDING_TYPE {
     EXAMPLE = 'example',
@@ -6,9 +7,11 @@ export enum BINDING_TYPE {
     RELEASE = 'release',
 }
 
-export class Binding implements Deserializable {
-    visId!: string;
-    dataIds!: string[];
+export class OntoPage implements Deserializable {
+    public id!: string;
+    public bindingType!: BINDING_TYPE;
+    public nrows!: number;
+    public bindings!: Binding[];
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -16,11 +19,11 @@ export class Binding implements Deserializable {
     }
 }
 
-export class OntoPage implements Deserializable {
+export class OntoPageExt implements Deserializable {
     public id!: string;
     public bindingType!: BINDING_TYPE;
     public nrows!: number;
-    public bindings!: Binding[];
+    public bindingExts!: BindingExt[];
 
     deserialize(input: any) {
         Object.assign(this, input);

@@ -41,8 +41,10 @@ export class PrivateLayoutComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        // initialize the services
-        this.messagingService.register();
+        //
+        // Initialize the services
+        //
+        // this.messagingService.register();
 
         const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
         const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');

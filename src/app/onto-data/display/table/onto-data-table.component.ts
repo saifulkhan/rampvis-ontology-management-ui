@@ -18,8 +18,8 @@ import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component
     styleUrls: ['./onto-data-table.component.scss'],
 })
 export class OntoDataTableComponent implements OnInit {
-    @Input() data!: OntoData[];
-    @Input() len!: number;
+    @Input() data: OntoData[] = [];
+    len!: number;
     @Input() searchable: boolean = true;
     @Input() editable!: boolean;
     @Input() selectable!: boolean;
@@ -31,9 +31,10 @@ export class OntoDataTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
+
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'actions', 'binding', 'select'],
+        headerRow: ['urlCode', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'actions', 'binding', 'select'],
         dataRows: [],
     };
 
@@ -86,14 +87,21 @@ export class OntoDataTableComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        console.log('OntoDataTableComponent:ngOnChanges: data = ', this.data);
+
         if (changes?.data && this.data) {
             this.setDataSource();
         }
     }
 
     private setDataSource(): void {
+        console.log('OntoDataTableComponent:setDataSource: data = ', this.data);
+
         this.dataSource.data = this.data;
+        this.len = this.data.length;
+
         this.spinner = false;
+        console.log('OntoDataTableComponent:setDataSource: data = ', this.dataSource.data);
     }
 
     private clearDataSource(): void {

@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
@@ -52,7 +52,10 @@ export class OntoPageTableComponent implements OnInit {
     ontoVisArr: OntoVis[] = [];
     ontoVisArrLen = 0;
 
-    constructor(private ontoPageService: OntoPageService) {}
+    constructor(
+        private ontoPageService: OntoPageService,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
         this.spinner = true;
@@ -118,6 +121,11 @@ export class OntoPageTableComponent implements OnInit {
         window.open(link, '_blank');
     }
 
+    public onClickNavigateToOntoPageExt(pageId: string) {
+        this.router.navigate(['pages', 'page', `${pageId}`]);
+
+    }
+
     //
     // Toggle Rows
     //
@@ -149,89 +157,5 @@ export class OntoPageTableComponent implements OnInit {
         } else {
             this.expandedElement.splice(index, 1);
         }
-    }
-
-    //
-    // Detailed binding data
-    //
-
-    // getOntoVisArr(id: string): Promise<OntoVis[]> {
-    //     console.log('PropagationComponent:getOntoVisArr: id = ', id);
-    //     return this.ontoVisService.getOntoVis(id).toPromise().then((ontoVis: OntoVis) => {
-    //         console.log('PropagationComponent:getOntoVisArr: ontoVis = ', ontoVis);
-    //         return [ontoVis];
-    //         // this.ontoDataArr = ontoVis;
-    //         // this.ontoDataArrLen = this.ontoDataArr.length;
-    //     })
-    // }
-
-    public getBindingData1(element: any): Observable<any[]> {
-        // console.log(element);
-        const pageId = element.id;
-
-        return this.ontoPageService.getBindings(pageId);
-    }
-
-    public getBindingData2(element: any) {
-        console.log('getBindingData1: ', element);
-        return [
-            {
-                name: 'daniele',
-                surname: 'zurico',
-                sex: 'male',
-            },
-            {
-                name: 'Emma',
-                surname: 'Smith',
-                sex: 'female',
-                details: [
-                    {
-                        phone: '+44234323456',
-                        address: 'Oxford Street',
-                        city: 'London',
-                        details: [
-                            {
-                                country: 'UK',
-                            },
-                        ],
-                    },
-                    {
-                        phone: '+44234323456',
-                        address: 'Oxford Street',
-                        city: 'London',
-                        details: [
-                            {
-                                country: 'UK',
-                            },
-                        ],
-                    },
-                    {
-                        a: 'Charlotte',
-                        b: 'Taylor',
-                    },
-                ],
-            },
-            {
-                name: 'Emma1',
-                surname: 'Smith1',
-                sex: 'female1',
-                details: [
-                    {
-                        phone: '+442343234561',
-                        address: 'Oxford Street1',
-                        city: 'London1',
-                        details: [
-                            {
-                                country: 'UK1',
-                            },
-                        ],
-                    },
-                    {
-                        a: 'Charlotte',
-                        b: 'Taylor',
-                    },
-                ],
-            },
-        ];
     }
 }

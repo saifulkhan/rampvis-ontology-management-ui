@@ -25,26 +25,23 @@
   matSortDirection="desc"
   matSortDisableClear="true"
 >
-
-  <ng-container matColumnDef="index">
-    <th *matHeaderCellDef mat-header-cell>No.</th>
-    <td *matCellDef="let row let i = index" mat-cell>{{ i + 1 }}</td>
+  <ng-container matColumnDef="urlCode">
+    <th *matHeaderCellDef mat-header-cell>URL Code</th>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
+    <td *matCellDef="let row" mat-cell>{{ row.endpoint | truncate: "75" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="description">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header [disabled]="!editable">Description</th>
     <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "50" }}</td>
   </ng-container>
 
-
-
   <ng-container matColumnDef="dataType">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header [disabled]="!editable">Type</th>
     <td *matCellDef="let row" mat-cell>
       <mat-chip-list>
         <mat-chip *ngIf="row.dataType">{{ row.dataType }}</mat-chip>
@@ -61,17 +58,14 @@
     </td>
   </ng-container>
 
-
   <ng-container matColumnDef="date">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header [disabled]="!editable">Date</th>
     <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
   </ng-container>
 
   <!-- Action Column -->
   <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef class="text-center actions" mat-header-cell>
-      Actions
-    </th>
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <button
         cdkCopyToClipboard="{{ row.id }}"
@@ -118,15 +112,13 @@
       >
         <mat-icon>close</mat-icon>
       </button>
-
     </td>
-
   </ng-container>
 
   <ng-container matColumnDef="binding">
-    <th *matHeaderCellDef mat-header-cell [hidden]= "!selectable">Existing Pages</th>
-    <td *matCellDef="let row" mat-cell [hidden]= "!selectable">
-      <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange"> {{ row.pageIds?.length }}</div>
+    <th *matHeaderCellDef mat-header-cell [hidden]="!selectable">Existing Pages</th>
+    <td *matCellDef="let row" mat-cell [hidden]="!selectable">
+      <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange">{{ row.pageIds?.length }}</div>
     </td>
   </ng-container>
 
@@ -135,13 +127,12 @@
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>
       <!-- Select all row -->
       <mat-checkbox
-        [hidden]= "!selectable"
+        [hidden]="!selectable"
         (change)="$event ? masterToggle() : null"
         [checked]="selection.hasValue() && isAllSelected()"
         [indeterminate]="selection.hasValue() && !isAllSelected()"
       >
       </mat-checkbox>
-
     </th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
       <!-- Select row -->
@@ -160,12 +151,11 @@
 </table>
 
 <div *ngIf="spinner">
-  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate">
-  </mat-progress-spinner>
+  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate"> </mat-progress-spinner>
 </div>
 
 <mat-paginator
-  [hidden]= "!editable"
+  [hidden]="!editable"
   [length]="len"
   [pageSizeOptions]="[50, 100, 150, 200]"
   [pageSize]="50"

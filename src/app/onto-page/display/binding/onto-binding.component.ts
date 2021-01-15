@@ -9,9 +9,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
-import { OntoPage, BINDING_TYPE, Binding } from '../../../models/ontology/onto-page.model';
+import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
 import { OntoVisService } from '../../../services/ontology/onto-vis.service';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
+import { Binding } from '../../../models/ontology/binding.model';
 
 @Component({
     selector: 'app-onto-binding',

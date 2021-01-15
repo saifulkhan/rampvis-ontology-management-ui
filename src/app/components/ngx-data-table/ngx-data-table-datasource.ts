@@ -56,7 +56,7 @@ export class NgxDataTableDataSource extends DataSource<any> {
 
         console.log('NgxDataTableDataSource:connect: 1 paginator = ', this.paginator, ', id = ', this.id);
 
-        const dataMutations = [this.ontoPageService.getBindings(this.id), observableOf(this.id), this.paginator?.page, this.sort?.sortChange, this._filterChange];
+        const dataMutations = [observableOf(this.id), this.paginator?.page, this.sort?.sortChange, this._filterChange];
 
         // Set the paginator length
         this.paginator.length = this.data.length;

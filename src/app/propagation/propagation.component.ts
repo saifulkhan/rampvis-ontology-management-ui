@@ -17,6 +17,7 @@ import { LocalNotificationService } from '../services/common/local-notification.
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
 import { OntoDataSearchFilterVm } from '../models/ontology/onto-data-search-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
+import { OntoPage } from '../models/ontology/onto-page.model';
 
 @Component({
     selector: 'app-propagation',
@@ -32,7 +33,9 @@ export class PropagationComponent implements OnInit {
 
     // Example binding data
     public exampleOntoDataArr!: OntoData[];
-    public exampleOntoDataArrLen!: number;
+
+    // Example links/pages
+    public exampleOntoPages!: OntoPage[];
 
     // Data search form
     filterPublishType$ = new BehaviorSubject<string>('');
@@ -66,6 +69,7 @@ export class PropagationComponent implements OnInit {
         private localNotificationService: LocalNotificationService,
         private errorHandler2Service: ErrorHandler2Service
     ) {
+
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
         this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map(
             (d) => PROPAGATION_TYPE[d]
@@ -120,7 +124,6 @@ export class PropagationComponent implements OnInit {
         this.selectedOntoVisArrLen = 0;
 
         this.exampleOntoDataArr = [];
-        this.exampleOntoDataArrLen = 0;
 
         this.ontoVisService.getOntoVis(this.selectedVisId).subscribe((res: OntoVis) => {
             if (res) {
@@ -134,7 +137,6 @@ export class PropagationComponent implements OnInit {
                     .subscribe((ontoData: OntoData[]) => {
                         console.log('PropagationComponent: getOntoVis: ontoData = ', ontoData);
                         this.exampleOntoDataArr = ontoData;
-                        this.exampleOntoDataArrLen = this.exampleOntoDataArr.length;
                     });
             }
         });

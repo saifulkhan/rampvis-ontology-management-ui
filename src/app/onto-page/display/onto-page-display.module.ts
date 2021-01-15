@@ -15,8 +15,8 @@ import { MaterialModule } from '../../material.module';
 import { OntoPageTableComponent } from './table/onto-page-table.component';
 import { OntoVisDisplayModule } from '../../onto-vis/display/onto-vis-display.module';
 import { OntoDataDisplayModule } from '../../onto-data/display/onto-data-display.module';
-import { OntoBindingComponent } from './binding/onto-binding.component';
 import { NgxDataTableModule } from '../../components/ngx-data-table/ngx-data-table.module';
+import { OntoPageExtComponent } from './ext/onto-page-ext.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +25,7 @@ import { NgxDataTableModule } from '../../components/ngx-data-table/ngx-data-tab
         BindingEditComponent,
         BindDataEditComponent,
         Queryparam2EditComponent,
-        OntoBindingComponent,
+        OntoPageExtComponent,
     ],
     imports: [
         CommonModule,
@@ -44,6 +44,7 @@ import { NgxDataTableModule } from '../../components/ngx-data-table/ngx-data-tab
     exports: [
         OntoPageTableComponent,
         OntoPageEditComponent,
+        OntoPageExtComponent,
     ]
 })
 export class OntoPageDisplayModule {}

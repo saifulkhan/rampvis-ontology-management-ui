@@ -62,17 +62,14 @@ export class OntoPageComponent implements OnInit {
         });
     }
 
-    public getOntoPages(ontoPageFilterVm: OntoPageFilterVm) {
-        this.ontoPageFilterVm = ontoPageFilterVm;
-
-        console.log('OntoPageComponent:getOntoPages: 1 ontoPageFilterVm = ', ontoPageFilterVm);
+    public getOntoPages(_ontoPageFilterVm: OntoPageFilterVm) {
+        this.ontoPageFilterVm = _ontoPageFilterVm;
+        console.log('OntoPageComponent:getOntoPages: ontoPageFilterVm = ', this.ontoPageFilterVm);
 
         if (!this.filterBindingType$.value || !this.ontoPageFilterVm) {
             return;
         }
         this.ontoPageFilterVm.bindingType = this.filterBindingType$.value;
-
-        console.log('OntoPageComponent:getOntoPages: 2 ontoPageFilterVm = ', ontoPageFilterVm);
 
         this.ontologyService
             .getPages(this.ontoPageFilterVm)
