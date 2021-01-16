@@ -9,11 +9,11 @@ import { OntoVisEditComponent } from '../components/onto-vis/edit/onto-vis-edit.
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 
 @Component({
-    selector: 'app-onto-vis',
-    templateUrl: './onto-vis.component.html',
-    styleUrls: ['./onto-vis.component.scss'],
+    selector: 'app-onto-vis-view',
+    templateUrl: './onto-vis-view.component.html',
+    styleUrls: ['./onto-vis-view.component.scss'],
 })
-export class OntoVisComponent implements OnInit {
+export class OntoVisViewComponent implements OnInit {
     public ontoVisArr!: OntoVis[];
     public ontoVisArrLength!: number;
 

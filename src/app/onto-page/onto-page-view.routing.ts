@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { OntoPageResolverService } from '../services/ontology/onto-page.resolver';
 import { OntoPageBindingsComponent } from './bindings/onto-page-bindings.component';
-import { OntoPagesListComponent } from './list/onto-pages-list.component';
+import { OntoPagesViewComponent } from './onto-pages-view.component';
 
 export const OntoPageViewRoutes: Routes = [
     {
@@ -10,11 +10,11 @@ export const OntoPageViewRoutes: Routes = [
         children: [
             {
                 path: '',
-                component: OntoPagesListComponent,
+                component: OntoPagesViewComponent,
             },
             {
                 path: ':bindingType',
-                component: OntoPagesListComponent,
+                component: OntoPagesViewComponent,
             },
             {
                 path: 'page/:pageId',

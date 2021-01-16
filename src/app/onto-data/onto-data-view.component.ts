@@ -12,11 +12,11 @@ import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
 
 @Component({
-    selector: 'app-onto-data',
-    templateUrl: './onto-data.component.html',
-    styleUrls: ['./onto-data.component.scss'],
+    selector: 'app-onto-data-view',
+    templateUrl: './onto-data-view.component.html',
+    styleUrls: ['./onto-data-view.component.scss'],
 })
-export class OntoDataComponent {
+export class OntoDataViewComponent {
     public ontoDataArr!: OntoData[];
     public ontoDataArrLength!: number;
     private ontoDataFilterVm!: OntoDataFilterVm;

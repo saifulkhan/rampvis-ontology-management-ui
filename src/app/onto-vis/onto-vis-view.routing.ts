@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { OntoVisComponent } from './onto-vis.component';
+import { OntoVisViewComponent } from './onto-vis-view.component';
 
 export const OntoVisViewRoutes: Routes = [
     {
         path: '',
         children: [
-          { path: '', component: OntoVisComponent }
+          { path: '', component: OntoVisViewComponent }
         ],
     },
 ];

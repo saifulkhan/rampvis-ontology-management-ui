@@ -5,9 +5,9 @@
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <mat-icon>playlist_add</mat-icon>
+          <mat-icon>insert_chart</mat-icon>
         </div>
-        <h4 class="card-title">Propagation</h4>
+        <h4 class="card-title">VIS Function</h4>
       </div>
 
       <div class="card-body">
@@ -55,7 +55,7 @@
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
         </div>
-        <h4 class="card-title">Example - Data Streams</h4>
+        <h4 class="card-title">Example Data Streams</h4>
       </div>
       <div class="card-body">
         <app-onto-data-table-b [data]="exampleOntoDataArr"> </app-onto-data-table-b>
@@ -69,7 +69,7 @@
         <div class="card-icon">
           <mat-icon>web</mat-icon>
         </div>
-        <h4 class="card-title">Example - Links</h4>
+        <h4 class="card-title">Example Links</h4>
       </div>
       <div class="card-body">
         <app-onto-data-table-b [data]="exampleOntoPages"> </app-onto-data-table-b>
@@ -79,6 +79,12 @@
     <!--Search data-->
 
     <div class="card" *ngIf="exampleOntoDataArr?.length">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>search</mat-icon>
+        </div>
+        <h4 class="card-title">Search Data Streams</h4>
+      </div>
       <div class="card-body">
         <div class="row">
           <div class="pull-left mt-1 col-md-1">
@@ -92,7 +98,7 @@
 
           <mat-divider [vertical]="true" class="divider"></mat-divider>
 
-          <div class="pull-left mt-1 col-md-3">
+          <div class="pull-left mt-1 col-md-4">
             <mat-form-field>
               <mat-icon matSuffix>search</mat-icon>
               <input
@@ -131,6 +137,12 @@
         </div>
       </div>
     </div>
+    <!--Search Data-->
+
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
+    </div>
+
   </div>
   <!--container-fluid-->
 </div>

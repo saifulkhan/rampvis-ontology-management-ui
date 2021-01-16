@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 import { OntoVis } from '../models/ontology/onto-vis.model';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
@@ -221,4 +222,23 @@ export class PropagationComponent implements OnInit {
             }
         });
     }
+
+
+
+
+    movies = [
+        'Episode I - The Phantom Menace',
+        'Episode II - Attack of the Clones',
+        'Episode III - Revenge of the Sith',
+        'Episode IV - A New Hope',
+        'Episode V - The Empire Strikes Back',
+        'Episode VI - Return of the Jedi',
+        'Episode VII - The Force Awakens',
+        'Episode VIII - The Last Jedi',
+        'Episode IX – The Rise of Skywalker'
+      ];
+
+      drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+      }
 }

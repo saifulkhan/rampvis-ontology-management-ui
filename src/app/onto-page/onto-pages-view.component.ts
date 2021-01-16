@@ -4,21 +4,21 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-import { LocalNotificationService } from '../../services/common/local-notification.service';
-import { OntoPageService } from '../../services/ontology/onto-page.service';
-import { OntoPage, BINDING_TYPE } from '../../models/ontology/onto-page.model';
-import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
-import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
-import { UtilService } from '../../services/util.service';
-import { OntoPageEditComponent } from '../../components/onto-page/edit/onto-page-edit.component';
-import { DialogService } from '../../services/common/dialog.service';
+import { LocalNotificationService } from '../services/common/local-notification.service';
+import { OntoPageService } from '../services/ontology/onto-page.service';
+import { OntoPage, BINDING_TYPE } from '../models/ontology/onto-page.model';
+import { OntoPageFilterVm } from '../models/ontology/onto-page-filter.vm';
+import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
+import { UtilService } from '../services/util.service';
+import { OntoPageEditComponent } from '../components/onto-page/edit/onto-page-edit.component';
+import { DialogService } from '../services/common/dialog.service';
 
 @Component({
-    selector: 'app-onto-pages-list',
-    templateUrl: './onto-pages-list.component.html',
-    styleUrls: ['./onto-pages-list.component.scss'],
+    selector: 'app-onto-pages-view',
+    templateUrl: './onto-pages-view.component.html',
+    styleUrls: ['./onto-pages-view.component.scss'],
 })
-export class OntoPagesListComponent implements OnInit {
+export class OntoPagesViewComponent implements OnInit {
     public ontoPageArr: OntoPage[] = [];
     public ontoPageArrLen = 0;
     private ontoPageFilterVm!: OntoPageFilterVm;
