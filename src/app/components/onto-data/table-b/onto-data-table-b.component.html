@@ -1,12 +1,36 @@
 <table [dataSource]="dataSource" mat-table>
   <ng-container matColumnDef="index">
-    <th *matHeaderCellDef mat-header-cell>No.</th>
+    <th *matHeaderCellDef mat-header-cell>Index</th>
     <td *matCellDef="let row; let i = index" mat-cell>{{ i + 1 }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
+    <td *matCellDef="let row" mat-cell>
+      {{ row.urlCode }}{{ row.endpoint | truncate: "75" }}
+
+      <button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        mat-icon-button
+        matTooltip="Copy to clipboard"
+        type="button"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="View data"
+        type="button"
+      >
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="description">
@@ -29,33 +53,6 @@
       <mat-chip-list>
         <mat-chip *ngFor="let d of row.keywords">{{ d }}</mat-chip>
       </mat-chip-list>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
-    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
-      <button
-        cdkCopyToClipboard="{{ row.id }}"
-        [matTooltipPosition]="'left'"
-        class="btn btn-light btn-link"
-        mat-icon-button
-        matTooltip="Copy to clipboard"
-        type="button"
-      >
-        <mat-icon>content_copy</mat-icon>
-      </button>
-
-      <button
-        (click)="onClickViewData(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-primary btn-link"
-        mat-icon-button
-        matTooltip="View data"
-        type="button"
-      >
-        <mat-icon>open_in_new</mat-icon>
-      </button>
     </td>
   </ng-container>
 

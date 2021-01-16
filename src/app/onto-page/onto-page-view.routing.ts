@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
 
 import { OntoPageResolverService } from '../services/ontology/onto-page.resolver';
-import { OntoPageExtComponent } from '../components/onto-page/ext/onto-page-ext.component';
-import { OntoPageComponent } from './onto-page.component';
+import { OntoPageBindingsComponent } from './bindings/onto-page-bindings.component';
+import { OntoPagesListComponent } from './list/onto-pages-list.component';
 
-export const OntoPageRoutes: Routes = [
+export const OntoPageViewRoutes: Routes = [
     {
         path: '',
         children: [
             {
                 path: '',
-                component: OntoPageComponent,
+                component: OntoPagesListComponent,
             },
             {
                 path: ':bindingType',
-                component: OntoPageComponent,
+                component: OntoPagesListComponent,
             },
             {
                 path: 'page/:pageId',
-                component: OntoPageExtComponent,
+                component: OntoPageBindingsComponent,
                 resolve: { ontoPageExt: OntoPageResolverService },
             },
         ],

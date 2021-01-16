@@ -10,12 +10,18 @@ import { DirectivesModule } from '../directives/directives.module';
 import { OntoPageService } from '../services/ontology/onto-page.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
-import { OntoPageDisplayModule } from '../components/onto-page/onto-page-display.module';
-import { OntoPageComponent } from './onto-page.component';
-import { OntoPageRoutes } from './onto-page.routing';
+import { OntoPageModule } from '../components/onto-page/onto-page.module';
+import { OntoPagesListComponent } from './list/onto-pages-list.component';
+import { OntoPageViewRoutes } from './onto-page-view.routing';
+import { OntoPageBindingsComponent } from './bindings/onto-page-bindings.component';
+import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
 
 @NgModule({
-    declarations: [OntoPageComponent],
+    declarations: [
+        OntoPagesListComponent,
+        OntoPageBindingsComponent,
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -24,11 +30,13 @@ import { OntoPageRoutes } from './onto-page.routing';
         MatFormFieldModule,
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
-        RouterModule.forChild(OntoPageRoutes),
+        RouterModule.forChild(OntoPageViewRoutes),
         CustomPipesModule,
         CustomSingleSelectionModule,
-        OntoPageDisplayModule,
+        OntoPageModule,
+        OntoVisDisplayModule,
+        OntoDataDisplayModule,
     ],
     providers: [OntoPageService],
 })
-export class OntologyModule {}
+export class OntoPageViewModule {}

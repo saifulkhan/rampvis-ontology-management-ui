@@ -11,18 +11,11 @@
           </div>
 
           <div class="card-body">
-
             <mat-card *ngFor="let d of ontoPageExt?.bindingExts">
-              <app-onto-vis-table
-                [data]="[d.vis]"
-                [editable]="false"
-                [selectable]="false"
-              >
-              </app-onto-vis-table>
+              <app-onto-vis-table-simple [data]="[d.vis]"> </app-onto-vis-table-simple>
 
               <app-onto-data-table-b [data]="d.data"> </app-onto-data-table-b>
             </mat-card>
-
           </div>
           <!-- end card-body-->
         </div>

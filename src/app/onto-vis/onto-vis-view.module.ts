@@ -3,23 +3,21 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { RouterModule } from '@angular/router';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { OntoDataRoutes } from './onto-data.routing';
+import { OntoVisViewRoutes } from './onto-vis-view.routing';
 import { DirectivesModule } from '../directives/directives.module';
-import { OntoDataService } from '../services/ontology/onto-data.service';
-import { OntoDataComponent } from './onto-data.component';
+import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
+import { OntoVisComponent } from './onto-vis.component';
 
 @NgModule({
-    declarations: [
-      OntoDataComponent,
-    ],
+    declarations: [OntoVisComponent],
     imports: [
         CommonModule,
-        RouterModule.forChild(OntoDataRoutes),
+        RouterModule.forChild(OntoVisViewRoutes),
         FormsModule,
         MaterialModule,
         DirectivesModule,
@@ -27,8 +25,9 @@ import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
-        OntoDataDisplayModule,
+        OntoVisDisplayModule,
     ],
-    providers: [OntoDataService],
+    providers: [OntoVisService],
+    entryComponents: [],
 })
-export class OntoDataModule {}
+export class OntoVisViewModule {}

@@ -24,7 +24,7 @@ export class OntoDataTableBComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'actions'],
+        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords'],
         dataRows: [],
     };
 

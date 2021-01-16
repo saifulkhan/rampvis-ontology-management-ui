@@ -1,0 +1,46 @@
+<table [dataSource]="dataSource" mat-table>
+  <ng-container matColumnDef="function">
+    <th *matHeaderCellDef mat-header-cell>Function</th>
+    <td *matCellDef="let row" mat-cell>
+      <button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        mat-icon-button
+        matTooltip="Copy to clipboard"
+        type="button"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      {{ row.function }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th *matHeaderCellDef mat-header-cell>Type</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip *ngIf="row.type">{{ row.type }}</mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dataTypes">
+    <th *matHeaderCellDef mat-header-cell>Data Type</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip *ngFor="let d of row.dataTypes">
+          {{ d }}
+        </mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell>Description</th>
+    <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+  <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+</table>

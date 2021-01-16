@@ -1,24 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, forkJoin, merge, Observable, of } from 'rxjs';
-import { Router, RouterEvent, Event, ActivatedRoute } from '@angular/router';
-import { catchError, debounceTime, filter, mergeMap, startWith, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { catchError, mergeMap } from 'rxjs/operators';
 
-import { LocalNotificationService } from '../services/common/local-notification.service';
-import { OntoPageService } from '../services/ontology/onto-page.service';
-import { OntoPage, BINDING_TYPE } from '../models/ontology/onto-page.model';
-import { OntoPageFilterVm } from '../models/ontology/onto-page-filter.vm';
-import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { UtilService } from '../services/util.service';
-import { OntoPageEditComponent } from '../components/onto-page/edit/onto-page-edit.component';
-import { DialogService } from '../services/common/dialog.service';
+import { LocalNotificationService } from '../../services/common/local-notification.service';
+import { OntoPageService } from '../../services/ontology/onto-page.service';
+import { OntoPage, BINDING_TYPE } from '../../models/ontology/onto-page.model';
+import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
+import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
+import { UtilService } from '../../services/util.service';
+import { OntoPageEditComponent } from '../../components/onto-page/edit/onto-page-edit.component';
+import { DialogService } from '../../services/common/dialog.service';
 
 @Component({
-    selector: 'app-onto-page',
-    templateUrl: './onto-page.component.html',
-    styleUrls: ['./onto-page.component.scss'],
+    selector: 'app-onto-pages-list',
+    templateUrl: './onto-pages-list.component.html',
+    styleUrls: ['./onto-pages-list.component.scss'],
 })
-export class OntoPageComponent implements OnInit {
+export class OntoPagesListComponent implements OnInit {
     public ontoPageArr: OntoPage[] = [];
     public ontoPageArrLen = 0;
     private ontoPageFilterVm!: OntoPageFilterVm;
@@ -35,7 +35,7 @@ export class OntoPageComponent implements OnInit {
         private utilService: UtilService
     ) {
         this.activatedRoute.params.subscribe((d: any) => {
-            console.log('OntoPageComponent: ngOnInit:  route or bindingType = ', d?.bindingType);
+            console.log('OntoPagesListComponent: ngOnInit:  route or bindingType = ', d?.bindingType);
             this.filterBindingType$.next(d?.bindingType);
             this.getOntoPages(this.ontoPageFilterVm);
         });
@@ -64,7 +64,7 @@ export class OntoPageComponent implements OnInit {
 
     public getOntoPages(_ontoPageFilterVm: OntoPageFilterVm) {
         this.ontoPageFilterVm = _ontoPageFilterVm;
-        console.log('OntoPageComponent:getOntoPages: ontoPageFilterVm = ', this.ontoPageFilterVm);
+        console.log('OntoPagesListComponent:getOntoPages: ontoPageFilterVm = ', this.ontoPageFilterVm);
 
         if (!this.filterBindingType$.value || !this.ontoPageFilterVm) {
             return;
@@ -86,7 +86,7 @@ export class OntoPageComponent implements OnInit {
     }
 
     private openPageEditModal(dialogType: string, ontoPage: OntoPage): void {
-        console.log('OntoPageComponent: openPageEditModal: ontoPage = ', ontoPage);
+        console.log('OntoPagesListComponent: openPageEditModal: ontoPage = ', ontoPage);
 
         const dialogOpt = { width: '40%', data: { dialogType, data: this.utilService.deepCopy(ontoPage) } };
         const matDialogRef = this.matDialog.open(OntoPageEditComponent, dialogOpt);
@@ -98,7 +98,7 @@ export class OntoPageComponent implements OnInit {
                     (ontoPage: null | OntoPage): Observable<any> => {
                         if (!ontoPage) return of(false);
 
-                        console.log('OntoPageComponent: openPageEditModal: dialog afterClosed, ontoPage = ', ontoPage);
+                        console.log('OntoPagesListComponent: openPageEditModal: dialog afterClosed, ontoPage = ', ontoPage);
 
                         if (dialogType === 'new') return this.ontologyService.createPage(ontoPage);
                         if (dialogType === 'edit') return this.ontologyService.updatePage(ontoPage);

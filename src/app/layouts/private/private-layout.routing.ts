@@ -15,12 +15,12 @@ export const PrivateLayoutRoutes: Routes = [
             {
                 path: 'vis',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-vis/onto-vis.module').then((m) => m.OntoVisModule),
+                loadChildren: () => import('../../onto-vis/onto-vis-view.module').then((m) => m.OntoVisViewModule),
             },
             {
                 path: 'data',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-data/onto-data.module').then((m) => m.OntoDataModule),
+                loadChildren: () => import('../../onto-data/onto-data.view.module').then((m) => m.OntoDataViewModule),
             },
             {
                 path: 'propagation',
@@ -30,7 +30,7 @@ export const PrivateLayoutRoutes: Routes = [
             {
                 path: 'pages',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-page/onto-page.module').then((m) => m.OntologyModule),
+                loadChildren: () => import('../../onto-page/onto-page-view.module').then((m) => m.OntoPageViewModule),
             },
             {
                 path: 'search',

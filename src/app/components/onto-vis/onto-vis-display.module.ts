@@ -9,11 +9,13 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { OntoVisTableComponent } from './table/onto-vis-table.component';
 import { OntoVisEditComponent } from './edit/onto-vis-edit.component';
- 
+import { OntoVisTableSimpleComponent } from './table-simple/onto-vis-table-simple.component';
+
 
 @NgModule({
     declarations: [
-      OntoVisTableComponent, 
+      OntoVisTableComponent,
+      OntoVisTableSimpleComponent,
       OntoVisEditComponent,
     ],
     imports: [
@@ -27,7 +29,8 @@ import { OntoVisEditComponent } from './edit/onto-vis-edit.component';
         CustomPipesModule,
     ],
     exports: [
-      OntoVisTableComponent, 
+      OntoVisTableComponent,
+      OntoVisTableSimpleComponent,
       OntoVisEditComponent,
     ],
 })
