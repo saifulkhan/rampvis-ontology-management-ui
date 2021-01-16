@@ -6,7 +6,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { DialogService } from '../services/common/dialog.service';
 import { OntoDataService } from '../services/ontology/onto-data.service';
-import { OntoDataEditComponent } from './display/edit/onto-data-edit.component';
+import { OntoDataEditComponent } from '../components/onto-data/edit/onto-data-edit.component';
 import { OntoData } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';

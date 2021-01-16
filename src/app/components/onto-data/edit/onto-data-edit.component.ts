@@ -8,7 +8,7 @@ import { LocalNotificationService } from '../../../services/common/local-notific
 import { UtilService } from '../../../services/util.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { DATA_TYPE } from '../../../models/ontology/onto-data-types';
-import { BaseFormComponent } from '../../../components/forms/base-form.component';
+import { BaseFormComponent } from '../../forms/base-form.component';
 
 @Component({
     selector: 'app-onto-data-edit',

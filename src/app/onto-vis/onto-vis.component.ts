@@ -5,7 +5,7 @@ import { mergeMap } from 'rxjs/operators';
 
 import { DialogService } from '../services/common/dialog.service';
 import { OntoVis } from '../models/ontology/onto-vis.model';
-import { OntoVisEditComponent } from './display/edit/onto-vis-edit.component';
+import { OntoVisEditComponent } from '../components/onto-vis/edit/onto-vis-edit.component';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 
 @Component({

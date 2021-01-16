@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { BaseNestedform } from '../../../components/forms/base.nestedform';
+import { BaseNestedform } from '../../forms/base.nestedform';
 
 @Component({
     selector: 'app-queryparam-edit',
@@ -23,7 +23,7 @@ export class QueryparamEditComponent extends BaseNestedform {
         //title: new FormControl('My note', [Validators.required]),
         //content: new FormControl('', [Validators.required, Validators.minLength(3)]),
     });
-    
+
     // Remove tag
     remove(tag: any): void {
         const index = this.formGroup.get('params')?.value.indexOf(tag);

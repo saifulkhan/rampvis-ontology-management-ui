@@ -11,11 +11,11 @@ import { DirectivesModule } from '../directives/directives.module';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { OntoDataComponent } from './onto-data.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { OntoDataDisplayModule } from './display/onto-data-display.module';
+import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
 
 @NgModule({
     declarations: [
-      OntoDataComponent, 
+      OntoDataComponent,
     ],
     imports: [
         CommonModule,

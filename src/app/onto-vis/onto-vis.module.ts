@@ -10,7 +10,7 @@ import { OntoVisRoutes } from './onto-vis.routing';
 import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { OntoVisDisplayModule } from './display/onto-vis-display.module';
+import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
 import { OntoVisComponent } from './onto-vis.component';
 
 @NgModule({

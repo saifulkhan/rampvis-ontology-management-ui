@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { OntoPageResolverService } from '../services/ontology/onto-page.resolver';
-import { OntoPageExtComponent } from './display/ext/onto-page-ext.component';
+import { OntoPageExtComponent } from '../components/onto-page/ext/onto-page-ext.component';
 import { OntoPageComponent } from './onto-page.component';
 
 export const OntoPageRoutes: Routes = [

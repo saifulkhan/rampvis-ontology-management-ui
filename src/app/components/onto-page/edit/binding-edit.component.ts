@@ -4,7 +4,7 @@ import { forkJoin, ReplaySubject, Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 
-import { BaseNestedform } from '../../../components/forms/base.nestedform';
+import { BaseNestedform } from '../../forms/base.nestedform';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
 import { OntoVisService } from '../../../services/ontology/onto-vis.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';

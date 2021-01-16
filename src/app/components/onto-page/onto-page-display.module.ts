@@ -10,12 +10,11 @@ import { BindDataEditComponent } from './edit/binddata-edit.component';
 import { Queryparam2EditComponent } from './edit/queryparam2-edit.component';
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
-import { CustomSingleSelectionModule } from '../../components/custom-single-selection/custom-single-selection.module';
+import { CustomSingleSelectionModule } from '../custom-single-selection/custom-single-selection.module';
 import { MaterialModule } from '../../material.module';
 import { OntoPageTableComponent } from './table/onto-page-table.component';
-import { OntoVisDisplayModule } from '../../onto-vis/display/onto-vis-display.module';
-import { OntoDataDisplayModule } from '../../onto-data/display/onto-data-display.module';
-import { NgxDataTableModule } from '../../components/ngx-data-table/ngx-data-table.module';
+import { OntoVisDisplayModule } from '../onto-vis/onto-vis-display.module';
+import { OntoDataDisplayModule } from '../onto-data/onto-data-display.module';
 import { OntoPageExtComponent } from './ext/onto-page-ext.component';
 
 @NgModule({
@@ -39,7 +38,6 @@ import { OntoPageExtComponent } from './ext/onto-page-ext.component';
         CustomSingleSelectionModule,
         OntoVisDisplayModule,
         OntoDataDisplayModule,
-        NgxDataTableModule,
     ],
     exports: [
         OntoPageTableComponent,

@@ -10,7 +10,7 @@ import { DirectivesModule } from '../directives/directives.module';
 import { OntoPageService } from '../services/ontology/onto-page.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
-import { OntoPageDisplayModule } from './display/onto-page-display.module';
+import { OntoPageDisplayModule } from '../components/onto-page/onto-page-display.module';
 import { OntoPageComponent } from './onto-page.component';
 import { OntoPageRoutes } from './onto-page.routing';
 

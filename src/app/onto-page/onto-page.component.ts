@@ -10,7 +10,7 @@ import { OntoPage, BINDING_TYPE } from '../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
 import { UtilService } from '../services/util.service';
-import { OntoPageEditComponent } from './display/edit/onto-page-edit.component';
+import { OntoPageEditComponent } from '../components/onto-page/edit/onto-page-edit.component';
 import { DialogService } from '../services/common/dialog.service';
 
 @Component({

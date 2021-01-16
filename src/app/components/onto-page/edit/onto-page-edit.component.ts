@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 
 import { LocalNotificationService } from '../../../services/common/local-notification.service';
 import { UtilService } from '../../../services/util.service';
-import { BaseFormComponent } from '../../../components/forms/base-form.component';
+import { BaseFormComponent } from '../../forms/base-form.component';
 import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
 
 @Component({

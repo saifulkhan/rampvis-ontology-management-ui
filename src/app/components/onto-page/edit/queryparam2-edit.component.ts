@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 
-import { BaseNestedform } from '../../../components/forms/base.nestedform';
+import { BaseNestedform } from '../../forms/base.nestedform';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataService } from '../../../services/ontology/onto-data.service';
 import { QueryParams } from '../../../models/ontology/query-params.model';
@@ -38,7 +38,7 @@ export class Queryparam2EditComponent extends BaseNestedform {
             if (res) {
                 // Commented to pass compilation error
                 //let q = res?.queryParams.map((d: QueryParams) => d.query);
-                //let p = [].concat.apply([], res?.queryParams.map((d: any) => d.params)); 
+                //let p = [].concat.apply([], res?.queryParams.map((d: any) => d.params));
 
                 //this.queryList.next(q.slice());
                 //this.paramsList.next(p.slice());
