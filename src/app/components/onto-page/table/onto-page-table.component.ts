@@ -11,7 +11,6 @@ import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
 import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
-import { OntoPageService } from '../../../services/ontology/onto-page.service';
 
 @Component({
     selector: 'app-onto-page-table',
@@ -52,10 +51,7 @@ export class OntoPageTableComponent implements OnInit {
     ontoVisArr: OntoVis[] = [];
     ontoVisArrLen = 0;
 
-    constructor(
-        private ontoPageService: OntoPageService,
-        private router: Router,
-    ) {}
+    constructor(private router: Router) {}
 
     ngOnInit(): void {
         this.spinner = true;
@@ -121,9 +117,9 @@ export class OntoPageTableComponent implements OnInit {
         window.open(link, '_blank');
     }
 
-    public onClickNavigateToOntoPageExt(pageId: string) {
-        this.router.navigate(['pages', 'page', `${pageId}`]);
-
+    public onClickShowBindings(pageId: string) {
+        const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
+        window.open(url, '_blank');
     }
 
     //

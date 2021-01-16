@@ -7,6 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
+import * as _ from "lodash";
+
 
 @Component({
     selector: 'app-onto-data-table-b',
@@ -22,9 +26,12 @@ export class OntoDataTableBComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
+
+
+
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords'],
+        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'actions'],
         dataRows: [],
     };
 
@@ -52,4 +59,14 @@ export class OntoDataTableBComponent implements OnInit {
         const dialogOpt = { width: '40%', data: data };
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
     }
+
+    dropTable(event: CdkDragDrop<OntoData[]>) {
+        const prevIndex = this.data.findIndex((d) => d === event.item.data);
+        moveItemInArray(this.data, prevIndex, event.currentIndex);
+        this.table.renderRows();
+
+        console.log(this.data)
+    }
+
 }
+

@@ -6,7 +6,7 @@
       name="search"
       [(ngModel)]="filterTerm"
       (keyup)="filterTerm$.next(filterTerm)"
-      placeholder="Filter by endpoint, id, description, keyword..."
+      placeholder="Filter ..."
     />
   </mat-form-field>
 
@@ -59,7 +59,7 @@
   </ng-container>
 
   <ng-container matColumnDef="date">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header [disabled]="!editable">Date</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header [disabled]="showBindings">Date</th>
     <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
   </ng-container>
 
@@ -86,7 +86,7 @@
         matTooltip="View data"
         type="button"
       >
-        <mat-icon>open_in_new</mat-icon>
+        <mat-icon>grid_on</mat-icon>
       </button>
 
       <button
@@ -116,9 +116,23 @@
   </ng-container>
 
   <ng-container matColumnDef="binding">
-    <th *matHeaderCellDef mat-header-cell [hidden]="!selectable">Existing Pages</th>
+    <th *matHeaderCellDef mat-header-cell [hidden]="!selectable">Existing Bindings</th>
     <td *matCellDef="let row" mat-cell [hidden]="!selectable">
-      <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange">{{ row.pageIds?.length }}</div>
+      <div class="align-exiting-binding-icons">
+        <!-- <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange">{{ row.pageIds?.length }}</div> -->
+        <div *ngFor="let d of row.pageIds">
+          <button
+            (click)="onClickShowBindings(d)"
+            [matTooltipPosition]="'left'"
+            class="btn btn-danger btn-link"
+            mat-icon-button
+            matTooltip="Show bindings"
+            type="button"
+          >
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+        </div>
+      </div>
     </td>
   </ng-container>
 

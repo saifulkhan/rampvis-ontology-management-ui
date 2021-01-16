@@ -8,14 +8,14 @@ import { MaterialModule } from '../../material.module';
 
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
-import { OntoDataTableComponent } from './table/onto-data-table.component';
+import { OntoDataTableAComponent } from './table-a/onto-data-table-a.component';
 import { OntoDataInspectComponent } from './inspect/onto-data-inspect.component';
 import { OntoDataEditComponent } from './edit/onto-data-edit.component';
 import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
 
 @NgModule({
     declarations: [
-      OntoDataTableComponent,
+      OntoDataTableAComponent,
       OntoDataTableBComponent,
 
       OntoDataEditComponent,
@@ -33,7 +33,7 @@ import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
         CustomPipesModule,
     ],
     exports: [
-      OntoDataTableComponent,
+      OntoDataTableAComponent,
       OntoDataTableBComponent,
 
       OntoDataEditComponent,

@@ -1,4 +1,10 @@
-<table [dataSource]="dataSource" mat-table>
+<table
+  mat-table
+  [dataSource]="dataSource"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="dropTable($event)"
+>
   <ng-container matColumnDef="index">
     <th *matHeaderCellDef mat-header-cell>Index</th>
     <td *matCellDef="let row; let i = index" mat-cell>{{ i + 1 }}</td>
@@ -6,31 +12,7 @@
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>
-      {{ row.urlCode }}{{ row.endpoint | truncate: "75" }}
-
-      <button
-        cdkCopyToClipboard="{{ row.id }}"
-        [matTooltipPosition]="'left'"
-        class="btn btn-light btn-link"
-        mat-icon-button
-        matTooltip="Copy to clipboard"
-        type="button"
-      >
-        <mat-icon>content_copy</mat-icon>
-      </button>
-
-      <button
-        (click)="onClickViewData(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-primary btn-link"
-        mat-icon-button
-        matTooltip="View data"
-        type="button"
-      >
-        <mat-icon>open_in_new</mat-icon>
-      </button>
-    </td>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="description">
@@ -56,6 +38,42 @@
     </td>
   </ng-container>
 
-  <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: tableData.headerRow" mat-row></tr>
+  <!-- Action Column -->
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+      <div class=" flex-container">
+        <button
+          cdkCopyToClipboard="{{ row.id }}"
+          [matTooltipPosition]="'left'"
+          class="btn btn-light btn-link"
+          mat-icon-button
+          matTooltip="Copy to clipboard"
+          type="button"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button
+          (click)="onClickViewData(row)"
+          [matTooltipPosition]="'left'"
+          class="btn btn-primary btn-link"
+          mat-icon-button
+          matTooltip="View data"
+          type="button"
+        >
+          <mat-icon>grid_on</mat-icon>
+        </button>
+
+        <mat-icon cdkDragHandle>reorder</mat-icon>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableData.headerRow"
+    cdkDrag
+    [cdkDragData]="row"
+  >
+  </tr>
 </table>

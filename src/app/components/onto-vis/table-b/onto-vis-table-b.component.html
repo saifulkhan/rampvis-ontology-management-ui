@@ -41,6 +41,24 @@
     <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
   </ng-container>
 
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+      <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+        <button
+          cdkCopyToClipboard="{{ row.id }}"
+          [matTooltipPosition]="'left'"
+          class="btn btn-light btn-link"
+          mat-icon-button
+          matTooltip="Copy to clipboard"
+          type="button"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>

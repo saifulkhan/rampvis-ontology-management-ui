@@ -1,19 +1,32 @@
 @import "../scss/material-dashboard.scss";
 
 // used by data search highlight pipe
-.search-highlight{
-  color:  $hart-primary;
+.search-highlight {
+  color: $hart-primary;
   font-weight: bold;
 }
 
-
-// tables 100% width
+//
+// Table
+//
 table {
   width: 100%;
 
   th.actions {
     width: 100px;
   }
+}
+
+.th-center {
+  text-align: center;
+}
+
+.th-left {
+  text-align: left;
+}
+
+.th-right {
+  text-align: right;
 }
 
 //

@@ -7,15 +7,15 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
-import { OntoVisTableComponent } from './table/onto-vis-table.component';
+import { OntoVisTableComponentA } from './table-a/onto-vis-table-a.component';
 import { OntoVisEditComponent } from './edit/onto-vis-edit.component';
-import { OntoVisTableSimpleComponent } from './table-simple/onto-vis-table-simple.component';
+import { OntoVisTableBComponent } from './table-b/onto-vis-table-b.component';
 
 
 @NgModule({
     declarations: [
-      OntoVisTableComponent,
-      OntoVisTableSimpleComponent,
+      OntoVisTableComponentA,
+      OntoVisTableBComponent,
       OntoVisEditComponent,
     ],
     imports: [
@@ -29,8 +29,8 @@ import { OntoVisTableSimpleComponent } from './table-simple/onto-vis-table-simpl
         CustomPipesModule,
     ],
     exports: [
-      OntoVisTableComponent,
-      OntoVisTableSimpleComponent,
+      OntoVisTableComponentA,
+      OntoVisTableBComponent,
       OntoVisEditComponent,
     ],
 })

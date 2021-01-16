@@ -11,8 +11,8 @@ import { OntoData, OntoDataSearch } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CustomSingleSelectionData } from '../components/custom-single-selection/custom-single-selection.component';
-import { OntoDataTableComponent } from '../components/onto-data/table/onto-data-table.component';
-import { OntoVisTableComponent } from '../components/onto-vis/table/onto-vis-table.component';
+import { OntoDataTableAComponent } from '../components/onto-data/table-a/onto-data-table-a.component';
+import { OntoVisTableComponentA } from '../components/onto-vis/table-a/onto-vis-table-a.component';
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
@@ -55,9 +55,9 @@ export class PropagationComponent implements OnInit {
     private ontoDataFilterVm!: OntoDataFilterVm;
 
     // Access selected rows of table (child component)
-    @ViewChild(OntoVisTableComponent) ontoVisTableComponent!: OntoVisTableComponent;
+    @ViewChild(OntoVisTableComponentA) ontoVisTableComponent!: OntoVisTableComponentA;
     // Access by reference as multiple data tables exists
-    @ViewChild('searchedOntoDataTable') ontoDataTableComponent!: OntoDataTableComponent;
+    @ViewChild('searchedOntoDataTable') ontoDataTableComponent!: OntoDataTableAComponent;
 
     // Propagation
     public propagationTypes!: string[];
@@ -193,13 +193,15 @@ export class PropagationComponent implements OnInit {
         this.ontoDataSearchResultLen = 0;
     }
 
+    /**
+     *
+     */
     public optionSelected(input: HTMLInputElement) {
         input.blur();
         input.setSelectionRange(0, 0);
         input.focus();
     }
 
-    public getOntoData(ontoDataFilter: OntoDataFilterVm) {}
 
     //
     // Propagation
@@ -226,19 +228,4 @@ export class PropagationComponent implements OnInit {
 
 
 
-    movies = [
-        'Episode I - The Phantom Menace',
-        'Episode II - Attack of the Clones',
-        'Episode III - Revenge of the Sith',
-        'Episode IV - A New Hope',
-        'Episode V - The Empire Strikes Back',
-        'Episode VI - Return of the Jedi',
-        'Episode VII - The Force Awakens',
-        'Episode VIII - The Last Jedi',
-        'Episode IX – The Rise of Skywalker'
-      ];
-
-      drop(event: CdkDragDrop<string[]>) {
-        moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
-      }
 }

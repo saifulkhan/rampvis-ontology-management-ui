@@ -8,18 +8,12 @@ import { TableData } from '../../../models/table.data.interface';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
 
 @Component({
-    selector: 'app-onto-vis-table',
-    templateUrl: './onto-vis-table.component.html',
-    styleUrls: ['./onto-vis-table.component.scss'],
+    selector: 'app-onto-vis-table-b',
+    templateUrl: './onto-vis-table-b.component.html',
+    styleUrls: ['./onto-vis-table-b.component.scss'],
 })
-export class OntoVisTableComponent implements OnInit {
+export class OntoVisTableBComponent implements OnInit {
     @Input() data!: OntoVis[];
-    //@Input() len!: number;
-    @Input() editable!: boolean;
-    @Input() selectable!: boolean;
-    @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onClickEdit: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
-    @Output() onClickDelete: EventEmitter<OntoVis> = new EventEmitter<OntoVis>();
 
     len!: number;
 
@@ -28,7 +22,7 @@ export class OntoVisTableComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public dataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['function', 'type', 'dataTypes', 'description', 'actions', 'select'],
+        headerRow: ['function', 'type', 'dataTypes', 'description', 'actions'],
         dataRows: [],
     };
 
@@ -63,27 +57,5 @@ export class OntoVisTableComponent implements OnInit {
         this.len = this.data.length;
 
         this.spinner = false;
-    }
-
-    //
-    // Select
-    //
-
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        this.isAllSelected()
-            ? this.selection.clear()
-            : this.dataSource.data.forEach((row) => this.selection.select(row));
-    }
-
-    public getSelection(): OntoVis[] {
-        return this.selection.selected;
     }
 }

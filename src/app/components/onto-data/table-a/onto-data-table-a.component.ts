@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, merge } from 'rxjs';
 import { debounceTime, delay, startWith, tap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
@@ -13,28 +14,39 @@ import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
 import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
 
 @Component({
-    selector: 'app-onto-data-table',
-    templateUrl: './onto-data-table.component.html',
-    styleUrls: ['./onto-data-table.component.scss'],
+    selector: 'app-onto-data-table-a',
+    templateUrl: './onto-data-table-a.component.html',
+    styleUrls: ['./onto-data-table-a.component.scss'],
 })
-export class OntoDataTableComponent implements OnInit {
+export class OntoDataTableAComponent implements OnInit {
     @Input() data: OntoData[] = [];
-    len!: number;
     @Input() searchable: boolean = true;
     @Input() editable!: boolean;
+    @Input() showBindings!: boolean;
     @Input() selectable!: boolean;
     @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() onClickEdit: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() onClickDelete: EventEmitter<OntoData> = new EventEmitter<OntoData>();
     @Output() fetchFilteredData: EventEmitter<OntoDataFilterVm> = new EventEmitter<OntoDataFilterVm>();
 
+    len!: number;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['urlCode', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'actions', 'binding', 'select'],
+        headerRow: [
+            'urlCode',
+            'endpoint',
+            'dataType',
+            'description',
+            'keywords',
+            'date',
+            'actions',
+            'binding',
+            'select',
+        ],
         dataRows: [],
     };
 
@@ -44,7 +56,7 @@ export class OntoDataTableComponent implements OnInit {
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
 
-    constructor(private matDialog: MatDialog) {
+    constructor(private router: Router, private matDialog: MatDialog) {
         this.spinner = true;
     }
 
@@ -113,6 +125,11 @@ export class OntoDataTableComponent implements OnInit {
     public onClickViewData(data: OntoData) {
         const dialogOpt = { width: '40%', data: data };
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
+    }
+
+    public onClickShowBindings(pageId: string) {
+        const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
+        window.open(url, '_blank');
     }
 
     //

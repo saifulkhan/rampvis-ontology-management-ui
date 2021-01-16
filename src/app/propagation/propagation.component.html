@@ -44,7 +44,7 @@
         </div>
 
         <!--Selected VIS table-->
-        <app-onto-vis-table [editable]="false" [selectable]="true" [data]="selectedOntoVisArr"> </app-onto-vis-table>
+        <app-onto-vis-table-b [data]="selectedOntoVisArr"> </app-onto-vis-table-b>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
 
     <!--Search data-->
 
-    <div class="card" *ngIf="exampleOntoDataArr?.length">
+    <div class="card"> <!-- *ngIf="exampleOntoDataArr?.length"-->
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>search</mat-icon>
@@ -118,30 +118,29 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <!-- <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
+            <!--
+            <button (click)="search()" class="btn btn-primary btn-round btn-fab float-right card-btn">
               <mat-icon>search</mat-icon>
-            </button> -->
+            </button>
+            -->
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-12">
-            <app-onto-data-table
+            <app-onto-data-table-a
               [data]="ontoDataSearchResult"
               [editable]="false"
               [selectable]="true"
+              [showBindings]="true"
               (fetchFilteredData)="filterAndSearchOntoData($event)"
             >
-            </app-onto-data-table>
+            </app-onto-data-table-a>
           </div>
         </div>
       </div>
     </div>
     <!--Search Data-->
-
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
-    </div>
 
   </div>
   <!--container-fluid-->
