@@ -14,3 +14,7 @@ export class OntoVis implements Deserializable {
         return this;
     }
 }
+
+export class OntoVisSearch extends OntoVis {
+    public score: number = undefined as any;
+}

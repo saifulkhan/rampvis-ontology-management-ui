@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { APIService } from '../api.service';
-import { OntoVis } from '../../models/ontology/onto-vis.model';
+import { OntoVis, OntoVisSearch } from '../../models/ontology/onto-vis.model';
 import { OntoData } from '../../models/ontology/onto-data.model';
+import { OntoVisSearchFilterVm } from '../../models/ontology/onto-vis-search-filter.vm';
 
 @Injectable({
     providedIn: 'root',
@@ -37,5 +38,18 @@ export class OntoVisService {
 
     public getExamplePagesBindingVisId(visId: string): Observable<OntoData[]> {
         return this.api.get(`${this.url}/${visId}/data`);
+    }
+
+    public suggest(query: string): Observable<OntoVisSearch[]> {
+        let url: string = `${this.url}/suggest/?query=${query}`;
+        return this.api.get(url);
+    }
+
+    public search(ontoDataSearchFilterVm: OntoVisSearchFilterVm): Observable<OntoVisSearch[]> {
+        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}`;
+
+        console.log('OntoDataService:search: url = ', url);
+
+        return this.api.get(url);
     }
 }

@@ -9,46 +9,50 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 
 import { TableData } from '../../../models/table.data.interface';
-import { OntoData } from '../../../models/ontology/onto-data.model';
-import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
 import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { OntoDataSearch } from '../../../models/ontology/onto-data.model';
+import { OntoDataSearchFilterVm } from '../../../models/ontology/onto-data-search-filter.vm';
 
 @Component({
-    selector: 'app-onto-data-table-a',
-    templateUrl: './onto-data-table-a.component.html',
-    styleUrls: ['./onto-data-table-a.component.scss'],
+    selector: 'app-onto-data-table-s',
+    templateUrl: './onto-data-table-s.component.html',
+    styleUrls: ['./onto-data-table-s.component.scss'],
 })
-export class OntoDataTableAComponent implements OnInit {
-    @Input() data!: OntoData[];
+export class OntoDataTableSComponent implements OnInit {
+    @Input() data!: OntoDataSearch[];
     @Input() length!: number;
-    @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() onClickEdit: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() onClickDelete: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() onClickAddToBasket: EventEmitter<OntoData> = new EventEmitter<OntoData>();
-    @Output() fetchFilteredData: EventEmitter<OntoDataFilterVm> = new EventEmitter<OntoDataFilterVm>();
+    @Input() searchable!: boolean;
+    @Input() showBindings!: boolean;
+    @Input() canAddToBasket!: boolean;
+    @Input() selectable!: boolean;
+    @Output() onClickCreate: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
+    @Output() onClickEdit: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
+    @Output() onClickDelete: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
+    @Output() onClickAddToBasket: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
+    @Output() fetchFilteredData: EventEmitter<OntoDataSearchFilterVm> = new EventEmitter<OntoDataSearchFilterVm>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
-    public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<OntoDataSearch> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['urlCode', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'actions'],
+        headerRow: ['score', 'endpoint', 'dataType', 'description', 'keywords', 'date', 'binding', 'actions'],
         dataRows: [],
     };
 
-    public selection = new SelectionModel<OntoData>(true, []);
+    public selection = new SelectionModel<OntoDataSearch>(true, []);
     public spinner = false;
 
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
 
     constructor(private router: Router, private matDialog: MatDialog) {
-        this.spinner = true;
     }
 
     ngOnInit(): void {
         this.clearDataSource();
+        this.spinner = true;
 
         this.filterTerm$.next(null as any);
         this.filterType$.next(null as any);
@@ -71,17 +75,17 @@ export class OntoDataTableAComponent implements OnInit {
                 debounceTime(1000)
             )
             .subscribe((res) => {
-                const ontoDataFilter = {
+                const ontoDataSearchFilter = {
                     pageIndex: this.paginator.pageIndex,
                     pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
                     dataType: this.filterType$.value,
                     filter: this.filterTerm$.value,
-                } as OntoDataFilterVm;
+                } as OntoDataSearchFilterVm;
 
-                console.log('OntoDataTableComponentA:ngAfterViewInit: ontoDataFilter = ', ontoDataFilter);
-                this.fetchFilteredData.emit(ontoDataFilter);
+                console.log('OntoDataTableComponentA:ngAfterViewInit: ontoDataFilter = ', ontoDataSearchFilter);
+                this.fetchFilteredData.emit(ontoDataSearchFilter);
             });
     }
 
@@ -107,7 +111,7 @@ export class OntoDataTableAComponent implements OnInit {
         }
     }
 
-    public onClickViewData(data: OntoData) {
+    public onClickViewData(data: OntoDataSearch) {
         const dialogOpt = { width: '40%', data: data };
         this.matDialog.open(OntoDataInspectComponent, dialogOpt);
     }
@@ -115,5 +119,35 @@ export class OntoDataTableAComponent implements OnInit {
     public onClickShowBindings(pageId: string) {
         const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
         window.open(url, '_blank');
+    }
+
+    //
+    // Select
+    //
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected()
+            ? this.selection.clear()
+            : this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: OntoDataSearch): string {
+        if (!row) {
+            return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
+    }
+
+    public getSelection(): OntoDataSearch[] {
+        return this.selection.selected;
     }
 }

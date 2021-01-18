@@ -10,6 +10,7 @@ import { OntoDataEditComponent } from '../components/onto-data/edit/onto-data-ed
 import { OntoData } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
+import { PaginationModel } from '../models/pagination.model';
 
 @Component({
     selector: 'app-onto-data-view',
@@ -18,7 +19,7 @@ import { ErrorHandler2Service } from '../services/common/error-handler-2.service
 })
 export class OntoDataViewComponent {
     public ontoDataArr!: OntoData[];
-    public ontoDataArrLength!: number;
+    public ontoDataTotalCount!: number;
     private ontoDataFilterVm!: OntoDataFilterVm;
 
     constructor(
@@ -60,9 +61,9 @@ export class OntoDataViewComponent {
                     return of([]);
                 })
             )
-            .subscribe((response: any) => {
-                this.ontoDataArr = response.data;
-                this.ontoDataArrLength = response.totalCount;
+            .subscribe((res: any) => {
+                this.ontoDataArr = res.data;
+                this.ontoDataTotalCount = res.totalCount;
             });
     }
 

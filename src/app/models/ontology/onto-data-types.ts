@@ -1,4 +1,5 @@
 export enum DATA_TYPE {
+    ALL='Select all',
     TIMESERIES = 'timeseries',
     MATRIX = 'matrix',
 }

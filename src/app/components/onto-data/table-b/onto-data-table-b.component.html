@@ -3,11 +3,11 @@
   [dataSource]="dataSource"
   cdkDropList
   [cdkDropListData]="dataSource"
-  (cdkDropListDropped)="dropTable($event)"
+  (cdkDropListDropped)="drop($event)"
 >
   <ng-container matColumnDef="index">
     <th *matHeaderCellDef mat-header-cell>Index</th>
-    <td *matCellDef="let row; let i = index" mat-cell>{{ i + 1 }}</td>
+    <td *matCellDef="let row; let i = index" mat-cell>D{{ i + 1 }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
@@ -42,38 +42,51 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
-      <div class=" flex-container">
-        <button
-          cdkCopyToClipboard="{{ row.id }}"
-          [matTooltipPosition]="'left'"
-          class="btn btn-light btn-link"
-          mat-icon-button
-          matTooltip="Copy to clipboard"
-          type="button"
-        >
-          <mat-icon>content_copy</mat-icon>
-        </button>
+      <button
+        mat-icon-button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        matTooltip="Copy ID to clipboard"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
 
-        <button
-          (click)="onClickViewData(row)"
-          [matTooltipPosition]="'left'"
-          class="btn btn-primary btn-link"
-          mat-icon-button
-          matTooltip="View data"
-          type="button"
-        >
-          <mat-icon>grid_on</mat-icon>
-        </button>
+      <button
+        mat-icon-button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        matTooltip="View"
+      >
+        <mat-icon>grid_on</mat-icon>
+      </button>
 
-        <mat-icon cdkDragHandle>reorder</mat-icon>
-      </div>
+      <button
+        *ngIf="editBasket"
+        mat-icon-button
+        (click)="onClickRemove(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+
+      <button
+        *ngIf="editBasket"
+        mat-icon-button
+        cdkDragHandle
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>reorder</mat-icon>
+      </button>
+
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableData.headerRow"
-    cdkDrag
-    [cdkDragData]="row"
-  >
-  </tr>
+  <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr>
 </table>

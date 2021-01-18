@@ -12,12 +12,13 @@ import { OntoDataTableAComponent } from './table-a/onto-data-table-a.component';
 import { OntoDataInspectComponent } from './inspect/onto-data-inspect.component';
 import { OntoDataEditComponent } from './edit/onto-data-edit.component';
 import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
+import { OntoDataTableSComponent } from './table-s/onto-data-table-s.component';
 
 @NgModule({
     declarations: [
       OntoDataTableAComponent,
       OntoDataTableBComponent,
-
+      OntoDataTableSComponent,
       OntoDataEditComponent,
       OntoDataInspectComponent,
     ],
@@ -35,7 +36,7 @@ import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
     exports: [
       OntoDataTableAComponent,
       OntoDataTableBComponent,
-
+      OntoDataTableSComponent,
       OntoDataEditComponent,
       OntoDataInspectComponent,
     ],

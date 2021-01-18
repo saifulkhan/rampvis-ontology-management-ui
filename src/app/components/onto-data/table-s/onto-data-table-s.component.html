@@ -1,5 +1,5 @@
 <div class="row">
-  <mat-form-field class="pull-left mt-1 col-md-4">
+  <mat-form-field *ngIf="searchable" class="pull-left mt-1 col-md-4">
     <input
       matInput
       type="text"
@@ -9,30 +9,24 @@
       placeholder="Filter ..."
     />
   </mat-form-field>
-
-  <div class="pull-right mt-1 col-md-8">
-    <button (click)="onClickCreate.emit()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
 </div>
 
 <table
   [dataSource]="dataSource"
   mat-table
   matSort
-  matSortActive="date"
+  matSortActive="score"
   matSortDirection="desc"
   matSortDisableClear="true"
 >
-  <ng-container matColumnDef="urlCode">
-    <th *matHeaderCellDef mat-header-cell>URL Code.</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}</td>
+  <ng-container matColumnDef="score">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Score</th>
+    <td *matCellDef="let row" mat-cell>{{ row.score | number : '.2-3' }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>{{ row.endpoint | truncate: "75" }}</td>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="description">
@@ -63,6 +57,30 @@
     <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
   </ng-container>
 
+
+  <!-- Existing binding information -->
+  <ng-container matColumnDef="binding">
+    <th *matHeaderCellDef mat-header-cell [hidden]="!showBindings">Existing Bindings</th>
+    <td *matCellDef="let row" mat-cell [hidden]="!showBindings">
+      <div class="align-exiting-binding-icons">
+        <!-- <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange">{{ row.pageIds?.length }}</div> -->
+        <div *ngFor="let d of row.pageIds">
+          <button
+            (click)="onClickShowBindings(d)"
+            [matTooltipPosition]="'left'"
+            class="btn btn-danger btn-link"
+            mat-icon-button
+            matTooltip="Show bindings"
+            type="button"
+          >
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+
   <!-- Action Column -->
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
@@ -90,26 +108,40 @@
       </button>
 
       <button
-        (click)="onClickEdit.emit(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-warning btn-link"
-        mat-icon-button
-        matTooltip="Edit"
-        type="button"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
+      (click)="onClickAddToBasket.emit(row)"
+      [matTooltipPosition]="'left'"
+      class="btn btn-primary btn-link"
+      mat-icon-button
+      matTooltip="Add to basket"
+      type="button"
+    >
+      <mat-icon>check</mat-icon>
+    </button>
 
-      <button
-        (click)="onClickDelete.emit(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-danger btn-link"
-        mat-icon-button
-        matTooltip="Delete"
-        type="button"
+    </td>
+  </ng-container>
+
+  <!-- Selection checkbox -->
+  <ng-container matColumnDef="select">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>
+      <!-- Select all row -->
+      <mat-checkbox
+        [hidden]="!selectable"
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
       >
-        <mat-icon>close</mat-icon>
-      </button>
+      </mat-checkbox>
+    </th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+      <!-- Select row -->
+      <mat-checkbox
+        *ngIf="selectable"
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+      >
+      </mat-checkbox>
     </td>
   </ng-container>
 
@@ -117,8 +149,14 @@
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>
 
-<div *ngIf="spinner">
-  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate"> </mat-progress-spinner>
+<div *ngIf="spinner"  class="spinner-background">
+  <mat-progress-spinner
+    class="progress-spinner-container"
+    color="primary"
+    diameter="60"
+    mode="indeterminate"
+  >
+  </mat-progress-spinner>
 </div>
 
 <mat-paginator

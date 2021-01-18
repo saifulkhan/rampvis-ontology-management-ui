@@ -17,7 +17,7 @@ export class OntoDataService {
     constructor(private api: APIService) {}
 
     public getAllData(filter: OntoDataFilterVm): Observable<PaginationModel<OntoData>> {
-        let url: string = `${this.url}/?page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
+        let url: string = `${this.url}/?pageIndex=${filter.pageIndex}&pageSize=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
 
         if (filter.dataType) {
             url = url.concat(`&dataType=${filter.dataType}`);
@@ -59,7 +59,7 @@ export class OntoDataService {
     }
 
     public search(ontoDataSearchFilterVm: OntoDataSearchFilterVm): Observable<PaginationModel<OntoData>> {
-        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}&page=${ontoDataSearchFilterVm.pageIndex}&pageCount=${ontoDataSearchFilterVm.pageSize}&sortBy=${ontoDataSearchFilterVm.sortBy}&sortOrder=${ontoDataSearchFilterVm.sortOrder}`;
+        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}&pageIndex=${ontoDataSearchFilterVm.pageIndex}&pageSize=${ontoDataSearchFilterVm.pageSize}&sortBy=${ontoDataSearchFilterVm.sortBy}&sortOrder=${ontoDataSearchFilterVm.sortOrder}`;
 
         if (ontoDataSearchFilterVm.dataType) {
             url = url.concat(`&dataType=${ontoDataSearchFilterVm.dataType}`);

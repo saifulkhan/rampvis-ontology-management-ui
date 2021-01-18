@@ -12,8 +12,7 @@
       <div class="card-body">
         <app-onto-data-table-a
           [data]="ontoDataArr"
-          [editable]="true"
-          [selectable]="false"
+          [length]="ontoDataTotalCount"
           (onClickCreate)="onClickCreate()"
           (onClickEdit)="onClickEdit($event)"
           (onClickDelete)="onClickDelete($event)"

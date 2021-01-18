@@ -1,6 +1,100 @@
 <div class="main-content dashboard-wrap">
   <div class="container-fluid page-wrap">
     <div class="row">
+
+      <!-- Multiple drag and drop table experiment-->
+
+      <mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        cdkDropList
+        #table1
+        #list1="cdkDropList"
+        [cdkDropListData]="dataSource.data"
+        [cdkDropListConnectedTo]="[list2]"
+        (cdkDropListDropped)="drop($event)"
+        id="table1"
+      >
+        <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.weight }} </mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.symbol }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag></mat-row>
+      </mat-table>
+
+      <hr />
+
+      <mat-table
+        [dataSource]="dataSource2"
+        class="mat-elevation-z8"
+        cdkDropList
+        #table2
+        #list2="cdkDropList"
+        [cdkDropListData]="dataSource2.data"
+
+        (cdkDropListDropped)="drop($event)"
+        id="table2"
+      >
+        <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.weight }} </mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.symbol }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag></mat-row>
+      </mat-table>
+
+      <!-- End- Multiple drag and drop table experiment-->
+
+    </div>
+
+    <div class="row">
       <div class="col-md-9">
         <div class="card">
           <div class="card-header card-header-primary card-header-icon">
@@ -48,12 +142,11 @@
             <h4 class="card-title">Events</h4>
           </div>
           <div class="timeline-wrap">
-            <p>List of events </p>
+            <p>List of events</p>
           </div>
         </div>
       </div>
     </div>
-    <!--col-md-3-->
+    <!--row-->
   </div>
-  <!--row-->
 </div>
