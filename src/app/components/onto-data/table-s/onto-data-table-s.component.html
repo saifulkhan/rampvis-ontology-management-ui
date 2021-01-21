@@ -2,10 +2,10 @@
   <mat-form-field *ngIf="searchable" class="pull-left mt-1 col-md-4">
     <input
       matInput
+      (keyup)="filterDataSource()"
+      [(ngModel)]="filterTerm"
       type="text"
       name="search"
-      [(ngModel)]="filterTerm"
-      (keyup)="filterTerm$.next(filterTerm)"
       placeholder="Filter ..."
     />
   </mat-form-field>
@@ -146,7 +146,7 @@
   </ng-container>
 
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-  <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+  <tr *matRowDef="let row; columns: tableData.headerRow" mat-row></tr>
 </table>
 
 <div *ngIf="spinner"  class="spinner-background">

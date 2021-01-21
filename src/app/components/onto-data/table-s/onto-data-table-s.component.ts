@@ -25,11 +25,7 @@ export class OntoDataTableSComponent implements OnInit {
     @Input() showBindings!: boolean;
     @Input() canAddToBasket!: boolean;
     @Input() selectable!: boolean;
-    @Output() onClickCreate: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
-    @Output() onClickEdit: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
-    @Output() onClickDelete: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
     @Output() onClickAddToBasket: EventEmitter<OntoDataSearch> = new EventEmitter<OntoDataSearch>();
-    @Output() fetchFilteredData: EventEmitter<OntoDataSearchFilterVm> = new EventEmitter<OntoDataSearchFilterVm>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -44,71 +40,34 @@ export class OntoDataTableSComponent implements OnInit {
     public selection = new SelectionModel<OntoDataSearch>(true, []);
     public spinner = false;
 
-    filterTerm$ = new BehaviorSubject<string>('');
-    filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
+    public filterTerm!: string;
 
     constructor(private router: Router, private matDialog: MatDialog) {
-    }
-
-    ngOnInit(): void {
-        this.clearDataSource();
         this.spinner = true;
-
-        this.filterTerm$.next(null as any);
-        this.filterType$.next(null as any);
     }
+
+    ngOnInit(): void {}
 
     ngAfterViewInit(): void {
-        this.sort.sortChange.subscribe(() => {
-            this.paginator.pageIndex = 0;
-        });
-
-        merge(this.sort.sortChange, this.paginator.page, this.filterTerm$, this.filterType$)
-            .pipe(
-                tap(() => {
-                    if (!this.spinner) {
-                        this.spinner = true;
-                        this.clearDataSource();
-                    }
-                }),
-                startWith(null),
-                debounceTime(1000)
-            )
-            .subscribe((res) => {
-                const ontoDataSearchFilter = {
-                    pageIndex: this.paginator.pageIndex,
-                    pageSize: this.paginator.pageSize,
-                    sortBy: this.sort.active,
-                    sortOrder: this.sort.direction,
-                    dataType: this.filterType$.value,
-                    filter: this.filterTerm$.value,
-                } as OntoDataSearchFilterVm;
-
-                console.log('OntoDataTableComponentA:ngAfterViewInit: ontoDataFilter = ', ontoDataSearchFilter);
-                this.fetchFilteredData.emit(ontoDataSearchFilter);
-            });
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('OntoDataTableComponentA:ngOnChanges: data = ', this.data);
-
+        console.log('OntoDataTableComponentS:ngOnChanges: data = ', this.data);
         if (changes?.data && this.data) {
             this.setDataSource();
         }
     }
 
-    private setDataSource(): void {
-        console.log('OntoDataTableComponentA:setDataSource: data = ', this.data);
-        this.dataSource.data = this.data;
-
-        this.spinner = false;
-        console.log('OntoDataTableComponentA:setDataSource: data = ', this.dataSource.data);
+    public filterDataSource(): void {
+        this.dataSource.filter = this.filterTerm.trim().toLowerCase();
     }
 
-    private clearDataSource(): void {
-        if (this.dataSource) {
-            this.dataSource.data = [];
-        }
+    private setDataSource(): void {
+        console.log('OntoDataTableComponentS:setDataSource: data = ', this.data);
+        this.dataSource.data = this.data;
+        this.spinner = false;
     }
 
     public onClickViewData(data: OntoDataSearch) {

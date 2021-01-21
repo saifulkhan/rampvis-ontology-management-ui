@@ -187,12 +187,6 @@ export class PropagationComponent implements OnInit {
     // Search data and show in a table
     //
 
-    public filterAndSearchOntoData(_ontoDataFilterVm: OntoDataFilterVm) {
-        console.log('OntoDataComponent:filterOntoData: ontoDataFilterVm = ', _ontoDataFilterVm);
-        this.ontoDataFilterVm = _ontoDataFilterVm;
-        this.onClickSearchOntoData();
-    }
-
     public onClickSearchOntoData() {
         this.ontoDataSearchFormGroup.updateValueAndValidity();
         if (!this.ontoDataSearchFormGroup.valid) {
@@ -208,7 +202,6 @@ export class PropagationComponent implements OnInit {
         }
 
         const ontoDataSearchFilterVm: OntoDataSearchFilterVm = {
-            ...this.ontoDataFilterVm,
             query: this.ontoDataSearchFormGroup.value.ontoDataSearchQuery,
             dataType:
                 this.ontoDataSearchFormGroup.value.ontoDataSearchDataType === DATA_TYPE.ALL

@@ -59,13 +59,10 @@ export class OntoDataService {
     }
 
     public search(ontoDataSearchFilterVm: OntoDataSearchFilterVm): Observable<PaginationModel<OntoData>> {
-        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}&pageIndex=${ontoDataSearchFilterVm.pageIndex}&pageSize=${ontoDataSearchFilterVm.pageSize}&sortBy=${ontoDataSearchFilterVm.sortBy}&sortOrder=${ontoDataSearchFilterVm.sortOrder}`;
+        let url: string = `${this.url}/search/?query=${ontoDataSearchFilterVm.query}`;
 
         if (ontoDataSearchFilterVm.dataType) {
             url = url.concat(`&dataType=${ontoDataSearchFilterVm.dataType}`);
-        }
-        if (ontoDataSearchFilterVm.filter) {
-            url = url.concat(`&filter=${ontoDataSearchFilterVm.filter}`);
         }
         if (ontoDataSearchFilterVm.visId) {
             url = url.concat(`&visId=${ontoDataSearchFilterVm.visId}`);

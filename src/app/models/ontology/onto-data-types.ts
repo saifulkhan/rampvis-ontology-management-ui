@@ -2,6 +2,7 @@ export enum DATA_TYPE {
     ALL='Select all',
     TIMESERIES = 'timeseries',
     MATRIX = 'matrix',
+    MULTI_TIMESERIES = 'multi_timeseries',
 }
 
 export enum SOURCE {

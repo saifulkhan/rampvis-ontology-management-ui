@@ -120,7 +120,7 @@
   </ng-container>
 
   <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
-  <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
+  <tr *matRowDef="let row; columns: tableData.headerRow" mat-row></tr>
 </table>
 
 <div *ngIf="spinner">
@@ -130,7 +130,7 @@
 
 <mat-paginator
   [hidden]="!editable"
-  [length]="len"
+  [length]="length"
   [pageSizeOptions]="[50, 100, 150, 200]"
   [pageSize]="50"
   showFirstLastButtons
