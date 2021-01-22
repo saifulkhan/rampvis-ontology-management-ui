@@ -29,12 +29,18 @@ export class OntoDataInspectComponent implements OnInit {
         console.log('OntoDataInspectComponent: data = ', data);
         const ontoData: OntoData = data;
 
-        this.url = `${environment.components[ontoData.urlCode]}/${ontoData.endpoint}`;
+        this.url = `${environment.components[ontoData.urlCode]}${ontoData.endpoint}`;
         this.api.get(this.url).subscribe((res: any) => {
-            if (res && res.length > 0) {
-                this.jsonData$.next(res.slice(0, 10));
+            console.log('OntoDataInspectComponent: res = ', res);
+
+            if (res && Array.isArray(res) && res.length > 0) {
+                this.jsonData$.next((res as any).slice(0, 10));
                 this.length$.next(res.length);
                 this.column$.next(Object.keys(res[0]) as any);
+                this.spinner = false;
+            } else if (res) {
+                this.jsonData$.next(res);
+                this.length$.next(0);
                 this.spinner = false;
             }
         });
