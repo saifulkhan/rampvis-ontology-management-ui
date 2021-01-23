@@ -7,7 +7,7 @@
 >
   <ng-container matColumnDef="index">
     <th *matHeaderCellDef mat-header-cell>Index</th>
-    <td *matCellDef="let row; let i = index" mat-cell>{{ i + 1 }}</td>
+    <td *matCellDef="let row; let i = index" mat-cell>D{{ i + 1 }}</td>
   </ng-container>
 
   <ng-container matColumnDef="endpoint">
@@ -87,6 +87,6 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
+  <!-- <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr> -->
   <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr>
 </table>

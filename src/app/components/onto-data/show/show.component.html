@@ -10,7 +10,7 @@
   </ng-container>
   <ng-container *ngIf="!spinner">
     <h4>Size: {{ length$ | async }}</h4>
-    
+
     <table id="data-view-table">
       <tr>
         <th *ngFor="let col of column$ | async">{{ col }}</th>

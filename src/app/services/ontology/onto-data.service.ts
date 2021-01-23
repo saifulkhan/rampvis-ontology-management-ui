@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { APIService } from '../api.service';
-import { OntoData, OntoDataSearch } from '../../models/ontology/onto-data.model';
+import { OntoData, OntoDataSearch, OntoDataSearchGroup } from '../../models/ontology/onto-data.model';
 import { PaginationModel } from '../../models/pagination.model';
 import { DATA_TYPE } from '../../models/ontology/onto-data-types';
 import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
@@ -70,6 +70,11 @@ export class OntoDataService {
 
         console.log('OntoDataService:search: url = ', url);
 
+        return this.api.get(url);
+    }
+
+    public searchGroup(visId: string): Observable<OntoDataSearchGroup> {
+        let url: string = `${this.url}/search-group/?visId=${visId}`;
         return this.api.get(url);
     }
 }

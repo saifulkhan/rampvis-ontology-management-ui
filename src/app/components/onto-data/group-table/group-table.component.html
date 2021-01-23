@@ -1,0 +1,58 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="drop($event)"
+>
+  <ng-container matColumnDef="group">
+    <th *matHeaderCellDef mat-header-cell>Data (Groups)</th>
+    <td *matCellDef="let row; let i = index" mat-cell>
+      <app-onto-data-group [data]="row.groups"> </app-onto-data-group>
+    </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+
+      <button
+        mat-icon-button
+        (click)="onClickRemove(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        matTooltip="Propagate"
+      >
+        <mat-icon>check_circle_outline</mat-icon>
+      </button>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr>
+
+ </table>
+
+ <div *ngIf="spinner">
+  <mat-progress-spinner color="primary" diameter="80" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+
+<mat-paginator
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  [pageSize]="10"
+  showFirstLastButtons
+>
+</mat-paginator>

@@ -56,6 +56,11 @@ export const PrivateLayoutRoutes: Routes = [
                     },
                 ],
             },
+            {
+                path: 'test-components',
+                data: { allowedRoles: [Role.ADMIN, Role.USER] },
+                loadChildren: () => import('../../test-components/test-components.module').then((m) => m.TestComponentsModule),
+            },
         ],
     },
 ];

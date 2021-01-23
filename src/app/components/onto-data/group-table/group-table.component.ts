@@ -7,19 +7,17 @@ import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@a
 import * as _ from 'lodash';
 
 import { TableData } from '../../../models/table.data.interface';
-import { OntoData } from '../../../models/ontology/onto-data.model';
-import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { OntoData, OntoDataSearchGroup } from '../../../models/ontology/onto-data.model';
+import { OntoDataShowComponent } from '../show/show.component';
 
 @Component({
-    selector: 'app-onto-data-table-b',
-    templateUrl: './onto-data-table-b.component.html',
-    styleUrls: ['./onto-data-table-b.component.scss'],
+    selector: 'app-onto-data-group-table',
+    templateUrl: './group-table.component.html',
+    styleUrls: ['./group-table.component.scss'],
 })
-export class OntoDataTableBComponent implements OnInit {
-    @Input() data!: OntoData[];
-    @Input() selectable!: boolean;
+export class OntoDataGroupTableComponent implements OnInit {
+    @Input() data!: OntoDataSearchGroup[];
     @Input() add!: OntoData;
-    @Input() editBasket!: boolean;
 
     len!: number;
 
@@ -27,11 +25,12 @@ export class OntoDataTableBComponent implements OnInit {
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
-    public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<OntoDataSearchGroup> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'actions'],
+        headerRow: ['group', 'actions'],
         dataRows: [],
     };
+    public spinner: boolean = false;
 
     constructor(private matDialog: MatDialog) {}
 
@@ -44,15 +43,15 @@ export class OntoDataTableBComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.add && this.add) {
-            console.log('OntoDataTableBComponent: ngOnChanges: this.addData = ', this.add);
-            if (this.data.findIndex((d: OntoData) => d.id === this.add.id) === -1) {
-                this.data.push(this.add);
-                this.table.renderRows();
-            }
+            console.log('OntoDataGroupTableComponent: ngOnChanges: this.addData = ', this.add);
+            // if (this.data.findIndex((d: OntoDataSearchGroup) => d.id === this.add.id) === -1) {
+            //     this.data.push(this.add);
+            //     this.table.renderRows();
+            // }
         }
 
         if (changes?.data && this.data) {
-            console.log('OntoDataTableBComponent: ngOnChanges: this.data = ', this.data);
+            console.log('OntoDataGroupTableComponent: ngOnChanges: this.data = ', this.data);
 
             this.len = this.data.length;
             this.setDataSource();
@@ -63,11 +62,9 @@ export class OntoDataTableBComponent implements OnInit {
         this.dataSource.data = this.data;
     }
 
-
-
     public onClickViewData(data: OntoData) {
         const dialogOpt = { width: '40%', data: data };
-        this.matDialog.open(OntoDataInspectComponent, dialogOpt);
+        this.matDialog.open(OntoDataShowComponent, dialogOpt);
     }
 
     drop(event: CdkDragDrop<OntoData[]>) {
@@ -75,16 +72,16 @@ export class OntoDataTableBComponent implements OnInit {
         moveItemInArray(this.data, prevIndex, event.currentIndex);
         this.table.renderRows();
 
-        console.log('OntoDataTableBComponent: dropTable: data = ', this.data);
+        console.log('OntoDataGroupTableComponent: dropTable: data = ', this.data);
     }
 
-    onClickRemove(row: OntoData) {
-        console.log('OntoDataTableBComponent: onClickRemove: row = ', row);
+    onClickRemove(row: OntoDataSearchGroup) {
+        console.log('OntoDataGroupTableComponent: onClickRemove: row = ', row);
 
-        const idx = this.data.findIndex((d: OntoData) => d.id === row.id);
-        if (idx !== -1) {
-            this.data.splice(idx, 1);
-        }
+        //const idx = this.data.findIndex((d: OntoDataSearchGroup) => d.id === row.id);
+        // if (idx !== -1) {
+        //     this.data.splice(idx, 1);
+        // }
         this.table.renderRows();
     }
 }

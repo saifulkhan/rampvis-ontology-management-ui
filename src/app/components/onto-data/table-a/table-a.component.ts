@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
-import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { OntoDataShowComponent } from '../show/show.component';
 
 @Component({
     selector: 'app-onto-data-table-a',
-    templateUrl: './onto-data-table-a.component.html',
-    styleUrls: ['./onto-data-table-a.component.scss'],
+    templateUrl: './table-a.component.html',
+    styleUrls: ['./table-a.component.scss'],
 })
 export class OntoDataTableAComponent implements OnInit {
     @Input() data!: OntoData[];
@@ -109,7 +109,7 @@ export class OntoDataTableAComponent implements OnInit {
 
     public onClickViewData(data: OntoData) {
         const dialogOpt = { width: '40%', data: data };
-        this.matDialog.open(OntoDataInspectComponent, dialogOpt);
+        this.matDialog.open(OntoDataShowComponent, dialogOpt);
     }
 
     public onClickShowBindings(pageId: string) {

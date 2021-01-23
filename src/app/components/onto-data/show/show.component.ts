@@ -7,11 +7,11 @@ import { OntoData } from '../../../models/ontology/onto-data.model';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-    selector: 'app-onto-data-inspect',
-    templateUrl: './onto-data-inspect.component.html',
-    styleUrls: ['./onto-data-inspect.component.scss'],
+    selector: 'app-onto-data-show',
+    templateUrl: './show.component.html',
+    styleUrls: ['./show.component.scss'],
 })
-export class OntoDataInspectComponent implements OnInit {
+export class OntoDataShowComponent implements OnInit {
     @ViewChild('modalForm') modalForm: any;
 
     public length$: ReplaySubject<number> = new ReplaySubject<number>(1);
@@ -22,16 +22,16 @@ export class OntoDataInspectComponent implements OnInit {
     spinner = true;
 
     constructor(
-        public matDialogRef: MatDialogRef<OntoDataInspectComponent>,
+        public matDialogRef: MatDialogRef<OntoDataShowComponent>,
         @Inject(MAT_DIALOG_DATA) data: any,
         private api: APIService
     ) {
-        console.log('OntoDataInspectComponent: data = ', data);
+        console.log('OntoDataShowComponent: data = ', data);
         const ontoData: OntoData = data;
 
         this.url = `${environment.components[ontoData.urlCode]}${ontoData.endpoint}`;
         this.api.get(this.url).subscribe((res: any) => {
-            console.log('OntoDataInspectComponent: res = ', res);
+            console.log('OntoDataShowComponent: res = ', res);
 
             if (res && Array.isArray(res) && res.length > 0) {
                 this.jsonData$.next((res as any).slice(0, 10));

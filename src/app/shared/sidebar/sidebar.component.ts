@@ -83,6 +83,13 @@ export const ROUTES: RouteInfo[] = [
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
     },
+    {
+        path: '/test-components',
+        title: 'Test Components',
+        type: 'link',
+        icontype: 'help',
+        roles: [Role.ADMIN],
+    },
 ];
 
 @Component({

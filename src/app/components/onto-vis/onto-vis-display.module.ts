@@ -9,7 +9,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { OntoVisTableComponentA } from './table-a/onto-vis-table-a.component';
 import { OntoVisEditComponent } from './edit/onto-vis-edit.component';
-import { OntoVisTableBComponent } from './table-b/onto-vis-table-b.component';
+import { OntoVisTableBComponent } from './table-b/table-b.component';
 
 
 @NgModule({

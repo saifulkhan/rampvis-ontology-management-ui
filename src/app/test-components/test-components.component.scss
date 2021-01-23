@@ -1,0 +1,20 @@
+.dashboard-wrap {
+  min-height: calc(100vh - 149px);
+}
+
+//
+// Multiple drag and drop table experiment
+//
+.mat-table {
+  width: 100%;
+}
+
+//
+// - Search data
+// - Add data to basket
+//
+.divider {
+  height: 1.3em;
+  //margin: 22px 0 0 0;
+  background-color: lightgrey;
+}

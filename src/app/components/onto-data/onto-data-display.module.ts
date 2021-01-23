@@ -8,19 +8,21 @@ import { MaterialModule } from '../../material.module';
 
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
-import { OntoDataTableAComponent } from './table-a/onto-data-table-a.component';
-import { OntoDataInspectComponent } from './inspect/onto-data-inspect.component';
+import { OntoDataTableAComponent } from './table-a/table-a.component';
+import { OntoDataShowComponent } from './show/show.component';
 import { OntoDataEditComponent } from './edit/onto-data-edit.component';
-import { OntoDataTableBComponent } from './table-b/onto-data-table-b.component';
-import { OntoDataTableSComponent } from './table-s/onto-data-table-s.component';
+import { OntoDataGroupComponent } from './group/group.component';
+import { OntoDataSearchTableComponent } from './search-table/search-table.component';
+import { OntoDataGroupTableComponent } from './group-table/group-table.component';
 
 @NgModule({
     declarations: [
       OntoDataTableAComponent,
-      OntoDataTableBComponent,
-      OntoDataTableSComponent,
+      OntoDataSearchTableComponent,
       OntoDataEditComponent,
-      OntoDataInspectComponent,
+      OntoDataShowComponent,
+      OntoDataGroupComponent,
+      OntoDataGroupTableComponent,
     ],
     imports: [
         CommonModule,
@@ -35,10 +37,11 @@ import { OntoDataTableSComponent } from './table-s/onto-data-table-s.component';
     ],
     exports: [
       OntoDataTableAComponent,
-      OntoDataTableBComponent,
-      OntoDataTableSComponent,
+      OntoDataGroupComponent,
+      OntoDataSearchTableComponent,
       OntoDataEditComponent,
-      OntoDataInspectComponent,
+      OntoDataShowComponent,
+      OntoDataGroupTableComponent,
     ],
 
 })

@@ -20,3 +20,13 @@ export class OntoDataSearch extends OntoData {
     public score: number = undefined as any;
     public pageIds: string[] = undefined as any;
 }
+
+export class OntoDataSearchGroup implements Deserializable {
+    public score: number = undefined as any;
+    public groups: OntoData[] = undefined as any;
+
+    deserialize(input: any) {
+        Object.assign(this, input);
+        return this;
+    }
+}

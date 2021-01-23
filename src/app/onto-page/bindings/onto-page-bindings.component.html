@@ -14,7 +14,7 @@
             <mat-card *ngFor="let d of ontoPageExt?.bindingExts">
               <app-onto-vis-table-b [data]="[d.vis]"> </app-onto-vis-table-b>
 
-              <app-onto-data-table-b [data]="d.data"> </app-onto-data-table-b>
+              <app-onto-data-group [data]="d.data"> </app-onto-data-group>
             </mat-card>
           </div>
           <!-- end card-body-->

@@ -9,16 +9,16 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 
 import { TableData } from '../../../models/table.data.interface';
-import { OntoDataInspectComponent } from '../inspect/onto-data-inspect.component';
+import { OntoDataShowComponent } from '../show/show.component';
 import { OntoDataSearch } from '../../../models/ontology/onto-data.model';
 import { OntoDataSearchFilterVm } from '../../../models/ontology/onto-data-search-filter.vm';
 
 @Component({
-    selector: 'app-onto-data-table-s',
-    templateUrl: './onto-data-table-s.component.html',
-    styleUrls: ['./onto-data-table-s.component.scss'],
+    selector: 'app-onto-data-search-table',
+    templateUrl: './search-table.component.html',
+    styleUrls: ['./search-table.component.scss'],
 })
-export class OntoDataTableSComponent implements OnInit {
+export class OntoDataSearchTableComponent implements OnInit {
     @Input() data!: OntoDataSearch[];
     @Input() length!: number;
     @Input() searchable!: boolean;
@@ -54,7 +54,7 @@ export class OntoDataTableSComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('OntoDataTableComponentS:ngOnChanges: data = ', this.data);
+        console.log('OntoDataSearchTableComponent:ngOnChanges: data = ', this.data);
         if (changes?.data && this.data) {
             this.setDataSource();
         }
@@ -65,14 +65,14 @@ export class OntoDataTableSComponent implements OnInit {
     }
 
     private setDataSource(): void {
-        console.log('OntoDataTableComponentS:setDataSource: data = ', this.data);
+        console.log('OntoDataSearchTableComponent:setDataSource: data = ', this.data);
         this.dataSource.data = this.data;
         this.spinner = false;
     }
 
     public onClickViewData(data: OntoDataSearch) {
         const dialogOpt = { width: '40%', data: data };
-        this.matDialog.open(OntoDataInspectComponent, dialogOpt);
+        this.matDialog.open(OntoDataShowComponent, dialogOpt);
     }
 
     public onClickShowBindings(pageId: string) {

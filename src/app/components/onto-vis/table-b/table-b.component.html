@@ -2,16 +2,6 @@
   <ng-container matColumnDef="function">
     <th *matHeaderCellDef mat-header-cell>Function</th>
     <td *matCellDef="let row" mat-cell>
-      <button
-        cdkCopyToClipboard="{{ row.id }}"
-        [matTooltipPosition]="'left'"
-        class="btn btn-light btn-link"
-        mat-icon-button
-        matTooltip="Copy to clipboard"
-        type="button"
-      >
-        <mat-icon>content_copy</mat-icon>
-      </button>
       {{ row.function }}
     </td>
   </ng-container>
@@ -59,6 +49,6 @@
       </td>
     </ng-container>
 
-  <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+  <!-- <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr> -->
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>

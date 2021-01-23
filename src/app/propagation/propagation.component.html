@@ -1,6 +1,5 @@
 <div class="main-content">
   <div class="container-fluid">
-
     <!-- Card 1 -->
 
     <div class="card">
@@ -12,66 +11,43 @@
       </div>
 
       <div class="card-body">
-
-        <!-- Propagation -->
-
-        <div class="row">
-          <div class="pull-right mt-1 col-md-10"></div>
-
-          <div class="pull-right mt-1 col-md-1">
-            <mat-form-field>
-              <mat-select [(ngModel)]="propagationType" placeholder="Propagation Type">
-                <mat-option [value]="null"></mat-option>
-                <mat-option *ngFor="let d of propagationTypes" [value]="d">{{ d }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="pull-right mt-1 col-md-1">
-            <button mat-raised-button class="btn btn-primary float-right" (click)="onClickPropagate()">
-              Propagate
-            </button>
-          </div>
-        </div>
-
         <!-- VIS search -->
 
-        <form [formGroup]="ontoVisSearchFormGroup">
-          <div class="row">
-            <div class="pull-left col-md-4 d-flex">
-              <mat-form-field>
-                <!-- <mat-icon matSuffix>search</mat-icon> -->
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="searchOntoVisQuery"
-                  formControlName="ontoVisSearchQuery"
-                  [matAutocomplete]="auto1"
-                  placeholder="Search VIS functions"
-                  #input1
-                  (keydown.enter)="onClickSearchOntoVis()"
-                />
-                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="optionSelected(input1)">
-                  <mat-option *ngFor="let d of suggestedOntoVis" [value]="d.function">
-                    <span [innerHTML]="d.function | highlight: highlightOntoVisSearchSuggestion"></span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
+        <form [formGroup]="ontoVisSearchFormGroup" class="vis-search">
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="searchOntoVisQuery"
+              formControlName="ontoVisSearchQuery"
+              [matAutocomplete]="auto1"
+              placeholder="Search VIS functions"
+              #input1
+              (keydown.enter)="onClickSearchOntoVis()"
+            />
+            <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="optionSelected(input1)">
+              <mat-option *ngFor="let d of suggestedOntoVis" [value]="d.function">
+                <span [innerHTML]="d.function | highlight: highlightOntoVisSearchSuggestion"></span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-              <button
-                (click)="onClickSearchOntoVis()"
-                [disabled]="!ontoVisSearchFormGroup.valid"
-                class="btn btn-primary btn-round btn-fab float-right card-btn"
-                type="submit"
-              >
-                <mat-icon>search</mat-icon>
-              </button>
-            </div>
-          </div>
+          <button
+            (click)="onClickSearchOntoVis()"
+            [disabled]="!ontoVisSearchFormGroup.valid"
+            class="btn btn-primary btn-round btn-fab float-right card-btn"
+            type="submit"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+          <!-- </div> -->
         </form>
 
         <!-- VIS search result table-->
         <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>Selected VIS Function</mat-card-subtitle>
+          </mat-card-header>
           <app-onto-vis-table-b [data]="ontoVisSearchResult"> </app-onto-vis-table-b>
         </mat-card>
 
@@ -80,7 +56,7 @@
           <mat-card-header>
             <mat-card-subtitle>Example Data</mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-table-b [data]="exampleOntoData"> </app-onto-data-table-b>
+          <app-onto-data-group [data]="exampleOntoData"> </app-onto-data-group>
         </mat-card>
 
         <!-- VIS example links table-->
@@ -101,79 +77,26 @@
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
         </div>
-        <h4 class="card-title">Data Streams</h4>
+        <h4 class="card-title">Search and Propagate</h4>
       </div>
       <div class="card-body">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Search Data</mat-card-subtitle>
-          </mat-card-header>
-
-          <form [formGroup]="ontoDataSearchFormGroup">
-            <div class="row align-exiting-binding-icons">
-              <div class="pull-left col-md-1">
-                <mat-form-field>
-                  <mat-select formControlName="ontoDataSearchDataType" placeholder="Data Type">
-                    <mat-option [value]="null"></mat-option>
-                    <mat-option *ngFor="let d of dataTypes" [value]="d">{{ d }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <mat-divider [vertical]="true" class="divider"></mat-divider>
-
-              <div class="pull-left col-md-4 d-flex">
-                <mat-form-field>
-                  <!-- <mat-icon matSuffix>search</mat-icon> -->
-                  <input
-                    matInput
-                    type="text"
-                    formControlName="ontoDataSearchQuery"
-                    [matAutocomplete]="auto"
-                    placeholder="Search data streams"
-                    #input
-                    (keydown.enter)="onClickSearchOntoData()"
-                  />
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
-                    <mat-option
-                      *ngFor="let d of suggestedOntoData"
-                      [value]="d.description + ' ' + d.keywords.join(', ')"
-                    >
-                      <span [innerHTML]="d.description | highlight: highlightOntoDataSearchSuggestion"></span>
-                      <b> | </b>
-                      <span [innerHTML]="d.keywords.join(', ') | highlight: highlightOntoDataSearchSuggestion"></span>
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <button
-                  (click)="onClickSearchOntoData()"
-                  [disabled]="!ontoDataSearchFormGroup.valid"
-                  class="btn btn-primary btn-round btn-fab float-right card-btn"
-                  type="submit"
-                >
-                  <mat-icon>search</mat-icon>
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <app-onto-data-table-s
-            [data]="ontoDataSearchResult"
-            [length]="ontoDataSearchResultTotalCount"
-            [searchable]="true"
-            [selectable]="false"
-            [showBindings]="true"
-            [canAddToBasket]="true"
-            (onClickAddToBasket)="addOntoDataToBasket($event)"
-          >
-          </app-onto-data-table-s>
-        </mat-card>
+        <!-- Propagation -->
+        <div class="row">
+          <div class="pull-right mt-1 col-md-11"></div>
+          <div class="pull-right mt-1 col-md-1">
+            <button mat-raised-button class="btn btn-primary float-right" (click)="onClickPropagate()">
+              Propagate All
+            </button>
+          </div>
+        </div>
 
         <mat-card>
           <mat-card-header>
-            <mat-card-subtitle>Bind Data</mat-card-subtitle>
+            <mat-card-subtitle> </mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-table-b [data]="ontoDataBasket" [add]="addData" [editBasket]="true"> </app-onto-data-table-b>
+
+          <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
+          <app-onto-data-group-table [data]="ontoDataSearchGroups"> </app-onto-data-group-table>
         </mat-card>
       </div>
     </div>
@@ -182,7 +105,6 @@
     <!--Search Links-->
 
     <div class="card">
-      <!-- *ngIf="exampleOntoDataArr?.length"-->
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>web</mat-icon>

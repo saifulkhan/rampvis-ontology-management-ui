@@ -7,7 +7,7 @@ import { OntoVisSearch } from '../models/ontology/onto-vis.model';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
-import { OntoData, OntoDataSearch } from '../models/ontology/onto-data.model';
+import { OntoData, OntoDataSearch, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { OntoVisTableComponentA } from '../components/onto-vis/table-a/onto-vis-table-a.component';
 import { DialogService } from '../services/common/dialog.service';
@@ -17,7 +17,7 @@ import { OntoDataSearchFilterVm } from '../models/ontology/onto-data-search-filt
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
 import { OntoPage } from '../models/ontology/onto-page.model';
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
-import { OntoDataTableSComponent } from '../components/onto-data/table-s/onto-data-table-s.component';
+import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 
 @Component({
     selector: 'app-propagation',
@@ -58,11 +58,12 @@ export class PropagationComponent implements OnInit {
     public ontoDataSearchResult: OntoData[] = [];
     public ontoDataSearchResultTotalCount: number = 0;
     private ontoDataFilterVm!: OntoDataFilterVm;
+    public ontoDataSearchGroups!: OntoDataSearchGroup[];
 
     // Access selected rows of table (child component)
     @ViewChild(OntoVisTableComponentA) ontoVisTableComponent!: OntoVisTableComponentA;
     // Access by reference as multiple data tables exists
-    @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataTableSComponent;
+    @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
 
     //
     public ontoDataBasket: OntoData[] = [];
@@ -107,29 +108,6 @@ export class PropagationComponent implements OnInit {
                 });
             });
 
-        // Data search form and suggestion
-
-        this.ontoDataSearchFormGroup = this.fb.group({
-            ontoDataSearchDataType: new FormControl('', [Validators.required]),
-            ontoDataSearchQuery: new FormControl('', [Validators.required]),
-        });
-
-        this.ontoDataSearchFormGroup
-            .get('ontoDataSearchQuery')
-            ?.valueChanges.pipe(debounceTime(0), distinctUntilChanged())
-            .subscribe((query) => {
-                if (!query || query === ' ') {
-                    return;
-                }
-
-                this.highlightOntoDataSearchSuggestion = query;
-                this.ontoDataService.suggest(query).subscribe((res) => {
-                    this.suggestedOntoData = res;
-                    console.log('PropagationComponent: suggestedOntoData = ', this.suggestedOntoData);
-                });
-            });
-
-        //this.ontoDataSearchFormGroup.get('ontoDataSearchDataType')?.setValue('Select all');
     }
 
     ngAfterViewInit(): void {}
@@ -188,32 +166,16 @@ export class PropagationComponent implements OnInit {
     //
 
     public onClickSearchOntoData() {
-        this.ontoDataSearchFormGroup.updateValueAndValidity();
-        if (!this.ontoDataSearchFormGroup.valid) {
-            return;
+        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
+            this.localNotificationService.error({ message: 'Select a VIS function' });
         }
 
         this.suggestedOntoData = [];
         this.ontoDataSearchResult = [];
         this.ontoDataSearchResultTotalCount = 0;
 
-        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
-            this.localNotificationService.error({ message: 'Select a VIS function' });
-        }
-
-        const ontoDataSearchFilterVm: OntoDataSearchFilterVm = {
-            query: this.ontoDataSearchFormGroup.value.ontoDataSearchQuery,
-            dataType:
-                this.ontoDataSearchFormGroup.value.ontoDataSearchDataType === DATA_TYPE.ALL
-                    ? null
-                    : this.ontoDataSearchFormGroup.value.ontoDataSearchDataType,
-            visId: this.ontoVisSearchResult[0]?.id,
-        } as OntoDataSearchFilterVm;
-
-        console.log('PropagationComponent: onClickSearchOntoData: ontoDataSearchFilterVm = ', ontoDataSearchFilterVm);
-
         this.ontoDataService
-            .search(ontoDataSearchFilterVm)
+            .searchGroup(this.ontoVisSearchResult[0]?.id)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);
@@ -222,10 +184,8 @@ export class PropagationComponent implements OnInit {
             )
             .subscribe(
                 (res: any) => {
-                    this.ontoDataSearchResult = res.data;
-                    this.ontoDataSearchResultTotalCount = res.totalCount;
-                    //this.ontoDataSearchResultLen = this.ontoDataSearchResult.length;
-                    console.log('PropagationComponent:search: ontoDataSearchResult = ', this.ontoDataSearchResult);
+                    this.ontoDataSearchGroups = res;
+                    console.log('PropagationComponent:search: ontoDataSearchGroups = ', this.ontoDataSearchGroups);
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -241,15 +201,6 @@ export class PropagationComponent implements OnInit {
         input.focus();
     }
 
-    /**
-     *
-     */
-    addData!: OntoData;
-    public addOntoDataToBasket(row: OntoData) {
-        console.log('PropagationComponent:addOntoDataToBasket: row = ', row);
-        this.addData = row;
-        console.log('PropagationComponent:addOntoDataToBasket: ontoDataBasket = ', this.ontoDataBasket);
-    }
 
     //
     // Propagation
