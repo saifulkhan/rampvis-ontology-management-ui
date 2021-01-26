@@ -7,7 +7,7 @@
         <div class="card-icon">
           <mat-icon>insert_chart</mat-icon>
         </div>
-        <h4 class="card-title">VIS Function</h4>
+        <h4 class="card-title">Example Binding</h4>
       </div>
 
       <div class="card-body">
@@ -44,7 +44,7 @@
         </form>
 
         <!-- VIS search result table-->
-        <mat-card>
+        <mat-card  *ngIf="ontoVisSearchResult?.length">
           <mat-card-header>
             <mat-card-subtitle>Selected VIS Function</mat-card-subtitle>
           </mat-card-header>
@@ -52,7 +52,7 @@
         </mat-card>
 
         <!-- VIS example data table-->
-        <mat-card>
+        <mat-card *ngIf="exampleOntoData?.length">
           <mat-card-header>
             <mat-card-subtitle>Example Data</mat-card-subtitle>
           </mat-card-header>
@@ -60,9 +60,9 @@
         </mat-card>
 
         <!-- VIS example links table-->
-        <mat-card>
+        <mat-card *ngIf="exampleOntoPages?.length">
           <mat-card-header>
-            <mat-card-subtitle style="color: gray">Example Links</mat-card-subtitle>
+            <mat-card-subtitle>Example Links</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
       </div>
@@ -71,20 +71,24 @@
 
     <!--Search data-->
 
-    <div class="card">
-      <!-- *ngIf="exampleOntoData?.length"-->
+    <div class="card" *ngIf="exampleOntoData?.length">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
         </div>
-        <h4 class="card-title">Search and Propagate</h4>
+        <h4 class="card-title">Propagation</h4>
       </div>
       <div class="card-body">
-        <!-- Propagation -->
+
+        <!-- Search & propagation buttons -->
         <div class="row">
-          <div class="pull-right mt-1 col-md-11"></div>
-          <div class="pull-right mt-1 col-md-1">
-            <button mat-raised-button class="btn btn-primary float-right" (click)="onClickPropagate()">
+
+          <div class="pull-left mt-1 col-md-1">
+            <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
+          </div>
+
+          <div class="pull-right mt-1 col-md-1 offset-md-10">
+            <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
               Propagate All
             </button>
           </div>
@@ -94,8 +98,6 @@
           <mat-card-header>
             <mat-card-subtitle> </mat-card-subtitle>
           </mat-card-header>
-
-          <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
           <app-onto-data-group-table [data]="ontoDataSearchGroups"> </app-onto-data-group-table>
         </mat-card>
       </div>
@@ -104,7 +106,7 @@
 
     <!--Search Links-->
 
-    <div class="card">
+    <div class="card" *ngIf="exampleOntoPages?.length">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>web</mat-icon>

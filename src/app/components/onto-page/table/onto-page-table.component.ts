@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
-import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
+import { OntoPageExt } from '../../../models/ontology/onto-page.model';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
+import { environment } from '../../../../environments/environment';
+import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-onto-page-table',
@@ -25,20 +27,20 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
     ],
 })
 export class OntoPageTableComponent implements OnInit {
-    @Input() data!: OntoPage[];
+    @Input() data!: OntoPageExt[];
     @Input() len!: number;
     @Input() isEditable!: boolean;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onClickEdit: EventEmitter<OntoPage> = new EventEmitter<OntoPage>();
-    @Output() onClickDelete: EventEmitter<OntoPage> = new EventEmitter<OntoPage>();
+    @Output() onClickEdit: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
+    @Output() onClickDelete: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
     @Output() fetchFilteredData: EventEmitter<OntoPageFilterVm> = new EventEmitter<OntoPageFilterVm>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
-    public tableDataSource: MatTableDataSource<OntoPage> = new MatTableDataSource();
+    public tableDataSource: MatTableDataSource<OntoPageExt> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['date', 'bindings', 'actions'],
+        headerRow: ['link', 'date', 'bindings', 'actions'],
         dataRows: [],
     };
     spinner = false;
@@ -47,9 +49,11 @@ export class OntoPageTableComponent implements OnInit {
     filterTerm$ = new BehaviorSubject<string>('');
     filterType$ = new BehaviorSubject<string>(''); // dropdown filter not implemented yet
 
-    expandedElement: OntoPage[] = [];
+    expandedElement: OntoPageExt[] = [];
     ontoVisArr: OntoVis[] = [];
     ontoVisArrLen = 0;
+
+    public visURL = environment.components.VIS_URL;
 
     constructor(private router: Router) {}
 
@@ -113,7 +117,7 @@ export class OntoPageTableComponent implements OnInit {
     }
 
     public onClickNavigatePage(pageId: string) {
-        let link = `http://vis.scrc.uk/${pageId}`;
+        let link = `${this.visURL}/${pageId}`;
         window.open(link, '_blank');
     }
 
@@ -146,7 +150,7 @@ export class OntoPageTableComponent implements OnInit {
 
     pushPopElement(element: any) {
         const index = this.expandedElement.indexOf(element);
-        console.log(index, element);
+        // console.log(index, element);
 
         if (index === -1) {
             this.expandedElement.push(element);

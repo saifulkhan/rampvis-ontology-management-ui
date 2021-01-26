@@ -9,8 +9,8 @@ import { OntoVis } from '../../../models/ontology/onto-vis.model';
 
 @Component({
     selector: 'app-onto-vis-table-a',
-    templateUrl: './onto-vis-table-a.component.html',
-    styleUrls: ['./onto-vis-table-a.component.scss'],
+    templateUrl: './table-a.component.html',
+    styleUrls: ['./table-a.component.scss'],
 })
 export class OntoVisTableComponentA implements OnInit {
     @Input() data!: OntoVis[];

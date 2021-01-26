@@ -6,12 +6,13 @@ import { catchError, mergeMap } from 'rxjs/operators';
 
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { OntoPageService } from '../services/ontology/onto-page.service';
-import { OntoPage, BINDING_TYPE } from '../models/ontology/onto-page.model';
+import { OntoPage } from '../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
 import { UtilService } from '../services/util.service';
 import { OntoPageEditComponent } from '../components/onto-page/edit/onto-page-edit.component';
 import { DialogService } from '../services/common/dialog.service';
+import { BINDING_TYPE } from '../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-onto-pages-view',
@@ -19,8 +20,8 @@ import { DialogService } from '../services/common/dialog.service';
     styleUrls: ['./onto-pages-view.component.scss'],
 })
 export class OntoPagesViewComponent implements OnInit {
-    public ontoPageArr: OntoPage[] = [];
-    public ontoPageArrLen = 0;
+    public ontoPages: OntoPage[] = [];
+    public ontoPagesTotalCount = 0;
     private ontoPageFilterVm!: OntoPageFilterVm;
 
     filterBindingType$ = new BehaviorSubject<BINDING_TYPE>(null as any);
@@ -56,7 +57,7 @@ export class OntoPagesViewComponent implements OnInit {
             if (result.value) {
                 this.ontologyService.deletePage(pageId).subscribe((res: any) => {
                     this.localNotificationService.success({ message: 'Successfully deleted' });
-                    this.ontoPageArr = this.ontoPageArr.filter((d) => d.id !== pageId);
+                    this.ontoPages = this.ontoPages.filter((d) => d.id !== pageId);
                 });
             }
         });
@@ -80,8 +81,9 @@ export class OntoPagesViewComponent implements OnInit {
                 })
             )
             .subscribe((response: any) => {
-                this.ontoPageArr = response.data;
-                this.ontoPageArrLen = response.totalCount;
+                this.ontoPages = response.data;
+                this.ontoPagesTotalCount = response.totalCount;
+                console.log('OntoPagesListComponent:getOntoPages: ontoPages = ', this.ontoPages);
             });
     }
 

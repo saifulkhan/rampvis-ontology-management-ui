@@ -5,7 +5,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 import { LocalNotificationService } from '../../../services/common/local-notification.service';
 import { UtilService } from '../../../services/util.service';
 import { BaseFormComponent } from '../../forms/base-form.component';
-import { OntoPage, BINDING_TYPE } from '../../../models/ontology/onto-page.model';
+import { OntoPage } from '../../../models/ontology/onto-page.model';
+import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-onto-page-edit',

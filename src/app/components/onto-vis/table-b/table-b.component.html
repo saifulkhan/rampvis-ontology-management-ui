@@ -1,4 +1,12 @@
 <table [dataSource]="dataSource" mat-table>
+
+  <ng-container matColumnDef="index">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+    <td *matCellDef="let row; let i = index" mat-cell>
+      <div class="text-in-dot" style="background: #BB3385">V{{ i + 1 }}</div>
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="function">
     <th *matHeaderCellDef mat-header-cell>Function</th>
     <td *matCellDef="let row" mat-cell>

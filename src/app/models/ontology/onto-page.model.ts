@@ -1,11 +1,6 @@
 import { Deserializable } from '../deserializable.model';
+import { BINDING_TYPE } from './binding-type.enum';
 import { Binding, BindingExt } from './binding.model';
-
-export enum BINDING_TYPE {
-    EXAMPLE = 'example',
-    REVIEW = 'review',
-    RELEASE = 'release',
-}
 
 export class OntoPage implements Deserializable {
     public id!: string;
@@ -19,10 +14,7 @@ export class OntoPage implements Deserializable {
     }
 }
 
-export class OntoPageExt implements Deserializable {
-    public id!: string;
-    public bindingType!: BINDING_TYPE;
-    public nrows!: number;
+export class OntoPageExt extends OntoPage {
     public bindingExts!: BindingExt[];
 
     deserialize(input: any) {

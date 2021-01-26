@@ -11,6 +11,7 @@ export const environment: any = {
         API_JS: 'http://localhost:2000/api/v1', // Node
         API_PY: 'http://localhost:3000/stat/v1', // Python
         sentry: '',
+        VIS_URL: 'http://vis.scrc.uk',
     },
     firebaseConfig: {
         apiKey: 'AIzaSyAlvl6-po-c5dp2HRToaARDWgfRjor9Lmc',

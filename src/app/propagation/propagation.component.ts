@@ -9,13 +9,13 @@ import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
 import { OntoData, OntoDataSearch, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
-import { OntoVisTableComponentA } from '../components/onto-vis/table-a/onto-vis-table-a.component';
+import { OntoVisTableComponentA } from '../components/onto-vis/table-a/table-a.component';
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
 import { OntoDataSearchFilterVm } from '../models/ontology/onto-data-search-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { OntoPage } from '../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt } from '../models/ontology/onto-page.model';
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 
@@ -38,7 +38,9 @@ export class PropagationComponent implements OnInit {
     public exampleOntoData!: OntoData[];
 
     // Example links
-    public exampleOntoPages!: OntoPage[];
+    public exampleOntoPages!: OntoPageExt[];
+
+    //
 
     //
     // Search data
@@ -205,7 +207,7 @@ export class PropagationComponent implements OnInit {
     //
     // Propagation
     //
-    public onClickPropagate() {
+    public onClickPropagateAll() {
         const vis = this.ontoVisTableComponent?.getSelection();
         const data = this.ontoDataTableSComponent?.getSelection();
 

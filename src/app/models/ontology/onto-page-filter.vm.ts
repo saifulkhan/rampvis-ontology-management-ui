@@ -1,5 +1,5 @@
 import { Deserializable } from '../deserializable.model';
-import { BINDING_TYPE } from '../../models/ontology/onto-page.model';
+import { BINDING_TYPE } from './binding-type.enum';
 
 export class OntoPageFilterVm implements Deserializable {
     public pageIndex!: number;

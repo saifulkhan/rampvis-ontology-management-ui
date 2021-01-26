@@ -13,18 +13,16 @@ import { map } from 'rxjs/operators';
 export class OntoPageService {
     private url = '/ontology';
 
-    ontoPages: OntoPage[] = [];
-
     constructor(private api: APIService) {}
 
-    public getPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPage>> {
+    public getPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
         let query: string = `${this.url}/pages/?bindingType=${filter.bindingType}&page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
         if (filter.filter) {
             query = query.concat(`&filter=${filter.filter}`);
         }
 
-        return this.api.get<PaginationModel<OntoPage>>(query).pipe(
-            map((res: PaginationModel<OntoPage>) => {
+        return this.api.get<PaginationModel<OntoPageExt>>(query).pipe(
+            map((res: PaginationModel<OntoPageExt>) => {
                 return res;
             })
         );

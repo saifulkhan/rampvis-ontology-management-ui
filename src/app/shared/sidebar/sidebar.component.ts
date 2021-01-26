@@ -4,8 +4,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.enum';
-import { BINDING_TYPE } from '../../models/ontology/onto-page.model';
-import { PROPAGATION_TYPE } from '../../models/ontology/propagation-type.enum';
+import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
 
 declare const $: any;
 
@@ -136,7 +135,10 @@ export class SidebarComponent implements OnInit {
 
     isMac(): boolean {
         let bool = false;
-        if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
+        if (
+            navigator.platform.toUpperCase().indexOf('MAC') >= 0 ||
+            navigator.platform.toUpperCase().indexOf('IPAD') >= 0
+        ) {
             bool = true;
         }
         return bool;
