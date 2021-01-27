@@ -25,7 +25,7 @@
       </app-custom-single-selection>
     </mat-form-field>
     -->
-    
+
     <mat-form-field>
       <mat-select formControlName="visId" placeholder="VIS" #singleSelect>
         <mat-option>
@@ -56,7 +56,22 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- 
+    <mat-form-field>
+      <mat-select formControlName="pageIds" placeholder="Links" [multiple]="true" #multiSelect2>
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="ontoPageIdFilterCtrl"
+            placeholderLabel="Find links..."
+            noEntriesFoundLabel="No links found"
+          ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let d of filteredOntoPageIds | async" [value]="d.id">
+          {{ d.id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--
     <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
       <div *ngFor="let d of formGroup.controls['bindData']['controls']; let i = index">
         <app-binddata-edit [formGroup]="d"></app-binddata-edit>
@@ -72,6 +87,6 @@
       type="button"
     >
       <mat-icon>add_circle</mat-icon>
-    </button> 
+    </button>
   --></div>
 </div>

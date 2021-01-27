@@ -5,6 +5,7 @@ import { APIService } from '../api.service';
 import { OntoVis, OntoVisSearch } from '../../models/ontology/onto-vis.model';
 import { OntoData } from '../../models/ontology/onto-data.model';
 import { OntoVisSearchFilterVm } from '../../models/ontology/onto-vis-search-filter.vm';
+import { OntoPageExt } from '../../models/ontology/onto-page.model';
 
 @Injectable({
     providedIn: 'root',
@@ -36,8 +37,12 @@ export class OntoVisService {
         return this.api.delete(`${this.url}/${visId}`);
     }
 
-    public getExamplePagesBindingVisId(visId: string): Observable<OntoData[]> {
+    public getExampleOntoDataBindingVisId(visId: string): Observable<OntoData[]> {
         return this.api.get(`${this.url}/${visId}/data`);
+    }
+
+    public getExampleLinksBindingVisId(visId: string): Observable<OntoPageExt[]> {
+        return this.api.get(`${this.url}/${visId}/links`);
     }
 
     public suggest(query: string): Observable<OntoVisSearch[]> {

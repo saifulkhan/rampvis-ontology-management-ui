@@ -41,7 +41,7 @@ export class OntoPageTableComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public tableDataSource: MatTableDataSource<OntoPageExt> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['link', 'date', 'bindings', 'actions'],
+        headerRow: ['link', 'date', 'bindings', 'numLinks', 'actions'],
         dataRows: [],
     };
     spinner = false;

@@ -1,4 +1,16 @@
 //
+// material card
+//
+.mat-card {
+  margin-bottom: 15px;
+}
+
+.mat-card-title {
+  color: gray;
+  font-weight: normal;
+}
+
+//
 // VIS search form
 //
 .vis-search {
@@ -9,9 +21,3 @@
   align-items: center;
   margin: 0 auto; // centre the whole form
 }
-
-.mat-card {
-  margin-bottom: 15px;
-}
-
-

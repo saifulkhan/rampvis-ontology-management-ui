@@ -13,11 +13,11 @@ import { OntoVisTableComponentA } from '../components/onto-vis/table-a/table-a.c
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
-import { OntoDataSearchFilterVm } from '../models/ontology/onto-data-search-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { OntoPage, OntoPageExt } from '../models/ontology/onto-page.model';
+import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-page.model';
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
+import { OntoPageService } from '../services/ontology/onto-page.service';
 
 @Component({
     selector: 'app-propagation',
@@ -28,47 +28,38 @@ export class PropagationComponent implements OnInit {
     //
     // Search VIS function
     //
+
     public ontoVisSearchFormGroup!: FormGroup;
     public searchOntoVisQuery!: string;
     public highlightOntoVisSearchSuggestion!: string;
     public suggestedOntoVis!: OntoVisSearch[];
     public ontoVisSearchResult: OntoVisSearch[] = [];
 
-    // Example binding data
+    // Example binding data and page
     public exampleOntoData!: OntoData[];
-
-    // Example links
-    public exampleOntoPages!: OntoPageExt[];
+    public exampleLinks!: OntoPageExt[];
 
     //
+    // Search data and link
+    //
 
-    //
-    // Search data
-    //
     // Data search form
     public ontoDataSearchFormGroup!: FormGroup;
-    //public filterData: FormControl = new FormControl();
     dataTypes: string[] = [];
     suggestedOntoData!: OntoDataSearch[];
     highlightOntoDataSearchSuggestion!: string;
-    //searchOntoDataType!: DATA_TYPE;
-    //searchOntoDataQuery!: string;
 
-    filterPublishType$ = new BehaviorSubject<string>('');
-
-    // Search data result
-    public ontoDataSearchResult: OntoData[] = [];
-    public ontoDataSearchResultTotalCount: number = 0;
-    private ontoDataFilterVm!: OntoDataFilterVm;
+    // Search data result in group
     public ontoDataSearchGroups!: OntoDataSearchGroup[];
+
+    // Search page result in group
+    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
+
 
     // Access selected rows of table (child component)
     @ViewChild(OntoVisTableComponentA) ontoVisTableComponent!: OntoVisTableComponentA;
     // Access by reference as multiple data tables exists
     @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
-
-    //
-    public ontoDataBasket: OntoData[] = [];
 
     // Propagation
     public propagationTypes!: string[];
@@ -78,6 +69,7 @@ export class PropagationComponent implements OnInit {
         private fb: FormBuilder,
         private ontoVisService: OntoVisService,
         private ontoDataService: OntoDataService,
+        private ontoPageService: OntoPageService,
         private dialogService: DialogService,
         private localNotificationService: LocalNotificationService,
         private errorHandler2Service: ErrorHandler2Service
@@ -145,6 +137,7 @@ export class PropagationComponent implements OnInit {
                     this.ontoVisSearchResult = res;
                     console.log('PropagationComponent:searchOntoVis: ontoVisSearchResult = ', this.ontoVisSearchResult);
                     this.getExampleOntoData();
+                    this.getExampleLinks();
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -156,10 +149,25 @@ export class PropagationComponent implements OnInit {
             return;
         }
 
-        this.ontoVisService.getExamplePagesBindingVisId(this.ontoVisSearchResult[0].id).subscribe((res: OntoData[]) => {
-            console.log('PropagationComponent: getOntoVis: exampleOntoData = ', res);
-            this.exampleOntoData = res;
-        });
+        this.ontoVisService
+            .getExampleOntoDataBindingVisId(this.ontoVisSearchResult[0].id)
+            .subscribe((res: OntoData[]) => {
+                console.log('PropagationComponent: getOntoVis: exampleOntoData = ', res);
+                this.exampleOntoData = res;
+            });
+    }
+
+    private getExampleLinks() {
+        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
+            return;
+        }
+
+        this.ontoVisService
+            .getExampleLinksBindingVisId(this.ontoVisSearchResult[0].id)
+            .subscribe((res: OntoPageExt[]) => {
+                console.log('PropagationComponent:getExampleLinks: exampleLinks = ', res);
+                this.exampleLinks = res;
+            });
     }
 
     //
@@ -172,8 +180,6 @@ export class PropagationComponent implements OnInit {
         }
 
         this.suggestedOntoData = [];
-        this.ontoDataSearchResult = [];
-        this.ontoDataSearchResultTotalCount = 0;
 
         this.ontoDataService
             .searchGroup(this.ontoVisSearchResult[0]?.id)
@@ -187,6 +193,23 @@ export class PropagationComponent implements OnInit {
                 (res: any) => {
                     this.ontoDataSearchGroups = res;
                     console.log('PropagationComponent:search: ontoDataSearchGroups = ', this.ontoDataSearchGroups);
+                },
+                (err) => {}
+                // () => (this.spinner = false)
+            );
+
+        this.ontoPageService
+            .searchGroup(this.ontoVisSearchResult[0]?.id)
+            .pipe(
+                catchError((err) => {
+                    this.errorHandler2Service.handleError(err);
+                    return of([]);
+                })
+            )
+            .subscribe(
+                (res: any) => {
+                    this.ontoPageExtSearchGroups = res;
+                    console.log('PropagationComponent:search: ontoPageExtSearchGroups = ', this.ontoPageExtSearchGroups);
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -207,7 +230,6 @@ export class PropagationComponent implements OnInit {
             let res = this.ontoDataSearchGroups.splice(idx, 1);
         }
     }
-
 
     /**
      *

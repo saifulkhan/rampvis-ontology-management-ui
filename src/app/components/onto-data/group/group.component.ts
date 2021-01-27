@@ -21,15 +21,13 @@ export class OntoDataGroupComponent implements OnInit {
     @Input() add!: OntoData;
     @Input() editBasket!: boolean;
 
-    len!: number;
-
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'description', 'keywords', 'actions'],
+        headerRow: ['index', 'endpoint', 'dataType', 'keywords', 'description', 'actions'],
         dataRows: [],
     };
 
@@ -53,8 +51,6 @@ export class OntoDataGroupComponent implements OnInit {
 
         if (changes?.data && this.data) {
             console.log('OntoDataGroupComponent: ngOnChanges: this.data = ', this.data);
-
-            this.len = this.data.length;
             this.setDataSource();
         }
     }
@@ -62,8 +58,6 @@ export class OntoDataGroupComponent implements OnInit {
     private setDataSource(): void {
         this.dataSource.data = this.data;
     }
-
-
 
     public onClickViewData(data: OntoData) {
         const dialogOpt = { width: '40%', data: data };

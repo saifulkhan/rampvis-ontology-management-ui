@@ -15,10 +15,14 @@ import { MaterialModule } from '../../material.module';
 import { OntoPageTableComponent } from './table/onto-page-table.component';
 import { OntoVisDisplayModule } from '../onto-vis/onto-vis-display.module';
 import { OntoDataDisplayModule } from '../onto-data/onto-data-display.module';
+import { OntoPageGroupComponent } from './group/group.component';
+import { OntoPageExtGroupTableComponent } from './group-table/group-table.component';
 
 @NgModule({
     declarations: [
         OntoPageTableComponent,
+        OntoPageGroupComponent,
+        OntoPageExtGroupTableComponent,
         OntoPageEditComponent,
         BindingEditComponent,
         BindDataEditComponent,
@@ -39,6 +43,8 @@ import { OntoDataDisplayModule } from '../onto-data/onto-data-display.module';
     ],
     exports: [
         OntoPageTableComponent,
+        OntoPageGroupComponent,
+        OntoPageExtGroupTableComponent,
         OntoPageEditComponent,
     ]
 })

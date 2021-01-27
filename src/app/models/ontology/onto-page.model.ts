@@ -22,3 +22,13 @@ export class OntoPageExt extends OntoPage {
         return this;
     }
 }
+
+export class OntoPageExtSearchGroup implements Deserializable {
+    public score: number = undefined as any;
+    public groups: OntoPageExt[] = undefined as any;
+
+    deserialize(input: any) {
+        Object.assign(this, input);
+        return this;
+    }
+}

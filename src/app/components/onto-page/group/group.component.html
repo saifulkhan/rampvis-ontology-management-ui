@@ -1,36 +1,22 @@
-<div class="row" *ngIf="isEditable">
-  <mat-form-field class="pull-left mt-1 col-md-4">
-    <input
-      [(ngModel)]="keyword"
-      (keyup)="filterTerm$.next(keyword)"
-      matInput
-      name="search"
-      placeholder="Filter by ID..."
-      type="text"
-    />
-  </mat-form-field>
-
-  <div class="pull-right mt-1 col-md-8">
-    <button (click)="onClickCreate.emit()" class="btn btn-primary btn-round btn-fab float-right card-btn" mat-mini-fab>
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-</div>
-
 <table
-  [dataSource]="tableDataSource"
   mat-table
-  matSort
-  matSortActive="date"
-  matSortDirection="desc"
-  matSortDisableClear="true"
+  [dataSource]="dataSource"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="drop($event)"
   multiTemplateDataRows
->
+ >
+  <ng-container matColumnDef="index">
+    <th *matHeaderCellDef mat-header-cell>Index</th>
+    <td *matCellDef="let row; let i = dataIndex" mat-cell>
+      <b style="color: green">L{{ i + 1 }}</b>
+    </td>
+  </ng-container>
 
   <ng-container matColumnDef="link">
     <th *matHeaderCellDef mat-header-cell>Link</th>
     <td *matCellDef="let row" mat-cell>
-      {{visURL}}/{{row.id}}
+      {{ visURL }}/{{ row.id }}
       <button
         (click)="onClickNavigatePage(row.id)"
         [matTooltipPosition]="'left'"
@@ -44,26 +30,12 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="date">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
-    <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
-  </ng-container>
-
   <ng-container matColumnDef="bindings">
     <th *matHeaderCellDef mat-header-cell>Bindings</th>
     <td *matCellDef="let row" mat-cell>
       <div *ngFor="let d of row.bindings">
-        <div class="text-in-dot" style="background:#BB3385">1</div>
-        <div class="text-in-dot" style="background: #C19A6B">{{ d.dataIds.length }}</div>
-      </div>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="numLinks">
-    <th *matHeaderCellDef mat-header-cell>Links</th>
-    <td *matCellDef="let row" mat-cell>
-      <div *ngFor="let d of row.bindings">
-        <div *ngIf="d.pageIds?.length" class="text-in-dot" style="background:green">{{ d.pageIds?.length }}</div>
+        <div class="text-in-dot" style="background: #bb3385">1</div>
+        <div class="text-in-dot" style="background: #c19a6b">{{ d.dataIds.length }}</div>
       </div>
     </td>
   </ng-container>
@@ -95,37 +67,26 @@
       </button>
 
       <button
-        (click)="onClickEdit.emit(row)"
+        *ngIf="editBasket"
+        mat-icon-button
+        (click)="onClickRemove(row)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
-        mat-icon-button
-        matTooltip="Edit"
-        type="button"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-
-      <button
-        (click)="onClickDelete.emit(row.id)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-danger btn-link"
-        mat-icon-button
         matTooltip="Remove"
-        type="button"
       >
-        <mat-icon>close</mat-icon>
+        <mat-icon>delete_outline</mat-icon>
       </button>
 
       <button
-      (click)="onClickShowBinding.emit(row.id)"
-      [matTooltipPosition]="'left'"
-      class="btn btn-primary btn-link"
-      mat-icon-button
-      matTooltip="Show binding"
-      type="button"
-    >
-      <mat-icon>navigate_next</mat-icon>
-    </button>
+        *ngIf="editBasket"
+        mat-icon-button
+        cdkDragHandle
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>reorder</mat-icon>
+      </button>
 
     </td>
   </ng-container>
@@ -142,14 +103,12 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
+  <!-- <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr> -->
   <tr mat-row *matRowDef="let row; columns: tableData.headerRow" style="border-bottom-style: hidden"></tr>
   <!-- Extra row to show detail content column -->
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="bindings-detail-row"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="bindings-detail-row" ></tr>
+  <!--drag and drop reorder-->
+  <!-- <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr> -->
+
 </table>
 
-<div *ngIf="spinner">
-  <mat-progress-spinner color="primary" diameter="100" mode="indeterminate"> </mat-progress-spinner>
-</div>
-<mat-paginator [length]="len" [pageSizeOptions]="[50, 100, 150, 200]" [pageSize]="50" showFirstLastButtons>
-</mat-paginator>

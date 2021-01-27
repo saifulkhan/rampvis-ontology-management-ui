@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { APIService } from '../api.service';
-import { OntoPage, OntoPageExt } from '../../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt, OntoPageExtSearchGroup } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
-import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -15,21 +14,26 @@ export class OntoPageService {
 
     constructor(private api: APIService) {}
 
-    public getPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
-        let query: string = `${this.url}/pages/?bindingType=${filter.bindingType}&page=${filter.pageIndex}&pageCount=${filter.pageSize}&sortBy=${filter.sortBy}&sortOrder=${filter.sortOrder}`;
-        if (filter.filter) {
-            query = query.concat(`&filter=${filter.filter}`);
+    public getAllPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
+        let url: string = `${this.url}/pages/?bindingType=${filter?.bindingType}`;
+
+        if (filter?.pageIndex) {
+            url = url.concat(`&page=${filter?.pageIndex}`);
+        }
+        if (filter?.pageSize) {
+            url = url.concat(`&pageCount=${filter?.pageSize}`);
+        }
+        if (filter?.filter) {
+            url = url.concat(`&filter=${filter.filter}`);
+        }
+        if (filter?.sortBy) {
+            url = url.concat(`&sortBy=${filter?.sortBy}`);
+        }
+        if (filter?.sortOrder) {
+            url = url.concat(`&sortOrder=${filter?.sortOrder}`);
         }
 
-        return this.api.get<PaginationModel<OntoPageExt>>(query).pipe(
-            map((res: PaginationModel<OntoPageExt>) => {
-                return res;
-            })
-        );
-    }
-
-    public getAllPage(): Observable<Array<OntoPage>> {
-        return this.api.get<Array<OntoPage>>(`${this.url}/page`);
+        return this.api.get<PaginationModel<OntoPageExt>>(url);
     }
 
     public createPage(ontoPage: OntoPage): Observable<OntoPage> {
@@ -46,5 +50,10 @@ export class OntoPageService {
 
     public getOntoPageExt(pageId: string): Observable<OntoPageExt> {
         return this.api.get(`${this.url}/page/${pageId}`);
+    }
+
+    public searchGroup(visId: string): Observable<OntoPageExtSearchGroup> {
+        let url: string = `${this.url}/pages/search-group/?visId=${visId}`;
+        return this.api.get(url);
     }
 }

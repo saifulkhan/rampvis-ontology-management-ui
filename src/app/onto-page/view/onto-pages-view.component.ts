@@ -80,7 +80,7 @@ export class OntoPagesViewComponent implements OnInit {
         this.ontoPageFilterVm.bindingType = this.filterBindingType$.value;
 
         this.ontologyService
-            .getPages(this.ontoPageFilterVm)
+            .getAllPages(this.ontoPageFilterVm)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);

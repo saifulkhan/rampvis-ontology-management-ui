@@ -14,6 +14,7 @@ import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
 import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
 import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoPageModule } from '../components/onto-page/onto-page.module';
 
 @NgModule({
     declarations: [PropagationComponent],
@@ -30,6 +31,7 @@ import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display
         CustomSingleSelectionModule,
         OntoVisDisplayModule,
         OntoDataDisplayModule,
+        OntoPageModule,
     ],
     providers: [OntoVisService],
 })

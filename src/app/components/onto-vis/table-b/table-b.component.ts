@@ -22,7 +22,7 @@ export class OntoVisTableBComponent implements OnInit {
     @ViewChild(MatTable) table!: MatTable<any>;
     public dataSource: MatTableDataSource<OntoVis> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'function', 'type', 'dataTypes', 'description', 'actions'],
+        headerRow: ['index', 'function', 'dataTypes', 'type', 'description', 'actions'],
         dataRows: [],
     };
 

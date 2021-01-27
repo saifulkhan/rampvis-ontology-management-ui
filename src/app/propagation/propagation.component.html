@@ -1,7 +1,9 @@
 <div class="main-content">
   <div class="container-fluid">
-    <!-- Card 1 -->
 
+    <!--
+      Card: VIS Search
+    -->
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
@@ -11,7 +13,6 @@
       </div>
 
       <div class="card-body">
-        <!-- VIS search -->
 
         <form [formGroup]="ontoVisSearchFormGroup" class="vis-search">
           <mat-form-field>
@@ -45,7 +46,8 @@
         <!-- VIS search result table-->
         <mat-card  *ngIf="ontoVisSearchResult?.length">
           <mat-card-header>
-            <mat-card-subtitle>Selected VIS Function</mat-card-subtitle>
+            <mat-card-title>VIS Function</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-vis-table-b [data]="ontoVisSearchResult"> </app-onto-vis-table-b>
         </mat-card>
@@ -53,20 +55,28 @@
         <!-- VIS example data table-->
         <mat-card *ngIf="exampleOntoData?.length">
           <mat-card-header>
-            <mat-card-subtitle>Example Data</mat-card-subtitle>
+            <mat-card-title>Data</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-group [data]="exampleOntoData"> </app-onto-data-group>
         </mat-card>
 
-        <!-- VIS example links table-->
-        <mat-card *ngIf="exampleOntoPages?.length">
+        <!-- VIS example page table-->
+        <mat-card *ngIf="exampleLinks?.length">
           <mat-card-header>
-            <mat-card-subtitle>Example Links</mat-card-subtitle>
+            <mat-card-title>Links</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
+          <app-onto-page-group [data]="exampleLinks"> </app-onto-page-group>
         </mat-card>
       </div>
+
+
     </div>
-    <!--End Card 1 -->
+
+    <!--
+      Card: VIS Search - end
+    -->
 
     <!--Search data-->
 
@@ -82,20 +92,21 @@
         <!-- Search & propagation buttons -->
         <div class="row">
 
-          <div class="pull-left mt-1 col-md-1">
+          <div class="col-sm-1 offset-sm-10">
             <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
           </div>
 
-          <div class="pull-right mt-1 col-md-1 offset-md-10">
+          <div class="col-sm-1">
             <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
               Propagate All
             </button>
           </div>
         </div>
 
-        <mat-card>
+        <mat-card *ngIf="ontoDataSearchGroups.length">
           <mat-card-header>
-            <mat-card-subtitle> </mat-card-subtitle>
+            <mat-card-title>Data Streams</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-group-table
             [data]="ontoDataSearchGroups"
@@ -104,13 +115,27 @@
           >
           </app-onto-data-group-table>
         </mat-card>
+
+        <mat-card *ngIf="ontoPageExtSearchGroups.length">
+          <mat-card-header>
+            <mat-card-title>Links</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-header>
+          <app-onto-page-ext-group-table
+            [data]="ontoPageExtSearchGroups"
+            (onClickPropagate) = "onClickPropagateOntoDataSearchGroup($event)"
+            (onClickRemove) = "onClickRemoveOntoDataSearchGroup($event)"
+          >
+          </app-onto-page-ext-group-table>
+        </mat-card>
+
       </div>
     </div>
     <!--End card search data-->
 
     <!--Search Links-->
-
-    <div class="card" *ngIf="exampleOntoPages?.length">
+    <!--
+    <div class="card" *ngIf="exampleLinks?.length">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>web</mat-icon>
@@ -131,6 +156,8 @@
         </mat-card>
       </div>
     </div>
+    -->
+
     <!--End container-fluid-->
   </div>
   <!--End main-content-->
