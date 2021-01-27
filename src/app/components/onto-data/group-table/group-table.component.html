@@ -15,11 +15,11 @@
   <!-- Action Column -->
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
-    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+    <td *matCellDef="let row; let idx = index" class="td-actions text-center text-nowrap" mat-cell>
 
       <button
         mat-icon-button
-        (click)="onClickRemove(row)"
+        (click)="onClickRemove.emit(idx)"
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
         matTooltip="Remove"
@@ -29,7 +29,7 @@
 
       <button
         mat-icon-button
-        (click)="onClickViewData(row)"
+        (click)="onClickPropagate.emit(idx)"
         [matTooltipPosition]="'left'"
         class="btn btn-primary btn-link"
         matTooltip="Propagate"

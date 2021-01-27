@@ -14,6 +14,13 @@ export class OntoPageResolverService implements Resolve<OntoPageExt> {
     constructor(private ontoPageService: OntoPageService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<OntoPageExt> {
-        return this.ontoPageService.getOntoPageExt(route.params.pageId);
+
+        console.log('route.params.pageId = ', route.params.pageId)
+
+        if (route.params.pageId === 'new') {
+            return undefined as any;
+        } else {
+            return this.ontoPageService.getOntoPageExt(route.params.pageId);
+        }
     }
 }

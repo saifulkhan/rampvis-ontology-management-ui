@@ -11,7 +11,7 @@ import { OntoPageService } from '../services/ontology/onto-page.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
 import { OntoPageModule } from '../components/onto-page/onto-page.module';
-import { OntoPagesViewComponent } from './onto-pages-view.component';
+import { OntoPagesViewComponent } from './view/onto-pages-view.component';
 import { OntoPageViewRoutes } from './onto-page-view.routing';
 import { OntoPageBindingsComponent } from './bindings/onto-page-bindings.component';
 import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';

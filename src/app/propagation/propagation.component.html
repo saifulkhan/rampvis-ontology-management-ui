@@ -40,7 +40,6 @@
           >
             <mat-icon>search</mat-icon>
           </button>
-          <!-- </div> -->
         </form>
 
         <!-- VIS search result table-->
@@ -98,7 +97,12 @@
           <mat-card-header>
             <mat-card-subtitle> </mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-group-table [data]="ontoDataSearchGroups"> </app-onto-data-group-table>
+          <app-onto-data-group-table
+            [data]="ontoDataSearchGroups"
+            (onClickPropagate) = "onClickPropagateOntoDataSearchGroup($event)"
+            (onClickRemove) = "onClickRemoveOntoDataSearchGroup($event)"
+          >
+          </app-onto-data-group-table>
         </mat-card>
       </div>
     </div>

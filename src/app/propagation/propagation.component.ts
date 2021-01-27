@@ -109,7 +109,6 @@ export class PropagationComponent implements OnInit {
                     console.log('PropagationComponent: suggestedOntoVis = ', this.suggestedOntoVis);
                 });
             });
-
     }
 
     ngAfterViewInit(): void {}
@@ -194,6 +193,22 @@ export class PropagationComponent implements OnInit {
             );
     }
 
+    public onClickPropagateOntoDataSearchGroup(idx: number) {
+        if (idx >= 0) {
+            this.ontoDataSearchGroups.splice(idx, 1);
+
+            // Propagate
+            this.localNotificationService.success({ message: 'Propagated' });
+        }
+    }
+
+    public onClickRemoveOntoDataSearchGroup(idx: number) {
+        if (idx >= 0) {
+            let res = this.ontoDataSearchGroups.splice(idx, 1);
+        }
+    }
+
+
     /**
      *
      */
@@ -202,7 +217,6 @@ export class PropagationComponent implements OnInit {
         input.setSelectionRange(0, 0);
         input.focus();
     }
-
 
     //
     // Propagation

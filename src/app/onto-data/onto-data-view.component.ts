@@ -10,7 +10,6 @@ import { OntoDataEditComponent } from '../components/onto-data/edit/onto-data-ed
 import { OntoData } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { PaginationModel } from '../models/pagination.model';
 
 @Component({
     selector: 'app-onto-data-view',

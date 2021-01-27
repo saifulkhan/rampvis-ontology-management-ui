@@ -1,14 +1,12 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, IterableDiffers, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import * as _ from 'lodash';
 
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData, OntoDataSearchGroup } from '../../../models/ontology/onto-data.model';
-import { OntoDataShowComponent } from '../show/show.component';
 
 @Component({
     selector: 'app-onto-data-group-table',
@@ -17,7 +15,8 @@ import { OntoDataShowComponent } from '../show/show.component';
 })
 export class OntoDataGroupTableComponent implements OnInit {
     @Input() data!: OntoDataSearchGroup[];
-    @Input() add!: OntoData;
+    @Output() onClickPropagate: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onClickRemove: EventEmitter<number> = new EventEmitter<number>();
 
     len!: number;
 
@@ -32,7 +31,11 @@ export class OntoDataGroupTableComponent implements OnInit {
     };
     public spinner: boolean = false;
 
-    constructor(private matDialog: MatDialog) {}
+    iterableDiffer!: any;
+
+    constructor(private iterableDiffers: IterableDiffers) {
+        this.iterableDiffer = iterableDiffers.find([]).create(null as any);
+    }
 
     ngOnInit(): void {}
 
@@ -41,15 +44,20 @@ export class OntoDataGroupTableComponent implements OnInit {
         this.dataSource.sort = this.sort;
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.add && this.add) {
-            console.log('OntoDataGroupTableComponent: ngOnChanges: this.addData = ', this.add);
-            // if (this.data.findIndex((d: OntoDataSearchGroup) => d.id === this.add.id) === -1) {
-            //     this.data.push(this.add);
-            //     this.table.renderRows();
-            // }
-        }
+    /**
+     * Detect changes when array is modified
+     *  Ref: https://stackoverflow.com/questions/42962394/angular-2-how-to-detect-changes-in-an-array-input-property
+     */
+    ngDoCheck() {
+        if (this.iterableDiffer.diff(this.data)) {
+            console.log('OntoDataGroupTableComponent: ngDoCheck: this.data = ', this.data);
 
+            this.len = this.data.length;
+            this.setDataSource();
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
         if (changes?.data && this.data) {
             console.log('OntoDataGroupTableComponent: ngOnChanges: this.data = ', this.data);
 
@@ -62,26 +70,11 @@ export class OntoDataGroupTableComponent implements OnInit {
         this.dataSource.data = this.data;
     }
 
-    public onClickViewData(data: OntoData) {
-        const dialogOpt = { width: '40%', data: data };
-        this.matDialog.open(OntoDataShowComponent, dialogOpt);
-    }
-
     drop(event: CdkDragDrop<OntoData[]>) {
         const prevIndex = this.data.findIndex((d) => d === event.item.data);
         moveItemInArray(this.data, prevIndex, event.currentIndex);
         this.table.renderRows();
 
         console.log('OntoDataGroupTableComponent: dropTable: data = ', this.data);
-    }
-
-    onClickRemove(row: OntoDataSearchGroup) {
-        console.log('OntoDataGroupTableComponent: onClickRemove: row = ', row);
-
-        //const idx = this.data.findIndex((d: OntoDataSearchGroup) => d.id === row.id);
-        // if (idx !== -1) {
-        //     this.data.splice(idx, 1);
-        // }
-        this.table.renderRows();
     }
 }

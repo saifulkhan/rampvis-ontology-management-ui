@@ -32,7 +32,8 @@ export class OntoPageTableComponent implements OnInit {
     @Input() isEditable!: boolean;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
-    @Output() onClickDelete: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
+    @Output() onClickDelete: EventEmitter<string> = new EventEmitter<string>();
+    @Output() onClickShowBinding: EventEmitter<string> = new EventEmitter<string>();
     @Output() fetchFilteredData: EventEmitter<OntoPageFilterVm> = new EventEmitter<OntoPageFilterVm>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -121,10 +122,13 @@ export class OntoPageTableComponent implements OnInit {
         window.open(link, '_blank');
     }
 
-    public onClickShowBindings(pageId: string) {
-        const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
-        window.open(url, '_blank');
-    }
+    // public onClickShowBindings(pageId: string) {
+    //     // Open in a new tab
+    //     // const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
+    //     // window.open(url, '_blank');
+
+    //     this.router.navigate(['pages', 'page', `${pageId}`]);
+    // }
 
     //
     // Toggle Rows

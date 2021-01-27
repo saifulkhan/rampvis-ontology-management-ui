@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { OntoPageEditComponent } from './edit/onto-page-edit.component';
-import { BindingEditComponent } from './edit/binding-edit.component';
-import { BindDataEditComponent } from './edit/binddata-edit.component';
-import { Queryparam2EditComponent } from './edit/queryparam2-edit.component';
+import { OntoPageEditComponent } from './edit-dialog/onto-page-edit.component';
+import { BindingEditComponent } from './edit-dialog/binding-edit.component';
+import { BindDataEditComponent } from './edit-dialog/binddata-edit.component';
+import { Queryparam2EditComponent } from './edit-dialog/queryparam2-edit.component';
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../custom-single-selection/custom-single-selection.module';

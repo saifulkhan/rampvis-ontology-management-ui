@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-import { LocalNotificationService } from '../services/common/local-notification.service';
-import { OntoPageService } from '../services/ontology/onto-page.service';
-import { OntoPage } from '../models/ontology/onto-page.model';
-import { OntoPageFilterVm } from '../models/ontology/onto-page-filter.vm';
-import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { UtilService } from '../services/util.service';
-import { OntoPageEditComponent } from '../components/onto-page/edit/onto-page-edit.component';
-import { DialogService } from '../services/common/dialog.service';
-import { BINDING_TYPE } from '../models/ontology/binding-type.enum';
+import { LocalNotificationService } from '../../services/common/local-notification.service';
+import { OntoPageService } from '../../services/ontology/onto-page.service';
+import { OntoPage } from '../../models/ontology/onto-page.model';
+import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
+import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
+import { UtilService } from '../../services/util.service';
+import { OntoPageEditComponent } from '../../components/onto-page/edit-dialog/onto-page-edit.component';
+import { DialogService } from '../../services/common/dialog.service';
+import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-onto-pages-view',
@@ -28,6 +28,7 @@ export class OntoPagesViewComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private router: Router,
         private ontologyService: OntoPageService,
         private matDialog: MatDialog,
         private localNotificationService: LocalNotificationService,
@@ -43,6 +44,7 @@ export class OntoPagesViewComponent implements OnInit {
     }
 
     ngOnInit(): void {}
+
 
     public onClickCreate(): void {
         this.openPageEditModal('new', new OntoPage());
@@ -61,6 +63,11 @@ export class OntoPagesViewComponent implements OnInit {
                 });
             }
         });
+    }
+
+    public onClickShowBinding(pageId: string) {
+        console.log(pageId)
+        this.router.navigate(['pages', 'page', `${pageId}`]);
     }
 
     public getOntoPages(_ontoPageFilterVm: OntoPageFilterVm) {

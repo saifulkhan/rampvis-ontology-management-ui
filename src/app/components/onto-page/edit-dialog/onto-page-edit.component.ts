@@ -38,7 +38,7 @@ export class OntoPageEditComponent extends BaseFormComponent implements OnInit {
     ngOnInit(): void {
         this.formGroup = this.fb.group({
             bindingType: new FormControl('', [Validators.required]),
-            nrows: new FormControl(null, [Validators.required, Validators.min(1)]),
+            nrows: new FormControl(1, [Validators.required, Validators.min(1)]),
             bindings: new FormArray([]),
         });
 

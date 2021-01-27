@@ -90,7 +90,7 @@
         [matTooltipPosition]="'left'"
         class="btn btn-warning btn-link"
         mat-icon-button
-        matTooltip="Edit row"
+        matTooltip="Edit"
         type="button"
       >
         <mat-icon>edit</mat-icon>
@@ -101,21 +101,21 @@
         [matTooltipPosition]="'left'"
         class="btn btn-danger btn-link"
         mat-icon-button
-        matTooltip="Remove row"
+        matTooltip="Remove"
         type="button"
       >
         <mat-icon>close</mat-icon>
       </button>
 
       <button
-      (click)="onClickShowBindings(row.id)"
+      (click)="onClickShowBinding.emit(row.id)"
       [matTooltipPosition]="'left'"
       class="btn btn-primary btn-link"
       mat-icon-button
-      matTooltip="Binding Details"
+      matTooltip="Show binding"
       type="button"
     >
-      <mat-icon>open_in_new</mat-icon>
+      <mat-icon>navigate_next</mat-icon>
     </button>
 
     </td>
