@@ -62,7 +62,7 @@
   <ng-container matColumnDef="binding">
     <th *matHeaderCellDef mat-header-cell [hidden]="!showBindings">Existing Bindings</th>
     <td *matCellDef="let row" mat-cell [hidden]="!showBindings">
-      <div class="align-exiting-binding-icons">
+      <div class="align-centered-flex">
         <!-- <div *ngIf="row.pageIds?.length" class="text-in-dot" style="background: orange">{{ row.pageIds?.length }}</div> -->
         <div *ngFor="let d of row.pageIds">
           <button

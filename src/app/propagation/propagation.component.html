@@ -93,6 +93,7 @@
         <!--Search data-->
         <form [formGroup]="ontoDataSearchFormGroup">
           <div class="row">
+
             <div class="col-md-4">
               <ng-select
                 [items]="dataTypes"
@@ -108,29 +109,39 @@
 
             <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
 
-            <div class="col-md-7">
-              <ng-select
-                [items]="keywords"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [hideSelected]="true"
-                bindLabel="name"
-                placeholder="Keywords"
-                formControlName="ontoDataSearchKeyword"
-              >
-              </ng-select>
+            <div class="col-md-7 align-centered-flex">
+                <ng-select
+                  [items]="keywords"
+                  [multiple]="true"
+                  [closeOnSelect]="false"
+                  [hideSelected]="true"
+                  bindLabel="name"
+                  placeholder="Keywords"
+                  formControlName="ontoDataSearchKeyword"
+                  class=" space-70"
+                >
+                </ng-select>
+
+                <button
+                  (click)="onClickSearchOntoData()"
+                  [disabled]="!ontoDataSearchFormGroup.valid"
+                  class="btn btn-primary btn-round btn-fab float-right card-btn"
+                  type="submit"
+                >
+                  <mat-icon>search</mat-icon>
+                </button>
             </div>
 
-            <div class="col-md-1">
-              <button
+            <!-- <div class="col-md-1"> -->
+              <!-- <button
                 (click)="onClickSearchOntoData()"
                 [disabled]="!ontoDataSearchFormGroup.valid"
                 class="btn btn-primary btn-round btn-fab float-right card-btn"
                 type="submit"
               >
                 <mat-icon>search</mat-icon>
-              </button>
-            </div>
+              </button> -->
+            <!-- </div> -->
 
           </div>
         </form>

@@ -10,6 +10,12 @@
   font-weight: normal;
 }
 
+/* Should span 100% of the space*/
+.ng-select {
+  width: 100%;
+}
+
+
 //
 // VIS search form
 //
@@ -21,5 +27,3 @@
   align-items: center;
   margin: 0 auto; // centre the whole form
 }
-
-
