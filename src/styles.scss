@@ -9,14 +9,28 @@
 // ng-select: https://www.npmjs.com/package/@ng-select/ng-select
 //
 @import "~@ng-select/ng-select/themes/material.theme.css";
-// override the color
+
+/* Override primary background color of ng-select */
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
   background-color: $hart-primary;
   border-radius: 10px;
 }
 
 //
-// TODO CHECK
+//  Other
+//
+
+/* Align horizontally and centred */
+.align-centered-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+
+//
+// TODO REVIEW
 //
 .ag-theme-alpine {
   @include ag-theme-alpine();
