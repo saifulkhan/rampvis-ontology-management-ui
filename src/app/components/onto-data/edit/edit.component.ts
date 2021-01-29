@@ -12,8 +12,8 @@ import { BaseFormComponent } from '../../forms/base-form.component';
 
 @Component({
     selector: 'app-onto-data-edit',
-    templateUrl: './onto-data-edit.component.html',
-    styleUrls: ['./onto-data-edit.component.scss'],
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
 })
 export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm: any;

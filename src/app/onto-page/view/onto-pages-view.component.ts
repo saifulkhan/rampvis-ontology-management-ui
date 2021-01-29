@@ -10,7 +10,7 @@ import { OntoPage } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
 import { UtilService } from '../../services/util.service';
-import { OntoPageEditComponent } from '../../components/onto-page/edit-dialog/onto-page-edit.component';
+import { OntoPageEditComponent } from '../../components/onto-page/edit/edit.component';
 import { DialogService } from '../../services/common/dialog.service';
 import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
 

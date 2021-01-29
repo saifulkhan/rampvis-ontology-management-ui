@@ -14,8 +14,8 @@ import { OntoPageModule } from '../components/onto-page/onto-page.module';
 import { OntoPagesViewComponent } from './view/onto-pages-view.component';
 import { OntoPageViewRoutes } from './onto-page-view.routing';
 import { OntoPageBindingsComponent } from './bindings/onto-page-bindings.component';
-import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
-import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
+import { OntoDataModule } from '../components/onto-data/onto-data.module';
+import { OntoVisModule } from '../components/onto-vis/onto-vis.module';
 
 @NgModule({
     declarations: [
@@ -34,8 +34,8 @@ import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.mo
         CustomPipesModule,
         CustomSingleSelectionModule,
         OntoPageModule,
-        OntoVisDisplayModule,
-        OntoDataDisplayModule,
+        OntoVisModule,
+        OntoDataModule,
     ],
     providers: [OntoPageService],
 })

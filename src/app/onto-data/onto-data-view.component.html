@@ -10,7 +10,7 @@
       </div>
 
       <div class="card-body">
-        <app-onto-data-table-a
+        <app-onto-data-main-table
           [data]="ontoDataArr"
           [length]="ontoDataTotalCount"
           (onClickCreate)="onClickCreate()"
@@ -18,7 +18,7 @@
           (onClickDelete)="onClickDelete($event)"
           (fetchFilteredData)="filterOntoData($event)"
         >
-        </app-onto-data-table-a>
+        </app-onto-data-main-table>
 
       </div>
       <!-- end card-body-->

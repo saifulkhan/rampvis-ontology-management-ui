@@ -8,11 +8,11 @@ import { TableData } from '../../../models/table.data.interface';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
 
 @Component({
-    selector: 'app-onto-vis-table-a',
-    templateUrl: './table-a.component.html',
-    styleUrls: ['./table-a.component.scss'],
+    selector: 'app-onto-vis-main-table',
+    templateUrl: './main-table.component.html',
+    styleUrls: ['./main-table.component.scss'],
 })
-export class OntoVisTableComponentA implements OnInit {
+export class OntoVisMainTableComponent implements OnInit {
     @Input() data!: OntoVis[];
     @Input() length!: number;
     @Input() editable!: boolean;

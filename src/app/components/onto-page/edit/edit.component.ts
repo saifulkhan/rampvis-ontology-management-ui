@@ -10,8 +10,8 @@ import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-onto-page-edit',
-    templateUrl: './onto-page-edit.component.html',
-    styleUrls: ['./onto-page-edit.component.scss'],
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
 })
 export class OntoPageEditComponent extends BaseFormComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;

@@ -9,7 +9,7 @@ import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
 import { OntoData, OntoDataSearch, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
 import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
-import { OntoVisTableComponentA } from '../components/onto-vis/table-a/table-a.component';
+import { OntoVisMainTableComponent } from '../components/onto-vis/main-table/main-table.component';
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
@@ -57,7 +57,7 @@ export class PropagationComponent implements OnInit {
 
 
     // Access selected rows of table (child component)
-    @ViewChild(OntoVisTableComponentA) ontoVisTableComponent!: OntoVisTableComponentA;
+    @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
     // Access by reference as multiple data tables exists
     @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
 

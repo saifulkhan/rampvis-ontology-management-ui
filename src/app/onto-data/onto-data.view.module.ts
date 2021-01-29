@@ -11,7 +11,7 @@ import { DirectivesModule } from '../directives/directives.module';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { OntoDataViewComponent } from './onto-data-view.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoDataModule } from '../components/onto-data/onto-data.module';
 
 @NgModule({
     declarations: [
@@ -27,7 +27,7 @@ import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
-        OntoDataDisplayModule,
+        OntoDataModule,
     ],
     providers: [OntoDataService],
 })

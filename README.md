@@ -1,14 +1,14 @@
-# UI
+# RAMPVIS ONTOLOGY MANAGEMENT
+
+This is an Angular-based user interface for RAMPVIS ontology and agent management.
 
 ## Quick start
 
 Key dependencies:
 
-- Node version 12.17.0
-```bash
-npm install -g typescript@3.8.3
-npm install -g @angular/cli@9.1.7
-```
+- Node version 14.15.4
+- Angular 11+
+- API or Backend server: https://github.com/ScottishCovidResponse/rampvis-api
 
 Start development instance:
 ```
@@ -19,16 +19,5 @@ npm start
 Navigate to [localhost:4200](localhost:4200)
 
 
-**Using Docker**
-TODO
-
-
 ## Firebase 
 Make sure, during an update, the Firebase version in the `package.json` and in `firebase-messaging-sw` are same. 
-
-
-
-
-# Notes
-
-- Vis Selection component

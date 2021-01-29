@@ -10,7 +10,7 @@ import { OntoVisViewRoutes } from './onto-vis-view.routing';
 import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
-import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
+import { OntoVisModule } from '../components/onto-vis/onto-vis.module';
 import { OntoVisViewComponent } from './onto-vis-view.component';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { OntoVisViewComponent } from './onto-vis-view.component';
         ReactiveFormsModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
-        OntoVisDisplayModule,
+        OntoVisModule,
     ],
     providers: [OntoVisService],
     entryComponents: [],

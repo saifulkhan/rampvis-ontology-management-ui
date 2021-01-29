@@ -14,11 +14,11 @@ import { OntoDataFilterVm } from '../../../models/ontology/onto-data-filter.vm';
 import { OntoDataShowComponent } from '../show/show.component';
 
 @Component({
-    selector: 'app-onto-data-table-a',
-    templateUrl: './table-a.component.html',
-    styleUrls: ['./table-a.component.scss'],
+    selector: 'app-onto-data-main-table',
+    templateUrl: './main-table.component.html',
+    styleUrls: ['./main-table.component.scss'],
 })
-export class OntoDataTableAComponent implements OnInit {
+export class OntoDataMainTableComponent implements OnInit {
     @Input() data!: OntoData[];
     @Input() length!: number;
     @Output() onClickCreate: EventEmitter<OntoData> = new EventEmitter<OntoData>();
@@ -80,13 +80,13 @@ export class OntoDataTableAComponent implements OnInit {
                     filter: this.filterTerm$.value,
                 } as OntoDataFilterVm;
 
-                console.log('OntoDataTableComponentA:ngAfterViewInit: ontoDataFilter = ', ontoDataFilter);
+                console.log('OntoDataMainTableComponent:ngAfterViewInit: ontoDataFilter = ', ontoDataFilter);
                 this.fetchFilteredData.emit(ontoDataFilter);
             });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('OntoDataTableComponentA:ngOnChanges: data = ', this.data);
+        console.log('OntoDataMainTableComponent:ngOnChanges: data = ', this.data);
 
         if (changes?.data && this.data) {
             this.setDataSource();
@@ -94,11 +94,11 @@ export class OntoDataTableAComponent implements OnInit {
     }
 
     private setDataSource(): void {
-        console.log('OntoDataTableComponentA:setDataSource: data = ', this.data);
+        console.log('OntoDataMainTableComponent:setDataSource: data = ', this.data);
         this.dataSource.data = this.data;
 
         this.spinner = false;
-        console.log('OntoDataTableComponentA:setDataSource: data = ', this.dataSource.data);
+        console.log('OntoDataMainTableComponent:setDataSource: data = ', this.dataSource.data);
     }
 
     private clearDataSource(): void {

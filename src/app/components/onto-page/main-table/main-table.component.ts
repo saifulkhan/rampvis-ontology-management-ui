@@ -15,9 +15,9 @@ import { environment } from '../../../../environments/environment';
 import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 
 @Component({
-    selector: 'app-onto-page-table',
-    templateUrl: './onto-page-table.component.html',
-    styleUrls: ['./onto-page-table.component.scss'],
+    selector: 'app-onto-page-main-table',
+    templateUrl: './main-table.component.html',
+    styleUrls: ['./main-table.component.scss'],
     animations: [
         trigger('detailExpand', [
             state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -26,7 +26,7 @@ import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
         ]),
     ],
 })
-export class OntoPageTableComponent implements OnInit {
+export class OntoPageMainTableComponent implements OnInit {
     @Input() data!: OntoPageExt[];
     @Input() len!: number;
     @Input() isEditable!: boolean;
@@ -95,7 +95,7 @@ export class OntoPageTableComponent implements OnInit {
                     filter: this.filterTerm$.value,
                 } as OntoPageFilterVm;
 
-                console.log('OntoPageTableComponent:ngAfterViewInit: ontoPageFilterVm = ', ontoPageFilterVm);
+                console.log('OntoPageMainTableComponent:ngAfterViewInit: ontoPageFilterVm = ', ontoPageFilterVm);
                 this.fetchFilteredData.emit(ontoPageFilterVm);
             });
     }

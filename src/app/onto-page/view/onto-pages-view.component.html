@@ -11,7 +11,7 @@
           </div>
 
           <div class="card-body">
-            <app-onto-page-table
+            <app-onto-page-main-table
               [data]="ontoPages"
               [len]="ontoPagesTotalCount"
               [isEditable]="true"
@@ -21,7 +21,7 @@
               (onClickShowBinding)="onClickShowBinding($event)"
               (fetchFilteredData)="getOntoPages($event)"
             >
-            </app-onto-page-table>
+            </app-onto-page-main-table>
 
           </div>
           <!-- end card-body-->

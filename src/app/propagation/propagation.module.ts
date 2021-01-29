@@ -12,8 +12,8 @@ import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { PropagationComponent } from './propagation.component';
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../components/custom-single-selection/custom-single-selection.module';
-import { OntoVisDisplayModule } from '../components/onto-vis/onto-vis-display.module';
-import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoVisModule } from '../components/onto-vis/onto-vis.module';
+import { OntoDataModule } from '../components/onto-data/onto-data.module';
 import { OntoPageModule } from '../components/onto-page/onto-page.module';
 
 @NgModule({
@@ -29,8 +29,8 @@ import { OntoPageModule } from '../components/onto-page/onto-page.module';
         NgxMatSelectSearchModule,
         CustomPipesModule,
         CustomSingleSelectionModule,
-        OntoVisDisplayModule,
-        OntoDataDisplayModule,
+        OntoVisModule,
+        OntoDataModule,
         OntoPageModule,
     ],
     providers: [OntoVisService],

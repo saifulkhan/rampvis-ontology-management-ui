@@ -8,16 +8,16 @@ import { MaterialModule } from '../../material.module';
 
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
-import { OntoDataTableAComponent } from './table-a/table-a.component';
+import { OntoDataMainTableComponent } from './main-table/main-table.component';
 import { OntoDataShowComponent } from './show/show.component';
-import { OntoDataEditComponent } from './edit/onto-data-edit.component';
+import { OntoDataEditComponent } from './edit/edit.component';
 import { OntoDataGroupComponent } from './group/group.component';
 import { OntoDataSearchTableComponent } from './search-table/search-table.component';
 import { OntoDataGroupTableComponent } from './group-table/group-table.component';
 
 @NgModule({
     declarations: [
-      OntoDataTableAComponent,
+      OntoDataMainTableComponent,
       OntoDataSearchTableComponent,
       OntoDataEditComponent,
       OntoDataShowComponent,
@@ -36,7 +36,7 @@ import { OntoDataGroupTableComponent } from './group-table/group-table.component
         CustomPipesModule,
     ],
     exports: [
-      OntoDataTableAComponent,
+      OntoDataMainTableComponent,
       OntoDataGroupComponent,
       OntoDataSearchTableComponent,
       OntoDataEditComponent,
@@ -45,4 +45,4 @@ import { OntoDataGroupTableComponent } from './group-table/group-table.component
     ],
 
 })
-export class OntoDataDisplayModule {}
+export class OntoDataModule {}

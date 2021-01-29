@@ -1,10 +1,10 @@
 {
-    "name": "data-mining-ui",
+    "name": "ramp-vis-onto",
     "version": "1.0.0",
     "license": "",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/saifulkhan/rampvis-ontology-management-ui"
     },
     "scripts": {
         "ng": "ng",
@@ -97,6 +97,6 @@
         "protractor": "^7.0.0",
         "ts-node": "9.1.1",
         "tslint": "~6.1.0",
-        "typescript": "^4.0.5"
+        "typescript": "~4.0.5"
     }
 }

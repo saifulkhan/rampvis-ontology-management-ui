@@ -10,7 +10,7 @@ import { CustomSingleSelectionModule } from '../components/custom-single-selecti
 import { CustomPipesModule } from '../pipes/custom-pipes.module';
 import { AdvancedSearchControlModule } from '../components/advanced-search-control/advanced-search-control.module';
 import { TestComponentsComponent } from './test-components.component';
-import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display.module';
+import { OntoDataModule } from '../components/onto-data/onto-data.module';
 
 @NgModule({
     imports: [
@@ -24,7 +24,7 @@ import { OntoDataDisplayModule } from '../components/onto-data/onto-data-display
         // TimelineModule,
         CustomPipesModule,
         AdvancedSearchControlModule,
-        OntoDataDisplayModule,
+        OntoDataModule,
     ],
     declarations: [TestComponentsComponent],
 })
