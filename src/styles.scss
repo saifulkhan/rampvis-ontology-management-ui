@@ -1,12 +1,23 @@
-//
-// TODO: Review - should we have src/assets/css/ramp-vis-onto.scss and this both?
-//
-
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
 
+@import "./assets/scss/material-dashboard.scss";
+
+//
+// ng-select: https://www.npmjs.com/package/@ng-select/ng-select
+//
+@import "~@ng-select/ng-select/themes/material.theme.css";
+// override the color
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: $hart-primary;
+  border-radius: 10px;
+}
+
+//
+// TODO CHECK
+//
 .ag-theme-alpine {
   @include ag-theme-alpine();
 }

@@ -6,6 +6,8 @@ import { NgxJsonViewModule } from 'ng-json-view';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialModule } from '../../material.module';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { OntoDataMainTableComponent } from './main-table/main-table.component';
@@ -31,6 +33,7 @@ import { OntoDataGroupTableComponent } from './group-table/group-table.component
         DirectivesModule,
         MatFormFieldModule,
         ReactiveFormsModule,
+        NgSelectModule,
         NgxMatSelectSearchModule,
         NgxJsonViewModule,
         CustomPipesModule,

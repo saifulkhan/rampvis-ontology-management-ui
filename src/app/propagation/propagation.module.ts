@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { PropagationRoutes } from './propagation.routing';
 import { DirectivesModule } from '../directives/directives.module';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
@@ -26,6 +28,7 @@ import { OntoPageModule } from '../components/onto-page/onto-page.module';
         DirectivesModule,
         MatFormFieldModule,
         ReactiveFormsModule,
+        NgSelectModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
         CustomSingleSelectionModule,

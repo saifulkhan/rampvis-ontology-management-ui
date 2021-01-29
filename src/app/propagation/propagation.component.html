@@ -80,7 +80,8 @@
 
     <!--Search data-->
 
-    <div class="card" *ngIf="exampleOntoData?.length">
+    <!-- <div class="card" *ngIf="exampleOntoData?.length"> -->
+    <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
@@ -89,21 +90,67 @@
       </div>
       <div class="card-body">
 
+        <!--Search data-->
+        <form [formGroup]="ontoDataSearchFormGroup">
+          <div class="row">
+            <div class="col-md-4">
+              <ng-select
+                [items]="dataTypes"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [hideSelected]="true"
+                bindLabel="name"
+                placeholder="Data type"
+                formControlName="ontoDataSearchDataType"
+              >
+              </ng-select>
+            </div>
+
+            <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
+
+            <div class="col-md-7">
+              <ng-select
+                [items]="keywords"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [hideSelected]="true"
+                bindLabel="name"
+                placeholder="Keywords"
+                formControlName="ontoDataSearchKeyword"
+              >
+              </ng-select>
+            </div>
+
+            <div class="col-md-1">
+              <button
+                (click)="onClickSearchOntoData()"
+                [disabled]="!ontoDataSearchFormGroup.valid"
+                class="btn btn-primary btn-round btn-fab float-right card-btn"
+                type="submit"
+              >
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </form>
+
+
         <!-- Search & propagation buttons -->
         <div class="row">
-
+          <!--
           <div class="col-sm-1 offset-sm-10">
             <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
           </div>
-
-          <div class="col-sm-1">
+          -->
+          <div class="col-sm-1 offset-sm-11">
             <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
               Propagate All
             </button>
           </div>
         </div>
 
-        <mat-card *ngIf="ontoDataSearchGroups.length">
+        <mat-card *ngIf="ontoDataSearchGroups?.length">
           <mat-card-header>
             <mat-card-title>Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
@@ -116,7 +163,7 @@
           </app-onto-data-group-table>
         </mat-card>
 
-        <mat-card *ngIf="ontoPageExtSearchGroups.length">
+        <mat-card *ngIf="ontoPageExtSearchGroups?.length">
           <mat-card-header>
             <mat-card-title>Links</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>

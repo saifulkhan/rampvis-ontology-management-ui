@@ -143,6 +143,7 @@ export class TestComponentsComponent {
 
     ngOnInit_OntoDataSearchAndAddToBasket() {
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+        this.dataTypes.unshift('Select All');
 
         this.ontoDataSearchFormGroup = this.fb.group({
             ontoDataSearchDataType: new FormControl('', [Validators.required]),
@@ -178,7 +179,7 @@ export class TestComponentsComponent {
         const ontoDataSearchFilterVm: OntoDataSearchFilterVm = {
             query: this.ontoDataSearchFormGroup.value.ontoDataSearchQuery,
             dataType:
-                this.ontoDataSearchFormGroup.value.ontoDataSearchDataType === DATA_TYPE.ALL
+                this.ontoDataSearchFormGroup.value.ontoDataSearchDataType === 'Select All'
                     ? null
                     : this.ontoDataSearchFormGroup.value.ontoDataSearchDataType,
         } as OntoDataSearchFilterVm;

@@ -9,6 +9,7 @@ import { UtilService } from '../../../services/util.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { DATA_TYPE } from '../../../models/ontology/onto-data-types';
 import { BaseFormComponent } from '../../forms/base-form.component';
+import { KEYWORDS } from '../../../models/ontology/keywords.enum';
 
 @Component({
     selector: 'app-onto-data-edit',
@@ -22,6 +23,7 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
     dialogType: 'edit' | 'new';
     data: OntoData;
     public dataTypes: string[] = [];
+    public keywords: string[] = [];
 
     // chips related
     visible = true;
@@ -41,6 +43,7 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
         this.dialogType = data.dialogType;
         this.data = { ...data.data };
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+        this.keywords = (Object.keys(KEYWORDS) as Array<keyof typeof KEYWORDS>).map((d) => KEYWORDS[d]);
     }
 
     ngOnInit(): void {

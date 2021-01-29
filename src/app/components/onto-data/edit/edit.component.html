@@ -24,26 +24,16 @@
       <input formControlName="description" matInput />
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Keywords</mat-label>
-      <mat-chip-list mat-chip-list #chipList formControlName="keywords">
-        <mat-chip
-          (removed)="remove(d)"
-          *ngFor="let d of formGroup.get('keywords').value"
-          [removable]="removable"
-          [selectable]="selectable"
-        >
-          {{ d }}
-          <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
-        </mat-chip>
-        <input
-          (matChipInputTokenEnd)="add($event)"
-          [matChipInputAddOnBlur]="addOnBlur"
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        />
-      </mat-chip-list>
-    </mat-form-field>
+    <ng-select
+      [items]="keywords"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [hideSelected]="true"
+      bindLabel="name"
+      placeholder="Keywords"
+      formControlName="keywords"
+    >
+    </ng-select>
 
     <mat-dialog-actions align="end">
       <button mat-raised-button class="btn btn-warning" [mat-dialog-close]="undefined">Cancel</button>

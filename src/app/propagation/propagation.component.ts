@@ -18,6 +18,7 @@ import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-pag
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 import { OntoPageService } from '../services/ontology/onto-page.service';
+import { KEYWORDS } from '../models/ontology/keywords.enum';
 
 @Component({
     selector: 'app-propagation',
@@ -38,28 +39,6 @@ export class PropagationComponent implements OnInit {
     // Example binding data and page
     public exampleOntoData!: OntoData[];
     public exampleLinks!: OntoPageExt[];
-
-    //
-    // Search data and link
-    //
-
-    // Data search form
-    public ontoDataSearchFormGroup!: FormGroup;
-    dataTypes: string[] = [];
-    suggestedOntoData!: OntoDataSearch[];
-    highlightOntoDataSearchSuggestion!: string;
-
-    // Search data result in group
-    public ontoDataSearchGroups!: OntoDataSearchGroup[];
-
-    // Search page result in group
-    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
-
-
-    // Access selected rows of table (child component)
-    @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
-    // Access by reference as multiple data tables exists
-    @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
 
     // Propagation
     public propagationTypes!: string[];
@@ -101,6 +80,8 @@ export class PropagationComponent implements OnInit {
                     console.log('PropagationComponent: suggestedOntoVis = ', this.suggestedOntoVis);
                 });
             });
+
+        this.ngOnInit_dataSearch();
     }
 
     ngAfterViewInit(): void {}
@@ -171,15 +152,48 @@ export class PropagationComponent implements OnInit {
     }
 
     //
-    // Search data and show in a table
+    // Search data and link
     //
+
+    // Data search form
+    public ontoDataSearchFormGroup!: FormGroup;
+    dataTypes: string[] = [];
+    keywords: string[] = [];
+
+    selectedDataTypes = [];
+
+
+    // Search data result in group
+    public ontoDataSearchGroups!: OntoDataSearchGroup[];
+
+    // Search page result in group
+    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
+
+    // Access selected rows of table (child component)
+    @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
+    // Access by reference as multiple data tables exists
+    @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
+
+    ngOnInit_dataSearch() {
+
+        this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+        this.keywords = (Object.keys(KEYWORDS) as Array<keyof typeof KEYWORDS>).map((d) => KEYWORDS[d]);
+
+        this.ontoDataSearchFormGroup = this.fb.group({
+            ontoDataSearchDataType: new FormControl('', [Validators.required]),
+            ontoDataSearchKeyword: new FormControl('', [Validators.required]),
+        });
+
+    }
 
     public onClickSearchOntoData() {
         if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
             this.localNotificationService.error({ message: 'Select a VIS function' });
         }
 
-        this.suggestedOntoData = [];
+        let selectedDataTypes = this.ontoDataSearchFormGroup.value.ontoDataSearchDataType;
+        let selectedKeywords = this.ontoDataSearchFormGroup.value.ontoDataSearchKeyword;
+        console.log(selectedDataTypes, selectedKeywords);
 
         this.ontoDataService
             .searchGroup(this.ontoVisSearchResult[0]?.id)
@@ -209,7 +223,10 @@ export class PropagationComponent implements OnInit {
             .subscribe(
                 (res: any) => {
                     this.ontoPageExtSearchGroups = res;
-                    console.log('PropagationComponent:search: ontoPageExtSearchGroups = ', this.ontoPageExtSearchGroups);
+                    console.log(
+                        'PropagationComponent:search: ontoPageExtSearchGroups = ',
+                        this.ontoPageExtSearchGroups
+                    );
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -231,14 +248,10 @@ export class PropagationComponent implements OnInit {
         }
     }
 
-    /**
-     *
-     */
-    public optionSelected(input: HTMLInputElement) {
-        input.blur();
-        input.setSelectionRange(0, 0);
-        input.focus();
-    }
+
+
+
+
 
     //
     // Propagation
@@ -261,4 +274,15 @@ export class PropagationComponent implements OnInit {
             }
         });
     }
+
+
+    /**
+     * Used by autocomplete UI
+     */
+    public optionSelected(input: HTMLInputElement) {
+        input.blur();
+        input.setSelectionRange(0, 0);
+        input.focus();
+    }
+
 }
