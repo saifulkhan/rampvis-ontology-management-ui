@@ -1,8 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
-
     <!--
-      Card: VIS Search
+      Card VIS search
     -->
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
@@ -13,7 +12,6 @@
       </div>
 
       <div class="card-body">
-
         <form [formGroup]="ontoVisSearchFormGroup" class="vis-search">
           <mat-form-field>
             <input
@@ -44,7 +42,7 @@
         </form>
 
         <!-- VIS search result table-->
-        <mat-card  *ngIf="ontoVisSearchResult?.length">
+        <mat-card *ngIf="ontoVisSearchResult?.length">
           <mat-card-header>
             <mat-card-title>VIS Function</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
@@ -70,18 +68,17 @@
           <app-onto-page-group [data]="exampleLinks"> </app-onto-page-group>
         </mat-card>
       </div>
-
-
     </div>
 
     <!--
-      Card: VIS Search - end
+      End- Card VIS search
     -->
 
-    <!--Search data-->
+    <!--
+      Card search data
+    -->
 
-    <!-- <div class="card" *ngIf="exampleOntoData?.length"> -->
-    <div class="card">
+    <div class="card" *ngIf="exampleOntoData?.length">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
@@ -89,11 +86,9 @@
         <h4 class="card-title">Propagation</h4>
       </div>
       <div class="card-body">
-
         <!--Search data-->
         <form [formGroup]="ontoDataSearchFormGroup">
           <div class="row">
-
             <div class="col-md-4">
               <ng-select
                 [items]="dataTypes"
@@ -107,54 +102,36 @@
               </ng-select>
             </div>
 
-            <!-- <mat-divider [vertical]="true" class="divider"></mat-divider> -->
+            <mat-divider [vertical]="true" class="divider"></mat-divider>
 
             <div class="col-md-7 align-centered-flex">
-                <ng-select
-                  [items]="keywords"
-                  [multiple]="true"
-                  [closeOnSelect]="false"
-                  [hideSelected]="true"
-                  bindLabel="name"
-                  placeholder="Keywords"
-                  formControlName="ontoDataSearchKeyword"
-                  class=" space-70"
-                >
-                </ng-select>
+              <ng-select
+                [items]="keywords"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [hideSelected]="true"
+                bindLabel="name"
+                placeholder="Keywords"
+                formControlName="ontoDataSearchKeyword"
+                class="space-70"
+              >
+              </ng-select>
 
-                <button
-                  (click)="onClickSearchOntoData()"
-                  [disabled]="!ontoDataSearchFormGroup.valid"
-                  class="btn btn-primary btn-round btn-fab float-right card-btn"
-                  type="submit"
-                >
-                  <mat-icon>search</mat-icon>
-                </button>
-            </div>
-
-            <!-- <div class="col-md-1"> -->
-              <!-- <button
+              <button
                 (click)="onClickSearchOntoData()"
                 [disabled]="!ontoDataSearchFormGroup.valid"
                 class="btn btn-primary btn-round btn-fab float-right card-btn"
                 type="submit"
               >
                 <mat-icon>search</mat-icon>
-              </button> -->
-            <!-- </div> -->
-
+              </button>
+            </div>
           </div>
         </form>
 
-
-        <!-- Search & propagation buttons -->
+        <!-- SPropagation button -->
         <div class="row">
-          <!--
-          <div class="col-sm-1 offset-sm-10">
-            <button mat-raised-button class="btn btn-primary float-left" (click)="onClickSearchOntoData()">Search</button>
-          </div>
-          -->
-          <div class="col-sm-1 offset-sm-11">
+          <div class="col-md-1 offset-md-11">
             <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
               Propagate All
             </button>
@@ -168,8 +145,8 @@
           </mat-card-header>
           <app-onto-data-group-table
             [data]="ontoDataSearchGroups"
-            (onClickPropagate) = "onClickPropagateOntoDataSearchGroup($event)"
-            (onClickRemove) = "onClickRemoveOntoDataSearchGroup($event)"
+            (onClickPropagate)="onClickPropagateOntoDataSearchGroup($event)"
+            (onClickRemove)="onClickRemoveOntoDataSearchGroup($event)"
           >
           </app-onto-data-group-table>
         </mat-card>
@@ -181,42 +158,20 @@
           </mat-card-header>
           <app-onto-page-ext-group-table
             [data]="ontoPageExtSearchGroups"
-            (onClickPropagate) = "onClickPropagateOntoDataSearchGroup($event)"
-            (onClickRemove) = "onClickRemoveOntoDataSearchGroup($event)"
+            (onClickPropagate)="onClickPropagateOntoDataSearchGroup($event)"
+            (onClickRemove)="onClickRemoveOntoDataSearchGroup($event)"
           >
           </app-onto-page-ext-group-table>
         </mat-card>
-
       </div>
     </div>
-    <!--End card search data-->
 
-    <!--Search Links-->
     <!--
-    <div class="card" *ngIf="exampleLinks?.length">
-      <div class="card-header card-header-primary card-header-icon">
-        <div class="card-icon">
-          <mat-icon>web</mat-icon>
-        </div>
-        <h4 class="card-title">Links</h4>
-      </div>
-      <div class="card-body">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Search Links</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Bind Links</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </div>
-    </div>
+      End- Card search data
     -->
 
-    <!--End container-fluid-->
   </div>
-  <!--End main-content-->
+  <!--End container-fluid-->
+
 </div>
+<!--End main-content-->
