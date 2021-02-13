@@ -67,7 +67,12 @@ export class OntoDataViewComponent {
     }
 
     private openVisEditModal(dialogType: string, data: OntoData): void {
-        const dialogOpt = { width: '40%', data: { dialogType, data: data } };
+        const dialogOpt = {
+            width: '40%',
+            // minHeight: 'calc(100vh - 90px)', // TODO
+            height : 'auto',
+            data: { dialogType, data: data }
+        };
         const matDialogRef = this.matDialog.open(OntoDataEditComponent, dialogOpt);
 
         matDialogRef

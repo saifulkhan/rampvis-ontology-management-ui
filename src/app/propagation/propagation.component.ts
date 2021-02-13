@@ -18,7 +18,7 @@ import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-pag
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 import { OntoPageService } from '../services/ontology/onto-page.service';
-import { KEYWORDS } from '../models/ontology/keywords.enum';
+import { DataStreamKeywordsToDropdown } from '../services/ontology/data-stream-keywords.service';
 
 @Component({
     selector: 'app-propagation',
@@ -158,8 +158,8 @@ export class PropagationComponent implements OnInit {
     // Data search form
     public ontoDataSearchFormGroup!: FormGroup;
     dataTypes: string[] = [];
-    keywords: string[] = [];
-
+    // Multi-level selection of keywords
+    grpKeywords = DataStreamKeywordsToDropdown();
     selectedDataTypes = [];
 
 
@@ -175,9 +175,7 @@ export class PropagationComponent implements OnInit {
     @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
 
     ngOnInit_dataSearch() {
-
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
-        this.keywords = (Object.keys(KEYWORDS) as Array<keyof typeof KEYWORDS>).map((d) => KEYWORDS[d]);
 
         this.ontoDataSearchFormGroup = this.fb.group({
             ontoDataSearchDataType: new FormControl('', [Validators.required]),

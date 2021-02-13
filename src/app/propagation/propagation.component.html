@@ -106,15 +106,23 @@
 
             <div class="col-md-7 align-centered-flex">
               <ng-select
-                [items]="keywords"
+                [items]="grpKeywords"
+                bindLabel="name"
+                bindValue="name"
+                groupBy="subGroup"
                 [multiple]="true"
                 [closeOnSelect]="false"
-                [hideSelected]="true"
-                bindLabel="name"
-                placeholder="Keywords"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
                 formControlName="ontoDataSearchKeyword"
-                class="space-70"
+                placeholder="Keywords"
               >
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{item.name}}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.name}}
+              </ng-template>
               </ng-select>
 
               <button

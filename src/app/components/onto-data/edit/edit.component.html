@@ -25,15 +25,27 @@
     </mat-form-field>
 
     <ng-select
-      [items]="keywords"
+      [items]="grpKeywords"
+      bindLabel="name"
+      bindValue="name"
+      groupBy="subGroup"
       [multiple]="true"
       [closeOnSelect]="false"
-      [hideSelected]="true"
-      bindLabel="name"
-      placeholder="Keywords"
+      [selectableGroup]="true"
+      [selectableGroupAsModel]="false"
       formControlName="keywords"
+      placeholder="Keywords"
     >
+    <ng-template ng-optgroup-tmp let-item="item">
+      {{item.name}}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+      {{item.name}}
+    </ng-template>
     </ng-select>
+
+    <!-- <small>Selected: {{formGroup.get('keywords')?.value | json}}</small> -->
+
 
     <mat-dialog-actions align="end">
       <button mat-raised-button class="btn btn-warning" [mat-dialog-close]="undefined">Cancel</button>
