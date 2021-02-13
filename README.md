@@ -14,6 +14,8 @@ Start development instance:
 ```
 npm install
 npm start
+
+npx ng serve --host 0.0.0.0
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.
