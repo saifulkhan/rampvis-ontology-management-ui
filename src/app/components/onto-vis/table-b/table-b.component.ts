@@ -44,6 +44,7 @@ export class OntoVisTableBComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.data && this.data) {
+            console.log('OntoVisTableBComponent:ngOnChanges: data = ', this.data);
             this.setDataSource();
         }
     }

@@ -45,7 +45,6 @@ export class OntoPagesViewComponent implements OnInit {
 
     ngOnInit(): void {}
 
-
     public onClickCreate(): void {
         this.openPageEditModal('new', new OntoPage());
     }

@@ -59,6 +59,8 @@ export class OntoPageMainTableComponent implements OnInit {
     constructor(private router: Router) {}
 
     ngOnInit(): void {
+        console.log('OntoPageMainTableComponent:ngOnInit:  data: ', this.data);
+
         this.spinner = true;
         this.clearTableData();
 
@@ -102,6 +104,7 @@ export class OntoPageMainTableComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.data && this.data) {
+            console.log('OntoPageMainTableComponent:ngOnChanges: data = ', this.data);
             this.setDataSource();
         }
     }

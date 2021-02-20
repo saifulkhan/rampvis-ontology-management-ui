@@ -178,8 +178,9 @@ export class PropagationComponent implements OnInit {
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
 
         this.ontoDataSearchFormGroup = this.fb.group({
-            ontoDataSearchDataType: new FormControl('', [Validators.required]),
-            ontoDataSearchKeyword: new FormControl('', [Validators.required]),
+            searchDataType: new FormControl('', [Validators.required]),
+            searchKeywords1: new FormControl('', [Validators.required]),
+            searchKeywords2: new FormControl('', [Validators.required]),
         });
 
     }
@@ -189,7 +190,7 @@ export class PropagationComponent implements OnInit {
             this.localNotificationService.error({ message: 'Select a VIS function' });
         }
 
-        let selectedDataTypes = this.ontoDataSearchFormGroup.value.ontoDataSearchDataType;
+        let selectedDataTypes = this.ontoDataSearchFormGroup.value.searchDataType;
         let selectedKeywords = this.ontoDataSearchFormGroup.value.ontoDataSearchKeyword;
         console.log(selectedDataTypes, selectedKeywords);
 

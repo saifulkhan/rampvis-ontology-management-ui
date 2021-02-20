@@ -1,14 +1,14 @@
 export const DataStreamKeywords = {
-    Source: ['Raw', 'Housekeeping'],
+    Source: ['Raw', 'Housekeeping', 'Normalized'],
     Country: ['Scotland', 'England', 'Welsh', 'Northern_Ireland'],
     Region: [
-        'Ayrshire_&_Arran',
+        'Ayrshire_Arran',
         'Borders',
-        'Dumfries_&_Galloway',
+        'Dumfries_Galloway',
         'Fife',
         'Forth_Valley',
         'Grampian',
-        'Greater_Glasgow_&_Clyde',
+        'Greater_Glasgow_Clyde',
         'Highland',
         'Lanarkshire',
         'Lothian',
@@ -16,6 +16,7 @@ export const DataStreamKeywords = {
         'Shetland',
         'Tayside',
         'Western_Isles',
+        'Golden_Jubilee_National_Hospital'
     ],
     Case_Type: ['Cumulative_Cases', 'Hospital_Confirmed', 'Hospital_Suspected', 'ICU_Patients'],
     Analytics: ['Pearson', 'F_Test', 'MSE'],

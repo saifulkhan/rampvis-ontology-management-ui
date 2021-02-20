@@ -78,7 +78,8 @@
       Card search data
     -->
 
-    <div class="card" *ngIf="exampleOntoData?.length">
+    <!-- <div class="card" *ngIf="exampleOntoData?.length"> -->
+    <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>storage</mat-icon>
@@ -88,23 +89,26 @@
       <div class="card-body">
         <!--Search data-->
         <form [formGroup]="ontoDataSearchFormGroup">
+
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
               <ng-select
                 [items]="dataTypes"
                 [multiple]="true"
                 [closeOnSelect]="false"
                 [hideSelected]="true"
                 bindLabel="name"
-                placeholder="Data type"
-                formControlName="ontoDataSearchDataType"
+                placeholder="Filter Datatype "
+                formControlName="searchDataType"
               >
               </ng-select>
             </div>
 
-            <mat-divider [vertical]="true" class="divider"></mat-divider>
+            <!--
+              <mat-divider [vertical]="true" class="divider"></mat-divider>
+            -->
 
-            <div class="col-md-7 align-centered-flex">
+            <div class="col-md-5 align-centered-flex">
               <ng-select
                 [items]="grpKeywords"
                 bindLabel="name"
@@ -114,8 +118,30 @@
                 [closeOnSelect]="false"
                 [selectableGroup]="true"
                 [selectableGroupAsModel]="false"
-                formControlName="ontoDataSearchKeyword"
-                placeholder="Keywords"
+                formControlName="searchKeywords1"
+                placeholder="AND Keywords"
+              >
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{item.name}}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.name}}
+              </ng-template>
+              </ng-select>
+            </div>
+
+            <div class="col-md-5 align-centered-flex">
+              <ng-select
+                [items]="grpKeywords"
+                bindLabel="name"
+                bindValue="name"
+                groupBy="subGroup"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
+                formControlName="searchKeywords2"
+                placeholder="OR Keywords"
               >
               <ng-template ng-optgroup-tmp let-item="item">
                 {{item.name}}
