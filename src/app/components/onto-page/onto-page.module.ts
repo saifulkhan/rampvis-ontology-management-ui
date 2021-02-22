@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { OntoPageEditComponent } from './edit/edit.component';
 import { BindingEditComponent } from './edit/binding-edit.component';
@@ -35,6 +36,7 @@ import { OntoPageExtGroupTableComponent } from './group-table/group-table.compon
         DirectivesModule,
         MatFormFieldModule,
         ReactiveFormsModule,
+        NgSelectModule,
         NgxMatSelectSearchModule,
         CustomPipesModule,
         CustomSingleSelectionModule,

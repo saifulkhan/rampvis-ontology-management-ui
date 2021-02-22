@@ -14,62 +14,43 @@
 
   <div class="card-body">
 
-    <!--
-    <mat-form-field>
-      <app-custom-single-selection
-        [data]="visList$ | async"
-        formControlName="visId"
-        placeholder="Select VIS function"
-        placeholderLabel="Search VIS function..."
-      >
-      </app-custom-single-selection>
-    </mat-form-field>
-    -->
+    <ng-select
+      [items]="ontoVis$ | async"
+      bindLabel="function"
+      bindValue="id"
+      [multiple]="false"
+      [closeOnSelect]="true"
+      [searchable]="true"
+      formControlName="visId"
+      placeholder="VIS function"
+    >
+    </ng-select>
 
-    <mat-form-field>
-      <mat-select formControlName="visId" placeholder="VIS" #singleSelect>
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="visIdFilterCtrl"
-            placeholderLabel="Find VIS functions..."
-            noEntriesFoundLabel="No matching vis function found"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngFor="let d of filteredVisId | async" [value]="d.id">
-          {{ d.function }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ng-select
+      [items]="ontoData$ | async"
+      bindLabel="endpoint"
+      bindValue="id"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      formControlName="dataIds"
+      placeholder="Data streams"
+    >
+    </ng-select>
 
-    <mat-form-field>
-      <mat-select formControlName="dataIds" placeholder="Data" [multiple]="true" #multiSelect>
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="dataIdFilterCtrl"
-            placeholderLabel="Find data streams..."
-            noEntriesFoundLabel="No data stream found"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngFor="let d of filteredDataIds | async" [value]="d.id">
-          {{ d.urlCode }}{{ d.endpoint }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
-    <mat-form-field>
-      <mat-select formControlName="pageIds" placeholder="Links" [multiple]="true" #multiSelect2>
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="ontoPageIdFilterCtrl"
-            placeholderLabel="Find links..."
-            noEntriesFoundLabel="No links found"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngFor="let d of filteredOntoPageIds | async" [value]="d.id">
-          {{ d.id }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ng-select
+      [items]="ontoData$ | async"
+      bindLabel="id"
+      bindValue="id"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      formControlName="pageIds"
+      placeholder="Links"
+    >
+    </ng-select>
+
 
     <!--
     <ng-container *ngIf="formGroup.controls['bindData'] && formGroup.controls['bindData']['controls']">
@@ -88,5 +69,7 @@
     >
       <mat-icon>add_circle</mat-icon>
     </button>
-  --></div>
+    -->
+
+  </div>
 </div>
