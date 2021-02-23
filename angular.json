@@ -28,7 +28,6 @@
                             "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
                             "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/sweetalert2/src/sweetalert2.scss",
-                            "src/assets/css/ramp-vis-onto.scss",
                             "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css",
                             "src/assets/scss/material-dashboard.scss",
                             "src/styles.scss"
@@ -113,7 +112,6 @@
                             "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
                             "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/sweetalert2/src/sweetalert2.scss",
-                            "src/assets/css/ramp-vis-onto.scss",
                             "src/assets/scss/material-dashboard.scss",
                             "src/styles.scss"
                         ],
@@ -147,8 +145,8 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": [
-                            "tsconfig.app.json", 
-                            "tsconfig.spec.json", 
+                            "tsconfig.app.json",
+                            "tsconfig.spec.json",
                             "e2e/tsconfig.json"
                         ],
                         "exclude": ["**/node_modules/**"]

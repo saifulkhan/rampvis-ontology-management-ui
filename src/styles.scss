@@ -2,18 +2,104 @@
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
-
 @import "./assets/scss/material-dashboard.scss";
 
 //
-// ng-select: https://www.npmjs.com/package/@ng-select/ng-select
+// Change checkbox background from default pink to primary
+//
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: $hart-primary;
+}
+
+//
+// ng-select
 //
 @import "~@ng-select/ng-select/themes/material.theme.css";
-
 /* Override primary background color of ng-select */
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
   background-color: $hart-primary;
   border-radius: 10px;
+}
+
+//
+// Table
+//
+table {
+  width: 100%;
+
+  th.actions {
+    width: 100px;
+  }
+}
+
+.th-center {
+  text-align: center;
+}
+
+.th-left {
+  text-align: left;
+}
+
+.th-right {
+  text-align: right;
+}
+
+//
+// Used by search data highlight pipe
+//
+.search-highlight {
+  color: $hart-primary;
+  font-weight: bold;
+}
+
+//
+// Chips
+//
+mat-chip-list {
+  mat-chip {
+    padding: 3px 7px !important;
+    min-height: 20px !important;
+    margin: 4px 2px !important;
+    color: white !important;
+    background-color: darkgrey !important;
+    //font-weight: 300 !important;
+    //font-size: 0.8em !important;
+  }
+}
+
+//
+// Chip color used for keyword and data type selection state change
+//
+
+.keyword-chip-color {
+  background-color: darkgray !important;
+  color: white !important;
+}
+
+.keyword-chip-color-1 {
+  background-color: green !important;
+  color: white !important;
+}
+
+.keyword-chip-color-2 {
+  background-color: orange !important;
+  color: white !important;
+}
+
+.keyword-chip-color-3 {
+  background-color: red !important;
+  color: white;
+}
+
+.datatype-chip-color {
+  background-color: darkgrey !important;
+  color: white !important;
+}
+
+.datatype-chip-color-1 {
+  background-color: #16c79a !important;
+  color: white !important;
 }
 
 //
@@ -28,9 +114,33 @@
   align-items: center;
 }
 
+//
+// Not used
+//
+
+/* Text inside a colored dot. This is not good enough */
+.text-in-dot {
+  width: 100%;
+  display: inline-block;
+  flex-direction: row;
+  justify-content: center;
+
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  padding: 0px;
+
+  background: #fff;
+  // border: 2px solid #666;
+  // color: #666;
+  text-align: center;
+  color: white;
+
+  // font: 15px Arial, sans-serif;
+}
 
 //
-// TODO REVIEW
+// TODO Check if they are used?
 //
 .ag-theme-alpine {
   @include ag-theme-alpine();
@@ -57,24 +167,4 @@
 .cdk-global-overlay-wrapper {
   overflow-y: scroll !important;
   pointer-events: all !important;
-}
-
-.text-in-dot {
-  width: 100%;
-  display: inline-block;
-  flex-direction: row;
-  justify-content: center;
-
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  padding: 0px;
-
-  background: #fff;
-  // border: 2px solid #666;
-  // color: #666;
-  text-align: center;
-  color: white;
-
-  // font: 15px Arial, sans-serif;
 }

@@ -1,14 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { OntoVisSearch } from '../models/ontology/onto-vis.model';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
-import { OntoData, OntoDataSearch, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
-import { OntoDataFilterVm } from '../models/ontology/onto-data-filter.vm';
+import { OntoData, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
 import { OntoVisMainTableComponent } from '../components/onto-vis/main-table/main-table.component';
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
@@ -18,7 +20,7 @@ import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-pag
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 import { OntoPageService } from '../services/ontology/onto-page.service';
-import { DataStreamKeywordsToDropdown } from '../services/ontology/data-stream-keywords.service';
+import { DataStreamKeywordsArr, DataStreamKeywordsToDropdown } from '../services/ontology/data-stream-keywords.service';
 
 @Component({
     selector: 'app-propagation',
@@ -53,7 +55,6 @@ export class PropagationComponent implements OnInit {
         private localNotificationService: LocalNotificationService,
         private errorHandler2Service: ErrorHandler2Service
     ) {
-        this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
         this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map(
             (d) => PROPAGATION_TYPE[d]
         );
@@ -82,6 +83,7 @@ export class PropagationComponent implements OnInit {
             });
 
         this.ngOnInit_dataSearch();
+        this.ngOnInit_dataSearch1();
     }
 
     ngAfterViewInit(): void {}
@@ -152,16 +154,238 @@ export class PropagationComponent implements OnInit {
     }
 
     //
-    // Search data and link
+    // Build search from using keywords and data-types from example stream and adding new keywords
     //
+    readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+    ngOnInit_dataSearch() {
+        // keyword
+        this.allKeywords = DataStreamKeywordsArr();
+
+        const _filterKeyword = (value: string): string[] => {
+            const filterValue = value.toLowerCase();
+            return this.allKeywords.filter((d) => d.toLowerCase().indexOf(filterValue) === 0);
+        };
+
+        this.filteredKeywords1$ = this.keywordInputCtrl1.valueChanges.pipe(
+            startWith(null),
+            map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
+        );
+
+        this.filteredKeywords2$ = this.keywordInputCtrl2.valueChanges.pipe(
+            startWith(null),
+            map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
+        );
+
+        this.filteredKeywords3$ = this.keywordInputCtrl3.valueChanges.pipe(
+            startWith(null),
+            map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
+        );
+
+        // data type
+        this.allDataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+
+        const _filterDataType = (value: string): string[] => {
+            const filterValue = value.toLowerCase();
+            return this.allDataTypes.filter((d) => d.toLowerCase().indexOf(filterValue) === 0);
+        };
+
+        this.filteredDataTypes$ = this.dataTypeInputCtrl.valueChanges.pipe(
+            startWith(null),
+            map((d: string | null) => (d ? _filterDataType(d) : this.allDataTypes.slice()))
+        );
+    }
+
+    /**
+     * Keywords
+     * 1: must, 2: should, 3: must not
+     */
+    allKeywords!: string[];
+    selectedKeywords: any = {};
+    selectedKeywords1: string[] = [];
+    selectedKeywords2: string[] = [];
+    selectedKeywords3: string[] = [];
+
+    @ViewChild('keywordInput1') keywordInput1!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl1 = new FormControl();
+    filteredKeywords1$!: Observable<string[]>;
+
+    @ViewChild('keywordInput2') keywordInput2!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl2 = new FormControl();
+    filteredKeywords2$!: Observable<string[]>;
+
+    @ViewChild('keywordInput3') keywordInput3!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl3 = new FormControl();
+    filteredKeywords3$!: Observable<string[]>;
+
+
+    onUpdateKeywords(kw: any) {
+        this.selectedKeywords = kw;
+        this.updateSelectedKeywords1();
+        this.updateSelectedKeywords2();
+        this.updateSelectedKeywords3();
+
+    }
+
+    onClickRemoveKeyword1(kw: string) {
+        delete this.selectedKeywords[kw];
+        this.updateSelectedKeywords1();
+    }
+
+    onClickRemoveKeyword2(kw: string) {
+        delete this.selectedKeywords[kw];
+        this.updateSelectedKeywords2();
+    }
+
+    onClickRemoveKeyword3(kw: string) {
+        delete this.selectedKeywords[kw];
+        this.updateSelectedKeywords3();
+    }
+
+    onInputKeyword1(event: MatAutocompleteSelectedEvent): void {
+        const kw = event.option.viewValue;
+        console.log('onInputKeyword1: ', kw);
+
+        if (!this.selectedKeywords[kw]) {
+            this.selectedKeywords[kw] = { state: 1, from: 'nw' };
+        }
+        this.updateSelectedKeywords1();
+
+        this.keywordInput1.nativeElement.value = '';
+        this.keywordInputCtrl1.setValue(null);
+    }
+
+    onInputKeyword2(event: MatAutocompleteSelectedEvent): void {
+        const kw = event.option.viewValue;
+        console.log('onInputKeyword2: ', kw);
+
+        if (!this.selectedKeywords[kw]) {
+            this.selectedKeywords[kw] = { state: 2, from: 'nw' };
+        }
+        this.updateSelectedKeywords2();
+
+        this.keywordInput2.nativeElement.value = '';
+        this.keywordInputCtrl2.setValue(null);
+    }
+
+    onInputKeyword3(event: MatAutocompleteSelectedEvent): void {
+        const kw = event.option.viewValue;
+        console.log('onInputKeyword3: ', kw);
+
+        if (!this.selectedKeywords[kw]) {
+            this.selectedKeywords[kw] = { state: 3, from: 'nw' };
+        }
+        this.updateSelectedKeywords3();
+
+        this.keywordInput3.nativeElement.value = '';
+        this.keywordInputCtrl3.setValue(null);
+    }
+
+
+    private updateSelectedKeywords1() {
+        this.selectedKeywords1 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 1);
+        console.log('updateSelectedKeywords1: ', this.selectedKeywords1);
+    }
+
+    private updateSelectedKeywords2() {
+        this.selectedKeywords2 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 2);
+        console.log('updateSelectedKeywords2: ', this.selectedKeywords2);
+    }
+
+    private updateSelectedKeywords3() {
+        this.selectedKeywords3 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 3);
+        console.log('updateSelectedKeywords3: ', this.selectedKeywords3);
+    }
+
+    onEnterAddKeyword1(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+        console.log('onEnterAddDataTypeChip: ', input, value);
+        // not implemented
+    }
+
+    onEnterAddKeyword2(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+        console.log('onEnterAddDataTypeChip: ', input, value);
+        // not implemented
+    }
+
+    onEnterAddKeyword3(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+        console.log('onEnterAddDataTypeChip: ', input, value);
+        // not implemented
+    }
+
+    /**
+     * Data-type filter
+     */
+
+    allDataTypes!: string[];
+    selectedDataTypes: any = {};
+    selectedDataTypes_: string[] = [];
+
+    @ViewChild('dataTypeInput') dataTypeInput!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto') matAutocomplete!: MatAutocomplete;
+    dataTypeInputCtrl = new FormControl();
+    filteredDataTypes$!: Observable<string[]>;
+
+    onUpdateDataTypes(dt: any) {
+        this.selectedDataTypes = dt;
+        this.updateSelectedDataTypes_();
+    }
+
+    onClickRemoveDataType(dt: string) {
+        delete this.selectedDataTypes[dt];
+        this.updateSelectedDataTypes_();
+    }
+
+    onInputDataType(event: MatAutocompleteSelectedEvent): void {
+        const dt = event.option.viewValue;
+        console.log('onInputDataType: ', dt);
+
+        if (!this.selectedDataTypes[dt]) {
+            this.selectedDataTypes[dt] = { state: 1, from: 'nw' };
+        }
+        this.updateSelectedDataTypes_();
+
+        this.dataTypeInput.nativeElement.value = '';
+        this.dataTypeInputCtrl.setValue(null);
+    }
+
+    onEnterAddDataType(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+        console.log('onEnterAddDataTypeChip: ', input, value);
+        // not implemented
+    }
+
+    private updateSelectedDataTypes_() {
+        this.selectedDataTypes_ = Object.keys(this.selectedDataTypes).filter(
+            (d) => this.selectedDataTypes[d].state === 1
+        );
+        console.log('updateSelectedDataTypes_: ', this.selectedDataTypes_);
+    }
+
+
+
+
+
+
+
+
+
 
     // Data search form
     public ontoDataSearchFormGroup!: FormGroup;
-    dataTypes: string[] = [];
+    //allDataTypes: string[] = [];
     // Multi-level selection of keywords
     grpKeywords = DataStreamKeywordsToDropdown();
-    selectedDataTypes = [];
-
+    //selectedDataTypes = [];
 
     // Search data result in group
     public ontoDataSearchGroups!: OntoDataSearchGroup[];
@@ -174,15 +398,12 @@ export class PropagationComponent implements OnInit {
     // Access by reference as multiple data tables exists
     @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
 
-    ngOnInit_dataSearch() {
-        this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
-
+    ngOnInit_dataSearch1() {
         this.ontoDataSearchFormGroup = this.fb.group({
             searchDataType: new FormControl('', [Validators.required]),
             searchKeywords1: new FormControl('', [Validators.required]),
             searchKeywords2: new FormControl('', [Validators.required]),
         });
-
     }
 
     public onClickSearchOntoData() {
@@ -247,11 +468,6 @@ export class PropagationComponent implements OnInit {
         }
     }
 
-
-
-
-
-
     //
     // Propagation
     //
@@ -274,7 +490,6 @@ export class PropagationComponent implements OnInit {
         });
     }
 
-
     /**
      * Used by autocomplete UI
      */
@@ -283,5 +498,4 @@ export class PropagationComponent implements OnInit {
         input.setSelectionRange(0, 0);
         input.focus();
     }
-
 }

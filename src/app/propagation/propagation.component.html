@@ -12,6 +12,7 @@
       </div>
 
       <div class="card-body">
+        <!-- VIS search form-->
         <form [formGroup]="ontoVisSearchFormGroup" class="vis-search">
           <mat-form-field>
             <input
@@ -19,12 +20,12 @@
               type="text"
               [(ngModel)]="searchOntoVisQuery"
               formControlName="ontoVisSearchQuery"
-              [matAutocomplete]="auto1"
+              [matAutocomplete]="autoCompVis"
               placeholder="Search VIS functions"
               #input1
               (keydown.enter)="onClickSearchOntoVis()"
             />
-            <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="optionSelected(input1)">
+            <mat-autocomplete #autoCompVis="matAutocomplete" (optionSelected)="optionSelected(input1)">
               <mat-option *ngFor="let d of suggestedOntoVis" [value]="d.function">
                 <span [innerHTML]="d.function | highlight: highlightOntoVisSearchSuggestion"></span>
               </mat-option>
@@ -56,7 +57,12 @@
             <mat-card-title>Data</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-group [data]="exampleOntoData"> </app-onto-data-group>
+          <app-onto-data-ex-group
+            [data]="exampleOntoData"
+            (onChangeKeywords)="onUpdateKeywords($event)"
+            (onChangeDataTypes)="onUpdateDataTypes($event)"
+          >
+          </app-onto-data-ex-group>
         </mat-card>
 
         <!-- VIS example page table-->
@@ -82,88 +88,278 @@
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <mat-icon>storage</mat-icon>
+          <mat-icon>search</mat-icon>
         </div>
-        <h4 class="card-title">Propagation</h4>
+        <h4 class="card-title">Search</h4>
       </div>
       <div class="card-body">
-        <!--Search data-->
-        <form [formGroup]="ontoDataSearchFormGroup">
 
-          <div class="row">
-            <div class="col-md-2">
-              <ng-select
-                [items]="dataTypes"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [hideSelected]="true"
-                bindLabel="name"
-                placeholder="Filter Datatype "
-                formControlName="searchDataType"
-              >
-              </ng-select>
-            </div>
+        <!--Data /group search form-->
+        <div class="row">
+          <div class="col-md-9">
 
-            <!--
-              <mat-divider [vertical]="true" class="divider"></mat-divider>
-            -->
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Search Criteria</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+              </mat-card-header>
 
-            <div class="col-md-5 align-centered-flex">
-              <ng-select
-                [items]="grpKeywords"
-                bindLabel="name"
-                bindValue="name"
-                groupBy="subGroup"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [selectableGroup]="true"
-                [selectableGroupAsModel]="false"
-                formControlName="searchKeywords1"
-                placeholder="AND Keywords"
-              >
-              <ng-template ng-optgroup-tmp let-item="item">
-                {{item.name}}
-              </ng-template>
-              <ng-template ng-option-tmp let-item="item">
-                {{item.name}}
-              </ng-template>
-              </ng-select>
-            </div>
+              <form [formGroup]="ontoDataSearchFormGroup">
+                <mat-form-field>
+                  <mat-label>Keywords (Must)</mat-label>
+                  <mat-chip-list #keywordChipList1 aria-label="Must">
+                    <mat-chip
+                      *ngFor="let d of selectedKeywords1"
+                      [selectable]="false"
+                      [removable]="true"
+                      (removed)="onClickRemoveKeyword1(d)"
+                      [ngClass]="
+                        selectedKeywords[d]?.state
+                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
+                          : 'keyword-chip-color'
+                      "
+                    >
+                      {{ d }}
+                      <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      placeholder="..."
+                      #keywordInput1
+                      [formControl]="keywordInputCtrl1"
+                      [matAutocomplete]="autoKeyword1"
+                      [matChipInputFor]="keywordChipList1"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      (matChipInputTokenEnd)="onEnterAddKeyword1($event)"
+                    />
+                  </mat-chip-list>
+                  <mat-autocomplete #autoKeyword1="matAutocomplete" (optionSelected)="onInputKeyword1($event)">
+                    <mat-option *ngFor="let d of filteredKeywords1$ | async" [value]="d">
+                      {{ d }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
 
-            <div class="col-md-5 align-centered-flex">
-              <ng-select
-                [items]="grpKeywords"
-                bindLabel="name"
-                bindValue="name"
-                groupBy="subGroup"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [selectableGroup]="true"
-                [selectableGroupAsModel]="false"
-                formControlName="searchKeywords2"
-                placeholder="OR Keywords"
-              >
-              <ng-template ng-optgroup-tmp let-item="item">
-                {{item.name}}
-              </ng-template>
-              <ng-template ng-option-tmp let-item="item">
-                {{item.name}}
-              </ng-template>
-              </ng-select>
+                <mat-form-field>
+                  <mat-label>Keywords (Should)</mat-label>
+                  <mat-chip-list #keywordChipList2 aria-label="Should">
+                    <mat-chip
+                      *ngFor="let d of selectedKeywords2"
+                      [selectable]="false"
+                      [removable]="true"
+                      (removed)="onClickRemoveKeyword2(d)"
+                      [ngClass]="
+                        selectedKeywords[d]?.state
+                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
+                          : 'keyword-chip-color'
+                      "
+                    >
+                      {{ d }}
+                      <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      placeholder="..."
+                      #keywordInput2
+                      [formControl]="keywordInputCtrl2"
+                      [matAutocomplete]="autoKeyword2"
+                      [matChipInputFor]="keywordChipList2"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      (matChipInputTokenEnd)="onEnterAddKeyword2($event)"
+                    />
+                  </mat-chip-list>
+                  <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onInputKeyword2($event)">
+                    <mat-option *ngFor="let d of filteredKeywords2$ | async" [value]="d">
+                      {{ d }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
 
-              <button
-                (click)="onClickSearchOntoData()"
-                [disabled]="!ontoDataSearchFormGroup.valid"
-                class="btn btn-primary btn-round btn-fab float-right card-btn"
-                type="submit"
-              >
-                <mat-icon>search</mat-icon>
-              </button>
-            </div>
+                <mat-form-field>
+                  <mat-label>Keywords (Must not)</mat-label>
+                  <mat-chip-list #keywordChipList3 aria-label="Should">
+                    <mat-chip
+                      *ngFor="let d of selectedKeywords3"
+                      [selectable]="false"
+                      [removable]="true"
+                      (removed)="onClickRemoveKeyword3(d)"
+                      [ngClass]="
+                        selectedKeywords[d]?.state
+                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
+                          : 'keyword-chip-color'
+                      "
+                    >
+                      {{ d }}
+                      <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      placeholder="..."
+                      #keywordInput3
+                      [formControl]="keywordInputCtrl3"
+                      [matAutocomplete]="autoKeyword3"
+                      [matChipInputFor]="keywordChipList3"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      (matChipInputTokenEnd)="onEnterAddKeyword3($event)"
+                    />
+                  </mat-chip-list>
+                  <mat-autocomplete #autoKeyword3="matAutocomplete" (optionSelected)="onInputKeyword3($event)">
+                    <mat-option *ngFor="let d of filteredKeywords3$ | async" [value]="d">
+                      {{ d }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Data type (Filter)</mat-label>
+                  <mat-chip-list #dataTypeChipList aria-label="Data type">
+                    <mat-chip
+                      *ngFor="let d of selectedDataTypes_"
+                      [selectable]="false"
+                      [removable]="true"
+                      (removed)="onClickRemoveDataType(d)"
+                      [ngClass]="selectedDataTypes[d]?.state ? 'datatype-chip-color-1' : 'datatype-chip-color'"
+                    >
+                      {{ d }}
+                      <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      placeholder="..."
+                      #dataTypeInput
+                      [formControl]="dataTypeInputCtrl"
+                      [matAutocomplete]="autoDataType"
+                      [matChipInputFor]="dataTypeChipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      (matChipInputTokenEnd)="onEnterAddDataType($event)"
+                    />
+                  </mat-chip-list>
+                  <mat-autocomplete #autoDataType="matAutocomplete" (optionSelected)="onInputDataType($event)">
+                    <mat-option *ngFor="let d of filteredDataTypes$ | async" [value]="d">
+                      {{ d }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <button
+                  (click)="onClickSearchOntoData()"
+                  [disabled]="!ontoDataSearchFormGroup.valid"
+                  class="btn btn-primary float-right card-btn"
+                  type="submit"
+                >
+                  <mat-icon>search</mat-icon>
+                </button>
+
+                <!--
+
+                <div class="row">
+
+                  <div class="col-md-2">
+                    <ng-select
+                      [items]="dataTypes"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [hideSelected]="true"
+                      bindLabel="name"
+                      placeholder="Filter Datatype "
+                      formControlName="searchDataType"
+                    >
+                    </ng-select>
+                  </div>
+
+                  <mat-divider [vertical]="true" class="divider"></mat-divider>
+
+                  <div class="col-md-5 align-centered-flex">
+                    <ng-select
+                      [items]="grpKeywords"
+                      bindLabel="name"
+                      bindValue="name"
+                      groupBy="subGroup"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [selectableGroup]="true"
+                      [selectableGroupAsModel]="false"
+                      formControlName="searchKeywords1"
+                      placeholder="AND Keywords"
+                    >
+                    <ng-template ng-optgroup-tmp let-item="item">
+                      {{item.name}}
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.name}}
+                    </ng-template>
+                    </ng-select>
+                  </div>
+
+                  <div class="col-md-5 align-centered-flex">
+                    <ng-select
+                      [items]="grpKeywords"
+                      bindLabel="name"
+                      bindValue="name"
+                      groupBy="subGroup"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [selectableGroup]="true"
+                      [selectableGroupAsModel]="false"
+                      formControlName="searchKeywords2"
+                      placeholder="OR Keywords"
+                    >
+                    <ng-template ng-optgroup-tmp let-item="item">
+                      {{item.name}}
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.name}}
+                    </ng-template>
+                    </ng-select>
+
+                    <button
+                      (click)="onClickSearchOntoData()"
+                      [disabled]="!ontoDataSearchFormGroup.valid"
+                      class="btn btn-primary btn-round btn-fab float-right card-btn"
+                      type="submit"
+                    >
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                -->
+              </form>
+            </mat-card>
           </div>
-        </form>
 
-        <!-- SPropagation button -->
+          <div class="col-md-3">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Ranking Parameters</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+              </mat-card-header>
+
+              <form>
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Keyword field weightage</mat-label>
+                        <input matInput placeholder="" value="0.8" />
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Description field weightage</mat-label>
+                        <input matInput placeholder="" value="0.2" />
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+
+                <mat-form-field>
+                  <mat-label>Minimum number should match</mat-label>
+                  <input matInput placeholder="" value="2" />
+                </mat-form-field>
+
+                <mat-checkbox checked="true">Cluster</mat-checkbox>
+              </form>
+            </mat-card>
+          </div>
+        </div>
+
+        <!-- Propagation button -->
         <div class="row">
           <div class="col-md-1 offset-md-11">
             <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
@@ -200,12 +396,8 @@
       </div>
     </div>
 
-    <!--
-      End- Card search data
-    -->
-
+    <!--End- Card search data-->
   </div>
   <!--End container-fluid-->
-
 </div>
 <!--End main-content-->

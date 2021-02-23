@@ -17,9 +17,7 @@
   <ng-container matColumnDef="type">
     <th *matHeaderCellDef mat-header-cell>Type</th>
     <td *matCellDef="let row" mat-cell>
-      <mat-chip-list>
-        <mat-chip *ngIf="row.type">{{ row.type }}</mat-chip>
-      </mat-chip-list>
+      {{ row.type  }}
     </td>
   </ng-container>
 
@@ -36,7 +34,7 @@
 
   <ng-container matColumnDef="description">
     <th *matHeaderCellDef mat-header-cell>Description</th>
-    <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "75" }}</td>
   </ng-container>
 
     <!-- Action Column -->

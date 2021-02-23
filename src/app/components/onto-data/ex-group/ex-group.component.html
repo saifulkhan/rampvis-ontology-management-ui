@@ -1,0 +1,111 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  (cdkDropListDropped)="drop($event)"
+>
+  <ng-container matColumnDef="index">
+    <th *matHeaderCellDef mat-header-cell>Index</th>
+    <td *matCellDef="let row; let i = index" mat-cell>
+      <b style="color: #F4A460">D{{ i + 1 }}</b>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="endpoint">
+    <th *matHeaderCellDef mat-header-cell>Endpoint</th>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell>Description</th>
+    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "75" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="dataType">
+    <th *matHeaderCellDef mat-header-cell>Type</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip
+          [selectable]="true"
+          [removable]="false"
+          (click)="onClickDataTypeChip(row.dataType)"
+          [ngClass]="dataTypeMap[row.dataType]?.state ? 'datatype-chip-color-1' : 'datatype-chip-color'"
+        >
+        {{ row.dataType }}
+        <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->
+        </mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="keywords">
+    <th *matHeaderCellDef mat-header-cell>Keywords</th>
+    <td *matCellDef="let row" mat-cell>
+      <mat-chip-list>
+        <mat-chip
+          *ngFor="let d of row.keywords"
+          [selectable]="true"
+          [removable]="false"
+          (click)="onClickKeywordChip(d)"
+          [ngClass]="keywordMap[d]?.state ? 'keyword-chip-color-' + keywordMap[d]?.state : 'keyword-chip-color'"
+        >
+          {{ d }}
+          <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->
+        </mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
+    <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
+      <button
+        mat-icon-button
+        cdkCopyToClipboard="{{ row.id }}"
+        [matTooltipPosition]="'left'"
+        class="btn btn-light btn-link"
+        matTooltip="Copy ID to clipboard"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        (click)="onClickViewData(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        matTooltip="View"
+      >
+        <mat-icon>grid_on</mat-icon>
+      </button>
+
+      <button
+        *ngIf="editBasket"
+        mat-icon-button
+        (click)="onClickRemove(row)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+
+      <button
+        *ngIf="editBasket"
+        mat-icon-button
+        cdkDragHandle
+        [matTooltipPosition]="'left'"
+        class="btn btn-warning btn-link"
+        matTooltip="Remove"
+      >
+        <mat-icon>reorder</mat-icon>
+      </button>
+
+    </td>
+  </ng-container>
+
+  <!-- <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr> -->
+  <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr>
+</table>

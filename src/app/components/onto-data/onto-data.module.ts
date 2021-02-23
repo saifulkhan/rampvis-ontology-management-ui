@@ -16,6 +16,7 @@ import { OntoDataEditComponent } from './edit/edit.component';
 import { OntoDataGroupComponent } from './group/group.component';
 import { OntoDataSearchTableComponent } from './search-table/search-table.component';
 import { OntoDataGroupTableComponent } from './group-table/group-table.component';
+import { OntoDataExGroupComponent } from './ex-group/ex-group.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { OntoDataGroupTableComponent } from './group-table/group-table.component
       OntoDataEditComponent,
       OntoDataShowComponent,
       OntoDataGroupComponent,
+      OntoDataExGroupComponent,
       OntoDataGroupTableComponent,
     ],
     imports: [
@@ -41,6 +43,7 @@ import { OntoDataGroupTableComponent } from './group-table/group-table.component
     exports: [
       OntoDataMainTableComponent,
       OntoDataGroupComponent,
+      OntoDataExGroupComponent,
       OntoDataSearchTableComponent,
       OntoDataEditComponent,
       OntoDataShowComponent,

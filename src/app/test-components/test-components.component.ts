@@ -1,9 +1,9 @@
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, NgZone, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { of, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 
 import { CustomSingleSelectionData } from '../components/custom-single-selection/custom-single-selection.component';
 import { OntoVis } from '../models/ontology/onto-vis.model';
@@ -16,7 +16,16 @@ import { OntoDataSearchFilterVm } from '../models/ontology/onto-data-search-filt
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+interface KeywordsState {
+    name: string;
+    state: number;
+    from: string;
+}
 
 export interface PeriodicElement {
     name: string;
@@ -42,9 +51,117 @@ export class TestComponentsComponent {
         this.ngOnInit_CustomSelection();
         this.ngOnInit_MultipleTableDragAndDrop();
         this.ngOnInit_OntoDataSearchAndAddToBasket();
+
+        this.ngOnInit_KeywordsSelection();
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Keyword selection
     //
+
+    readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+    // Data table
+    kwList1: any[] = ['xl', 'scotland', 'fife', 'icu'];
+    kwList2: any[] = ['xl', 'scotland', 'fife', 'confirmed'];
+
+    // All keywords
+    keywords = ['xl', 'scotland',
+                'fife', 'edinburgh', 'glasgow',
+                'icu', 'confirmed', 'suspected', 'cumulative']
+
+    // selected keywords and state
+    kwSelectionMap: any = {
+        // 'xl': {state: 0, from: 'e' },
+        // 'scotland': {state: 0, from: 'e' },
+        // 'fife': {state: 0, from: 'e' },
+        // 'icu': {state: 0, from: 'e' },
+        // 'hospital': {state: 0, from: 'e' },
+    };
+
+    @ViewChild('kwInput') kwInput!: ElementRef<HTMLInputElement>;
+    @ViewChild('auto') matAutocomplete!: MatAutocomplete;
+    keywordsCtrl = new FormControl();
+    shouldKeywordsCtrl = new FormControl();
+    mustNotKeywordsCtrl = new FormControl();
+    filteredKeywords!: Observable<string[]>;
+
+    mustChipList: string[] = [];
+    shouldChipList: string[] = [];
+    mustNotChipList: string[] = [];
+
+    ngOnInit_KeywordsSelection() {
+        this.filteredKeywords = this.keywordsCtrl.valueChanges.pipe(
+            startWith(null),
+            map((d: string | null) => d ? this._filter(d) : this.keywords.slice()));
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.keywords.filter(d => d.toLowerCase().indexOf(filterValue) === 0);
+    }
+
+    onClickChip(kw: string) {
+        console.log('onClickChip: ', kw);
+
+        if (!this.kwSelectionMap[kw]) {
+            this.kwSelectionMap[kw] = { state: 1, from: 'ex' };
+        } else if (this.kwSelectionMap[kw].state < 3) {
+            this.kwSelectionMap[kw].state += 1;
+        } else {
+            delete this.kwSelectionMap[kw];
+        }
+
+        console.table(this.kwSelectionMap);
+        this.updateChipState(kw);
+    }
+
+    onClickRemoveChip(kw: string) {
+        console.log('onClickRemoveChip: ', kw);
+        delete this.kwSelectionMap[kw];
+        this.updateChipState(kw);
+    }
+
+    updateChipState(kw: string) {
+        // if (this.kwSelectionMap[kw].state === 1) {
+        //     this.mustChipList
+        // }
+        this.mustChipList = Object.keys(this.kwSelectionMap).filter((d) => this.kwSelectionMap[d].state === 1);
+        this.shouldChipList = Object.keys(this.kwSelectionMap).filter((d) => this.kwSelectionMap[d].state === 2);
+        this.mustNotChipList = Object.keys(this.kwSelectionMap).filter((d) => this.kwSelectionMap[d].state === 3);
+    }
+
+    onSelectedChip(event: MatAutocompleteSelectedEvent): void {
+        const kw = event.option.viewValue;
+        console.log('onSelectedChip: ', kw);
+
+        if (!this.kwSelectionMap[kw]) {
+            this.kwSelectionMap[kw] = { state: 1, from: 'nw' };
+        }
+        this.updateChipState(kw);
+
+        this.kwInput.nativeElement.value = '';
+        this.keywordsCtrl.setValue(null);
+    }
+
+    // We will use from dropdown selection
+    onEnterAddChip(event: MatChipInputEvent): void {
+        const input = event.input;
+        const value = event.value;
+        console.log('onEnterAddChip: ', input, value);
+
+        // // Add our fruit
+        // if ((value || '').trim()) {
+        //     this.fruits.push({ name: value.trim() });
+        // }
+
+        // // Reset the input value
+        // if (input) {
+        //     input.value = '';
+        // }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Custom Selection test
     //
 
@@ -222,5 +339,4 @@ export class TestComponentsComponent {
         input.setSelectionRange(0, 0);
         input.focus();
     }
-
 }

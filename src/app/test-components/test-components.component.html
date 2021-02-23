@@ -1,13 +1,143 @@
 <div class="main-content dashboard-wrap">
   <div class="container-fluid page-wrap">
 
+    <!------------------------------------------------------------------------------------------------------------------------------->
+    <!--
+       Chip color state experiment
+    -->
+    <h2>Experiment with chips</h2>
+    <h3>Example</h3>
+
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let d of kwList1"
+        [selectable]="true"
+        [removable]="false"
+        (click)="onClickChip(d)"
+        [ngClass]="'chip-state-color-' + kwSelectionMap[d]?.state"
+      >
+        {{ d }}
+        <mat-icon matChipTrailingIcon>chevron_right</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let d of kwList2"
+        [selectable]="true"
+        [removable]="false"
+        (click)="onClickChip(d)"
+        [ngClass]="'chip-state-color-' + kwSelectionMap[d]?.state"
+      >
+        {{ d }}
+        <mat-icon matChipTrailingIcon>chevron_right</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+
+    <h3>Query</h3>
+
+
+    <mat-form-field class="example-chip-list">
+      <mat-label>Must</mat-label>
+      <mat-chip-list #chipList aria-label="Must keywords selection">
+        <mat-chip
+          *ngFor="let d of mustChipList"
+          [selectable]="false"
+          [removable]="true"
+          (removed)="onClickRemoveChip(d)"
+          [ngClass]="'chip-state-color-' + kwSelectionMap[d]?.state"
+        >
+          {{ d }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="..."
+          #kwInput
+          [formControl]="keywordsCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="onEnterAddChip($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectedChip($event)">
+        <mat-option *ngFor="let d of filteredKeywords | async" [value]="d">
+          {{ d }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+
+    <mat-form-field class="example-chip-list">
+      <mat-label>Should</mat-label>
+      <mat-chip-list #chipList aria-label="Should keywords selection">
+        <mat-chip
+          *ngFor="let d of shouldChipList"
+          [selectable]="false"
+          [removable]="true"
+          (removed)="onClickRemoveChip(d)"
+          [ngClass]="'chip-state-color-' + kwSelectionMap[d]?.state"
+        >
+          {{ d }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="..."
+          #kwInput
+          [formControl]="shouldKeywordsCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="onClickAddChip($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectedChip($event)">
+        <mat-option *ngFor="let d of filteredKeywords | async" [value]="d">
+          {{ d }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <mat-form-field class="example-chip-list">
+      <mat-label>Must Not</mat-label>
+      <mat-chip-list #chipList aria-label="Must not keywords selection">
+        <mat-chip
+          *ngFor="let d of mustNotChipList"
+          [selectable]="false"
+          [removable]="true"
+          (removed)="onClickRemoveChip(d)"
+          [ngClass]="kwSelectionMap[d]?.state ? 'chip-state-color-' + kwSelectionMap[d]?.state : 'chip-state-color-0'"
+        >
+          {{ d }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="..."
+          #kwInput
+          [formControl]="mustNotKeywordsCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="onClickAddChip($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectedChip($event)">
+        <mat-option *ngFor="let d of filteredKeywords | async" [value]="d">
+          {{ d }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!------------------------------------------------------------------------------------------------------------------------------->
+
+
     <h2>Multiple drag and drop table experiment</h2>
 
     <div class="row">
       <!--
-
         Begin - Multiple drag and drop table experiment
-
       -->
 
       <mat-table
@@ -52,7 +182,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag></mat-row>
       </mat-table>
 
-      <p style="margin-bottom:1cm;"> - </p>
+      <p style="margin-bottom: 1cm">-</p>
 
       <mat-table
         [dataSource]="dataSource2"
@@ -167,10 +297,7 @@
               (keydown.enter)="onClickSearchOntoData()"
             />
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected(input)">
-              <mat-option
-                *ngFor="let d of suggestedOntoData"
-                [value]="d.description + ' ' + d.keywords.join(', ')"
-              >
+              <mat-option *ngFor="let d of suggestedOntoData" [value]="d.description + ' ' + d.keywords.join(', ')">
                 <span [innerHTML]="d.description | highlight: highlightOntoDataSearchSuggestion"></span>
                 <b> | </b>
                 <span [innerHTML]="d.keywords.join(', ') | highlight: highlightOntoDataSearchSuggestion"></span>
