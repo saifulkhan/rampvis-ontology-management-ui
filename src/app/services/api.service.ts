@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class APIService {
     private endpoint!: string;
-    private path: string = '';
     private authToken!: string;
 
     constructor(private http: HttpClient) {
@@ -18,8 +17,8 @@ export class APIService {
 
     getHeaders(json: boolean = true) {
         let headers = new HttpHeaders()
-        .set('Accept', 'application/json')
-        .set('Authorization', 'Bearer ' + (this.authToken || ''));
+            .set('Accept', 'application/json')
+            .set('Authorization', 'Bearer ' + (this.authToken || ''));
 
         if (json) {
             headers = headers.set('Content-Type', 'application/json');
@@ -46,9 +45,6 @@ export class APIService {
             return url;
         }
 
-        // if (!this.path) {
-        //     throw new Error('invalid path');
-        // }
         if (!url.startsWith('/')) {
             url = '/' + url;
         }
@@ -63,37 +59,24 @@ export class APIService {
     // HTTP Methods
 
     get<T extends any>(url: string): Observable<T> {
-        return this.http.get<T>(this.getEndpoint(url), this.getHeaders(false))
-        .pipe(
-            map((resp) => resp as T)
-        );
+        return this.http.get<T>(this.getEndpoint(url), this.getHeaders(false)).pipe(map((resp) => resp as T));
     }
 
     post<T extends any>(url: string, body: T): Observable<T> {
-        return this.http.post<T>(this.getEndpoint(url), body, this.getHeaders())
-        .pipe(
-            map((resp) => resp as T)
-        );
+        return this.http.post<T>(this.getEndpoint(url), body, this.getHeaders()).pipe(map((resp) => resp as T));
     }
 
     put<T extends any>(url: string, body: T): Observable<T> {
-        return this.http.put<T>(this.getEndpoint(url), JSON.stringify(body), this.getHeaders())
-        .pipe(
-            map((resp) => resp as T)
-        );
+        return this.http
+            .put<T>(this.getEndpoint(url), JSON.stringify(body), this.getHeaders())
+            .pipe(map((resp) => resp as T));
     }
 
     patch<T extends any>(url: string, body: T): Observable<T> {
-        return this.http.patch<T>(this.getEndpoint(url), body, this.getHeaders())
-        .pipe(
-            map((resp) => resp as T)
-        );
+        return this.http.patch<T>(this.getEndpoint(url), body, this.getHeaders()).pipe(map((resp) => resp as T));
     }
 
     delete<T extends any>(url: string): Observable<T> {
-        return this.http.delete<T>(this.getEndpoint(url), this.getHeaders(false))
-        .pipe(
-            map((resp) => resp as T)
-        );
+        return this.http.delete<T>(this.getEndpoint(url), this.getHeaders(false)).pipe(map((resp) => resp as T));
     }
 }

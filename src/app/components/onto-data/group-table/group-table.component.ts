@@ -14,7 +14,7 @@ import { OntoData, OntoDataSearchGroup } from '../../../models/ontology/onto-dat
     styleUrls: ['./group-table.component.scss'],
 })
 export class OntoDataGroupTableComponent implements OnInit {
-    @Input() data!: OntoDataSearchGroup[];
+    @Input() data!: Array<OntoData[]>;
     @Output() onClickPropagate: EventEmitter<number> = new EventEmitter<number>();
     @Output() onClickRemove: EventEmitter<number> = new EventEmitter<number>();
 
@@ -24,7 +24,7 @@ export class OntoDataGroupTableComponent implements OnInit {
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
-    public dataSource: MatTableDataSource<OntoDataSearchGroup> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<any> = new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['group', 'actions'],
         dataRows: [],

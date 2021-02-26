@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+
 import { MaterialModule } from './material.module';
 import { AppComponent } from './app.component';
 
@@ -65,19 +66,19 @@ import { environment } from '../environments/environment';
     declarations: [AppComponent, NotFoundComponent, PublicLayoutComponent],
     providers: [
         AnonymousGuard,
-        ErrorHandler2Service, 
+        ErrorHandler2Service,
         { provide: ErrorHandler, useClass: ErrorHandler1Service },
-        JQUERY_PROVIDER, 
+        JQUERY_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         LocalNotificationService,
-        DialogService, 
-        APIService, 
-        AuthenticationService, 
-        HelperService, 
-        AuthorizationService, 
-        AuthorizationGuard, 
-        UtilService, 
-        NotificationService
+        DialogService,
+        APIService,
+        AuthenticationService,
+        HelperService,
+        AuthorizationService,
+        AuthorizationGuard,
+        UtilService,
+        NotificationService,
     ],
     bootstrap: [AppComponent],
 })

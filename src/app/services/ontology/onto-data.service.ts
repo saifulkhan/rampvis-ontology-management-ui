@@ -7,12 +7,14 @@ import { PaginationModel } from '../../models/pagination.model';
 import { DATA_TYPE } from '../../models/ontology/onto-data-types';
 import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 import { OntoDataSearchFilterVm } from '../../models/ontology/onto-data-search-filter.vm';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class OntoDataService {
     private url = '/ontology/data';
+    private py_url = environment.components.API_PY;
 
     constructor(private api: APIService) {}
 
@@ -76,5 +78,52 @@ export class OntoDataService {
     public searchGroup(visId: string): Observable<OntoDataSearchGroup> {
         let url: string = `${this.url}/search-group/?visId=${visId}`;
         return this.api.get(url);
+    }
+
+    public searchMatchingGroups(query: any): Observable<any> {
+        let url: string = `${this.py_url}/search/data`;
+
+        /*
+        // Mock query
+        let data = {
+            "visId": "601022c2a85e9d3756f1df9d",
+            "mustKeys": [
+                "scotland",
+                "xl"
+            ],
+            "shouldKeys": [
+                "cumulative_cases",
+                "hospital_confirmed",
+                "hospital_suspected",
+                "icu_patients",
+                "Ayrshire_Arran",
+                "Borders",
+                "Dumfries_Galloway",
+                "Fife",
+                "Forth_Valley",
+                "Grampian",
+                "Greater_Glasgow_Clyde",
+                "Highland",
+                "Lanarkshire",
+                "Lothian",
+                "Orkney",
+                "Shetland",
+                "Tayside",
+                "Western_Isles",
+                "Golden_Jubilee_National_Hospital"
+            ],
+            "filterKeys": [
+                "timeseries",
+                "cum_timeseries"
+            ],
+            "mustNotKeys": [],
+            "minimumShouldMatch": 2,
+            "alpha": 0.9,
+            "beta": 0.1,
+            "cluster": true
+        }
+        */
+
+        return this.api.post(url, query);
     }
 }

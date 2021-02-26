@@ -5,6 +5,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, startWith } from '
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { OntoVisSearch } from '../models/ontology/onto-vis.model';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
@@ -53,7 +54,8 @@ export class PropagationComponent implements OnInit {
         private ontoPageService: OntoPageService,
         private dialogService: DialogService,
         private localNotificationService: LocalNotificationService,
-        private errorHandler2Service: ErrorHandler2Service
+        private errorHandler2Service: ErrorHandler2Service,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map(
             (d) => PROPAGATION_TYPE[d]
@@ -83,7 +85,7 @@ export class PropagationComponent implements OnInit {
             });
 
         this.ngOnInit_dataSearch();
-        this.ngOnInit_dataSearch1();
+        //this.ngOnInit_dataSearch1();
     }
 
     ngAfterViewInit(): void {}
@@ -156,6 +158,33 @@ export class PropagationComponent implements OnInit {
     //
     // Build search from using keywords and data-types from example stream and adding new keywords
     //
+
+    // Data search form
+    //public ontoDataSearchFormGroup!: FormGroup;
+    //allDataTypes: string[] = [];
+    // Multi-level selection of keywords
+    //grpKeywords = DataStreamKeywordsToDropdown();
+    //selectedDataTypes = [];
+
+    // Search data result in group
+    public ontoDataMatchingGroups!: any; //OntoDataSearchGroup[];
+
+    // Search page result in group
+    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
+
+    // Access selected rows of table (child component)
+    // @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
+    // Access by reference as multiple data tables exists
+    // @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
+
+    // ngOnInit_dataSearch1() {
+    //     this.ontoDataSearchFormGroup = this.fb.group({
+    //         searchDataType: new FormControl('', [Validators.required]),
+    //         searchKeywords1: new FormControl('', [Validators.required]),
+    //         searchKeywords2: new FormControl('', [Validators.required]),
+    //     });
+    // }
+
     readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
     ngOnInit_dataSearch() {
@@ -221,13 +250,11 @@ export class PropagationComponent implements OnInit {
     keywordInputCtrl3 = new FormControl();
     filteredKeywords3$!: Observable<string[]>;
 
-
     onUpdateKeywords(kw: any) {
         this.selectedKeywords = kw;
         this.updateSelectedKeywords1();
         this.updateSelectedKeywords2();
         this.updateSelectedKeywords3();
-
     }
 
     onClickRemoveKeyword1(kw: string) {
@@ -283,7 +310,6 @@ export class PropagationComponent implements OnInit {
         this.keywordInput3.nativeElement.value = '';
         this.keywordInputCtrl3.setValue(null);
     }
-
 
     private updateSelectedKeywords1() {
         this.selectedKeywords1 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 1);
@@ -371,91 +397,117 @@ export class PropagationComponent implements OnInit {
         console.log('updateSelectedDataTypes_: ', this.selectedDataTypes_);
     }
 
+    /**
+     * Ranking setting
+     */
 
+    public keywordFieldWeight: number = 0.9;
+    public descriptionFieldWeight: number = 0.1;
+    public minimumShouldMatch: number = 1;
+    public cluster: boolean = true;
+    public numClusters!: number;
 
+    public onClickSearchMatchingGroups() {
+        console.log(
+            'PropagationComponent:onClickSearchMatchingGroups: ',
+            this.selectedKeywords1,
+            this.selectedKeywords2,
+            this.selectedKeywords3,
+            this.selectedDataTypes_
+        );
+        console.log(
+            'PropagationComponent:onClickSearchMatchingGroups: ',
+            this.keywordFieldWeight,
+            this.descriptionFieldWeight,
+            this.minimumShouldMatch,
+            this.cluster,
+            this.numClusters
+        );
 
-
-
-
-
-
-
-    // Data search form
-    public ontoDataSearchFormGroup!: FormGroup;
-    //allDataTypes: string[] = [];
-    // Multi-level selection of keywords
-    grpKeywords = DataStreamKeywordsToDropdown();
-    //selectedDataTypes = [];
-
-    // Search data result in group
-    public ontoDataSearchGroups!: OntoDataSearchGroup[];
-
-    // Search page result in group
-    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
-
-    // Access selected rows of table (child component)
-    @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
-    // Access by reference as multiple data tables exists
-    @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
-
-    ngOnInit_dataSearch1() {
-        this.ontoDataSearchFormGroup = this.fb.group({
-            searchDataType: new FormControl('', [Validators.required]),
-            searchKeywords1: new FormControl('', [Validators.required]),
-            searchKeywords2: new FormControl('', [Validators.required]),
-        });
-    }
-
-    public onClickSearchOntoData() {
         if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
             this.localNotificationService.error({ message: 'Select a VIS function' });
         }
 
-        let selectedDataTypes = this.ontoDataSearchFormGroup.value.searchDataType;
-        let selectedKeywords = this.ontoDataSearchFormGroup.value.ontoDataSearchKeyword;
-        console.log(selectedDataTypes, selectedKeywords);
+        let query = {
+            visId: this.ontoVisSearchResult[0]?.id,
+            mustKeys: this.selectedKeywords1,
+            shouldKeys: this.selectedKeywords2,
+            mustNotKeys: this.selectedKeywords3,
+            filterKeys: this.selectedDataTypes_,
+
+            minimumShouldMatch: this.minimumShouldMatch,
+            alpha: this.keywordFieldWeight,
+            beta: this.descriptionFieldWeight,
+            cluster: this.cluster,
+            numClusters: this.numClusters
+        };
+
+        // let selectedDataTypes = this.ontoDataSearchFormGroup.value.searchDataType;
+        // let selectedKeywords = this.ontoDataSearchFormGroup.value.ontoDataSearchKeyword;
+        // console.log(selectedDataTypes, selectedKeywords);
+
+        this.ngxUiLoaderService.start();
 
         this.ontoDataService
-            .searchGroup(this.ontoVisSearchResult[0]?.id)
+            .searchMatchingGroups(query)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);
+                    this.ngxUiLoaderService.stop();
                     return of([]);
                 })
             )
             .subscribe(
                 (res: any) => {
-                    this.ontoDataSearchGroups = res;
-                    console.log('PropagationComponent:search: ontoDataSearchGroups = ', this.ontoDataSearchGroups);
+                    this.ontoDataMatchingGroups = res;
+                    console.log( 'PropagationComponent:search: onClickSearchMatchingData = ', this.ontoDataMatchingGroups );
+                    this.ngxUiLoaderService.stop();
                 },
                 (err) => {}
                 // () => (this.spinner = false)
             );
 
-        this.ontoPageService
-            .searchGroup(this.ontoVisSearchResult[0]?.id)
-            .pipe(
-                catchError((err) => {
-                    this.errorHandler2Service.handleError(err);
-                    return of([]);
-                })
-            )
-            .subscribe(
-                (res: any) => {
-                    this.ontoPageExtSearchGroups = res;
-                    console.log(
-                        'PropagationComponent:search: ontoPageExtSearchGroups = ',
-                        this.ontoPageExtSearchGroups
-                    );
-                },
-                (err) => {}
-                // () => (this.spinner = false)
-            );
+        // this.ontoDataService
+        //     .searchGroup(this.ontoVisSearchResult[0]?.id)
+        //     .pipe(
+        //         catchError((err) => {
+        //             this.errorHandler2Service.handleError(err);
+        //             return of([]);
+        //         })
+        //     )
+        //     .subscribe(
+        //         (res: any) => {
+        //             this.ontoDataMatchingGroups = res;
+        //             console.log('PropagationComponent:search: ontoDataSearchGroups = ', this.ontoDataMatchingGroups);
+        //         },
+        //         (err) => {}
+        //         // () => (this.spinner = false)
+        //     );
+
+        // this.ontoPageService
+        //     .searchGroup(this.ontoVisSearchResult[0]?.id)
+        //     .pipe(
+        //         catchError((err) => {
+        //             this.errorHandler2Service.handleError(err);
+        //             return of([]);
+        //         })
+        //     )
+        //     .subscribe(
+        //         (res: any) => {
+        //             this.ontoPageExtSearchGroups = res;
+        //             console.log(
+        //                 'PropagationComponent:search: ontoPageExtSearchGroups = ',
+        //                 this.ontoPageExtSearchGroups
+        //             );
+        //         },
+        //         (err) => {}
+        //         // () => (this.spinner = false)
+        //     );
     }
 
     public onClickPropagateOntoDataSearchGroup(idx: number) {
         if (idx >= 0) {
-            this.ontoDataSearchGroups.splice(idx, 1);
+            this.ontoDataMatchingGroups.splice(idx, 1);
 
             // Propagate
             this.localNotificationService.success({ message: 'Propagated' });
@@ -464,7 +516,7 @@ export class PropagationComponent implements OnInit {
 
     public onClickRemoveOntoDataSearchGroup(idx: number) {
         if (idx >= 0) {
-            let res = this.ontoDataSearchGroups.splice(idx, 1);
+            let res = this.ontoDataMatchingGroups.splice(idx, 1);
         }
     }
 
@@ -472,22 +524,19 @@ export class PropagationComponent implements OnInit {
     // Propagation
     //
     public onClickPropagateAll() {
-        const vis = this.ontoVisTableComponent?.getSelection();
-        const data = this.ontoDataTableSComponent?.getSelection();
-
-        if (!vis || vis.length === 0 || !data || data.length === 0 || !this.propagationType) {
-            this.localNotificationService.error({
-                message: 'Is VIS function, data and propagation type are selected?',
-            });
-            return;
-        }
-
-        console.log('PropagationComponent: vis = ', vis, '\ndata = ', data);
-
-        this.dialogService.warn('Propagate', 'Are you sure you want to propagate this?', 'Propagate').then((result) => {
-            if (result.value) {
-            }
-        });
+        // const vis = this.ontoVisTableComponent?.getSelection();
+        // const data = this.ontoDataTableSComponent?.getSelection();
+        // if (!vis || vis.length === 0 || !data || data.length === 0 || !this.propagationType) {
+        //     this.localNotificationService.error({
+        //         message: 'Is VIS function, data and propagation type are selected?',
+        //     });
+        //     return;
+        // }
+        // console.log('PropagationComponent: vis = ', vis, '\ndata = ', data);
+        // this.dialogService.warn('Propagate', 'Are you sure you want to propagate this?', 'Propagate').then((result) => {
+        //     if (result.value) {
+        //     }
+        // });
     }
 
     /**

@@ -14,12 +14,12 @@
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "75" }}</td>
+    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "35" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="description">
     <th *matHeaderCellDef mat-header-cell>Description</th>
-    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "50" }}</td>
+    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "30" }}</td>
   </ng-container>
 
   <ng-container matColumnDef="dataType">
@@ -35,7 +35,7 @@
     <th *matHeaderCellDef mat-header-cell>Keywords</th>
     <td *matCellDef="let row" mat-cell>
       <mat-chip-list>
-        <mat-chip *ngFor="let d of row.keywords">{{ d }}</mat-chip>
+        <mat-chip *ngFor="let d of row.keywords.split(',')">{{ d }}</mat-chip>
       </mat-chip-list>
     </td>
   </ng-container>

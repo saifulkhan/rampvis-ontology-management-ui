@@ -66,6 +66,7 @@
         </mat-card>
 
         <!-- VIS example page table-->
+        <!--
         <mat-card *ngIf="exampleLinks?.length">
           <mat-card-header>
             <mat-card-title>Links</mat-card-title>
@@ -73,6 +74,7 @@
           </mat-card-header>
           <app-onto-page-group [data]="exampleLinks"> </app-onto-page-group>
         </mat-card>
+        -->
       </div>
     </div>
 
@@ -93,18 +95,16 @@
         <h4 class="card-title">Search</h4>
       </div>
       <div class="card-body">
-
         <!--Data /group search form-->
         <div class="row">
           <div class="col-md-9">
-
             <mat-card>
               <mat-card-header>
                 <mat-card-title>Search Criteria</mat-card-title>
                 <mat-card-subtitle></mat-card-subtitle>
               </mat-card-header>
 
-              <form [formGroup]="ontoDataSearchFormGroup">
+              <form>
                 <mat-form-field>
                   <mat-label>Keywords (Must)</mat-label>
                   <mat-chip-list #keywordChipList1 aria-label="Must">
@@ -211,7 +211,7 @@
                   <mat-label>Data type (Filter)</mat-label>
                   <mat-chip-list #dataTypeChipList aria-label="Data type">
                     <mat-chip
-                      *ngFor="let d of selectedDataTypes_"
+                      *ngFor="let d; of selectedDataTypes_"
                       [selectable]="false"
                       [removable]="true"
                       (removed)="onClickRemoveDataType(d)"
@@ -237,14 +237,25 @@
                   </mat-autocomplete>
                 </mat-form-field>
 
-                <button
+                <!-- <button
                   (click)="onClickSearchOntoData()"
                   [disabled]="!ontoDataSearchFormGroup.valid"
                   class="btn btn-primary float-right card-btn"
                   type="submit"
                 >
                   <mat-icon>search</mat-icon>
-                </button>
+                </button> -->
+                <mat-card-actions align="end">
+                  <button
+                    mat-raised-button
+                    class="btn btn-primary"
+                    cdkFocusInitial
+                    (click)="onClickSearchMatchingGroups()"
+                    type="submit"
+                  >
+                    Search
+                  </button>
+                </mat-card-actions>
 
                 <!--
 
@@ -322,6 +333,7 @@
               </form>
             </mat-card>
           </div>
+          <!--end col-md-9-->
 
           <div class="col-md-3">
             <mat-card>
@@ -335,31 +347,45 @@
                   <tr>
                     <td>
                       <mat-form-field>
-                        <mat-label>Keyword field weightage</mat-label>
-                        <input matInput placeholder="" value="0.8" />
+                        <mat-label>Keyword field weight</mat-label>
+                        <input matInput placeholder="" [(ngModel)]="keywordFieldWeight" name="keywordFieldWeight" />
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field>
-                        <mat-label>Description field weightage</mat-label>
-                        <input matInput placeholder="" value="0.2" />
+                        <mat-label>Description field weight</mat-label>
+                        <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
                       </mat-form-field>
                     </td>
                   </tr>
                 </table>
 
                 <mat-form-field>
-                  <mat-label>Minimum number should match</mat-label>
-                  <input matInput placeholder="" value="2" />
+                  <mat-label>Minimum should match</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="minimumShouldMatch" name="minimumShouldMatch"/>
                 </mat-form-field>
 
-                <mat-checkbox checked="true">Cluster</mat-checkbox>
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-checkbox [checked]="true" [(ngModel)]="cluster" name="cluster"> Group (use example) </mat-checkbox>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>No. of groups</mat-label>
+                        <input matInput placeholder="" [(ngModel)]="numClusters" name="numClusters" [disabled]= cluster/>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+
               </form>
             </mat-card>
           </div>
         </div>
 
         <!-- Propagation button -->
+        <!--
         <div class="row">
           <div class="col-md-1 offset-md-11">
             <button mat-raised-button class="btn btn-warning float-right" (click)="onClickPropagateAll()">
@@ -367,14 +393,15 @@
             </button>
           </div>
         </div>
+        -->
 
-        <mat-card *ngIf="ontoDataSearchGroups?.length">
+        <mat-card *ngIf="ontoDataMatchingGroups?.length">
           <mat-card-header>
             <mat-card-title>Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-group-table
-            [data]="ontoDataSearchGroups"
+            [data]="ontoDataMatchingGroups"
             (onClickPropagate)="onClickPropagateOntoDataSearchGroup($event)"
             (onClickRemove)="onClickRemoveOntoDataSearchGroup($event)"
           >
@@ -398,6 +425,10 @@
 
     <!--End- Card search data-->
   </div>
+
+    <!-- set loaderId to something that is different from "master" -->
+    <ngx-ui-loader></ngx-ui-loader>
+
   <!--End container-fluid-->
 </div>
 <!--End main-content-->

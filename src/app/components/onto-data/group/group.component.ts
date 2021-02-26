@@ -27,7 +27,7 @@ export class OntoDataGroupComponent implements OnInit {
 
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'dataType', 'keywords', 'description', 'actions'],
+        headerRow: ['index', 'endpoint', 'keywords', 'dataType', 'description', 'actions'],
         dataRows: [],
     };
 
