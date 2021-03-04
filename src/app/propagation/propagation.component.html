@@ -57,12 +57,8 @@
             <mat-card-title>Data</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-ex-group
-            [data]="exampleOntoData"
-            (onChangeKeywords)="onUpdateKeywords($event)"
-            (onChangeDataTypes)="onUpdateDataTypes($event)"
-          >
-          </app-onto-data-ex-group>
+          <app-onto-data-example [data]="exampleOntoData" (onChangeKeywords)="onUpdateKeywords($event)" (onChangeDataTypes)="onUpdateDataTypes($event)">
+          </app-onto-data-example>
         </mat-card>
 
         <!-- VIS example page table-->
@@ -113,11 +109,7 @@
                       [selectable]="false"
                       [removable]="true"
                       (removed)="onClickRemoveKeyword1(d)"
-                      [ngClass]="
-                        selectedKeywords[d]?.state
-                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
-                          : 'keyword-chip-color'
-                      "
+                      [ngClass]="selectedKeywords[d]?.state ? 'keyword-chip-color-' + selectedKeywords[d]?.state : 'keyword-chip-color'"
                     >
                       {{ d }}
                       <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -147,11 +139,7 @@
                       [selectable]="false"
                       [removable]="true"
                       (removed)="onClickRemoveKeyword2(d)"
-                      [ngClass]="
-                        selectedKeywords[d]?.state
-                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
-                          : 'keyword-chip-color'
-                      "
+                      [ngClass]="selectedKeywords[d]?.state ? 'keyword-chip-color-' + selectedKeywords[d]?.state : 'keyword-chip-color'"
                     >
                       {{ d }}
                       <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -181,11 +169,7 @@
                       [selectable]="false"
                       [removable]="true"
                       (removed)="onClickRemoveKeyword3(d)"
-                      [ngClass]="
-                        selectedKeywords[d]?.state
-                          ? 'keyword-chip-color-' + selectedKeywords[d]?.state
-                          : 'keyword-chip-color'
-                      "
+                      [ngClass]="selectedKeywords[d]?.state ? 'keyword-chip-color-' + selectedKeywords[d]?.state : 'keyword-chip-color'"
                     >
                       {{ d }}
                       <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -211,7 +195,7 @@
                   <mat-label>Data type (Filter)</mat-label>
                   <mat-chip-list #dataTypeChipList aria-label="Data type">
                     <mat-chip
-                      *ngFor="let d; of selectedDataTypes_"
+                      *ngFor="let d of selectedDataTypes_"
                       [selectable]="false"
                       [removable]="true"
                       (removed)="onClickRemoveDataType(d)"
@@ -246,15 +230,7 @@
                   <mat-icon>search</mat-icon>
                 </button> -->
                 <mat-card-actions align="end">
-                  <button
-                    mat-raised-button
-                    class="btn btn-primary"
-                    cdkFocusInitial
-                    (click)="onClickSearchMatchingGroups()"
-                    type="submit"
-                  >
-                    Search
-                  </button>
+                  <button mat-raised-button class="btn btn-primary" cdkFocusInitial (click)="onClickSearchMatchingGroups()" type="submit">Search</button>
                 </mat-card-actions>
 
                 <!--
@@ -362,7 +338,7 @@
 
                 <mat-form-field>
                   <mat-label>Minimum should match</mat-label>
-                  <input matInput placeholder="" [(ngModel)]="minimumShouldMatch" name="minimumShouldMatch"/>
+                  <input matInput placeholder="" [(ngModel)]="minimumShouldMatch" name="minimumShouldMatch" />
                 </mat-form-field>
 
                 <table cellspacing="0">
@@ -373,12 +349,11 @@
                     <td>
                       <mat-form-field>
                         <mat-label>No. of groups</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="numClusters" name="numClusters" [disabled]= cluster/>
+                        <input matInput placeholder="" [(ngModel)]="numClusters" name="numClusters" [disabled]="cluster" />
                       </mat-form-field>
                     </td>
                   </tr>
                 </table>
-
               </form>
             </mat-card>
           </div>
@@ -400,12 +375,12 @@
             <mat-card-title>Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-group-table
+          <app-onto-data-matched-table
             [data]="ontoDataMatchingGroups"
             (onClickPropagate)="onClickPropagateOntoDataSearchGroup($event)"
             (onClickRemove)="onClickRemoveOntoDataSearchGroup($event)"
           >
-          </app-onto-data-group-table>
+          </app-onto-data-matched-table>
         </mat-card>
 
         <mat-card *ngIf="ontoPageExtSearchGroups?.length">
@@ -426,8 +401,8 @@
     <!--End- Card search data-->
   </div>
 
-    <!-- set loaderId to something that is different from "master" -->
-    <ngx-ui-loader></ngx-ui-loader>
+  <!-- set loaderId to something that is different from "master" -->
+  <ngx-ui-loader></ngx-ui-loader>
 
   <!--End container-fluid-->
 </div>

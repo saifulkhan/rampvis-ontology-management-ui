@@ -4,22 +4,20 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { catchError, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { OntoVisSearch } from '../models/ontology/onto-vis.model';
 import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
-import { OntoData, OntoDataSearchGroup } from '../models/ontology/onto-data.model';
-import { OntoVisMainTableComponent } from '../components/onto-vis/main-table/main-table.component';
+import { OntoData } from '../models/ontology/onto-data.model';
 import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
 import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-page.model';
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
-import { OntoDataSearchTableComponent } from '../components/onto-data/search-table/search-table.component';
 import { OntoPageService } from '../services/ontology/onto-page.service';
 import { DataStreamKeywordsArr, DataStreamKeywordsToDropdown } from '../services/ontology/data-stream-keywords.service';
 
@@ -85,7 +83,6 @@ export class PropagationComponent implements OnInit {
             });
 
         this.ngOnInit_dataSearch();
-        //this.ngOnInit_dataSearch1();
     }
 
     ngAfterViewInit(): void {}
@@ -223,6 +220,9 @@ export class PropagationComponent implements OnInit {
             startWith(null),
             map((d: string | null) => (d ? _filterDataType(d) : this.allDataTypes.slice()))
         );
+
+        // Mock data
+        // this.ontoDataMatchingGroups = this.ontoDataService.getMockMatchingData();
     }
 
     /**
@@ -449,7 +449,7 @@ export class PropagationComponent implements OnInit {
         this.ngxUiLoaderService.start();
 
         this.ontoDataService
-            .searchMatchingGroups(query)
+            .searchMatchingGroups(query, this.exampleOntoData)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);

@@ -14,19 +14,23 @@ import { OntoDataMainTableComponent } from './main-table/main-table.component';
 import { OntoDataShowComponent } from './show/show.component';
 import { OntoDataEditComponent } from './edit/edit.component';
 import { OntoDataGroupComponent } from './group/group.component';
+import { OntoDataGroupTableComponent } from './group/group-table.component';
 import { OntoDataSearchTableComponent } from './search-table/search-table.component';
-import { OntoDataGroupTableComponent } from './group-table/group-table.component';
-import { OntoDataExGroupComponent } from './ex-group/ex-group.component';
+import { OntoDataMatchedComponent } from './matched/matched.component';
+import { OntoDataMatchedTableComponent } from './matched/matched-table.component';
+import { OntoDataExampleComponent } from './example/example.component';
 
 @NgModule({
     declarations: [
-      OntoDataMainTableComponent,
-      OntoDataSearchTableComponent,
-      OntoDataEditComponent,
-      OntoDataShowComponent,
-      OntoDataGroupComponent,
-      OntoDataExGroupComponent,
-      OntoDataGroupTableComponent,
+        OntoDataMainTableComponent,
+        OntoDataSearchTableComponent,
+        OntoDataEditComponent,
+        OntoDataShowComponent,
+        OntoDataGroupComponent,
+        OntoDataGroupTableComponent,
+        OntoDataExampleComponent,
+        OntoDataMatchedComponent,
+        OntoDataMatchedTableComponent,
     ],
     imports: [
         CommonModule,
@@ -41,14 +45,15 @@ import { OntoDataExGroupComponent } from './ex-group/ex-group.component';
         CustomPipesModule,
     ],
     exports: [
-      OntoDataMainTableComponent,
-      OntoDataGroupComponent,
-      OntoDataExGroupComponent,
-      OntoDataSearchTableComponent,
-      OntoDataEditComponent,
-      OntoDataShowComponent,
-      OntoDataGroupTableComponent,
+        OntoDataMainTableComponent,
+        OntoDataGroupComponent,
+        OntoDataSearchTableComponent,
+        OntoDataEditComponent,
+        OntoDataShowComponent,
+        OntoDataGroupTableComponent,
+        OntoDataExampleComponent,
+        OntoDataMatchedComponent,
+        OntoDataMatchedTableComponent,
     ],
-
 })
 export class OntoDataModule {}

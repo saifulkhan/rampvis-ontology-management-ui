@@ -1,14 +1,8 @@
-<table
-  mat-table
-  [dataSource]="dataSource"
-  cdkDropList
-  [cdkDropListData]="dataSource"
-  (cdkDropListDropped)="drop($event)"
->
+<table mat-table [dataSource]="dataSource" cdkDropList [cdkDropListData]="dataSource" (cdkDropListDropped)="drop($event)">
   <ng-container matColumnDef="index">
     <th *matHeaderCellDef mat-header-cell>Index</th>
     <td *matCellDef="let row; let i = index" mat-cell>
-      <b style="color: #F4A460">D{{ i + 1 }}</b>
+      <b style="color: #f4a460">D{{ i + 1 }}</b>
     </td>
   </ng-container>
 
@@ -26,7 +20,9 @@
     <th *matHeaderCellDef mat-header-cell>Type</th>
     <td *matCellDef="let row" mat-cell>
       <mat-chip-list>
-        <mat-chip *ngIf="row.dataType">{{ row.dataType }}</mat-chip>
+        <mat-chip *ngIf="row.dataType" [ngClass]="row.iDataType ? 'match-chip-color-4' : 'nomatch-chip-color-2'">
+          {{ row.dataType }}
+        </mat-chip>
       </mat-chip-list>
     </td>
   </ng-container>
@@ -35,7 +31,20 @@
     <th *matHeaderCellDef mat-header-cell>Keywords</th>
     <td *matCellDef="let row" mat-cell>
       <mat-chip-list>
-        <mat-chip *ngFor="let d of row.keywords">{{ d }}</mat-chip>
+        <mat-chip
+          *ngFor="let d of row.keywords"
+          [ngClass]="
+            row.iAll.includes(d)
+              ? 'match-chip-color-1'
+              : row.iExample.includes(d)
+              ? 'match-chip-color-2'
+              : row.iGroup.includes(d)
+              ? 'match-chip-color-3'
+              : 'nomatch-chip-color-1'
+          "
+        >
+          {{ d }}
+        </mat-chip>
       </mat-chip-list>
     </td>
   </ng-container>
@@ -44,23 +53,11 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
-      <button
-        mat-icon-button
-        cdkCopyToClipboard="{{ row.id }}"
-        [matTooltipPosition]="'left'"
-        class="btn btn-light btn-link"
-        matTooltip="Copy ID to clipboard"
-      >
+      <button mat-icon-button cdkCopyToClipboard="{{ row.id }}" [matTooltipPosition]="'left'" class="btn btn-light btn-link" matTooltip="Copy ID to clipboard">
         <mat-icon>content_copy</mat-icon>
       </button>
 
-      <button
-        mat-icon-button
-        (click)="onClickViewData(row)"
-        [matTooltipPosition]="'left'"
-        class="btn btn-primary btn-link"
-        matTooltip="View"
-      >
+      <button mat-icon-button (click)="onClickViewData(row)" [matTooltipPosition]="'left'" class="btn btn-primary btn-link" matTooltip="View">
         <mat-icon>grid_on</mat-icon>
       </button>
 
@@ -75,17 +72,9 @@
         <mat-icon>delete_outline</mat-icon>
       </button>
 
-      <button
-        *ngIf="editBasket"
-        mat-icon-button
-        cdkDragHandle
-        [matTooltipPosition]="'left'"
-        class="btn btn-warning btn-link"
-        matTooltip="Remove"
-      >
+      <button *ngIf="editBasket" mat-icon-button cdkDragHandle [matTooltipPosition]="'left'" class="btn btn-warning btn-link" matTooltip="Remove">
         <mat-icon>reorder</mat-icon>
       </button>
-
     </td>
   </ng-container>
 
