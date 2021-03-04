@@ -1,5 +1,5 @@
 export const DataStreamKeywords = {
-    Source: ['mock', 'xl', 'housekeeping', 'h5'],
+    Source: ['mock', 'xl', 'housekeeping', 'h5', 'data_product', 'phong'],
     Country: ['scotland', 'england', 'wales', 'northern_ireland'],
     Scotland_Regions: [
         // Scotland
@@ -38,6 +38,10 @@ export const DataStreamKeywords = {
         'south_east_wales',
         'south_west_wales',
     ],
+    Period: ['daily', 'weekly'],
+    Topic: ['mortality', 'covid_deaths', 'all_deaths'],
+    AgeGroup: ['age_group', '0_years', '1_14_years', '15_44_years', '45_64_years', '65_74_years', '75_84_years', '85_years_and_over'],
+    Gender: ['female', 'male'],
     Case_Type: ['cumulative_cases', 'hospital_confirmed', 'hospital_suspected', 'icu_patients'],
     Analytics: ['pearson', 'f_test', 'mse'],
     Model: ['eera'],
