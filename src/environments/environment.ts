@@ -8,10 +8,10 @@ export const environment: any = {
     staging: false,
     configuration: 'development',
     components: {
-        API_JS: 'http://192.168.0.14:2000/api/v1', // Node
-        API_PY: 'http://192.168.0.14:3000/stat/v1', // Python
+        API_JS: 'http://localhost:2000/api/v1', // Node
+        API_PY: 'http://localhost:3000/stat/v1', // Python
         sentry: '',
-        VIS_URL: 'http://192.168.0.14:5000',
+        VIS_URL: 'http://vis.scrc.uk',
     },
     firebaseConfig: {
         apiKey: 'AIzaSyAlvl6-po-c5dp2HRToaARDWgfRjor9Lmc',
