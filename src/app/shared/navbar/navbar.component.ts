@@ -16,7 +16,7 @@ declare var $: any;
 @Component({
     selector: 'app-navbar-cmp',
     templateUrl: 'navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
     alerts: any[] = [];
@@ -33,14 +33,17 @@ export class NavbarComponent implements OnInit {
 
     @ViewChild('app-navbar-cmp', { static: false }) button: any;
 
-    constructor(
-        location: Location,
-        private element: ElementRef,
-        private router: Router,
-    ) {
+    constructor(location: Location, private element: ElementRef, private router: Router) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
+
+        // Collapse navbar by default
+        const body = document.getElementsByTagName('body')[0];
+        setTimeout(function () {
+            body.classList.add('sidebar-mini');
+            misc.sidebar_mini_active = true;
+        }, 300);
     }
 
     minimizeSidebar() {
@@ -49,6 +52,7 @@ export class NavbarComponent implements OnInit {
             body.classList.remove('sidebar-mini');
             misc.sidebar_mini_active = false;
         } else {
+            // Collapse navbar
             setTimeout(function () {
                 body.classList.add('sidebar-mini');
                 misc.sidebar_mini_active = true;
@@ -110,23 +114,19 @@ export class NavbarComponent implements OnInit {
         if (body.classList.contains('hide-sidebar')) {
             misc.hide_sidebar_active = true;
         }
-        this.router.events.pipe(
-            filter((e: Event) => e instanceof NavigationEnd))
-            .subscribe(() => {
-                this.sidebarClose();
-                const $layer = document.getElementsByClassName('close-layer')[0];
-                if ($layer) {
-                    $layer.remove();
-                }
-            });
+        this.router.events.pipe(filter((e: Event) => e instanceof NavigationEnd)).subscribe(() => {
+            this.sidebarClose();
+            const $layer = document.getElementsByClassName('close-layer')[0];
+            if ($layer) {
+                $layer.remove();
+            }
+        });
 
         this.setPath(this.location.prepareExternalUrl(this.location.path()));
 
-        this.routerSubscription = this.router.events
-            .pipe(filter((e: Event) => e instanceof NavigationEnd))
-            .subscribe((e: any) => {
-                this.setPath(e.url);
-            });
+        this.routerSubscription = this.router.events.pipe(filter((e: Event) => e instanceof NavigationEnd)).subscribe((e: any) => {
+            this.setPath(e.url);
+        });
     }
 
     ngOnDestroy(): void {
@@ -221,8 +221,7 @@ export class NavbarComponent implements OnInit {
                 return this.listTitles[i].title;
             } else if (this.listTitles[i].type === 'sub') {
                 for (let j = 0; j < this.listTitles[i].children.length; j++) {
-                    let subtitle =
-                        this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
+                    let subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
                     // console.log(subtitle)
                     // console.log(titlee)
                     if (subtitle === titlee) {

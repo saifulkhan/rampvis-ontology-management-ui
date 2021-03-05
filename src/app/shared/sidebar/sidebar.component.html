@@ -7,14 +7,10 @@
   </a>
 
   <a class="simple-text text-justify logo-normal text-primary" href="">
-    <div>
-      ONTOLOGY
-    </div>
+    <div>ONTOLOGY</div>
   </a>
-  <a class="logo-normal text-center" style="font-size: 1em !important;">
-    <div>
-      MANAGEMENT
-    </div>
+  <a class="logo-normal text-center" style="font-size: 1em !important">
+    <div>MANAGEMENT</div>
   </a>
 </div>
 
@@ -26,11 +22,7 @@
     <div class="user-info">
       <a class="collapsed" data-toggle="collapse" href="#collapseExample">
         <span>
-          <span
-            [attr.title]="user.name.length > 17 ? user.name : null"
-            class="username-text-ellipsis"
-            style="font-weight: bold"
-          >
+          <span [attr.title]="user.name.length > 17 ? user.name : null" class="username-text-ellipsis" style="font-weight: bold">
             {{ user.name }}
           </span>
           <b class="caret"></b>
@@ -63,7 +55,8 @@
 
   <!-- Similar code in NavBar-->
 
-  <!-- <div *ngIf="isMobileMenu()">
+  <!--
+  <div *ngIf="isMobileMenu()">
     <form class="navbar-form">
       <span class="bmd-form-group">
         <div class="input-group no-border">
@@ -100,7 +93,8 @@
         </a>
       </li>
     </ul>
-  </div> -->
+  </div>
+  -->
 
   <ul class="nav">
     <li *ngFor="let menuitem of menuItems" class="nav-item" routerLinkActive="active">
@@ -111,13 +105,7 @@
       </a>
 
       <!--If it have a submenu-->
-      <a
-        (click)="updatePS()"
-        *ngIf="menuitem.type === 'sub'"
-        class="nav-link"
-        data-toggle="collapse"
-        href="#{{ menuitem.collapse }}"
-      >
+      <a (click)="updatePS()" *ngIf="menuitem.type === 'sub'" class="nav-link" data-toggle="collapse" href="#{{ menuitem.collapse }}">
         <i class="material-icons">{{ menuitem.icontype }}</i>
         <p style="font-weight: bold">{{ menuitem.title }}<b class="caret"></b></p>
       </a>
