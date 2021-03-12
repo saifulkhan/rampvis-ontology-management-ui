@@ -29,7 +29,7 @@ export class OntoDataExampleComponent implements OnInit {
 
     public dataSource: MatTableDataSource<OntoData> = new MatTableDataSource();
     public tableData: TableData = {
-        headerRow: ['index', 'endpoint', 'keywords', 'dataType', 'description', 'actions'],
+        headerRow: ['index', 'endpoint', 'dataType', 'keywords', 'actions'],
         dataRows: [],
     };
 

@@ -1,3 +1,11 @@
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+
+
 //
 // Drag & drop related
 //
@@ -21,8 +29,8 @@
 .mat-column-group {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 95% !important;
-  width: 95% !important;
+  flex: 0 0 92% !important;
+  width: 92% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -38,8 +46,8 @@
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 5% !important;
-  width: 5% !important;
+  flex: 0 0 8% !important;
+  width: 8% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 

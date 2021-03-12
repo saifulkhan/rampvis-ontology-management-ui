@@ -43,17 +43,7 @@ export const ONTO_DATA_MATCHING_GROUP_MOCK = [
     {
         score: 2.9757483361808625,
         group: [
-            {
-                dataType: 'cum_timeseries',
-                date: '2021-02-26T13:36:52.128Z',
-                description: 'Scotland cumulative cases',
-                endpoint: '/scotland/nhs-board/?table=cumulative_cases&region=scotland',
-                keywords: 'scotland, xl, cumulative_cases',
-                urlCode: 'API_JS',
-                id: '60055d088ed3c535ed5af2e4',
-                score: 0.7362213809843617,
-                idx: 0,
-            },
+            // Introduced error to test
             {
                 dataType: 'timeseries',
                 date: '2021-02-12T22:04:30.448Z',
@@ -64,6 +54,17 @@ export const ONTO_DATA_MATCHING_GROUP_MOCK = [
                 id: '600b37b38c7ea6d8d6e3bec8',
                 score: 0.743581879059672,
                 idx: 1,
+            },
+            {
+                dataType: 'cum_timeseries',
+                date: '2021-02-26T13:36:52.128Z',
+                description: 'Scotland cumulative cases',
+                endpoint: '/scotland/nhs-board/?table=cumulative_cases&region=scotland',
+                keywords: 'scotland, xl, cumulative_cases',
+                urlCode: 'API_JS',
+                id: '60055d088ed3c535ed5af2e4',
+                score: 0.7362213809843617,
+                idx: 0,
             },
             {
                 dataType: 'timeseries',

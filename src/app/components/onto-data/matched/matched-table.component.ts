@@ -3,9 +3,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
     selector: 'app-onto-data-matched-table',
@@ -23,7 +25,7 @@ export class OntoDataMatchedTableComponent implements OnInit {
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild(MatTable) table!: MatTable<any>;
 
-    public dataSource: MatTableDataSource<any> = new MatTableDataSource();
+    public dataSource: MatTableDataSource<any> = new TableVirtualScrollDataSource(); // new MatTableDataSource();
     public tableData: TableData = {
         headerRow: ['group', 'actions'],
         dataRows: [],
@@ -32,8 +34,13 @@ export class OntoDataMatchedTableComponent implements OnInit {
 
     iterableDiffer!: any;
 
+    @ViewChild(CdkVirtualScrollViewport)
+    public virtualScrollViewport!: CdkVirtualScrollViewport;
+
     constructor(private iterableDiffers: IterableDiffers) {
         this.iterableDiffer = iterableDiffers.find([]).create(null as any);
+
+        //this.virtualScrollViewport.scrollTo({bottom: 0});
     }
 
     ngOnInit(): void {}

@@ -401,8 +401,8 @@ export class PropagationComponent implements OnInit {
      * Ranking setting
      */
 
-    public keywordFieldWeight: number = 0.9;
-    public descriptionFieldWeight: number = 0.1;
+    public keywordFieldWeight: number = 1.0;
+    public descriptionFieldWeight: number = 0.0;
     public minimumShouldMatch: number = 1;
     public cluster: boolean = true;
     public numClusters!: number;

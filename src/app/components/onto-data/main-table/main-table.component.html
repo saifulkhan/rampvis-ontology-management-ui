@@ -113,7 +113,7 @@
     </td>
   </ng-container>
 
-  <tr *matHeaderRowDef="tableData.headerRow" mat-header-row></tr>
+  <tr mat-header-row *matHeaderRowDef="tableData.headerRow; sticky: true"></tr>
   <tr *matRowDef="let visList; columns: tableData.headerRow" mat-row></tr>
 </table>
 
@@ -126,5 +126,6 @@
   [pageSizeOptions]="[25, 50, 100, 150, 200]"
   [pageSize]="25"
   showFirstLastButtons
+  class="mat-paginator-sticky"
 >
 </mat-paginator>

@@ -10,9 +10,17 @@
   <ng-container matColumnDef="function">
     <th *matHeaderCellDef mat-header-cell>Function</th>
     <td *matCellDef="let row" mat-cell>
-      {{ row.function }}
+      {{ row.function }} <br />
+      <small>{{ row.description | truncate: "100" }}</small>
     </td>
   </ng-container>
+
+  <!--
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell>Description</th>
+    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "75" }}</td>
+  </ng-container>
+  -->
 
   <ng-container matColumnDef="type">
     <th *matHeaderCellDef mat-header-cell>Type</th>
@@ -32,10 +40,7 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="description">
-    <th *matHeaderCellDef mat-header-cell>Description</th>
-    <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "75" }}</td>
-  </ng-container>
+
 
     <!-- Action Column -->
     <ng-container matColumnDef="actions">

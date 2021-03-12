@@ -14,13 +14,18 @@
 
   <ng-container matColumnDef="endpoint">
     <th *matHeaderCellDef mat-header-cell>Endpoint</th>
-    <td *matCellDef="let row" mat-cell>{{ row.urlCode }}{{ row.endpoint | truncate: "35" }}</td>
+    <td *matCellDef="let row" mat-cell>
+      {{ row.urlCode }}{{ row.endpoint | truncate: "50" }} <br/>
+      <small>{{ row.description | truncate: "50" }}</small>
+    </td>
   </ng-container>
 
+  <!--
   <ng-container matColumnDef="description">
     <th *matHeaderCellDef mat-header-cell>Description</th>
     <td *matCellDef="let row" mat-cell>{{ row.description | truncate: "30" }}</td>
   </ng-container>
+  -->
 
   <ng-container matColumnDef="dataType">
     <th *matHeaderCellDef mat-header-cell>Type</th>
@@ -30,7 +35,7 @@
           [selectable]="true"
           [removable]="false"
           (click)="onClickDataTypeChip(row.dataType)"
-          [ngClass]="dataTypeMap[row.dataType]?.state ? 'datatype-chip-color-1' : 'datatype-chip-color'"
+          [ngClass]="dataTypeMap[row.dataType]?.state ? 'datatype-select-color-1' : 'datatype-select-color'"
         >
         {{ row.dataType }}
         <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->
@@ -48,7 +53,7 @@
           [selectable]="true"
           [removable]="false"
           (click)="onClickKeywordChip(d)"
-          [ngClass]="keywordMap[d]?.state ? 'keyword-chip-color-' + keywordMap[d]?.state : 'keyword-chip-color'"
+          [ngClass]="keywordMap[d]?.state ? 'keyword-select-color-' + keywordMap[d]?.state : 'keyword-select-color'"
         >
           {{ d }}
           <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->

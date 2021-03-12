@@ -1,3 +1,5 @@
+<cdk-virtual-scroll-viewport tvsItemSize="80" headerHeight="56" style="height: 800px;">
+
 <table
   mat-table
   [dataSource]="dataSource"
@@ -40,7 +42,7 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="tableData.headerRow"></tr>
+  <tr mat-header-row *matHeaderRowDef="tableData.headerRow; sticky: true" ></tr>
   <tr mat-row *matRowDef="let row; columns: tableData.headerRow" cdkDrag [cdkDragData]="row"></tr>
 
  </table>
@@ -54,5 +56,8 @@
   [pageSizeOptions]="[10, 25, 50, 100]"
   [pageSize]="10"
   showFirstLastButtons
+  class="mat-paginator-sticky"
 >
 </mat-paginator>
+
+</cdk-virtual-scroll-viewport>

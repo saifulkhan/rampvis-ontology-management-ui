@@ -72,67 +72,65 @@ mat-chip-list {
 // Chip color used for keyword and data type selection state change
 //
 
-.keyword-chip-color {
+.keyword-select-color {
   background-color: darkgray !important;
   color: white !important;
 }
 
-.keyword-chip-color-1 {
+.keyword-select-color-1 {
   background-color: green !important;
   color: white !important;
 }
 
-.keyword-chip-color-2 {
+.keyword-select-color-2 {
   background-color: orange !important;
   color: white !important;
 }
 
-.keyword-chip-color-3 {
+.keyword-select-color-3 {
   background-color: red !important;
   color: white;
 }
 
-.datatype-chip-color {
+.datatype-select-color {
   background-color: darkgrey !important;
   color: white !important;
 }
 
-.datatype-chip-color-1 {
+.datatype-select-color-1 {
   background-color: #16c79a !important;
   color: white !important;
 }
 
-
-.match-chip-color-1 {
-  background-color: #F0F0F0 !important;
-  color: green !important;
+.keyword-match-color-1 {
+  background-color: green !important;
+  color: white !important;
 }
 
-.match-chip-color-2 {
-  background-color: #F0F0F0 !important;
-  color: orange !important;
+.keyword-match-color-2 {
+  background-color: orange !important;
+  color: white !important;
 }
 
-.match-chip-color-3 {
-  background-color: #F0F0F0 !important;
-  color: #361999 !important;;
+.keyword-match-color-3 {
+  background-color: #f0f0f0 !important;
+  color: #361999 !important;
 }
 
-.match-chip-color-4 {
-  background-color: #F0F0F0 !important;
-  color: #16c79a !important;
-}
-
-.nomatch-chip-color-1 {
-  background-color: #F0F0F0 !important;
+.keyword-nomatch-color {
+  background-color: #f0f0f0 !important;
   color: darkgrey !important;
 }
 
-.nomatch-chip-color-2 {
-  background-color: #F0F0F0 !important;
-  color: red !important;
+.datatype-match-color {
+  background-color: #16c79a !important;
+  color: white !important;
 }
 
+.datatype-nomatch-color {
+  background-color: #F0F0F0 !important;
+  color: #16c79a !important;
+}
 
 //
 //  Other

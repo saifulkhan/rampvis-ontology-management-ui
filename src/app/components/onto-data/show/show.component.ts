@@ -18,6 +18,7 @@ export class OntoDataShowComponent implements OnInit {
     public jsonData$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
     public column$: ReplaySubject<[]> = new ReplaySubject<[]>(1);
 
+    public data!: OntoData;
     public url = '';
     spinner = true;
 
@@ -27,9 +28,9 @@ export class OntoDataShowComponent implements OnInit {
         private api: APIService
     ) {
         console.log('OntoDataShowComponent: data = ', data);
-        const ontoData: OntoData = data;
+        this.data = data;
 
-        this.url = `${environment.components[ontoData.urlCode]}${ontoData.endpoint}`;
+        this.url = `${environment.components[this.data.urlCode]}${this.data.endpoint}`;
         this.api.get(this.url).subscribe((res: any) => {
             console.log('OntoDataShowComponent: res = ', res);
 

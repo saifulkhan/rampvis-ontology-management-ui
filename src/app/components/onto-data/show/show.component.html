@@ -1,15 +1,19 @@
 <p mat-dialog-title>Data Stream</p>
 
 <mat-dialog-content>
+
   <h4>
-    Endpoint: <a href="{{ url }}" target="_blank"><mat-icon>link</mat-icon></a>
+    <b>Description </b>{{data.description}}
+  </h4>
+  <h4>
+    <b>Endpoint </b><a href="{{ url }}" target="_blank">{{url}}</a>
   </h4>
 
   <ng-container *ngIf="spinner">
     <mat-spinner></mat-spinner>
   </ng-container>
   <ng-container *ngIf="!spinner">
-    <h4>Size: {{ length$ | async }}</h4>
+    <h4><b>Length </b>{{ length$ | async }}</h4>
 
     <table id="data-view-table">
       <tr>

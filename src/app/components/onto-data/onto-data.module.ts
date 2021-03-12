@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialModule } from '../../material.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
@@ -43,6 +44,7 @@ import { OntoDataExampleComponent } from './example/example.component';
         NgxMatSelectSearchModule,
         NgxJsonViewModule,
         CustomPipesModule,
+        TableVirtualScrollModule,
     ],
     exports: [
         OntoDataMainTableComponent,
