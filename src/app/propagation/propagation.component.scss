@@ -24,3 +24,17 @@
   margin: 0 auto; // centre the whole form
 }
 
+
+//
+// Cluster algorithm selection radio button
+//
+.cluster-algorithm-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 0;
+}
+
+.cluster-algorithm-radio-button {
+  margin: 5px;
+}
+

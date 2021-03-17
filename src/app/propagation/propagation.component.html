@@ -71,8 +71,8 @@
           <app-onto-page-group [data]="exampleLinks"> </app-onto-page-group>
         </mat-card>
         -->
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
 
     <!--
       End- Card VIS search
@@ -83,16 +83,15 @@
     -->
 
     <!-- <div class="card" *ngIf="exampleOntoData?.length"> -->
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header card-header-primary card-header-icon">
-        <!--
         <div class="card-icon">
           <mat-icon>search</mat-icon>
         </div>
         <h4 class="card-title">Search</h4>
-        -->
+
       </div>
-      <div class="card-body">
+      <div class="card-body"> -->
         <div id="accordion" role="tablist">
           <div class="card card-collapse">
             <div class="card-header" role="tab" id="headingOne">
@@ -144,35 +143,45 @@
                         </mat-autocomplete>
                       </mat-form-field>
 
-                      <mat-form-field>
-                        <mat-label>Must have keywords (OR)</mat-label>
-                        <mat-chip-list #keywordChipList2 aria-label="May have">
-                          <mat-chip
-                            *ngFor="let d of selectedKeywords2"
-                            [selectable]="false"
-                            [removable]="true"
-                            (removed)="onClickRemoveKeyword2(d)"
-                            [ngClass]="selectedKeywords[d]?.state ? 'keyword-select-color-' + selectedKeywords[d]?.state : 'keyword-select-color'"
-                          >
-                            {{ d }}
-                            <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-                          </mat-chip>
-                          <input
-                            placeholder="..."
-                            #keywordInput2
-                            [formControl]="keywordInputCtrl2"
-                            [matAutocomplete]="autoKeyword2"
-                            [matChipInputFor]="keywordChipList2"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (matChipInputTokenEnd)="onEnterAddKeyword2($event)"
-                          />
-                        </mat-chip-list>
-                        <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onInputKeyword2($event)">
-                          <mat-option *ngFor="let d of filteredKeywords2$ | async" [value]="d">
-                            {{ d }}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
+                      <div class="row">
+                        <div class="col-md-10">
+                          <mat-form-field>
+                            <mat-label>Must have keywords (OR)</mat-label>
+                            <mat-chip-list #keywordChipList2 aria-label="May have">
+                              <mat-chip
+                                *ngFor="let d of selectedKeywords2"
+                                [selectable]="false"
+                                [removable]="true"
+                                (removed)="onClickRemoveKeyword2(d)"
+                                [ngClass]="selectedKeywords[d]?.state ? 'keyword-select-color-' + selectedKeywords[d]?.state : 'keyword-select-color'"
+                              >
+                                {{ d }}
+                                <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                              </mat-chip>
+                              <input
+                                placeholder="..."
+                                #keywordInput2
+                                [formControl]="keywordInputCtrl2"
+                                [matAutocomplete]="autoKeyword2"
+                                [matChipInputFor]="keywordChipList2"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                (matChipInputTokenEnd)="onEnterAddKeyword2($event)"
+                              />
+                            </mat-chip-list>
+                            <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onInputKeyword2($event)">
+                              <mat-option *ngFor="let d of filteredKeywords2$ | async" [value]="d">
+                                {{ d }}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                          <mat-form-field>
+                            <mat-label>Minimum should match</mat-label>
+                            <input matInput placeholder="" [(ngModel)]="minimumShouldMatch" name="minimumShouldMatch" />
+                          </mat-form-field>
+                        </div>
+                      </div>
 
                       <mat-form-field>
                         <mat-label>Must have data types (OR)</mat-label>
@@ -264,14 +273,28 @@
                               <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
                             </mat-form-field>
                           </td>
+                          <td>
+                            <mat-form-field>
+                              <mat-label>Endpoint field weight</mat-label>
+                              <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
+                            </mat-form-field>
+                          </td>
                         </tr>
                       </table>
 
-                      <mat-form-field>
-                        <mat-label>Minimum should match</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="minimumShouldMatch" name="minimumShouldMatch" />
-                      </mat-form-field>
+                      <label id="cluster-algorithm-group-label">Select a grouping algorithm</label>
+                      <mat-radio-group
+                        aria-labelledby="example-radio-group-label"
+                        class="cluster-algorithm-radio-group"
+                        [(ngModel)]="clusteringAlgorithm"
+                        name="clusteringAlgorithm"
+                      >
+                        <mat-radio-button class="cluster-algorithm-radio-button" *ngFor="let d of clusteringAlgorithms" [value]="d">
+                          {{d}}
+                        </mat-radio-button>
+                      </mat-radio-group>
 
+                      <!--
                       <table cellspacing="0">
                         <tr>
                           <td>
@@ -285,6 +308,7 @@
                           </td>
                         </tr>
                       </table>
+                      -->
                     </form>
                   </mat-card>
                 </div>
