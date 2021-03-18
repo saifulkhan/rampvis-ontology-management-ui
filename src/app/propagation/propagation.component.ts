@@ -356,7 +356,7 @@ export class PropagationComponent implements OnInit {
     selectedDataTypes_: string[] = [];
 
     clusteringAlgorithm: string = 'Spectral Graph';
-    clusteringAlgorithms: string[] = ['Combinatorial (Brute-force)', 'Spectral Graph'];
+    clusteringAlgorithms: string[] = ['Naive (Brute-force)', 'Spectral Graph'];
 
     @ViewChild('dataTypeInput') dataTypeInput!: ElementRef<HTMLInputElement>;
     //@ViewChild('auto') matAutocomplete!: MatAutocomplete;

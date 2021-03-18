@@ -54,7 +54,7 @@
         <!-- VIS example data table-->
         <mat-card *ngIf="exampleOntoData?.length">
           <mat-card-header>
-            <mat-card-title>Data</mat-card-title>
+            <mat-card-title>Example Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-example [data]="exampleOntoData" (onChangeKeywords)="onUpdateKeywords($event)" (onChangeDataTypes)="onUpdateDataTypes($event)">
@@ -108,7 +108,7 @@
                 <div class="col-md-9">
                   <mat-card>
                     <mat-card-header>
-                      <mat-card-title>Search Criteria</mat-card-title>
+                      <mat-card-title>Search Query</mat-card-title>
                       <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
 
@@ -259,23 +259,24 @@
                     </mat-card-header>
 
                     <form>
+                      <label id="cluster-algorithm-group-label">Assign weights for ranking</label>
                       <table cellspacing="0">
                         <tr>
                           <td>
                             <mat-form-field>
-                              <mat-label>Keyword field weight</mat-label>
+                              <mat-label>Keyword</mat-label>
                               <input matInput placeholder="" [(ngModel)]="keywordFieldWeight" name="keywordFieldWeight" />
                             </mat-form-field>
                           </td>
                           <td>
                             <mat-form-field>
-                              <mat-label>Description field weight</mat-label>
+                              <mat-label>Description</mat-label>
                               <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
                             </mat-form-field>
                           </td>
                           <td>
                             <mat-form-field>
-                              <mat-label>Endpoint field weight</mat-label>
+                              <mat-label>Endpoint</mat-label>
                               <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
                             </mat-form-field>
                           </td>
@@ -331,7 +332,7 @@
 
         <mat-card *ngIf="ontoDataMatchingGroups?.length">
           <mat-card-header>
-            <mat-card-title>Data Streams</mat-card-title>
+            <mat-card-title>Matching Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-matched-table
