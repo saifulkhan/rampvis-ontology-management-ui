@@ -56,8 +56,7 @@ export class OntoDataMatchedTableComponent implements OnInit {
      */
     ngDoCheck() {
         if (this.iterableDiffer.diff(this.data)) {
-            console.log('OntoDataMatchedTableComponent: ngDoCheck: this.data = ', this.data);
-
+            // console.log('OntoDataMatchedTableComponent: ngDoCheck: this.data = ', this.data);
             this.len = this.data.length;
             this.setDataSource();
         }
@@ -65,8 +64,7 @@ export class OntoDataMatchedTableComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.data && this.data) {
-            console.log('OntoDataMatchedTableComponent: ngOnChanges: this.data = ', this.data);
-
+            // console.log('OntoDataMatchedTableComponent: ngOnChanges: this.data = ', this.data);
             this.len = this.data.length;
             this.setDataSource();
         }

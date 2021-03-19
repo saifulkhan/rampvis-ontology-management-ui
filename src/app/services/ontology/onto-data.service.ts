@@ -78,11 +78,6 @@ export class OntoDataService {
         return this.api.get(url);
     }
 
-    public searchGroup(visId: string): Observable<OntoDataSearchGroup> {
-        let url: string = `${this.url}/search-group/?visId=${visId}`;
-        return this.api.get(url);
-    }
-
     /**
      * @param query
      * @param example

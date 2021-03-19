@@ -10,7 +10,18 @@
   font-weight: normal;
 }
 
+.mat-card-data-search {
+  margin-bottom: 0px;
+}
 
+.mat-expansion-panel {
+  margin-bottom: 15px;
+}
+
+// space below data search button
+.mat-card-actions {
+  margin-bottom: 0px;
+}
 
 //
 // VIS search form

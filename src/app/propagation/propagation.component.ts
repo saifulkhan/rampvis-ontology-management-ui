@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -12,14 +12,15 @@ import { OntoVisService } from '../services/ontology/onto-vis.service';
 import { OntoDataService } from '../services/ontology/onto-data.service';
 import { DATA_TYPE } from '../models/ontology/onto-data-types';
 import { OntoData } from '../models/ontology/onto-data.model';
-import { DialogService } from '../services/common/dialog.service';
 import { LocalNotificationService } from '../services/common/local-notification.service';
 import { PROPAGATION_TYPE } from '../models/ontology/propagation-type.enum';
 import { ErrorHandler2Service } from '../services/common/error-handler-2.service';
-import { OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt, OntoPageExtSearchGroup } from '../models/ontology/onto-page.model';
 import { OntoVisSearchFilterVm } from '../models/ontology/onto-vis-search-filter.vm';
 import { OntoPageService } from '../services/ontology/onto-page.service';
-import { DataStreamKeywordsArr, DataStreamKeywordsToDropdown } from '../services/ontology/data-stream-keywords.service';
+import { DataStreamKeywordsArr } from '../services/ontology/data-stream-keywords.service';
+import { Binding } from '../models/ontology/binding.model';
+import { BINDING_TYPE } from '../models/ontology/binding-type.enum';
 
 @Component({
     selector: 'app-propagation',
@@ -49,15 +50,12 @@ export class PropagationComponent implements OnInit {
         private fb: FormBuilder,
         private ontoVisService: OntoVisService,
         private ontoDataService: OntoDataService,
-        private ontoPageService: OntoPageService,
-        private dialogService: DialogService,
         private localNotificationService: LocalNotificationService,
         private errorHandler2Service: ErrorHandler2Service,
-        private ngxUiLoaderService: NgxUiLoaderService
+        private ngxUiLoaderService: NgxUiLoaderService,
+        private ontoPageService: OntoPageService
     ) {
-        this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map(
-            (d) => PROPAGATION_TYPE[d]
-        );
+        this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map((d) => PROPAGATION_TYPE[d]);
     }
 
     ngOnInit(): void {
@@ -131,12 +129,10 @@ export class PropagationComponent implements OnInit {
             return;
         }
 
-        this.ontoVisService
-            .getExampleOntoDataBindingVisId(this.ontoVisSearchResult[0].id)
-            .subscribe((res: OntoData[]) => {
-                console.log('PropagationComponent: getOntoVis: exampleOntoData = ', res);
-                this.exampleOntoData = res;
-            });
+        this.ontoVisService.getExampleOntoDataBindingVisId(this.ontoVisSearchResult[0].id).subscribe((res: OntoData[]) => {
+            console.log('PropagationComponent: getOntoVis: exampleOntoData = ', res);
+            this.exampleOntoData = res;
+        });
     }
 
     private getExampleLinks() {
@@ -144,12 +140,10 @@ export class PropagationComponent implements OnInit {
             return;
         }
 
-        this.ontoVisService
-            .getExampleLinksBindingVisId(this.ontoVisSearchResult[0].id)
-            .subscribe((res: OntoPageExt[]) => {
-                console.log('PropagationComponent:getExampleLinks: exampleLinks = ', res);
-                this.exampleLinks = res;
-            });
+        this.ontoVisService.getExampleLinksBindingVisId(this.ontoVisSearchResult[0].id).subscribe((res: OntoPageExt[]) => {
+            console.log('PropagationComponent:getExampleLinks: exampleLinks = ', res);
+            this.exampleLinks = res;
+        });
     }
 
     //
@@ -351,12 +345,11 @@ export class PropagationComponent implements OnInit {
      * Data-type filter
      */
 
+    // panelOpenState = false;
+
     allDataTypes!: string[];
     selectedDataTypes: any = {};
     selectedDataTypes_: string[] = [];
-
-    clusteringAlgorithm: string = 'Spectral Graph';
-    clusteringAlgorithms: string[] = ['Naive (Brute-force)', 'Spectral Graph'];
 
     @ViewChild('dataTypeInput') dataTypeInput!: ElementRef<HTMLInputElement>;
     //@ViewChild('auto') matAutocomplete!: MatAutocomplete;
@@ -394,9 +387,7 @@ export class PropagationComponent implements OnInit {
     }
 
     private updateSelectedDataTypes_() {
-        this.selectedDataTypes_ = Object.keys(this.selectedDataTypes).filter(
-            (d) => this.selectedDataTypes[d].state === 1
-        );
+        this.selectedDataTypes_ = Object.keys(this.selectedDataTypes).filter((d) => this.selectedDataTypes[d].state === 1);
         console.log('updateSelectedDataTypes_: ', this.selectedDataTypes_);
     }
 
@@ -409,6 +400,8 @@ export class PropagationComponent implements OnInit {
     public minimumShouldMatch: number = 1;
     public cluster: boolean = true;
     public numClusters!: number;
+    clusteringAlgorithm: string = 'Spectral Graph';
+    clusteringAlgorithms: string[] = ['Naive (Brute-force)', 'Spectral Graph'];
 
     public onClickSearchMatchingGroups() {
         console.log(
@@ -442,7 +435,7 @@ export class PropagationComponent implements OnInit {
             alpha: this.keywordFieldWeight,
             beta: this.descriptionFieldWeight,
             cluster: this.cluster,
-            numClusters: this.numClusters
+            numClusters: this.numClusters,
         };
 
         // let selectedDataTypes = this.ontoDataSearchFormGroup.value.searchDataType;
@@ -463,61 +456,49 @@ export class PropagationComponent implements OnInit {
             .subscribe(
                 (res: any) => {
                     this.ontoDataMatchingGroups = res;
-                    console.log( 'PropagationComponent:search: onClickSearchMatchingData = ', this.ontoDataMatchingGroups );
+                    console.log('PropagationComponent:search: onClickSearchMatchingData = ', this.ontoDataMatchingGroups);
                     this.ngxUiLoaderService.stop();
                 },
                 (err) => {}
                 // () => (this.spinner = false)
             );
-
-        // this.ontoDataService
-        //     .searchGroup(this.ontoVisSearchResult[0]?.id)
-        //     .pipe(
-        //         catchError((err) => {
-        //             this.errorHandler2Service.handleError(err);
-        //             return of([]);
-        //         })
-        //     )
-        //     .subscribe(
-        //         (res: any) => {
-        //             this.ontoDataMatchingGroups = res;
-        //             console.log('PropagationComponent:search: ontoDataSearchGroups = ', this.ontoDataMatchingGroups);
-        //         },
-        //         (err) => {}
-        //         // () => (this.spinner = false)
-        //     );
-
-        // this.ontoPageService
-        //     .searchGroup(this.ontoVisSearchResult[0]?.id)
-        //     .pipe(
-        //         catchError((err) => {
-        //             this.errorHandler2Service.handleError(err);
-        //             return of([]);
-        //         })
-        //     )
-        //     .subscribe(
-        //         (res: any) => {
-        //             this.ontoPageExtSearchGroups = res;
-        //             console.log(
-        //                 'PropagationComponent:search: ontoPageExtSearchGroups = ',
-        //                 this.ontoPageExtSearchGroups
-        //             );
-        //         },
-        //         (err) => {}
-        //         // () => (this.spinner = false)
-        //     );
     }
 
-    public onClickPropagateOntoDataSearchGroup(idx: number) {
-        if (idx >= 0) {
-            this.ontoDataMatchingGroups.splice(idx, 1);
-
-            // Propagate
-            this.localNotificationService.success({ message: 'Propagated' });
+    public onClickPropagate(idx: number) {
+        if (!this.ontoVisSearchResult[0]?.id || idx < 0) {
+            return;
         }
+
+        const group = this.ontoDataMatchingGroups.splice(idx, 1);
+        if (!group[0]) {
+            return;
+        }
+
+        console.log('PropagationComponent:onClickPropagate: group = ', group);
+
+        // TODO: remove deserialize and use typing instead of any
+        const binding: any = {
+            visId: this.ontoVisSearchResult[0]?.id,
+            dataIds: group[0].group.map((d: any) => d.id),
+        };
+        const ontoPage: any = {
+            bindingType: BINDING_TYPE.REVIEW,
+            nrows: 0,
+            bindings: [binding],
+        };
+
+        this.ontoPageService.createPage(ontoPage).subscribe(
+            (res: any) => {
+                console.log('PropagationComponent:onClickPropagate: res = ', res);
+                this.localNotificationService.success({ message: 'Propagated' });
+            },
+            // (err) => {
+            //     // this.localNotificationService.error({ message: 'Propagation error' });
+            // }
+        );
     }
 
-    public onClickRemoveOntoDataSearchGroup(idx: number) {
+    public onClickRemove(idx: number) {
         if (idx >= 0) {
             let res = this.ontoDataMatchingGroups.splice(idx, 1);
         }

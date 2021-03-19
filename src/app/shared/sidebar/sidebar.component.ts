@@ -57,9 +57,9 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'page',
         children: [
-            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXB' },
-            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review', ab: 'RVP' },
-            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released', ab: 'RLP' },
+            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXM' },
+            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
+            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released', ab: 'REL' },
         ],
     },
     {
@@ -77,7 +77,7 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'admin',
         children: [
-            { path: 'agents', title: 'Agents', ab: 'ATB' },
+            { path: 'agents', title: 'Agents', ab: 'AGT' },
             { path: 'users', title: 'Users', ab: 'USR' },
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
