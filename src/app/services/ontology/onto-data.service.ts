@@ -12,6 +12,7 @@ import { OntoDataSearchFilterVm } from '../../models/ontology/onto-data-search-f
 import { environment } from '../../../environments/environment';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '../../../assets/mock/onto-data-search-result-1.mock';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
+import { ONTO_DATA_EXAMPLE_DATA_MOCK_3, ONTO_DATA_MATCHING_DATA_MOCK_3 } from '../../../assets/mock/onto-data-search-result-3.mock';
 
 @Injectable({
     providedIn: 'root',
@@ -97,8 +98,8 @@ export class OntoDataService {
     }
 
     getMockMatchingData(): any {
-        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_2;
-        const matched = ONTO_DATA_MATCHING_DATA_MOCK_2;
+        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_3;
+        const matched = ONTO_DATA_MATCHING_DATA_MOCK_3;
         return this.processMatchedData(matched, example)
     }
 

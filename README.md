@@ -13,9 +13,19 @@ Key dependencies:
 Start development instance:
 ```
 npm install
-npm start
+```
 
+Start using development environment 
+
+```bash
 npx ng serve --host 0.0.0.0
+
+```
+
+Start using production environment 
+
+```bash
+npx ng serve -c production
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.

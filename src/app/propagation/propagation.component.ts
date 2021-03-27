@@ -216,7 +216,7 @@ export class PropagationComponent implements OnInit {
         );
 
         // Mock data
-        // this.ontoDataMatchingGroups = this.ontoDataService.getMockMatchingData();
+        this.ontoDataMatchingGroups = this.ontoDataService.getMockMatchingData();
     }
 
     /**
