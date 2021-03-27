@@ -2,11 +2,11 @@
 // No horizontal border
 //
 
-td.mat-cell{
+td.mat-cell {
   border-bottom-style: none;
 }
 
-th.mat-header-cell{
+th.mat-header-cell {
   border-bottom-style: none;
 }
 
@@ -33,8 +33,8 @@ th.mat-header-cell{
 .mat-column-endpoint {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 25% !important;
-  width: 25% !important;
+  flex: 0 0 35% !important;
+  width: 35% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -49,8 +49,8 @@ th.mat-header-cell{
 .mat-column-dataType {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 8% !important;
+  width: 8% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -65,24 +65,8 @@ th.mat-header-cell{
 .mat-column-keywords {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 30% !important;
-  width: 30% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-.mat-column-description {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 20% !important;
-  width: 20% !important;
+  flex: 0 0 44% !important;
+  width: 44% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -97,8 +81,8 @@ th.mat-header-cell{
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 8% !important;
+  width: 8% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -108,8 +92,8 @@ th.mat-header-cell{
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  text-align: right;
 }
-
 
 //
 // Drag & drop related

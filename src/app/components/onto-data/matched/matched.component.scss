@@ -17,8 +17,41 @@ th.mat-header-cell {
 .mat-column-index {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 5% !important;
-  width: 5% !important;
+  flex: 0 0 8% !important;
+  width: 8% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+
+.mat-column-keywords {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 34% !important;
+  width: 34% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-dataType {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -33,56 +66,8 @@ th.mat-header-cell {
 .mat-column-endpoint {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 35% !important;
-  width: 35% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-// .mat-column-description {
-//   word-wrap: break-word !important;
-//   white-space: unset !important;
-//   flex: 0 0 10% !important;
-//   width: 10% !important;
-//   overflow-wrap: break-word;
-//   word-wrap: break-word;
-
-//   word-break: break-word;
-
-//   -ms-hyphens: auto;
-//   -moz-hyphens: auto;
-//   -webkit-hyphens: auto;
-//   hyphens: auto;
-// }
-
-.mat-column-dataType {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 8% !important;
-  width: 8% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-.mat-column-keywords {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 44% !important;
-  width: 44% !important;
+  flex: 0 0 36% !important;
+  width: 36% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -97,8 +82,8 @@ th.mat-header-cell {
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 8% !important;
-  width: 8% !important;
+  flex: 0 0 12% !important;
+  width: 12% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 

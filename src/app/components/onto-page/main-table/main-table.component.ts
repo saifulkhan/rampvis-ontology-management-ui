@@ -28,7 +28,7 @@ import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 })
 export class OntoPageMainTableComponent implements OnInit {
     @Input() data!: OntoPageExt[];
-    @Input() len!: number;
+    @Input() totalCount!: number;
     @Input() isEditable!: boolean;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
@@ -56,10 +56,10 @@ export class OntoPageMainTableComponent implements OnInit {
 
     public visURL = environment.components.VIS_URL;
 
-    constructor(private router: Router) {}
+    constructor() {}
 
     ngOnInit(): void {
-        console.log('OntoPageMainTableComponent:ngOnInit:  data: ', this.data);
+        console.log('OntoPageMainTableComponent:ngOnInit:  data = ', this.data, 'totalCount = ', this.totalCount);
 
         this.spinner = true;
         this.clearTableData();
@@ -69,7 +69,6 @@ export class OntoPageMainTableComponent implements OnInit {
     }
 
     ngAfterViewInit(): void {
-        this.tableDataSource.paginator = this.paginator;
         this.tableDataSource.sort = this.sort;
 
         this.sort.sortChange.subscribe(() => {
@@ -93,8 +92,8 @@ export class OntoPageMainTableComponent implements OnInit {
                     pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
-                    bindingType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
-                    filter: this.filterTerm$.value,
+                    filterPageType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
+                    filterId: this.filterTerm$.value,
                 } as OntoPageFilterVm;
 
                 console.log('OntoPageMainTableComponent:ngAfterViewInit: ontoPageFilterVm = ', ontoPageFilterVm);
@@ -104,7 +103,7 @@ export class OntoPageMainTableComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.data && this.data) {
-            console.log('OntoPageMainTableComponent:ngOnChanges: data = ', this.data);
+            console.log('OntoPageMainTableComponent:ngOnChanges: data = ', this.data, 'totalCount = ', this.totalCount);
             this.setDataSource();
         }
     }

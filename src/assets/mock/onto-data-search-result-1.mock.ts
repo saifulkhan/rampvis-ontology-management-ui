@@ -1,5 +1,5 @@
 
-export const ONTO_DATA_EXAMPLE_GROUP_MOCK = [
+export const ONTO_DATA_EXAMPLE_DATA_MOCK_1 = [
     {
         id: '60055aef8ed3c535ed5af2d8',
         urlCode: 'API_JS',
@@ -39,7 +39,7 @@ export const ONTO_DATA_EXAMPLE_GROUP_MOCK = [
 ];
 
 
-export const ONTO_DATA_MATCHING_GROUP_MOCK = [
+export const ONTO_DATA_MATCHING_DATA_MOCK_1 = [
     {
         score: 2.9757483361808625,
         group: [
@@ -826,3 +826,4 @@ export const ONTO_DATA_MATCHING_GROUP_MOCK = [
         ],
     },
 ];
+

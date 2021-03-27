@@ -22,6 +22,13 @@
   padding: 4px;
 }
 
+.mat-icon {
+  font-size: 25px;
+}
+.green-icon {
+  color: #5eba7d;
+}
+
 //
 // Width distribution
 //
@@ -29,8 +36,8 @@
 .mat-column-group {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 92% !important;
-  width: 92% !important;
+  flex: 0 0 90% !important;
+  width: 90% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -46,8 +53,8 @@
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 8% !important;
-  width: 8% !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -58,3 +65,4 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+

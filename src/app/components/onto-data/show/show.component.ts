@@ -30,7 +30,8 @@ export class OntoDataShowComponent implements OnInit {
         console.log('OntoDataShowComponent: data = ', data);
         this.data = data;
 
-        this.url = `${environment.components[this.data.urlCode]}${this.data.endpoint}`;
+        const urlCode: string = this.data.urlCode;
+        this.url = `${(environment.components as any)[urlCode]}${this.data.endpoint}`;
         this.api.get(this.url).subscribe((res: any) => {
             console.log('OntoDataShowComponent: res = ', res);
 

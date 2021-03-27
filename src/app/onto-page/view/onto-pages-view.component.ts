@@ -6,7 +6,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 
 import { LocalNotificationService } from '../../services/common/local-notification.service';
 import { OntoPageService } from '../../services/ontology/onto-page.service';
-import { OntoPage } from '../../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { ErrorHandler2Service } from '../../services/common/error-handler-2.service';
 import { UtilService } from '../../services/util.service';
@@ -20,7 +20,7 @@ import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
     styleUrls: ['./onto-pages-view.component.scss'],
 })
 export class OntoPagesViewComponent implements OnInit {
-    public ontoPages: OntoPage[] = [];
+    public ontoPages: OntoPageExt[] = [];
     public ontoPagesTotalCount = 0;
     private ontoPageFilterVm!: OntoPageFilterVm;
 
@@ -76,7 +76,7 @@ export class OntoPagesViewComponent implements OnInit {
         if (!this.filterBindingType$.value || !this.ontoPageFilterVm) {
             return;
         }
-        this.ontoPageFilterVm.bindingType = this.filterBindingType$.value;
+        this.ontoPageFilterVm.filterPageType = this.filterBindingType$.value;
 
         this.ontologyService
             .getAllPages(this.ontoPageFilterVm)
@@ -87,9 +87,9 @@ export class OntoPagesViewComponent implements OnInit {
                 })
             )
             .subscribe((response: any) => {
-                this.ontoPages = response.data;
                 this.ontoPagesTotalCount = response.totalCount;
-                console.log('OntoPagesListComponent:getOntoPages: ontoPages = ', this.ontoPages);
+                this.ontoPages = response.data;
+                console.log('OntoPagesListComponent:getOntoPages: ontoPages = ', this.ontoPages, 'totalCount = ', this.ontoPagesTotalCount);
             });
     }
 

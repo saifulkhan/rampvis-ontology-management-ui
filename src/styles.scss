@@ -61,75 +61,63 @@ mat-chip-list {
     padding: 3px 7px !important;
     min-height: 20px !important;
     margin: 4px 2px !important;
-    color: white !important;
-    background-color: darkgrey !important;
-    //font-weight: 300 !important;
-    //font-size: 0.8em !important;
+    color: #555555 !important;
+    font-weight: 400 !important;
+    font-size: 0.8em !important;
   }
 }
+
 
 //
 // Chip color used for keyword and data type selection state change
 //
 
-.keyword-select-color {
-  background-color: darkgray !important;
-  color: white !important;
-}
-
 .keyword-select-color-1 {
-  background-color: green !important;
-  color: white !important;
+  background-color: #57B440 !important;
+  color: black !important;
 }
 
 .keyword-select-color-2 {
-  background-color: orange !important;
-  color: white !important;
+  background-color: #A7D49C !important;
+  color: black !important;
 }
 
 .keyword-select-color-3 {
-  background-color: red !important;
-  color: white;
-}
-
-.datatype-select-color {
-  background-color: darkgrey !important;
-  color: white !important;
+  background-color: white !important;
+  border: 1px solid #dc6268 !important;
+  color: #dc6268 !important;
 }
 
 .datatype-select-color-1 {
-  background-color: #16c79a !important;
-  color: white !important;
+  background-color: #8FA8E7 !important;
+  color: black !important;
 }
 
 .keyword-match-color-1 {
-  background-color: green !important;
-  color: white !important;
+  // background-color: green !important;
 }
 
 .keyword-match-color-2 {
-  background-color: orange !important;
-  color: white !important;
+  background-color: #A7D49C !important;
+  color: black !important;
 }
 
 .keyword-match-color-3 {
-  background-color: #f0f0f0 !important;
   color: #361999 !important;
 }
 
-.keyword-nomatch-color {
-  background-color: #f0f0f0 !important;
-  color: darkgrey !important;
-}
+// .keyword-nomatch-color {
+//   background-color: #f0f0f0 !important;
+//   color: darkgrey !important;
+// }
 
 .datatype-match-color {
-  background-color: #16c79a !important;
-  color: white !important;
+  background-color: #8FA8E7 !important;
+  color: black !important;
 }
 
 .datatype-nomatch-color {
-  background-color: #F0F0F0 !important;
-  color: #16c79a !important;
+  // color: #dc6268 !important;
 }
 
 //

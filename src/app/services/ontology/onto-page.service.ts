@@ -14,23 +14,23 @@ export class OntoPageService {
 
     constructor(private api: APIService) {}
 
-    public getAllPages(filter: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
-        let url: string = `${this.url}/pages/?bindingType=${filter?.bindingType}`;
+    public getAllPages(ontoPageFilterVm: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
+        let url: string = `${this.url}/pages/?filterPageType=${ontoPageFilterVm?.filterPageType}`;
 
-        if (filter?.pageIndex) {
-            url = url.concat(`&page=${filter?.pageIndex}`);
+        if (ontoPageFilterVm?.pageIndex) {
+            url = url.concat(`&pageIndex=${ontoPageFilterVm?.pageIndex}`);
         }
-        if (filter?.pageSize) {
-            url = url.concat(`&pageCount=${filter?.pageSize}`);
+        if (ontoPageFilterVm?.pageSize) {
+            url = url.concat(`&pageSize=${ontoPageFilterVm?.pageSize}`);
         }
-        if (filter?.filter) {
-            url = url.concat(`&filter=${filter.filter}`);
+        if (ontoPageFilterVm?.filterId) {
+            url = url.concat(`&filterId=${ontoPageFilterVm.filterId}`);
         }
-        if (filter?.sortBy) {
-            url = url.concat(`&sortBy=${filter?.sortBy}`);
+        if (ontoPageFilterVm?.sortBy) {
+            url = url.concat(`&sortBy=${ontoPageFilterVm?.sortBy}`);
         }
-        if (filter?.sortOrder) {
-            url = url.concat(`&sortOrder=${filter?.sortOrder}`);
+        if (ontoPageFilterVm?.sortOrder) {
+            url = url.concat(`&sortOrder=${ontoPageFilterVm?.sortOrder}`);
         }
 
         return this.api.get<PaginationModel<OntoPageExt>>(url);

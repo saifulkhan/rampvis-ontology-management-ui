@@ -12,8 +12,8 @@
 
           <div class="card-body">
             <app-onto-page-main-table
+              [totalCount]="ontoPagesTotalCount"
               [data]="ontoPages"
-              [len]="ontoPagesTotalCount"
               [isEditable]="true"
               (onClickCreate)="onClickCreate()"
               (onClickEdit)="onClickEdit($event)"

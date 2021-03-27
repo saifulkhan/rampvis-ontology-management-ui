@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as _ from 'underscore';
 
 import { APIService } from '../api.service';
@@ -9,8 +10,8 @@ import { DATA_TYPE } from '../../models/ontology/onto-data-types';
 import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 import { OntoDataSearchFilterVm } from '../../models/ontology/onto-data-search-filter.vm';
 import { environment } from '../../../environments/environment';
-import { ONTO_DATA_EXAMPLE_GROUP_MOCK, ONTO_DATA_MATCHING_GROUP_MOCK } from '../../../assets/mock/onto-data-search-group.mock';
-import { map } from 'rxjs/operators';
+import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '../../../assets/mock/onto-data-search-result-1.mock';
+import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
 
 @Injectable({
     providedIn: 'root',
@@ -96,8 +97,8 @@ export class OntoDataService {
     }
 
     getMockMatchingData(): any {
-        const example = ONTO_DATA_EXAMPLE_GROUP_MOCK;
-        const matched = ONTO_DATA_MATCHING_GROUP_MOCK;
+        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_2;
+        const matched = ONTO_DATA_MATCHING_DATA_MOCK_2;
         return this.processMatchedData(matched, example)
     }
 
