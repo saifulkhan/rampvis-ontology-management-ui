@@ -96,7 +96,7 @@ export class OntoPagesViewComponent implements OnInit {
     private openPageEditModal(dialogType: string, ontoPage: OntoPage): void {
         console.log('OntoPagesListComponent: openPageEditModal: ontoPage = ', ontoPage);
 
-        const dialogOpt = { width: '50%', data: { dialogType, data: this.utilService.deepCopy(ontoPage) } };
+        const dialogOpt = { width: '80%', data: { dialogType, data: this.utilService.deepCopy(ontoPage) } };
         const matDialogRef = this.matDialog.open(OntoPageEditComponent, dialogOpt);
 
         matDialogRef
@@ -105,7 +105,6 @@ export class OntoPagesViewComponent implements OnInit {
                 mergeMap(
                     (ontoPage: null | OntoPage): Observable<any> => {
                         if (!ontoPage) return of(false);
-
                         console.log('OntoPagesListComponent: openPageEditModal: dialog afterClosed, ontoPage = ', ontoPage);
 
                         if (dialogType === 'new') return this.ontologyService.createPage(ontoPage);
