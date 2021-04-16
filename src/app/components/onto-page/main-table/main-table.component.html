@@ -30,13 +30,13 @@
   <ng-container matColumnDef="link">
     <th *matHeaderCellDef mat-header-cell>Link</th>
     <td *matCellDef="let row" mat-cell>
-      {{visURL}}/{{row.id}}
+
       <button
         (click)="onClickNavigatePage(row.id)"
         [matTooltipPosition]="'left'"
         class="btn btn-primary btn-link"
         mat-icon-button
-        matTooltip="Navigate to page"
+        matTooltip="{{visURL}}/{{row.id}}"
         type="button"
       >
         <mat-icon>link</mat-icon>
@@ -47,6 +47,16 @@
   <ng-container matColumnDef="date">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
     <td *matCellDef="let row" mat-cell>{{ row.date | date: "short" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="function">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>VIS</th>
+    <td *matCellDef="let row" mat-cell>{{ row?.bindingExts[0]?.vis?.function }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Data [0]</th>
+    <td *matCellDef="let row" mat-cell>{{ row?.bindingExts[0]?.data[0]?.description }} </td>
   </ng-container>
 
   <ng-container matColumnDef="bindings">
