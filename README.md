@@ -10,34 +10,33 @@ Key dependencies:
 - Angular 11+
 - REST-API or backend server: https://github.com/ScottishCovidResponse/rampvis-api
 
-Start development instance:
-```
+
+### Start Using Development RESTful API 
+
+```bash
 npm install
+npx ng serve 
+# Note: to access from local network add '--host 0.0.0.0'
 ```
+Navigate to [localhost:4200](localhost:4200) to open the UI.
 
-Start using development environment 
+
+### Start Using Production RESTful API 
 
 ```bash
-npx ng serve --host 0.0.0.0
-
-```
-
-Start using production environment 
-
-```bash
+npm install
 npx ng serve -c production
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.
 
-
-# Build
+## Build
 
 ```bash
-# TO CHECK
+# test this command again
  npx ng build --prod --aot=false --build-optimizer=false --base-href /onto
 ```
 
-# Notes
+## Notes
 
 - **Firebase**- The Firebase package versions in the `package.json` and in `src/firebase-messaging-sw.js` should be consistent.
