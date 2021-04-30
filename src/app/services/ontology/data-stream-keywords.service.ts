@@ -1,5 +1,5 @@
 export const DataStreamKeywords = {
-    Source: ['mock', 'xl', 'housekeeping', 'h5', 'data_product', 'phong'],
+    Source: ['mock', 'xl', 'housekeeping', 'h5', 'data_product'],
     Country: ['scotland', 'england', 'wales', 'northern_ireland'],
     Scotland_Regions: [
         // Scotland
@@ -47,7 +47,9 @@ export const DataStreamKeywords = {
     PlaceOfDeath: ['care_home', 'elsewhere', 'home', 'hospice', 'hospital', 'other_communal_establishment'],
     Analytics: ['pearson', 'f_test', 'mse'],
     Model: ['eera'],
-    Transform: ['normalized']
+    Transform: ['normalized'],
+    Scope:['health_board', 'entire_country', 'all_boards'],
+    Temporary:['phong', 'bdb']
 };
 
 /**
