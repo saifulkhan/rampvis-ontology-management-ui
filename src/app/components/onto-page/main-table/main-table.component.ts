@@ -30,9 +30,11 @@ export class OntoPageMainTableComponent implements OnInit {
     @Input() data!: OntoPageExt[];
     @Input() totalCount!: number;
     @Input() isEditable!: boolean;
+    @Input() bindingType!: BINDING_TYPE;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
     @Output() onClickDelete: EventEmitter<string> = new EventEmitter<string>();
+    @Output() onClickRelease: EventEmitter<string> = new EventEmitter<string>();
     @Output() onClickShowBinding: EventEmitter<string> = new EventEmitter<string>();
     @Output() fetchFilteredData: EventEmitter<OntoPageFilterVm> = new EventEmitter<OntoPageFilterVm>();
 
@@ -163,5 +165,9 @@ export class OntoPageMainTableComponent implements OnInit {
         } else {
             this.expandedElement.splice(index, 1);
         }
+    }
+
+    public isBindingTypeReview() {
+        return this.bindingType === BINDING_TYPE.REVIEW;
     }
 }

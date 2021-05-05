@@ -5,6 +5,7 @@ import { APIService } from '../api.service';
 import { OntoPage, OntoPageExt, OntoPageExtSearchGroup } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
+import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -45,7 +46,11 @@ export class OntoPageService {
     }
 
     public updatePageData(pageId: string, dataIds: string[]): Observable<any> {
-        return this.api.put(`${this.url}/page/${pageId}/data`, dataIds);
+        return this.api.put(`${this.url}/page/${pageId}/data`, { dataIds: dataIds } );
+    }
+
+    public updatePageBindingType(pageId: string, bindingType: BINDING_TYPE): Observable<any> {
+        return this.api.put(`${this.url}/page/${pageId}/bindingtype`, { bindingType: bindingType });
     }
 
     public deletePage(pageId: string): Observable<OntoPage> {

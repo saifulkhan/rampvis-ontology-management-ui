@@ -223,12 +223,10 @@ export class OntoPageBindingsComponent implements OnInit {
 
     public onClickSaveData() {
         const dataIds = this.ontoDataBasket.map(d => d.id);
-        //console.log('OntoPageBindingsComponent:onClickSaveData: dataIds = ', dataIds);
-
         this.ontoPageService.updatePageData(this.pageId, dataIds).subscribe(res => {
-            //console.log('OntoPageBindingsComponent:onClickSaveData: res  = ', res);
-            this.localNotificationService.success({ message: `Updated ${res.modifiedCount} page` });
-        })
-
+            if (res.modifiedCount) {
+                this.localNotificationService.success({ message: `Updated ${res.modifiedCount} page` });
+            }
+        });
     }
 }

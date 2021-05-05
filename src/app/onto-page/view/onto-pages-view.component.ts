@@ -57,9 +57,18 @@ export class OntoPagesViewComponent implements OnInit {
         this.dialogService.warn('Delete', 'Are you sure you want to delete this?', 'Delete').then((result) => {
             if (result.value) {
                 this.ontologyService.deletePage(pageId).subscribe((res: any) => {
-                    this.localNotificationService.success({ message: 'Successfully deleted' });
+                    this.localNotificationService.success({ message: 'Deleted' });
                     this.ontoPages = this.ontoPages.filter((d) => d.id !== pageId);
                 });
+            }
+        });
+    }
+
+    public onClickRelease(pageId: string): void {
+        this.ontologyService.updatePageBindingType(pageId, BINDING_TYPE.RELEASE).subscribe((res: any) => {
+            if (res.modifiedCount) {
+                this.localNotificationService.success({ message: `Released`});
+                this.ontoPages = this.ontoPages.filter((d) => d.id !== pageId);
             }
         });
     }

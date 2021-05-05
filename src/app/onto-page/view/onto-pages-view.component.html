@@ -15,9 +15,11 @@
               [totalCount]="ontoPagesTotalCount"
               [data]="ontoPages"
               [isEditable]="true"
+              [bindingType]="(filterBindingType$.value)"
               (onClickCreate)="onClickCreate()"
               (onClickEdit)="onClickEdit($event)"
               (onClickDelete)="onClickDelete($event)"
+              (onClickRelease)="onClickRelease($event)"
               (onClickShowBinding)="onClickShowBinding($event)"
               (fetchFilteredData)="getOntoPages($event)"
             >

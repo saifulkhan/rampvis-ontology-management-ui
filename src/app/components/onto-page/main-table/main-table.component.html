@@ -81,17 +81,6 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef class="text-center actions" mat-header-cell>Actions</th>
     <td *matCellDef="let row" class="td-actions text-center text-nowrap" mat-cell>
-      <button
-        (click)="row.isExpanded = !row.isExpanded"
-        [matTooltipPosition]="'left'"
-        class="btn btn-primary btn-link"
-        mat-icon-button
-        matTooltip="Expand or collapse"
-        type="button"
-      >
-        <mat-icon *ngIf="!row.isExpanded">expand_more</mat-icon>
-        <mat-icon *ngIf="row.isExpanded">expand_less</mat-icon>
-      </button>
 
       <button
         cdkCopyToClipboard="{{ row.id }}"
@@ -127,15 +116,39 @@
       </button>
 
       <button
-      (click)="onClickShowBinding.emit(row.id)"
-      [matTooltipPosition]="'left'"
-      class="btn btn-primary btn-link"
-      mat-icon-button
-      matTooltip="Show binding"
-      type="button"
-    >
-      <mat-icon>navigate_next</mat-icon>
-    </button>
+        *ngIf="isBindingTypeReview()"
+        (click)="onClickRelease.emit(row.id)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-success btn-link"
+        mat-icon-button
+        matTooltip="Release"
+        type="button"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+
+      <button
+        (click)="row.isExpanded = !row.isExpanded"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="Expand or collapse"
+        type="button"
+      >
+        <mat-icon *ngIf="!row.isExpanded">expand_more</mat-icon>
+        <mat-icon *ngIf="row.isExpanded">expand_less</mat-icon>
+      </button>
+
+      <button
+        (click)="onClickShowBinding.emit(row.id)"
+        [matTooltipPosition]="'left'"
+        class="btn btn-primary btn-link"
+        mat-icon-button
+        matTooltip="Show binding"
+        type="button"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
 
     </td>
   </ng-container>
