@@ -44,6 +44,10 @@ export class OntoPageService {
         return this.api.put(`${this.url}/page/${ontoPage.id}`, ontoPage);
     }
 
+    public updatePageData(pageId: string, dataIds: string[]): Observable<any> {
+        return this.api.put(`${this.url}/page/${pageId}/data`, dataIds);
+    }
+
     public deletePage(pageId: string): Observable<OntoPage> {
         return this.api.delete(`${this.url}/page/${pageId}`);
     }

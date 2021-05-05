@@ -15,6 +15,8 @@ import { ErrorHandler2Service } from '../../services/common/error-handler-2.serv
 import { OntoVisSearch } from '../../models/ontology/onto-vis.model';
 import { OntoVisSearchFilterVm } from '../../models/ontology/onto-vis-search-filter.vm';
 import { OntoVisService } from '../../services/ontology/onto-vis.service';
+import { LocalNotificationService } from '../../services/common/local-notification.service';
+
 
 @Component({
     selector: 'app-onto-page-bindings',
@@ -30,9 +32,9 @@ export class OntoPageBindingsComponent implements OnInit {
         private route: ActivatedRoute,
         private ontoVisService: OntoVisService,
         private ontoDataService: OntoDataService,
-
         private ontoPageService: OntoPageService,
-        private errorHandler2Service: ErrorHandler2Service
+        private errorHandler2Service: ErrorHandler2Service,
+        private localNotificationService: LocalNotificationService,
     ) {}
 
     ngOnInit(): void {
@@ -88,7 +90,7 @@ export class OntoPageBindingsComponent implements OnInit {
                 this.highlightOntoVisSearchSuggestion = query;
                 this.ontoVisService.suggest(query).subscribe((res) => {
                     this.suggestedOntoVis = res;
-                    console.log('PropagationComponent: suggestedOntoVis = ', this.suggestedOntoVis);
+                    console.log('OntoPageBindingsComponent: suggestedOntoVis = ', this.suggestedOntoVis);
                 });
             });
     }
@@ -106,7 +108,7 @@ export class OntoPageBindingsComponent implements OnInit {
             query: this.ontoVisSearchFormGroup.value.ontoVisSearchQuery,
         } as OntoVisSearchFilterVm;
 
-        console.log('PropagationComponent: onClickSearchOntoVis: ontoVisSearchFilterVm = ', ontoVisSearchFilterVm);
+        console.log('OntoPageBindingsComponent: onClickSearchOntoVis: ontoVisSearchFilterVm = ', ontoVisSearchFilterVm);
 
         this.ontoVisService
             .search(ontoVisSearchFilterVm)
@@ -119,7 +121,7 @@ export class OntoPageBindingsComponent implements OnInit {
             .subscribe(
                 (res: any) => {
                     this.ontoVisSearchResult = res;
-                    console.log('PropagationComponent:searchOntoVis: ontoVisSearchResult = ', this.ontoVisSearchResult);
+                    console.log('OntoPageBindingsComponent:searchOntoVis: ontoVisSearchResult = ', this.ontoVisSearchResult);
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -161,7 +163,7 @@ export class OntoPageBindingsComponent implements OnInit {
                 this.highlightOntoDataSearchSuggestion = query;
                 this.ontoDataService.suggest(query).subscribe((res) => {
                     this.suggestedOntoData = res;
-                    console.log('PropagationComponent: suggestedOntoData = ', this.suggestedOntoData);
+                    console.log('OntoPageBindingsComponent: suggestedOntoData = ', this.suggestedOntoData);
                 });
             });
     }
@@ -184,7 +186,7 @@ export class OntoPageBindingsComponent implements OnInit {
                     : this.ontoDataSearchFormGroup.value.ontoDataSearchDataType,
         } as OntoDataSearchFilterVm;
 
-        console.log( 'TestComponentsComponent: onClickSearchOntoData: ontoDataSearchFilterVm = ', ontoDataSearchFilterVm);
+        console.log('OntoPageBindingsComponent: onClickSearchOntoData: ontoDataSearchFilterVm = ', ontoDataSearchFilterVm);
 
         this.ontoDataService
             .search(ontoDataSearchFilterVm)
@@ -198,7 +200,7 @@ export class OntoPageBindingsComponent implements OnInit {
                 (res: any) => {
                     this.ontoDataSearchResult = res.data;
                     this.ontoDataSearchResultTotalCount = res.totalCount;
-                    console.log('TestComponentsComponent:search: ontoDataSearchResult = ', this.ontoDataSearchResult);
+                    console.log('OntoPageBindingsComponent:search: ontoDataSearchResult = ', this.ontoDataSearchResult);
                 },
                 (err) => {}
                 // () => (this.spinner = false)
@@ -208,14 +210,25 @@ export class OntoPageBindingsComponent implements OnInit {
     // add data to basket
     addData!: OntoData;
     public addOntoDataToBasket(row: OntoData) {
-        console.log('TestComponentsComponent:addOntoDataToBasket: row = ', row);
+        console.log('OntoPageBindingsComponent:addOntoDataToBasket: row = ', row);
         this.addData = row;
-        console.log('TestComponentsComponent:addOntoDataToBasket: ontoDataBasket = ', this.ontoDataBasket);
+        console.log('OntoPageBindingsComponent:addOntoDataToBasket: ontoDataBasket = ', this.ontoDataBasket);
     }
 
     public optionSelected(input: HTMLInputElement) {
         input.blur();
         input.setSelectionRange(0, 0);
         input.focus();
+    }
+
+    public onClickSaveData() {
+        const dataIds = this.ontoDataBasket.map(d => d.id);
+        //console.log('OntoPageBindingsComponent:onClickSaveData: dataIds = ', dataIds);
+
+        this.ontoPageService.updatePageData(this.pageId, dataIds).subscribe(res => {
+            //console.log('OntoPageBindingsComponent:onClickSaveData: res  = ', res);
+            this.localNotificationService.success({ message: `Updated ${res.modifiedCount} page` });
+        })
+
     }
 }
