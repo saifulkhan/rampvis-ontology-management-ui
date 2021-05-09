@@ -48,7 +48,7 @@ export const DataStreamKeywords = {
     Analytics: ['pearson', 'f_test', 'mse'],
     Model: ['eera'],
     Transform: ['normalized'],
-    Scope:['health_board', 'entire_country', 'all_boards'],
+    Scope:['entire_country', 'health_board', 'all_boards', 'local_authority', 'all_local_authorities'],
     Temporary:['phong', 'bdb']
 };
 
