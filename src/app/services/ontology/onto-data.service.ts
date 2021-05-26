@@ -89,44 +89,40 @@ export class OntoDataService {
     public searchMatchingGroups(query: any, example: any): Observable<any> {
         let url: string = `${this.py_url}/onto-data/search/group`;
 
-        // const example = ONTO_DATA_EXAMPLE_GROUP_MOCK;
-        // const matched = ONTO_DATA_MATCHING_GROUP_MOCK;
-
         return this.api.post(url, query).pipe(map((d: any) => {
-            return this.processMatchedData(d, example)
+            return this.processKeywordsOfDiscovered(d, example)
         }));
+
     }
 
     getMockMatchingData(): any {
-        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_3;
-        const matched = ONTO_DATA_MATCHING_DATA_MOCK_3;
-        return this.processMatchedData(matched, example)
+        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_1;
+        const discovered = ONTO_DATA_MATCHING_DATA_MOCK_1;
+        return this.processKeywordsOfDiscovered(discovered, example)
     }
 
     /**
-     * @param matched
+     * @param discovered
      * @param example
      *
      * TODO: any -> type
      */
-    processMatchedData(matched: any, example: any) {
+    processKeywordsOfDiscovered(discovered: any, example: any) {
+        console.log('processKeywordsOfDiscovered: discovered = ', discovered)
+
         //
         // 1 - intersection of all
         //
-
-        const intersection = matched.map((d: any) => {
+        const intersectionGroups: string[][] = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
                 const keywords = d1.keywords.split(', ');
                 return keywords;
             });
-
-            //console.log('keywords = ', keywords);
-            const intersection = _.intersection(...keywords);
-            //console.log('intersection = ', intersection);
+            const intersection: string[]= _.intersection(...keywords);
             return intersection;
         });
 
-        const intersectionAll: string[] = _.intersection(...intersection);
+        const intersectionAll: string[] = _.intersection(...intersectionGroups);
         console.log('intersectionAll = ', intersectionAll);
 
         //
@@ -149,45 +145,61 @@ export class OntoDataService {
             return bRank - aRank;
         };
 
-        const matched1 = matched.map((d: any) => {
+        const processed = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
                 const keywords = d1.keywords.split(', ');
                 return keywords;
             });
-
             const intersection = _.intersection(...keywords);
 
-            //console.log('keywords = ', _.union(...keywords), '\nintersection = ', intersection);
+            const differenceGroup = _.difference(intersection, intersectionAll);
+            console.log('keywords = ', keywords, ', intersection = ', intersection);
+            console.log('differenceGroup = ', differenceGroup);
 
-            const intersectionGroup = _.difference(intersection, intersectionAll);
-            console.log('intersectionGroup = ', intersectionGroup);
 
-            const obj = d.group.map((d1: any, i: number) => {
-                // const keywords = d1.keywords.split(', ');
-                console.log(i);
-                const keywords = d1.keywords.split(', ');
+            console.log('d.group = ', d.group);
+
+            const processedGroup = d.group.map((s: any, i: number) => {
+                const keywords = s.keywords.split(', ');
+                console.log('1', s);
+                console.log('2', d.group.length, example, example.length);
+
+                if (d.group.length != example.length) {
+                    console.log('2');
+
+                    return {
+                        ...s,
+                        keywords: keywords,
+                        iAll: intersectionAll,
+                        iGroup: differenceGroup,
+                        iExample: [],
+                        iDataType: false
+                    }
+                }
+
 
                 //
                 // 3.
                 //
                 const intersectionExample: string[] = _.difference(_.intersection(keywords, example[i].keywords), intersectionAll);
-                console.log(intersectionExample);
+                console.log('intersectionExample = ', intersectionExample);
+
                 return {
-                    ...d1,
-                    keywords: keywords.sort().sort((a: string, b: string) => sorter(intersectionAll, intersectionGroup, intersectionExample, a, b)),
+                    ...s,
+                    keywords: keywords.sort().sort((a: string, b: string) => sorter(intersectionAll, differenceGroup, intersectionExample, a, b)),
                     iAll: intersectionAll,
-                    iGroup: intersectionGroup,
+                    iGroup: differenceGroup,
                     iExample: intersectionExample,
-                    iDataType: (example[i].dataType === d1.dataType)
+                    iDataType: (example[i].dataType === s.dataType)
                 };
             });
 
-            return { ...d, group: obj };
-            // return intersection;
+
+            console.log('\n')
+            return { ...d, group: processedGroup };
         });
 
-        console.log('matched1 = ', matched1);
-
-        return matched1;
+        console.log('processed = ', processed);
+        return processed;
     }
 }
