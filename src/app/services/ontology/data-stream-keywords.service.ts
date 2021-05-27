@@ -3,13 +3,13 @@ export const DataStreamKeywords = {
     Country: ['scotland', 'england', 'wales', 'northern_ireland'],
     Scotland_Regions: [
         // Scotland
-        'ayrshire_arran',
+        'ayrshire_and_arran',
         'borders',
-        'dumfries_galloway',
+        'dumfries_and_galloway',
         'fife',
         'forth_valley',
         'grampian',
-        'greater_glasgow_clyde',
+        'greater_glasgow_and_clyde',
         'highland',
         'lanarkshire',
         'lothian',
