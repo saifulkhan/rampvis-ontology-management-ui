@@ -48,7 +48,14 @@
                             "node_modules/jqvmap/dist/jquery.vmap.min.js",
                             "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
                             "node_modules/jquery-validation/dist/jquery.validate.min.js"
-                        ]
+                        ],
+                        "aot": false,
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
                     },
                     "configurations": {
                         "production": {
@@ -64,7 +71,6 @@
                             "namedChunks": false,
                             "extractLicenses": true,
                             "vendorChunk": false,
-                            "buildOptimizer": false,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -78,7 +84,8 @@
                                 }
                             ]
                         }
-                    }
+                    },
+                    "defaultConfiguration": ""
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
