@@ -10,7 +10,7 @@ import { OntoVisService } from '../../../services/ontology/onto-vis.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataService } from '../../../services/ontology/onto-data.service';
 import { OntoPageService } from '../../../services/ontology/onto-page.service';
-import { OntoPage } from '../../../models/ontology/onto-page.model';
+import { OntoPage, OntoPageExt } from '../../../models/ontology/onto-page.model';
 import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 
@@ -38,10 +38,20 @@ export class BindingEditComponent extends BaseNestedform {
         });
 
         this.ontoVis$ = this.ontoVisService.getAllVis();
-        this.ontoData$ = this.ontoDataService.getAllData1().pipe(map((d: any) => d.data));
+        this.ontoData$ = this.ontoDataService
+            .getAllData1()
+            .pipe(map((d: any) => d.data));
+
         this.ontoPages$ = this.ontoPageService
             .getAllPages({ filterPageType: BINDING_TYPE.EXAMPLE } as OntoPageFilterVm)
-            .pipe(map((d: any) => d.data));
+            .pipe(
+                map((d: any) => {
+                    return d.data.map((page: OntoPageExt) => {
+                        console.log(page);
+                        return { ...page, name: `${page.bindingExts[0].vis.function} + [${page.bindingExts[0].data[0].endpoint}, ...${page.bindingExts[0].data.length - 1}]` };
+                    });
+                })
+            );
     }
 
     ngAfterViewInit() {}
