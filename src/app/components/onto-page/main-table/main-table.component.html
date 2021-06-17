@@ -59,12 +59,11 @@
     <td *matCellDef="let row" mat-cell>{{ row?.bindingExts[0]?.data[0]?.description }} </td>
   </ng-container>
 
-  <ng-container matColumnDef="bindings">
-    <th *matHeaderCellDef mat-header-cell>Bindings</th>
+  <ng-container matColumnDef="numDataStreams">
+    <th *matHeaderCellDef mat-header-cell>Data Streams</th>
     <td *matCellDef="let row" mat-cell>
       <div *ngFor="let d of row.bindings">
-        <div class="text-in-dot" style="background:#BB3385">1</div>
-        <div class="text-in-dot" style="background: #C19A6B">{{ d.dataIds.length }}</div>
+        <div class="text-in-dot" style="background: #bb6d0e">{{ d.dataIds.length }}</div>
       </div>
     </td>
   </ng-container>
