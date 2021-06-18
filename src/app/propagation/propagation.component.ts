@@ -401,7 +401,7 @@ export class PropagationComponent implements OnInit {
     public cluster: boolean = true;
     public numClusters!: number;
     clusteringAlgorithm: string = 'Spectral Graph';
-    clusteringAlgorithms: string[] = ['Naive (Brute-force)', 'Spectral Graph'];
+    clusteringAlgorithms: string[] = ['Brute-force', 'Spectral Graph'];
 
     public onClickSearchMatchingGroups() {
         console.log(

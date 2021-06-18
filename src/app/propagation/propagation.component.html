@@ -32,14 +32,24 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <button
+          <!-- <button
             (click)="onClickSearchOntoVis()"
             [disabled]="!ontoVisSearchFormGroup.valid"
             class="btn btn-primary btn-round btn-fab float-right card-btn"
             type="submit"
           >
             <mat-icon>search</mat-icon>
-          </button>
+          </button> -->
+
+          <button
+            mat-raised-button
+            class="btn btn-primary"
+            cdkFocusInitial
+            (click)="onClickSearchOntoVis()"
+            type="submit"
+            [disabled]="!ontoVisSearchFormGroup.valid"
+          >Search</button>
+
         </form>
 
         <!-- Example vis table-->
@@ -54,7 +64,7 @@
         <!-- Example data table-->
         <mat-card *ngIf="exampleOntoData?.length">
           <mat-card-header>
-            <mat-card-title>Example Data Streams</mat-card-title>
+            <mat-card-title>Reference Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-example [data]="exampleOntoData" (onChangeKeywords)="onUpdateKeywords($event)" (onChangeDataTypes)="onUpdateDataTypes($event)">
@@ -296,7 +306,7 @@
 
         <mat-card *ngIf="ontoDataMatchingGroups?.length">
           <mat-card-header>
-            <mat-card-title>Matching Data Streams</mat-card-title>
+            <mat-card-title>Discovered Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-matched-table

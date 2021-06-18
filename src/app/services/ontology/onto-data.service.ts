@@ -115,7 +115,7 @@ export class OntoDataService {
         //
         const intersectionGroups: string[][] = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
-                const keywords = d1.keywords.split(', ');
+                const keywords = d1.keywords.split(', ').filter((d: string) => d)
                 return keywords;
             });
             const intersection: string[]= _.intersection(...keywords);
@@ -147,7 +147,7 @@ export class OntoDataService {
 
         const processed = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
-                const keywords = d1.keywords.split(', ');
+                const keywords = d1.keywords.split(', ').filter((d: string) => d);
                 return keywords;
             });
             const intersection = _.intersection(...keywords);
@@ -160,7 +160,7 @@ export class OntoDataService {
             console.log('d.group = ', d.group);
 
             const processedGroup = d.group.map((s: any, i: number) => {
-                const keywords = s.keywords.split(', ');
+                const keywords = s.keywords.split(', ').filter((d: string) => d);
                 console.log('1', s);
                 console.log('2', d.group.length, example, example.length);
 
