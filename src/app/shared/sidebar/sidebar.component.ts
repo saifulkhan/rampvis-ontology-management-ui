@@ -77,18 +77,18 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'admin',
         children: [
-            { path: 'agents', title: 'Agents', ab: 'AGT' },
+            //{ path: 'agents', title: 'Agents', ab: 'AGT' },
             { path: 'users', title: 'Users', ab: 'USR' },
             { path: 'activities', title: 'Activities', ab: 'ACT' },
         ],
     },
-    {
-        path: '/test-components',
-        title: 'Test Components',
-        type: 'link',
-        icontype: 'help',
-        roles: [Role.ADMIN],
-    },
+    // {
+    //     path: '/test-components',
+    //     title: 'Test Components',
+    //     type: 'link',
+    //     icontype: 'help',
+    //     roles: [Role.ADMIN],
+    // },
 ];
 
 @Component({

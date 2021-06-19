@@ -3,7 +3,6 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-
 export const environment: any = {
     production: false,
     staging: false,
@@ -25,27 +24,3 @@ export const environment: any = {
         measurementId: 'xx',
     },
 };
-
-/*
-export const environment = {
-    production: true,
-    staging: false,
-    configuration: 'production',
-    components: {
-        'API_JS': 'http://vis.scrc.uk/api/v1', // Node
-        'API_PY': 'http://vis.scrc.uk/stat/v1', // Python
-        'sentry': '',
-        'VIS_URL': 'http://vis.scrc.uk',
-    },
-    firebaseConfig: {
-        'apiKey': 'xx',
-        'authDomain': 'xx',
-        'databaseURL': 'xx',
-        'projectId': 'xx',
-        'storageBucket': 'xx',
-        'messagingSenderId': 'xx',
-        'appId': 'xx',
-        'measurementId': 'xx',
-    },
-};
-*/
