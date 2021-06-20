@@ -36,17 +36,17 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
     },
     {
-        path: '/vis',
-        title: 'VIS Functions',
-        type: 'link',
-        icontype: 'insert_chart',
-        roles: [Role.ADMIN],
-    },
-    {
         path: '/data',
         title: 'Data Streams',
         type: 'link',
         icontype: 'storage',
+        roles: [Role.ADMIN],
+    },
+    {
+        path: '/vis',
+        title: 'VIS Functions',
+        type: 'link',
+        icontype: 'insert_chart',
         roles: [Role.ADMIN],
     },
     {

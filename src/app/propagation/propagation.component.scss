@@ -1,4 +1,17 @@
 //
+// VIS search form
+//
+.vis-search {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; // centre the whole form
+}
+
+
+//
 // material card
 //
 .mat-card {
@@ -10,29 +23,20 @@
   font-weight: normal;
 }
 
-.mat-card-data-search {
-  margin-bottom: 0px;
+//
+// Search Query
+//
+.mat-accordion .mat-expansion-panel{
+  margin-bottom: 10px;
 }
 
-.mat-expansion-panel {
-  margin-bottom: 15px;
+.mat-card-data-search {
+  margin-top: 10px;
 }
 
 // space below data search button
 .mat-card-actions {
   margin-bottom: 0px;
-}
-
-//
-// VIS search form
-//
-.vis-search {
-  width: 40%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto; // centre the whole form
 }
 
 
