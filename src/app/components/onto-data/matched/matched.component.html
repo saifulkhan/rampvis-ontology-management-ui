@@ -8,8 +8,8 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="endpoint">
-    <th *matHeaderCellDef mat-header-cell>Endpoint</th>
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell>Description</th>
     <td *matCellDef="let row" mat-cell>
       <!-- {{ row.urlCode }}{{ row.endpoint | truncate: "50" }} <br/> -->
       {{ row.description | truncate: "50" }}
@@ -40,7 +40,7 @@
       <mat-chip-list>
         <ng-container *ngFor="let d of row.keywords">
         <mat-chip
-          *ngIf="row.iAll.includes(d) != 1"
+          *ngIf="row.mustKeys.includes(d) != 1"
           [ngClass]="
             row.iAll.includes(d)
               ? 'keyword-match-color-1'

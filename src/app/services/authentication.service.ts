@@ -46,7 +46,7 @@ export class AuthenticationService {
 	}
 
 	getDefaultRoute(): string {
-		return '/dashboard';
+		return '/home';
 	}
 
 	login(username: string, password: string): Promise<User> {
@@ -60,8 +60,8 @@ export class AuthenticationService {
 				.subscribe(data => {
 						if (!data || !data.token) {
 							this.logout();
-							reject({ 
-								status: this.errorHandler2Service.handleError(this.genericErrorMessage, false) 
+							reject({
+								status: this.errorHandler2Service.handleError(this.genericErrorMessage, false)
 							});
 							return;
 						}
@@ -69,8 +69,8 @@ export class AuthenticationService {
 						this.api.setToken(data.token);
 						this.loadUser(true)
 							.then(() => resolve(this.getUser()))
-							.catch((error) => reject({ 
-								status: this.errorHandler2Service.handleError(error || this.genericErrorMessage, false) 
+							.catch((error) => reject({
+								status: this.errorHandler2Service.handleError(error || this.genericErrorMessage, false)
 							}));
 					},
 					(error) => reject({ status: this.errorHandler2Service.handleError(error || this.genericErrorMessage, false) }));

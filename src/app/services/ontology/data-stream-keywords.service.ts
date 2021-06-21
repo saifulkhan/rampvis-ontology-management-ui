@@ -44,7 +44,7 @@ export const DataStreamKeywords = {
     Topic: ['mortality', 'covid_deaths', 'all_deaths'],
     AgeGroup: ['age_group', '0_years', '1_14_years', '15_44_years', '45_64_years', '65_74_years', '75_84_years', '85_years_and_over'],
     Gender: ['female', 'male'],
-    Case_Type: [ 'hospital_confirmed', 'icu_patients', 'icu_confirmed', 'daily_tests_reported'],
+    Case_Type: [ 'hospital_confirmed', 'icu_patients', 'icu_confirmed', 'daily_tests_reported', 'testing', "new_cases"],
     PlaceOfDeath: ['care_home', 'elsewhere', 'home', 'hospice', 'hospital', 'other_communal_establishment'],
     Analytics: ['pearson', 'f_test', 'mse'],
     Model: ['eera'],

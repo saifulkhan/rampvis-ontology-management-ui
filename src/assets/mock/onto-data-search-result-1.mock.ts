@@ -1,4 +1,6 @@
 
+export const MUST_KEYS_1 = [];
+
 export const ONTO_DATA_EXAMPLE_DATA_MOCK_1 = [
     {
         id: '60055aef8ed3c535ed5af2d8',

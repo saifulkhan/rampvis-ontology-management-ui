@@ -1,3 +1,5 @@
+export const MUST_KEYS_2 = [];
+
 export const ONTO_DATA_EXAMPLE_DATA_MOCK_2 = [
     {
         id: '605777fb579c6d1ee014757d',

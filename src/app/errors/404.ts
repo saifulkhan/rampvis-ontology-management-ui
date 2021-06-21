@@ -4,7 +4,7 @@ import { Component } from '@angular/core'
   selector: 'not-found',
   template: `<h4 class="text-sm-center" style="margin-top: 100px;">Under construction</h4>
 
-  <p class="text-sm-center"><a [routerLink]="['/dashboard']">Go to Dashboard</a></p>`
+  <p class="text-sm-center"><a [routerLink]="['/home']">Go to Home</a></p>`
 })
 
 export class NotFoundComponent { }

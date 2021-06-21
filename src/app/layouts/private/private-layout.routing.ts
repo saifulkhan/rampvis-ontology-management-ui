@@ -8,7 +8,7 @@ export const PrivateLayoutRoutes: Routes = [
         component: PrivateLayoutComponent,
         children: [
             {
-                path: 'dashboard',
+                path: 'home',
                 data: { allowedRoles: [Role.ADMIN, Role.USER] },
                 loadChildren: () => import('../../dashboard/dashboard.module').then((m) => m.DashboardModule),
             },

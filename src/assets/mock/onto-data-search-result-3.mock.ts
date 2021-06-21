@@ -1,3 +1,5 @@
+export const MUST_KEYS_3 = [];
+
 // All deaths
 export const ONTO_DATA_EXAMPLE_DATA_MOCK_3 = [
     {

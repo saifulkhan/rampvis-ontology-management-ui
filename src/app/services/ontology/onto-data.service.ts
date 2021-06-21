@@ -13,6 +13,8 @@ import { environment } from '../../../environments/environment';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '../../../assets/mock/onto-data-search-result-1.mock';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_3, ONTO_DATA_MATCHING_DATA_MOCK_3 } from '../../../assets/mock/onto-data-search-result-3.mock';
+import { MUST_KEYS_4, ONTO_DATA_EXAMPLE_DATA_MOCK_4, ONTO_DATA_MATCHING_DATA_MOCK_4 } from '../../../assets/mock/onto-data-search-result-4.mock';
+
 
 @Injectable({
     providedIn: 'root',
@@ -89,16 +91,20 @@ export class OntoDataService {
     public searchMatchingGroups(query: any, example: any): Observable<any> {
         let url: string = `${this.py_url}/onto-data/search/group`;
 
+        const mustKeys = query?.mustKeys;
+        console.log('OntoDataService:searchMatchingGroups: mustKeys = ', mustKeys)
+
         return this.api.post(url, query).pipe(map((d: any) => {
-            return this.processKeywordsOfDiscovered(d, example)
+            return this.processKeywords(mustKeys, d, example)
         }));
 
     }
 
     getMockMatchingData(): any {
-        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_1;
-        const discovered = ONTO_DATA_MATCHING_DATA_MOCK_1;
-        return this.processKeywordsOfDiscovered(discovered, example)
+        const mustKeys = MUST_KEYS_4;
+        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_4;
+        const discovered = ONTO_DATA_MATCHING_DATA_MOCK_4;
+        return this.processKeywords(mustKeys, discovered, example)
     }
 
     /**
@@ -107,13 +113,13 @@ export class OntoDataService {
      *
      * TODO: any -> type
      */
-    processKeywordsOfDiscovered(discovered: any, example: any) {
-        console.log('processKeywordsOfDiscovered: discovered = ', discovered)
+    processKeywords(mustKeys: string[], discovered: any, example: any) {
+        console.log('OntoDataService:processKeywords: discovered = ', discovered)
 
         //
-        // 1 - intersection of all
+        // 1. Intersection of keywords of all discovered data stream.
         //
-        const intersectionGroups: string[][] = discovered.map((d: any) => {
+        const _intersectionAll: string[][] = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
                 const keywords = d1.keywords.split(', ').filter((d: string) => d)
                 return keywords;
@@ -122,76 +128,69 @@ export class OntoDataService {
             return intersection;
         });
 
-        const intersectionAll: string[] = _.intersection(...intersectionGroups);
-        console.log('intersectionAll = ', intersectionAll);
+        const intersectionAll: string[] = _.intersection(..._intersectionAll);
+        const intersectionAllDiffMustKeys: string[] = _.difference(intersectionAll, mustKeys);
+        console.log('intersectionAll = ', intersectionAll, '\nintersectionAllDiffMustKeys = ', intersectionAllDiffMustKeys);
 
-        //
-        // 2 - intersection in group
-        //
 
-        const sorter = (p1: string[], p2: string[], p3: string[], a: string, b: string) => {
-            // The unmatched ones will be sorted to end
-            let aRank = 0,
-                bRank = 0;
 
-            p1.includes(a) && (aRank = 3);
-            p2.includes(a) && (aRank = 2);
-            p3.includes(a) && (aRank = 1);
-
-            p1.includes(b) && (bRank = 3);
-            p2.includes(b) && (bRank = 2);
-            p3.includes(b) && (bRank = 1);
-
-            return bRank - aRank;
-        };
-
-        const processed = discovered.map((d: any) => {
+        const processedKeywords = discovered.map((d: any) => {
+            //
+            // 2. Intersection of keywords in each group
+            //
             const keywords: string[][] = d.group.map((d1: any) => {
                 const keywords = d1.keywords.split(', ').filter((d: string) => d);
                 return keywords;
             });
-            const intersection = _.intersection(...keywords);
 
-            const differenceGroup = _.difference(intersection, intersectionAll);
-            console.log('keywords = ', keywords, ', intersection = ', intersection);
-            console.log('differenceGroup = ', differenceGroup);
+            let _intersectionGroup: string[] = [];
+            // If we have a single data stream in a group, then intersection of it will return all keywords in it.
+            if (keywords.length > 1) {
+                 _intersectionGroup = _.intersection(...keywords);
+            }
+
+            //const differenceGroup = _.difference(intersectionGroup, intersectionAll);
+            const intersectionGroup = _.difference(_intersectionGroup, intersectionAllDiffMustKeys, intersectionAll);
+            console.log('keywords = ', keywords, '\n_intersectionGroup = ', _intersectionGroup, '\nintersectionGroup = ', intersectionGroup);
 
 
             console.log('d.group = ', d.group);
 
             const processedGroup = d.group.map((s: any, i: number) => {
                 const keywords = s.keywords.split(', ').filter((d: string) => d);
-                console.log('1', s);
-                console.log('2', d.group.length, example, example.length);
 
+                // When reference group != discovered group
                 if (d.group.length != example.length) {
-                    console.log('2');
-
                     return {
                         ...s,
                         keywords: keywords,
-                        iAll: intersectionAll,
-                        iGroup: differenceGroup,
+                        mustKeys: mustKeys,
+                        iAll: intersectionAllDiffMustKeys,
+                        iGroup: intersectionGroup,
                         iExample: [],
                         iDataType: false
                     }
                 }
 
-
                 //
-                // 3.
+                // 3. Check remaining common keywords between reference data stream and discovered data stream
                 //
-                const intersectionExample: string[] = _.difference(_.intersection(keywords, example[i].keywords), intersectionAll);
-                console.log('intersectionExample = ', intersectionExample);
+                const _intersectionExample: string[] = _.intersection(keywords, example[i].keywords);
+                const intersectionExample: string[] = _.difference(_intersectionExample, intersectionAll, intersectionAllDiffMustKeys, intersectionGroup);
+                console.log('example[i].keywords = ', example[i].keywords, '_intersectionExample = ', _intersectionExample, ', intersectionExample = ', intersectionExample);
 
-                return {
+                const _processedKeywords =  {
                     ...s,
-                    keywords: keywords.sort().sort((a: string, b: string) => sorter(intersectionAll, differenceGroup, intersectionExample, a, b)),
-                    iAll: intersectionAll,
-                    iGroup: differenceGroup,
+                    keywords: keywords.sort().sort((a: string, b: string) => this.sorter(intersectionAllDiffMustKeys, intersectionGroup, intersectionExample, a, b)),
+                    mustKeys: mustKeys,
+                    iAll: intersectionAllDiffMustKeys,
+                    iGroup: intersectionGroup,
                     iExample: intersectionExample,
                     iDataType: (example[i].dataType === s.dataType)
                 };
+
+                console.log('OntoDataService:processKeywords:_processedKeywords = ', _processedKeywords)
+                return _processedKeywords;
             });
 
 
@@ -199,7 +198,25 @@ export class OntoDataService {
             return { ...d, group: processedGroup };
         });
 
-        console.log('processed = ', processed);
-        return processed;
+        //console.log('processedKeywords = ', processedKeywords);
+        return processedKeywords;
     }
+
+
+    // Sorting
+    private sorter = (p1: string[], p2: string[], p3: string[], a: string, b: string) => {
+        // The unmatched ones will be sorted to end
+        let aRank = 0,
+            bRank = 0;
+
+        p1.includes(a) && (aRank = 3);
+        p2.includes(a) && (aRank = 2);
+        p3.includes(a) && (aRank = 1);
+
+        p1.includes(b) && (bRank = 3);
+        p2.includes(b) && (bRank = 2);
+        p3.includes(b) && (bRank = 1);
+
+        return bRank - aRank;
+    };
 }

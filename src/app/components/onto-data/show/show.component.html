@@ -2,18 +2,25 @@
 
 <mat-dialog-content>
 
-  <h4>
+  <p>
+    <b>Keywords</b>
+    <mat-chip-list>
+      <mat-chip *ngFor="let d of data.keywords">{{ d }}</mat-chip>
+    </mat-chip-list>
+  </p>
+  <p>
     <b>Description </b>{{data.description}}
-  </h4>
-  <h4>
+  </p>
+  <p>
     <b>Endpoint </b><a href="{{ url }}" target="_blank">{{url}}</a>
-  </h4>
+  </p>
+
+  <p><b>Data Sample</b></p>
 
   <ng-container *ngIf="spinner">
     <mat-spinner></mat-spinner>
   </ng-container>
   <ng-container *ngIf="!spinner">
-    <h4><b>Length </b>{{ length$ | async }}</h4>
 
     <table id="data-view-table">
       <tr>
@@ -22,11 +29,14 @@
       <tr *ngFor="let d of jsonData$ | async">
         <td *ngFor="let col of column$ | async">{{ d[col] }}</td>
       </tr>
+      <tr>
+        <td *ngFor="let col of column$ | async">...</td>
+      </tr>
     </table>
-
+    <p><b>Total </b>{{ length$ | async }}</p>
     <br />
 
-    <h4>JSON:</h4>
+    <p><b>JSON Sample</b></p>
     <ngx-json-view [data]="jsonData$ | async"></ngx-json-view>
   </ng-container>
 

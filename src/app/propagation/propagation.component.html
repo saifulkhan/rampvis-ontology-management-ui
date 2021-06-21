@@ -108,7 +108,7 @@
 
                   <form>
                     <mat-form-field>
-                      <mat-label>Keywords (every stream)</mat-label>
+                      <mat-label>Keywords (every stream / must)</mat-label>
                       <mat-chip-list #keywordChipList1 aria-label="Must have">
                         <mat-chip
                           *ngFor="let d of selectedKeywords1"
@@ -140,7 +140,7 @@
                     <div class="row">
                       <div class="col-md-10">
                         <mat-form-field>
-                          <mat-label>Keywords (in group)</mat-label>
+                          <mat-label>Keywords (in group / should)</mat-label>
                           <mat-chip-list #keywordChipList2 aria-label="May have">
                             <mat-chip
                               *ngFor="let d of selectedKeywords2"
@@ -208,7 +208,7 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                      <mat-label>Data type</mat-label>
+                      <mat-label>Data type (filter)</mat-label>
                       <mat-chip-list #dataTypeChipList aria-label="Data type">
                         <mat-chip
                           *ngFor="let d of selectedDataTypes_"

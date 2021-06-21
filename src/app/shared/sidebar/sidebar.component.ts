@@ -29,10 +29,10 @@ export interface ChildrenItems {
 // Sidebar items
 export const ROUTES: RouteInfo[] = [
     {
-        path: '/dashboard',
-        title: 'Dashboard',
+        path: '/home',
+        title: 'Home',
         type: 'link',
-        icontype: 'dashboard',
+        icontype: 'home',
         roles: [Role.ADMIN],
     },
     {
