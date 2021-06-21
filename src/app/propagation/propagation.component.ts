@@ -59,8 +59,19 @@ export class PropagationComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // Vis search form and suggestion
+        this.ngOnInitVisSearch();
+        this.ngOnInit_dataSearch();
+    }
 
+    ngAfterViewInit(): void {}
+
+    //
+    // VIS function search, example data, and example links
+    //
+
+    ngOnInitVisSearch(): void {
+
+        // Vis search form and suggestion
         this.ontoVisSearchFormGroup = this.fb.group({
             ontoVisSearchQuery: new FormControl('', [Validators.required]),
         });
@@ -79,15 +90,7 @@ export class PropagationComponent implements OnInit {
                     console.log('PropagationComponent: suggestedOntoVis = ', this.suggestedOntoVis);
                 });
             });
-
-        this.ngOnInit_dataSearch();
     }
-
-    ngAfterViewInit(): void {}
-
-    //
-    // VIS function search, example data, and example links
-    //
 
     public onClickSearchOntoVis() {
         this.ontoVisSearchFormGroup.updateValueAndValidity();
@@ -491,7 +494,7 @@ export class PropagationComponent implements OnInit {
             (res: any) => {
                 console.log('PropagationComponent:onClickPropagate: res = ', res);
                 this.localNotificationService.success({ message: 'Propagated' });
-            },
+            }
             // (err) => {
             //     // this.localNotificationService.error({ message: 'Propagation error' });
             // }

@@ -1,8 +1,6 @@
 # RAMPVIS ONTOLOGY MANAGEMENT
 
-This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc.
-
-Main dependencies
+This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc. The key dependencies are,
 
 - Node version 14.17.1
 - Angular 12
