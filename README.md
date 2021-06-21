@@ -1,42 +1,34 @@
 # RAMPVIS ONTOLOGY MANAGEMENT
 
-This is an Angular-based user interface for RAMPVIS ontology management and operations.
+This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc.
 
-## Getting Started
+Main dependencies
 
-Key dependencies:
-
-- Node version 14.15.4
-- Angular 11+
+- Node version 14.17.1
+- Angular 12
 - REST-API or backend server: https://github.com/ScottishCovidResponse/rampvis-api
 
 
-### Start Using Development RESTful API 
+## Getting Started
+
+> Start the backend [server](https://github.com/ScottishCovidResponse/rampvis-api)
 
 ```bash
 npm install
 npx ng serve 
-# Note: to access from local network add '--host 0.0.0.0'
-```
-Navigate to [localhost:4200](localhost:4200) to open the UI.
-
-
-### Start Using Production RESTful API 
-
-```bash
-npm install
-npx ng serve -c production
 ```
 
+> Note. To access from local network add '--host 0.0.0.0'
+
 Navigate to [localhost:4200](localhost:4200) to open the UI.
+
 
 ## Build
 
 ```bash
-# test this command again
- npx ng build --prod --aot=false --build-optimizer=false --base-href /onto
+npx ng build --configuration production
 ```
 
 ## Notes
 
-- **Firebase**- The Firebase package versions in the `package.json` and in `src/firebase-messaging-sw.js` should be consistent.
+**Firebase**- The Firebase package versions in the `package.json` and in `src/firebase-messaging-sw.js` should be consistent.
