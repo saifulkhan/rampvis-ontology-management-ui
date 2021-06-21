@@ -18,15 +18,16 @@ export class ErrorHandler2Service {
 		}
 		const code: string | null = this.processErrorCode(error.rejection || error);
 		const message: string | null = this.processErrorMessage(error.rejection || error);
+        const detail: string | null = this.processErrorDetail(error.rejection || error);
 
 		// Debugging purpose
-		//console.log('ErrorHandler2Service: error = ', error);
-		//console.log('ErrorHandler2Service: code = ', code, ', message = ', message);
+		//console.log('ErrorHandler2Service:handleError: error = ', error);
+		//console.log('ErrorHandler2Service:handleError: code = ', code, ', message = ', message, ', detail = ', detail);
 
 		if (code && showErrorNotification) {
-			this.localNotificationService.error({ message: `${code} : ${message}`, title: 'Server' });
+			this.localNotificationService.error({ message: `${code} : ${message || detail}`, title: 'API Response' });
 		}
-		return message;
+		return message || detail;
 	}
 
 	private processErrorCode(error: any): string | null {
@@ -43,10 +44,10 @@ export class ErrorHandler2Service {
 		}
 
 		if (error.status === 0) {
-			return 'Connection error';
+			return 'Connection Error';
 		}
 		if (error.status === 500) {
-			return 'Something went wrong';
+			return '500';
 		}
 
 		return null;
@@ -58,10 +59,22 @@ export class ErrorHandler2Service {
 		}
 
 		if (error.error && error.error.message) {
-			return error.error.message
+			return error.error.message;
 		}
 
 		return null;
 	}
 
+    // FastAPi sends { detail: }
+    private processErrorDetail(error: any): string | null {
+		if (!error) {
+			return null;
+		}
+
+		if (error.error && error.error.detail) {
+			return error.error.detail;
+		}
+
+		return null;
+	}
 }
