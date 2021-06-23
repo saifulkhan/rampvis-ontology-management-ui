@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import { TableData } from '../../../models/table.data.interface';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { OntoDataShowComponent } from '../show/show.component';
+import { SEL_KW_STATE } from '../../../models/selected-kw-state';
+import { SEL_DATATYPE_STATE } from '../../../models/selected-datatype-state';
 
 @Component({
     selector: 'app-onto-data-example',
@@ -20,6 +22,8 @@ export class OntoDataExampleComponent implements OnInit {
     @Input() selectable!: boolean;
     @Input() add!: OntoData;
     @Input() editBasket!: boolean;
+    @Input() keywordSelectionStateMap!: any;
+    @Input() datatypeSelectionStateMap!: any;
     @Output() onChangeKeywords: EventEmitter<any> = new EventEmitter<any>();
     @Output() onChangeDataTypes: EventEmitter<any> = new EventEmitter<any>();
 
@@ -87,37 +91,34 @@ export class OntoDataExampleComponent implements OnInit {
     //
     // Chip click and selection related
     //
-
     // Selected data types, e.g., { 'timeseries': {state: 1, from: 'ex' }, .. }
-    dataTypeMap: any = {};
     // Selected keywords and state, e.g., { 'xl': {state: 1, from: 'ex' }, .. }
-    keywordMap: any = {};
 
     onClickKeywordChip(kw: string) {
         console.log('onClickKeywordChip:', kw);
 
-        if (!this.keywordMap[kw]) {
-            this.keywordMap[kw] = { state: 1, from: 'ex' };
-        } else if (this.keywordMap[kw].state < 3) {
-            this.keywordMap[kw].state += 1;
+        if (!this.keywordSelectionStateMap[kw]) {
+            this.keywordSelectionStateMap[kw] = { state: SEL_KW_STATE.MUST, from: 'ex' };
+        } else if (this.keywordSelectionStateMap[kw].state < SEL_KW_STATE.MUST_NOT) {
+            this.keywordSelectionStateMap[kw].state += 1;
         } else {
-            delete this.keywordMap[kw];
+            delete this.keywordSelectionStateMap[kw];
         }
 
-        console.table('onClickKeywordChip:', this.keywordMap);
-        this.onChangeKeywords.emit(this.keywordMap);
+        console.table('onClickKeywordChip:', this.keywordSelectionStateMap);
+        this.onChangeKeywords.emit(this.keywordSelectionStateMap);
     }
 
     onClickDataTypeChip(type: string) {
         console.log('onClickDatatypeChip:', type);
 
-        if (!this.dataTypeMap[type]) {
-            this.dataTypeMap[type] = { state: 1, from: 'ex' };
+        if (!this.datatypeSelectionStateMap[type]) {
+            this.datatypeSelectionStateMap[type] = { state: SEL_DATATYPE_STATE.FILTER, from: 'ex' };
         } else {
-            delete this.dataTypeMap[type];
+            delete this.datatypeSelectionStateMap[type];
         }
 
-        console.log('onClickDatatypeChip:', this.dataTypeMap);
-        this.onChangeDataTypes.emit(this.dataTypeMap);
+        console.log('onClickDatatypeChip:', this.datatypeSelectionStateMap);
+        this.onChangeDataTypes.emit(this.datatypeSelectionStateMap);
     }
 }

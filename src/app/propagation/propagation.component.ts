@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
@@ -21,6 +21,10 @@ import { OntoPageService } from '../services/ontology/onto-page.service';
 import { DataStreamKeywordsArr } from '../services/ontology/data-stream-keywords.service';
 import { Binding } from '../models/ontology/binding.model';
 import { BINDING_TYPE } from '../models/ontology/binding-type.enum';
+import { OntoDataExampleComponent } from '../components/onto-data/example/example.component';
+import { SEL_KW_STATE } from '../models/selected-kw-state';
+import { SEL_DATATYPE_STATE } from '../models/selected-datatype-state';
+
 
 @Component({
     selector: 'app-propagation',
@@ -36,11 +40,11 @@ export class PropagationComponent implements OnInit {
     public searchOntoVisQuery!: string;
     public highlightOntoVisSearchSuggestion!: string;
     public suggestedOntoVis!: OntoVisSearch[];
-    public ontoVisSearchResult: OntoVisSearch[] = [];
+    public referenceOntoVis: OntoVisSearch[] = [];
 
     // Example binding data and page
-    public exampleOntoData!: OntoData[];
-    public exampleLinks!: OntoPageExt[];
+    public referenceOntoData: OntoData[] = [];
+    public exampleLinks: OntoPageExt[] = [];
 
     // Propagation
     public propagationTypes!: string[];
@@ -63,7 +67,9 @@ export class PropagationComponent implements OnInit {
         this.ngOnInit_dataSearch();
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void {
+        //this.ngAfterViewInitOntoDataSearchForm();
+    }
 
     //
     // VIS function search, example data, and example links
@@ -93,13 +99,19 @@ export class PropagationComponent implements OnInit {
     }
 
     public onClickSearchOntoVis() {
+
         this.ontoVisSearchFormGroup.updateValueAndValidity();
         if (!this.ontoVisSearchFormGroup.valid) {
             return;
         }
 
+        // Clear everything
         this.suggestedOntoVis = [];
-        this.ontoVisSearchResult = [];
+        this.referenceOntoVis = [];
+        this.referenceOntoData = [];
+        this.discoveredOntoDataGroups = [];
+        this.datatypeSelectionStateMap = {}
+        this.keywordSelectionStateMap = {}
 
         const ontoVisSearchFilterVm: OntoVisSearchFilterVm = {
             query: this.ontoVisSearchFormGroup.value.ontoVisSearchQuery,
@@ -117,9 +129,13 @@ export class PropagationComponent implements OnInit {
             )
             .subscribe(
                 (res: any) => {
-                    this.ontoVisSearchResult = res;
-                    console.log('PropagationComponent:searchOntoVis: ontoVisSearchResult = ', this.ontoVisSearchResult);
-                    this.getExampleOntoData();
+                    this.referenceOntoVis = res;
+                    console.log('PropagationComponent:searchOntoVis: ontoVisSearchResult = ', this.referenceOntoVis);
+                    if (!this.referenceOntoVis || this.referenceOntoVis.length <= 0 || !this.referenceOntoVis[0]?.id) {
+                        this.localNotificationService.error({ message: 'No matching VIS function found' });
+                        return;
+                    }
+                    this.getReferenceOntoData();
                     this.getExampleLinks();
                 },
                 (err) => {}
@@ -127,23 +143,19 @@ export class PropagationComponent implements OnInit {
             );
     }
 
-    private getExampleOntoData() {
-        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
-            return;
-        }
-
-        this.ontoVisService.getExampleOntoDataBindingVisId(this.ontoVisSearchResult[0].id).subscribe((res: OntoData[]) => {
-            console.log('PropagationComponent: getOntoVis: exampleOntoData = ', res);
-            this.exampleOntoData = res;
+    private getReferenceOntoData() {
+        this.ontoVisService.getExampleOntoDataBindingVisId(this.referenceOntoVis[0].id).subscribe((res: OntoData[]) => {
+            console.log('PropagationComponent:getReferenceOntoData: referenceOntoData = ', res);
+            this.referenceOntoData = res;
         });
     }
 
     private getExampleLinks() {
-        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
+        if (!this.referenceOntoVis || !this.referenceOntoVis[0]?.id) {
             return;
         }
 
-        this.ontoVisService.getExampleLinksBindingVisId(this.ontoVisSearchResult[0].id).subscribe((res: OntoPageExt[]) => {
+        this.ontoVisService.getExampleLinksBindingVisId(this.referenceOntoVis[0].id).subscribe((res: OntoPageExt[]) => {
             console.log('PropagationComponent:getExampleLinks: exampleLinks = ', res);
             this.exampleLinks = res;
         });
@@ -153,33 +165,25 @@ export class PropagationComponent implements OnInit {
     // Build search from using keywords and data-types from example stream and adding new keywords
     //
 
-    // Data search form
-    //public ontoDataSearchFormGroup!: FormGroup;
-    //allDataTypes: string[] = [];
-    // Multi-level selection of keywords
-    //grpKeywords = DataStreamKeywordsToDropdown();
-    //selectedDataTypes = [];
+    @ViewChild('keywordInput1') keywordInput1!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl1 = new FormControl();
+    filteredKeywords1$!: Observable<string[]>;
 
-    // Search data result in group
-    public ontoDataMatchingGroups!: any; //OntoDataSearchGroup[];
+    @ViewChild('keywordInput2') keywordInput2!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl2 = new FormControl();
+    filteredKeywords2$!: Observable<string[]>;
 
-    // Search page result in group
-    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
-
-    // Access selected rows of table (child component)
-    // @ViewChild(OntoVisMainTableComponent) ontoVisTableComponent!: OntoVisMainTableComponent;
-    // Access by reference as multiple data tables exists
-    // @ViewChild('searchedOntoDataTable') ontoDataTableSComponent!: OntoDataSearchTableComponent;
-
-    // ngOnInit_dataSearch1() {
-    //     this.ontoDataSearchFormGroup = this.fb.group({
-    //         searchDataType: new FormControl('', [Validators.required]),
-    //         searchKeywords1: new FormControl('', [Validators.required]),
-    //         searchKeywords2: new FormControl('', [Validators.required]),
-    //     });
-    // }
+    @ViewChild('keywordInput3') keywordInput3!: ElementRef<HTMLInputElement>;
+    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
+    keywordInputCtrl3 = new FormControl();
+    filteredKeywords3$!: Observable<string[]>;
 
     readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+    allKeywords!: string[];
+    allDataTypes!: string[];
 
     ngOnInit_dataSearch() {
         // keyword
@@ -223,160 +227,78 @@ export class PropagationComponent implements OnInit {
     }
 
     /**
-     * Keywords
-     * 1: must, 2: should, 3: must not
+     * Keyword in search form, the state of the keywords are are,
+     * 1 => must, 2 => should, 3 => must not
      */
-    allKeywords!: string[];
-    selectedKeywords: any = {};
+
+    keywordSelectionStateMap: any = {};
     selectedKeywords1: string[] = [];
     selectedKeywords2: string[] = [];
     selectedKeywords3: string[] = [];
 
-    @ViewChild('keywordInput1') keywordInput1!: ElementRef<HTMLInputElement>;
-    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
-    keywordInputCtrl1 = new FormControl();
-    filteredKeywords1$!: Observable<string[]>;
-
-    @ViewChild('keywordInput2') keywordInput2!: ElementRef<HTMLInputElement>;
-    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
-    keywordInputCtrl2 = new FormControl();
-    filteredKeywords2$!: Observable<string[]>;
-
-    @ViewChild('keywordInput3') keywordInput3!: ElementRef<HTMLInputElement>;
-    //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
-    keywordInputCtrl3 = new FormControl();
-    filteredKeywords3$!: Observable<string[]>;
-
-    onUpdateKeywords(kw: any) {
-        this.selectedKeywords = kw;
-        this.updateSelectedKeywords1();
-        this.updateSelectedKeywords2();
-        this.updateSelectedKeywords3();
+    getSelectedKeywords(state: SEL_KW_STATE): string[] {
+        return Object.keys(this.keywordSelectionStateMap).filter((d) => this.keywordSelectionStateMap[d].state === state);
     }
 
-    onClickRemoveKeyword1(kw: string) {
-        delete this.selectedKeywords[kw];
-        this.updateSelectedKeywords1();
+    onChangeKeywords(_keywordSelectionStateMap: any) {
+        this.keywordSelectionStateMap = _keywordSelectionStateMap;
     }
 
-    onClickRemoveKeyword2(kw: string) {
-        delete this.selectedKeywords[kw];
-        this.updateSelectedKeywords2();
+    onClickRemoveKeyword(kw: string) {
+        delete this.keywordSelectionStateMap[kw];
     }
 
-    onClickRemoveKeyword3(kw: string) {
-        delete this.selectedKeywords[kw];
-        this.updateSelectedKeywords3();
-    }
-
-    onInputKeyword1(event: MatAutocompleteSelectedEvent): void {
+    onAddKeyword(event: MatAutocompleteSelectedEvent, state: SEL_KW_STATE): void {
         const kw = event.option.viewValue;
-        console.log('onInputKeyword1: ', kw);
+        console.log('onAddKeyword: keyword = ', kw, ', state = ', state);
 
-        if (!this.selectedKeywords[kw]) {
-            this.selectedKeywords[kw] = { state: 1, from: 'nw' };
-        }
-        this.updateSelectedKeywords1();
+        this.keywordSelectionStateMap[kw] = { state: state, from: 'nw' };
 
+        // Clear the typed words
         this.keywordInput1.nativeElement.value = '';
         this.keywordInputCtrl1.setValue(null);
-    }
-
-    onInputKeyword2(event: MatAutocompleteSelectedEvent): void {
-        const kw = event.option.viewValue;
-        console.log('onInputKeyword2: ', kw);
-
-        if (!this.selectedKeywords[kw]) {
-            this.selectedKeywords[kw] = { state: 2, from: 'nw' };
-        }
-        this.updateSelectedKeywords2();
-
         this.keywordInput2.nativeElement.value = '';
         this.keywordInputCtrl2.setValue(null);
-    }
-
-    onInputKeyword3(event: MatAutocompleteSelectedEvent): void {
-        const kw = event.option.viewValue;
-        console.log('onInputKeyword3: ', kw);
-
-        if (!this.selectedKeywords[kw]) {
-            this.selectedKeywords[kw] = { state: 3, from: 'nw' };
-        }
-        this.updateSelectedKeywords3();
-
         this.keywordInput3.nativeElement.value = '';
         this.keywordInputCtrl3.setValue(null);
     }
 
-    private updateSelectedKeywords1() {
-        this.selectedKeywords1 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 1);
-        console.log('updateSelectedKeywords1: ', this.selectedKeywords1);
-    }
-
-    private updateSelectedKeywords2() {
-        this.selectedKeywords2 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 2);
-        console.log('updateSelectedKeywords2: ', this.selectedKeywords2);
-    }
-
-    private updateSelectedKeywords3() {
-        this.selectedKeywords3 = Object.keys(this.selectedKeywords).filter((d) => this.selectedKeywords[d].state === 3);
-        console.log('updateSelectedKeywords3: ', this.selectedKeywords3);
-    }
-
-    onEnterAddKeyword1(event: MatChipInputEvent): void {
+    onEnterAddKeyword(event: MatChipInputEvent): void {
         const input = event.input;
         const value = event.value;
-        console.log('onEnterAddDataTypeChip: ', input, value);
+        console.log('onEnterAddKeyword: ', input, value);
         // not implemented
     }
 
-    onEnterAddKeyword2(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-        console.log('onEnterAddDataTypeChip: ', input, value);
-        // not implemented
-    }
-
-    onEnterAddKeyword3(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-        console.log('onEnterAddDataTypeChip: ', input, value);
-        // not implemented
-    }
 
     /**
      * Data-type filter
      */
 
-    // panelOpenState = false;
-
-    allDataTypes!: string[];
-    selectedDataTypes: any = {};
-    selectedDataTypes_: string[] = [];
+    datatypeSelectionStateMap: any = {};
 
     @ViewChild('dataTypeInput') dataTypeInput!: ElementRef<HTMLInputElement>;
     //@ViewChild('auto') matAutocomplete!: MatAutocomplete;
     dataTypeInputCtrl = new FormControl();
     filteredDataTypes$!: Observable<string[]>;
 
-    onUpdateDataTypes(dt: any) {
-        this.selectedDataTypes = dt;
-        this.updateSelectedDataTypes_();
+    getSelectedDataTypes(state: SEL_DATATYPE_STATE = 1): string[] {
+        return Object.keys(this.datatypeSelectionStateMap).filter((d) => this.datatypeSelectionStateMap[d].state === state);
+    }
+
+    onChangeDataTypes(_datatypeSelectionStateMap: any) {
+        this.datatypeSelectionStateMap = _datatypeSelectionStateMap;
     }
 
     onClickRemoveDataType(dt: string) {
-        delete this.selectedDataTypes[dt];
-        this.updateSelectedDataTypes_();
+        delete this.datatypeSelectionStateMap[dt];
     }
 
     onInputDataType(event: MatAutocompleteSelectedEvent): void {
         const dt = event.option.viewValue;
-        console.log('onInputDataType: ', dt);
+        console.log('onInputDataType: dataType = ', dt);
 
-        if (!this.selectedDataTypes[dt]) {
-            this.selectedDataTypes[dt] = { state: 1, from: 'nw' };
-        }
-        this.updateSelectedDataTypes_();
+        this.datatypeSelectionStateMap[dt] = { state: SEL_DATATYPE_STATE.FILTER, from: 'nw' };
 
         this.dataTypeInput.nativeElement.value = '';
         this.dataTypeInputCtrl.setValue(null);
@@ -389,66 +311,46 @@ export class PropagationComponent implements OnInit {
         // not implemented
     }
 
-    private updateSelectedDataTypes_() {
-        this.selectedDataTypes_ = Object.keys(this.selectedDataTypes).filter((d) => this.selectedDataTypes[d].state === 1);
-        console.log('updateSelectedDataTypes_: ', this.selectedDataTypes_);
-    }
 
-    /**
-     * Ranking setting
-     */
+    // Search data result in group
+    public discoveredOntoDataGroups!: any; //OntoDataSearchGroup[];
+    // Search page result in group
+    public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
 
-    public keywordFieldWeight: number = 1.0;
-    public descriptionFieldWeight: number = 0.0;
+    // Ranking parameters
+    public alpha: number = 1.0;
+    public beta: number = 0.0;
+    public theta: number = 0.0;
     public minimumShouldMatch: number = 1;
     public cluster: boolean = true;
-    public numClusters!: number;
     clusteringAlgorithm: string = 'Spectral Graph';
     clusteringAlgorithms: string[] = ['Brute-force', 'Spectral Graph'];
 
     public onClickSearchMatchingGroups() {
-        console.log(
-            'PropagationComponent:onClickSearchMatchingGroups: ',
-            this.selectedKeywords1,
-            this.selectedKeywords2,
-            this.selectedKeywords3,
-            this.selectedDataTypes_
-        );
-        console.log(
-            'PropagationComponent:onClickSearchMatchingGroups: ',
-            this.keywordFieldWeight,
-            this.descriptionFieldWeight,
-            this.minimumShouldMatch,
-            this.cluster,
-            this.numClusters
-        );
-
-        if (!this.ontoVisSearchResult || !this.ontoVisSearchResult[0]?.id) {
-            this.localNotificationService.error({ message: 'Select a VIS function' });
+        if (!this.referenceOntoVis || !this.referenceOntoVis[0]?.id) {
+            this.localNotificationService.error({ message: 'Search a VIS function and its reference data streams.' });
         }
 
         let query = {
-            visId: this.ontoVisSearchResult[0]?.id,
-            mustKeys: this.selectedKeywords1,
-            shouldKeys: this.selectedKeywords2,
-            mustNotKeys: this.selectedKeywords3,
-            filterKeys: this.selectedDataTypes_,
+            visId: this.referenceOntoVis[0]?.id,
+            mustKeys: this.getSelectedKeywords(SEL_KW_STATE.MUST),
+            shouldKeys: this.getSelectedKeywords(SEL_KW_STATE.SHOULD),
+            mustNotKeys: this.getSelectedKeywords(SEL_KW_STATE.MUST_NOT),
+            filterKeys: this.getSelectedDataTypes(),
 
             minimumShouldMatch: this.minimumShouldMatch,
-            alpha: this.keywordFieldWeight,
-            beta: this.descriptionFieldWeight,
-            cluster: this.cluster,
-            numClusters: this.numClusters,
+            alpha: this.alpha,
+            beta: this.beta,
+            theta: this.theta,
+            clusteringAlgorithm: this.clusteringAlgorithm,
         };
 
-        // let selectedDataTypes = this.ontoDataSearchFormGroup.value.searchDataType;
-        // let selectedKeywords = this.ontoDataSearchFormGroup.value.ontoDataSearchKeyword;
-        // console.log(selectedDataTypes, selectedKeywords);
+        console.log('PropagationComponent:onClickSearchMatchingGroups: query = ', query);
 
         this.ngxUiLoaderService.start();
 
         this.ontoDataService
-            .searchMatchingGroups(query, this.exampleOntoData)
+            .searchMatchingGroups(query, this.referenceOntoData)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);
@@ -458,8 +360,8 @@ export class PropagationComponent implements OnInit {
             )
             .subscribe(
                 (res: any) => {
-                    this.ontoDataMatchingGroups = res;
-                    console.log('PropagationComponent:search: onClickSearchMatchingData = ', this.ontoDataMatchingGroups);
+                    this.discoveredOntoDataGroups = res;
+                    console.log('PropagationComponent:search: onClickSearchMatchingData = ', this.discoveredOntoDataGroups);
                     this.ngxUiLoaderService.stop();
                 },
                 (err) => {}
@@ -467,12 +369,14 @@ export class PropagationComponent implements OnInit {
             );
     }
 
+    // Propagation
+
     public onClickPropagate(idx: number) {
-        if (!this.ontoVisSearchResult[0]?.id || idx < 0) {
+        if (!this.referenceOntoVis[0]?.id || idx < 0) {
             return;
         }
 
-        const group = this.ontoDataMatchingGroups.splice(idx, 1);
+        const group = this.discoveredOntoDataGroups.splice(idx, 1);
         if (!group[0]) {
             return;
         }
@@ -481,7 +385,7 @@ export class PropagationComponent implements OnInit {
 
         // TODO: remove deserialize and use typing instead of any
         const binding: any = {
-            visId: this.ontoVisSearchResult[0]?.id,
+            visId: this.referenceOntoVis[0]?.id,
             dataIds: group[0].group.map((d: any) => d.id),
         };
         const ontoPage: any = {
@@ -503,7 +407,7 @@ export class PropagationComponent implements OnInit {
 
     public onClickRemove(idx: number) {
         if (idx >= 0) {
-            let res = this.ontoDataMatchingGroups.splice(idx, 1);
+            let res = this.discoveredOntoDataGroups.splice(idx, 1);
         }
     }
 

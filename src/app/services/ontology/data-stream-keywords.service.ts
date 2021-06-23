@@ -1,5 +1,5 @@
 export const DataStreamKeywords = {
-    Source: ['mock', 'xl', 'housekeeping', 'h5', 'data_product'],
+    Source: ['mock', 'xl', 'housekeeping', 'h5', 'data_product', 'ons'],
     Country: ['scotland', 'england', 'wales', 'northern_ireland'],
     Scotland_Regions: [
         // Scotland

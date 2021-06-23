@@ -35,7 +35,7 @@
           [selectable]="true"
           [removable]="false"
           (click)="onClickDataTypeChip(row.dataType)"
-          [ngClass]="dataTypeMap[row.dataType]?.state ? 'datatype-select-color-1' : 'datatype-select-color'"
+          [ngClass]="datatypeSelectionStateMap[row.dataType]?.state ? 'datatype-select-color-1' : 'datatype-select-color'"
         >
         {{ row.dataType }}
         <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->
@@ -53,7 +53,7 @@
           [selectable]="true"
           [removable]="false"
           (click)="onClickKeywordChip(d)"
-          [ngClass]="keywordMap[d]?.state ? 'keyword-select-color-' + keywordMap[d]?.state : 'keyword-select-color'"
+          [ngClass]="keywordSelectionStateMap[d]?.state ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state : 'keyword-select-color'"
         >
           {{ d }}
           <!-- <mat-icon matChipTrailingIcon>chevron_right</mat-icon> -->

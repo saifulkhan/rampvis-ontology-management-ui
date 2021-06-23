@@ -53,21 +53,27 @@
         </form>
 
         <!-- Example vis table-->
-        <mat-card *ngIf="ontoVisSearchResult?.length">
+        <mat-card *ngIf="referenceOntoVis?.length">
           <mat-card-header>
             <mat-card-title>VIS Function</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
-          <app-onto-vis-table-b [data]="ontoVisSearchResult"> </app-onto-vis-table-b>
+          <app-onto-vis-table-b [data]="referenceOntoVis"> </app-onto-vis-table-b>
         </mat-card>
 
         <!-- Example data table-->
-        <mat-card *ngIf="exampleOntoData?.length">
+        <mat-card *ngIf="referenceOntoData?.length">
           <mat-card-header>
             <mat-card-title>Reference Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
-          <app-onto-data-example [data]="exampleOntoData" (onChangeKeywords)="onUpdateKeywords($event)" (onChangeDataTypes)="onUpdateDataTypes($event)">
+          <app-onto-data-example
+            [data]="referenceOntoData"
+            [keywordSelectionStateMap]="keywordSelectionStateMap"
+            [datatypeSelectionStateMap]="datatypeSelectionStateMap"
+            (onChangeKeywords)="onChangeKeywords($event)"
+            (onChangeDataTypes)="onChangeDataTypes($event)"
+          >
           </app-onto-data-example>
         </mat-card>
 
@@ -83,7 +89,7 @@
         -->
 
         <mat-accordion>
-          <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel [expanded]="referenceOntoVis.length > 0 && referenceOntoData.length > 0">
 
             <mat-expansion-panel-header>
               <mat-panel-title> </mat-panel-title>
@@ -111,11 +117,11 @@
                       <mat-label>Keywords (every stream / must)</mat-label>
                       <mat-chip-list #keywordChipList1 aria-label="Must have">
                         <mat-chip
-                          *ngFor="let d of selectedKeywords1"
+                          *ngFor="let d of getSelectedKeywords(1)"
                           [selectable]="false"
                           [removable]="true"
-                          (removed)="onClickRemoveKeyword1(d)"
-                          [ngClass]="selectedKeywords[d]?.state ? 'keyword-select-color-' + selectedKeywords[d]?.state : 'keyword-select-color'"
+                          (removed)="onClickRemoveKeyword(d)"
+                          [ngClass]="keywordSelectionStateMap[d]?.state ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state : 'keyword-select-color'"
                         >
                           {{ d }}
                           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -127,10 +133,10 @@
                           [matAutocomplete]="autoKeyword1"
                           [matChipInputFor]="keywordChipList1"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                          (matChipInputTokenEnd)="onEnterAddKeyword1($event)"
+                          (matChipInputTokenEnd)="onEnterAddKeyword($event)"
                         />
                       </mat-chip-list>
-                      <mat-autocomplete #autoKeyword1="matAutocomplete" (optionSelected)="onInputKeyword1($event)">
+                      <mat-autocomplete #autoKeyword1="matAutocomplete" (optionSelected)="onAddKeyword($event, 1)">
                         <mat-option *ngFor="let d of filteredKeywords1$ | async" [value]="d">
                           {{ d }}
                         </mat-option>
@@ -143,11 +149,11 @@
                           <mat-label>Keywords (in group / should)</mat-label>
                           <mat-chip-list #keywordChipList2 aria-label="May have">
                             <mat-chip
-                              *ngFor="let d of selectedKeywords2"
+                              *ngFor="let d of getSelectedKeywords(2)"
                               [selectable]="false"
                               [removable]="true"
-                              (removed)="onClickRemoveKeyword2(d)"
-                              [ngClass]="selectedKeywords[d]?.state ? 'keyword-select-color-' + selectedKeywords[d]?.state : 'keyword-select-color'"
+                              (removed)="onClickRemoveKeyword(d)"
+                              [ngClass]="keywordSelectionStateMap[d]?.state ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state : 'keyword-select-color'"
                             >
                               {{ d }}
                               <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -159,10 +165,10 @@
                               [matAutocomplete]="autoKeyword2"
                               [matChipInputFor]="keywordChipList2"
                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                              (matChipInputTokenEnd)="onEnterAddKeyword2($event)"
+                              (matChipInputTokenEnd)="onEnterAddKeyword($event)"
                             />
                           </mat-chip-list>
-                          <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onInputKeyword2($event)">
+                          <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onAddKeyword($event, 2)">
                             <mat-option *ngFor="let d of filteredKeywords2$ | async" [value]="d">
                               {{ d }}
                             </mat-option>
@@ -181,11 +187,11 @@
                       <mat-label>Keywords (exclude)</mat-label>
                       <mat-chip-list #keywordChipList3 aria-label="Must not have">
                         <mat-chip
-                          *ngFor="let d of selectedKeywords3"
+                          *ngFor="let d of getSelectedKeywords(3)"
                           [selectable]="false"
                           [removable]="true"
-                          (removed)="onClickRemoveKeyword3(d)"
-                          [ngClass]="selectedKeywords[d]?.state && 'keyword-select-color-' + selectedKeywords[d]?.state"
+                          (removed)="onClickRemoveKeyword(d)"
+                          [ngClass]="keywordSelectionStateMap[d]?.state && 'keyword-select-color-' + keywordSelectionStateMap[d]?.state"
                         >
                           {{ d }}
                           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -197,10 +203,10 @@
                           [matAutocomplete]="autoKeyword3"
                           [matChipInputFor]="keywordChipList3"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                          (matChipInputTokenEnd)="onEnterAddKeyword3($event)"
+                          (matChipInputTokenEnd)="onEnterAddKeyword($event)"
                         />
                       </mat-chip-list>
-                      <mat-autocomplete #autoKeyword3="matAutocomplete" (optionSelected)="onInputKeyword3($event)">
+                      <mat-autocomplete #autoKeyword3="matAutocomplete" (optionSelected)="onAddKeyword($event, 3)">
                         <mat-option *ngFor="let d of filteredKeywords3$ | async" [value]="d">
                           {{ d }}
                         </mat-option>
@@ -211,11 +217,11 @@
                       <mat-label>Data type (filter)</mat-label>
                       <mat-chip-list #dataTypeChipList aria-label="Data type">
                         <mat-chip
-                          *ngFor="let d of selectedDataTypes_"
+                          *ngFor="let d of getSelectedDataTypes()"
                           [selectable]="false"
                           [removable]="true"
                           (removed)="onClickRemoveDataType(d)"
-                          [ngClass]="selectedDataTypes[d]?.state && 'datatype-select-color-1'"
+                          [ngClass]="datatypeSelectionStateMap[d]?.state && 'datatype-select-color-1'"
                         >
                           {{ d }}
                           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -262,19 +268,19 @@
                         <td>
                           <mat-form-field>
                             <mat-label>Keyword</mat-label>
-                            <input matInput placeholder="" [(ngModel)]="keywordFieldWeight" name="keywordFieldWeight" />
+                            <input matInput placeholder="" [(ngModel)]="alpha" name="keywordFieldWeight" />
                           </mat-form-field>
                         </td>
                         <td>
                           <mat-form-field>
                             <mat-label>Description</mat-label>
-                            <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
+                            <input matInput placeholder="" [(ngModel)]="beta" name="descriptionFieldWeight" />
                           </mat-form-field>
                         </td>
                         <td>
                           <mat-form-field>
                             <mat-label>Endpoint</mat-label>
-                            <input matInput placeholder="" [(ngModel)]="descriptionFieldWeight" name="descriptionFieldWeight" />
+                            <input matInput placeholder="" [(ngModel)]="theta" name="endpointFieldWeight" />
                           </mat-form-field>
                         </td>
                       </tr>
@@ -310,13 +316,13 @@
         </div>
         -->
 
-        <mat-card *ngIf="ontoDataMatchingGroups?.length">
+        <mat-card *ngIf="discoveredOntoDataGroups?.length">
           <mat-card-header>
             <mat-card-title>Discovered Data Streams</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-data-matched-table
-            [data]="ontoDataMatchingGroups"
+            [data]="discoveredOntoDataGroups"
             (onClickPropagate)="onClickPropagate($event)"
             (onClickRemove)="onClickRemove($event)"
           >
