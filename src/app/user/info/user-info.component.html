@@ -22,17 +22,23 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field>
+      <input formControlName="expireOn" matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
     <mat-dialog-actions align="end">
-      <button 
+      <button
         mat-raised-button
         class="btn btn-warning"
         [mat-dialog-close]="undefined"
       >
         Cancel
       </button>
-      
-      <button 
-        mat-raised-button 
+
+      <button
+        mat-raised-button
         class="btn btn-primary"
         (click)="submit()"
         [disabled]="!form.valid"

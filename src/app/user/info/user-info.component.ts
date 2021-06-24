@@ -42,6 +42,7 @@ export class UserInfoComponent implements OnInit {
             email: [{ value: this.user.email, disabled: isEditMode }, [Validators.required, Validators.email]],
             password: isEditMode ? [this.user.password] : [this.user.password, Validators.required],
             role: isEditMode ? [this.user.role, Validators.required] : [this.user.role],
+            expireOn: isEditMode ? [this.user.expireOn, Validators.required] : [this.user.expireOn],
         });
     }
 
@@ -50,13 +51,12 @@ export class UserInfoComponent implements OnInit {
 
         if (!this.form.valid) {
             this.utils.getFormValidationErrors(this.form);
-            this.localNotificationService.warning({ message: 'Please provide a dialogType, email, password and phone number for the user' });
+            this.localNotificationService.warning({ message: 'Please provide a email, password, role, expiry date information' });
             return;
         }
 
         const result: User = this.form.value;
         result.id = this.data.user.id;
-
         this.matDialogRef.close(result);
     }
 

@@ -21,7 +21,7 @@
               [(ngModel)]="searchOntoVisQuery"
               formControlName="ontoVisSearchQuery"
               [matAutocomplete]="autoCompVis"
-              placeholder="Search VIS functions"
+              placeholder="Search for a visualization function"
               #input1
               (keydown.enter)="onClickSearchOntoVis()"
             />
@@ -55,7 +55,7 @@
         <!-- Example vis table-->
         <mat-card *ngIf="referenceOntoVis?.length">
           <mat-card-header>
-            <mat-card-title>VIS Function</mat-card-title>
+            <mat-card-title>Visualization Function</mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           <app-onto-vis-table-b [data]="referenceOntoVis"> </app-onto-vis-table-b>

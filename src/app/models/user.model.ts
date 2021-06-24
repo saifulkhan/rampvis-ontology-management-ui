@@ -6,14 +6,14 @@ export class User implements Deserializable {
     public name!: string;
     public email!: string;
     public createdAt!: Date;
-
+    public expireOn!: Date;
     public githubId!: string;
     public githubUsername!: string;
     public password!: string;
-    
+
     public role!: Role;
     public deleted!: boolean;
- 
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;
