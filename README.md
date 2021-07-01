@@ -9,7 +9,9 @@ This is an Angular-based user interface for RAMPVIS operations, e.g., data and o
 
 ## Getting Started
 
-> Start the backend [server](https://github.com/ScottishCovidResponse/rampvis-api)
+> Start the backend [server](https://github.com/ScottishCovidResponse/rampvis-api) first.
+
+Install dependent packages and start the UI server,
 
 ```bash
 npm install
