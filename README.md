@@ -19,14 +19,3 @@ npx ng serve
 > Note. To access from local network add '--host 0.0.0.0'
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.
-
-
-## Build
-
-```bash
-npx ng build --configuration production
-```
-
-## Notes
-
-**Firebase**- The Firebase package versions in the `package.json` and in `src/firebase-messaging-sw.js` should be consistent.
