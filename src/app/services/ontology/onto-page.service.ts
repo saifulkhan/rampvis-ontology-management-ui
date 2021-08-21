@@ -16,7 +16,7 @@ export class OntoPageService {
     constructor(private api: APIService) {}
 
     public getAllPages(ontoPageFilterVm: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
-        let url: string = `${this.url}/pages/?filterPageType=${ontoPageFilterVm?.filterPageType}`;
+        let url: string = `${this.url}/pages/?filterBindingType=${ontoPageFilterVm?.filterBindingType}`;
 
         if (ontoPageFilterVm?.pageIndex) {
             url = url.concat(`&pageIndex=${ontoPageFilterVm?.pageIndex}`);

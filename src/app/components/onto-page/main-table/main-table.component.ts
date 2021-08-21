@@ -94,7 +94,7 @@ export class OntoPageMainTableComponent implements OnInit {
                     pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
-                    filterPageType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
+                    filterBindingType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
                     filterId: this.filterTerm$.value,
                 } as OntoPageFilterVm;
 

@@ -85,7 +85,7 @@ export class OntoPagesViewComponent implements OnInit {
         if (!this.filterBindingType$.value || !this.ontoPageFilterVm) {
             return;
         }
-        this.ontoPageFilterVm.filterPageType = this.filterBindingType$.value;
+        this.ontoPageFilterVm.filterBindingType = this.filterBindingType$.value;
 
         this.ontologyService
             .getAllPages(this.ontoPageFilterVm)

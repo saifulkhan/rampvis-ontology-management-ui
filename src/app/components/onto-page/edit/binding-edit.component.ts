@@ -43,7 +43,7 @@ export class BindingEditComponent extends BaseNestedform {
             .pipe(map((d: any) => d.data));
 
         this.ontoPages$ = this.ontoPageService
-            .getAllPages({ filterPageType: BINDING_TYPE.EXAMPLE } as OntoPageFilterVm)
+            .getAllPages({ filterBindingType: BINDING_TYPE.EXAMPLE } as OntoPageFilterVm)
             .pipe(
                 map((d: any) => {
                     return d.data.map((page: OntoPageExt) => {
