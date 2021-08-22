@@ -5,7 +5,7 @@ import { APIService } from './api.service';
 import { User } from '../models/user.model';
 import { UtilService } from './util.service';
 import { Role } from '../models/role.enum';
-import { ErrorHandler2Service } from './common/error-handler-2.service';
+import { ErrorHandler2Service } from './error-handler-2.service';
 import { HTTP_ERROR_CODES } from '../models/http-error-codes.enum';
 import { NotificationService } from './notification.service';
 

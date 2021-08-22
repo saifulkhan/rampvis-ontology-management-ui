@@ -41,8 +41,8 @@ export class OntoVisService {
         return this.api.get(`${this.url}/${visId}/data`);
     }
 
-    public getExampleLinksBindingVisId(visId: string): Observable<OntoPageExt[]> {
-        return this.api.get(`${this.url}/${visId}/links`);
+    public getReferencePagesBindingVisId(visId: string): Observable<OntoPageExt[]> {
+        return this.api.get(`${this.url}/${visId}/pages`);
     }
 
     public suggest(query: string): Observable<OntoVisSearch[]> {

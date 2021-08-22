@@ -1,58 +1,78 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { LocalNotificationService } from '../../../services/common/local-notification.service';
+import { LocalNotificationService } from '../../../services/local-notification.service';
 import { UtilService } from '../../../services/util.service';
-import { BaseFormComponent } from '../../forms/base-form.component';
-import { OntoPage } from '../../../models/ontology/onto-page.model';
-import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
+import { OntoPage, OntoPageExt } from '../../../models/ontology/onto-page.model';
+import { PAGE_TYPE } from '../../../models/ontology/page-type.enum';
+import { OntoData } from '../../../models/ontology/onto-data.model';
+import { OntoVis } from '../../../models/ontology/onto-vis.model';
+import { OntoVisService } from '../../../services/ontology/onto-vis.service';
+import { OntoDataService } from '../../../services/ontology/onto-data.service';
+import { OntoPageService } from '../../../services/ontology/onto-page.service';
+import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 
 @Component({
     selector: 'app-onto-page-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
 })
-export class OntoPageEditComponent extends BaseFormComponent implements OnInit {
+export class OntoPageEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm!: any;
     formGroup!: FormGroup;
     dialogType: string; // dialog type: edit or new
-    data: OntoPage;
-    public publishTypes: string[] = [];
+    ontoPageExt: OntoPageExt;
+    public pageTypes: string[] = [];
+
+    ontoVis$!: Observable<OntoVis[]>;
+    ontoData$!: Observable<OntoData[]>;
+    ontoPages$!: Observable<OntoPage[]>;
 
     constructor(
         private fb: FormBuilder,
         public matDialogRef: MatDialogRef<OntoPageEditComponent>,
-        @Inject(MAT_DIALOG_DATA) data: any,
+        @Inject(MAT_DIALOG_DATA) dialogData: any,
         private localNotificationService: LocalNotificationService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private ontoVisService: OntoVisService,
+        private ontoDataService: OntoDataService,
+        private ontoPageService: OntoPageService
     ) {
-        super();
 
-        console.log('PageEditComponent: data = ', data);
-        this.dialogType = data.dialogType;
-        this.data = { ...data.data };
-        this.publishTypes = (Object.keys(BINDING_TYPE) as Array<keyof typeof BINDING_TYPE>).map((k) => BINDING_TYPE[k]);
+        console.log('PageEditComponent: dialogData = ', dialogData);
+        this.dialogType = dialogData.dialogType;
+        this.ontoPageExt = { ...dialogData.ontoPageExt };
+        this.pageTypes = (Object.keys(PAGE_TYPE) as Array<keyof typeof PAGE_TYPE>).map((k) => PAGE_TYPE[k]);
     }
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
-            bindingType: new FormControl('', [Validators.required]),
-            nrows: new FormControl(1, [Validators.required, Validators.min(1)]),
-            bindings: new FormArray([]),
+            pageType: new FormControl(this.ontoPageExt.pageType, [Validators.required]),
+            visId: new FormControl(this.ontoPageExt.visId, [Validators.required]),
+            dataIds: new FormControl(this.ontoPageExt.dataIds, [Validators.required]),
+            pageIds: new FormControl(this.ontoPageExt.pageIds, []),
         });
 
-        console.log('PageEditComponent: data = ', this.data);
-        this.setFormValues(this.data);
-        // console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrows'].value, this.formGroup.controls['bindVis'].value, );
-    }
+        this.ontoVis$ = this.ontoVisService.getAllVis();
+        this.ontoData$ = this.ontoDataService
+            .getAllData1()
+            .pipe(map((d: any) => d.data));
 
-    onClickBindVis() {
-        // console.log('onClickBindVis: ', this.formGroup.get('bindVis'));
-        // console.log('onClickBindVis: ', this.formGroup.controls['bindVis'].value);
-        const bindings = this.formGroup.get('bindings') as FormArray;
-        bindings.push(new FormGroup({}));
-        // console.log('onClickBindVis: value = ', bindVis);
+        this.ontoPages$ = this.ontoPageService
+            .getAllPages({ filterPageType: PAGE_TYPE.EXAMPLE } as OntoPageFilterVm)
+            .pipe(
+                map((d: any) => {
+                    return d.data.map((ontoPageExt: OntoPageExt) => {
+                        console.log(ontoPageExt);
+                        return { ...ontoPageExt, name: `${ontoPageExt.vis.function} + [${ontoPageExt.data[0].endpoint}, ...${ontoPageExt.data.length - 1}]` };
+                    });
+                })
+            );
+
+        // console.log( 'PageEditComponent: control values = ', this.formGroup.controls['title'].value, this.formGroup.controls['nrows'].value, this.formGroup.controls['bindVis'].value, );
     }
 
     save() {
@@ -63,7 +83,7 @@ export class OntoPageEditComponent extends BaseFormComponent implements OnInit {
             return;
         }
         const result = this.formGroup.value;
-        result.id = this.data.id;
+        result.id = this.ontoPageExt.id;
         console.log('PageEditComponent: save: value = ', this.formGroup.value);
         this.matDialogRef.close(result);
     }

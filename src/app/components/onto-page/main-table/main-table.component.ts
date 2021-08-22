@@ -5,14 +5,13 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Router } from '@angular/router';
 
 import { OntoPageFilterVm } from '../../../models/ontology/onto-page-filter.vm';
 import { TableData } from '../../../models/table.data.interface';
 import { OntoPageExt } from '../../../models/ontology/onto-page.model';
 import { OntoVis } from '../../../models/ontology/onto-vis.model';
 import { environment } from '../../../../environments/environment';
-import { BINDING_TYPE } from '../../../models/ontology/binding-type.enum';
+import { PAGE_TYPE } from '../../../models/ontology/page-type.enum';
 
 @Component({
     selector: 'app-onto-page-main-table',
@@ -30,7 +29,7 @@ export class OntoPageMainTableComponent implements OnInit {
     @Input() data!: OntoPageExt[];
     @Input() totalCount!: number;
     @Input() isEditable!: boolean;
-    @Input() bindingType!: BINDING_TYPE;
+    @Input() pageType!: PAGE_TYPE;
     @Output() onClickCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onClickEdit: EventEmitter<OntoPageExt> = new EventEmitter<OntoPageExt>();
     @Output() onClickDelete: EventEmitter<string> = new EventEmitter<string>();
@@ -94,7 +93,7 @@ export class OntoPageMainTableComponent implements OnInit {
                     pageSize: this.paginator.pageSize,
                     sortBy: this.sort.active,
                     sortOrder: this.sort.direction,
-                    filterBindingType: this.filterType$.value as BINDING_TYPE, // always null, not implemented here
+                    filterPageType: this.filterType$.value as PAGE_TYPE, // always null, not implemented here
                     filterId: this.filterTerm$.value,
                 } as OntoPageFilterVm;
 
@@ -168,6 +167,6 @@ export class OntoPageMainTableComponent implements OnInit {
     }
 
     public isBindingTypeReview() {
-        return this.bindingType === BINDING_TYPE.REVIEW;
+        return this.pageType === PAGE_TYPE.REVIEW;
     }
 }

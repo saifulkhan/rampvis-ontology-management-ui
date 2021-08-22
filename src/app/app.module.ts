@@ -16,24 +16,23 @@ import { AppComponent } from './app.component';
 import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
-import { FixedpluginModule } from './shared/fixedplugin/fixedplugin.module';
 
 import { NotFoundComponent } from './errors/404';
 
 import { AppRoutes } from './app.routing';
 import { AnonymousGuard } from './guards/anonymous.guard';
-import { ErrorHandler2Service } from './services/common/error-handler-2.service';
-import { ErrorHandler1Service } from './services/common/error-handler-1.service';
-import { AuthInterceptor } from './services/common/auth.interceptor';
-import { LocalNotificationService } from './services/common/local-notification.service';
-import { DialogService } from './services/common/dialog.service';
+import { ErrorHandler2Service } from './services/error-handler-2.service';
+import { ErrorHandler1Service } from './services/error-handler-1.service';
+import { NetworkInterceptor } from './services/network.interceptor';
+import { LocalNotificationService } from './services/local-notification.service';
+import { DialogService } from './services/dialog.service';
 import { APIService } from './services/api.service';
 import { AuthenticationService } from './services/authentication.service';
-import { HelperService } from './services/common/helper.service';
+import { HelperService } from './services/helper.service';
 import { AuthorizationService } from './services/authorization.service';
 import { AuthorizationGuard } from './guards/authorization.guard';
 import { UtilService } from './services/util.service';
-import { JQUERY_PROVIDER } from './services/common/jQuery.service';
+import { JQUERY_PROVIDER } from './services/jQuery.service';
 import { PublicLayoutComponent } from './layouts/public/public-layout.component';
 
 // Firebase messaging related
@@ -57,7 +56,6 @@ import { environment } from '../environments/environment';
         SidebarModule,
         NavbarModule,
         FooterModule,
-        FixedpluginModule,
 
         AngularFireMessagingModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -69,7 +67,7 @@ import { environment } from '../environments/environment';
         ErrorHandler2Service,
         { provide: ErrorHandler, useClass: ErrorHandler1Service },
         JQUERY_PROVIDER,
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
         LocalNotificationService,
         DialogService,
         APIService,

@@ -4,7 +4,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.enum';
-import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
+import { PAGE_TYPE } from '../../models/ontology/page-type.enum';
 
 declare const $: any;
 
@@ -57,9 +57,9 @@ export const ROUTES: RouteInfo[] = [
         roles: [Role.ADMIN],
         collapse: 'page',
         children: [
-            { path: `${BINDING_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXM' },
-            { path: `${BINDING_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
-            { path: `${BINDING_TYPE.RELEASE}`, title: 'Released', ab: 'REL' },
+            { path: `${PAGE_TYPE.EXAMPLE}`, title: 'Example', ab: 'EXM' },
+            { path: `${PAGE_TYPE.REVIEW}`, title: 'Review', ab: 'REV' },
+            { path: `${PAGE_TYPE.RELEASE}`, title: 'Released', ab: 'REL' },
         ],
     },
     {

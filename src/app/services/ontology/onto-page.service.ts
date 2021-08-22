@@ -5,7 +5,7 @@ import { APIService } from '../api.service';
 import { OntoPage, OntoPageExt, OntoPageExtSearchGroup } from '../../models/ontology/onto-page.model';
 import { OntoPageFilterVm } from '../../models/ontology/onto-page-filter.vm';
 import { PaginationModel } from '../../models/pagination.model';
-import { BINDING_TYPE } from '../../models/ontology/binding-type.enum';
+import { PAGE_TYPE } from '../../models/ontology/page-type.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +16,7 @@ export class OntoPageService {
     constructor(private api: APIService) {}
 
     public getAllPages(ontoPageFilterVm: OntoPageFilterVm): Observable<PaginationModel<OntoPageExt>> {
-        let url: string = `${this.url}/pages/?filterBindingType=${ontoPageFilterVm?.filterBindingType}`;
+        let url: string = `${this.url}/pages/?filterPageType=${ontoPageFilterVm?.filterPageType}`;
 
         if (ontoPageFilterVm?.pageIndex) {
             url = url.concat(`&pageIndex=${ontoPageFilterVm?.pageIndex}`);
@@ -45,12 +45,12 @@ export class OntoPageService {
         return this.api.put(`${this.url}/page/${ontoPage.id}`, ontoPage);
     }
 
-    public updatePageData(pageId: string, dataIds: string[]): Observable<any> {
+    public updatePageDataIds(pageId: string, dataIds: string[]): Observable<any> {
         return this.api.put(`${this.url}/page/${pageId}/data`, { dataIds: dataIds } );
     }
 
-    public updatePageBindingType(pageId: string, bindingType: BINDING_TYPE): Observable<any> {
-        return this.api.put(`${this.url}/page/${pageId}/bindingtype`, { bindingType: bindingType });
+    public updatePageType(pageId: string, pageType: PAGE_TYPE): Observable<any> {
+        return this.api.put(`${this.url}/page/${pageId}/pagetype`, { pageType: pageType });
     }
 
     public deletePage(pageId: string): Observable<OntoPage> {

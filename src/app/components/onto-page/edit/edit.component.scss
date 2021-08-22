@@ -1,7 +1,9 @@
-// .mat-radio-button {
-//     display: block;
-// }
+  .pagetype-radio-group {
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0;
+  }
 
-.mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
+  .pagetype-radio-button {
+    margin: 5px;
   }

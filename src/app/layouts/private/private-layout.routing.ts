@@ -10,32 +10,27 @@ export const PrivateLayoutRoutes: Routes = [
             {
                 path: 'home',
                 data: { allowedRoles: [Role.ADMIN, Role.USER] },
-                loadChildren: () => import('../../dashboard/dashboard.module').then((m) => m.DashboardModule),
+                loadChildren: () => import('../../pages/home/home.module').then((m) => m.DashboardModule),
             },
             {
                 path: 'vis',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-vis/onto-vis-view.module').then((m) => m.OntoVisViewModule),
+                loadChildren: () => import('../../pages/onto-vis/onto-vis-list.module').then((m) => m.OntoVisListModule),
             },
             {
                 path: 'data',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-data/onto-data.view.module').then((m) => m.OntoDataViewModule),
+                loadChildren: () => import('../../pages/onto-data/onto-data.list.module').then((m) => m.OntoDataListModule),
             },
             {
                 path: 'propagation',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../propagation/propagation.module').then((m) => m.PropagationModule),
+                loadChildren: () => import('../../pages/propagation/propagation.module').then((m) => m.PropagationModule),
             },
             {
                 path: 'pages',
                 data: { allowedRoles: [Role.ADMIN] },
-                loadChildren: () => import('../../onto-page/onto-page-view.module').then((m) => m.OntoPageViewModule),
-            },
-            {
-                path: 'search',
-                data: { allowedRoles: [Role.ADMIN, Role.USER] },
-                loadChildren: () => import('../../search/search.module').then((m) => m.SearchModule),
+                loadChildren: () => import('../../pages/onto-page/onto-page-list.module').then((m) => m.OntoPageListModule),
             },
             {
                 path: 'admin',
@@ -43,23 +38,23 @@ export const PrivateLayoutRoutes: Routes = [
                 children: [
                     {
                         path: 'agents',
-                        loadChildren: () => import('../../bots/bots.module').then((m) => m.BotsModule),
+                        loadChildren: () => import('../../pages/bots/bots.module').then((m) => m.BotsModule),
                     },
                     {
                         path: 'activities',
                         loadChildren: () =>
-                            import('../../activities/activities.module').then((m) => m.ActivitiesModule),
+                            import('../../pages/activities/activities.module').then((m) => m.ActivitiesModule),
                     },
                     {
                         path: 'users',
-                        loadChildren: () => import('../../user/user.module').then((m) => m.UserModule),
+                        loadChildren: () => import('../../pages/user/user.module').then((m) => m.UserModule),
                     },
                 ],
             },
             {
                 path: 'test-components',
                 data: { allowedRoles: [Role.ADMIN, Role.USER] },
-                loadChildren: () => import('../../test-components/test-components.module').then((m) => m.TestComponentsModule),
+                loadChildren: () => import('../../pages/test-components/test-components.module').then((m) => m.TestComponentsModule),
             },
         ],
     },

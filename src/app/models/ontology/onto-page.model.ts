@@ -1,12 +1,14 @@
 import { Deserializable } from '../deserializable.model';
-import { BINDING_TYPE } from './binding-type.enum';
-import { Binding, BindingExt } from './binding.model';
+import { OntoData } from './onto-data.model';
+import { OntoVis } from './onto-vis.model';
+import { PAGE_TYPE } from './page-type.enum';
 
 export class OntoPage implements Deserializable {
     public id!: string;
-    public bindingType!: BINDING_TYPE;
-    public nrows!: number;
-    public bindings!: Binding[];
+    public pageType!: PAGE_TYPE;
+    public visId!: string;
+    public dataIds!: string[];
+    public pageIds?: string[];
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -15,7 +17,8 @@ export class OntoPage implements Deserializable {
 }
 
 export class OntoPageExt extends OntoPage {
-    public bindingExts!: BindingExt[];
+    public vis!: OntoVis;
+    public data!: OntoData[];
 
     deserialize(input: any) {
         Object.assign(this, input);

@@ -3,47 +3,67 @@
 <mat-dialog-content>
   <form [formGroup]="formGroup" #modalForm>
 
-    <mat-form-field>
-      <mat-label>Num. of rows (layout)</mat-label>
-      <input formControlName="nrows" matInput type="number"/>
-    </mat-form-field>
-
-    <mat-radio-group formControlName="bindingType">
-      <mat-radio-button *ngFor="let d of publishTypes" [value]="d">
+    <label id="radio-group-id">Page type</label>
+    <mat-radio-group
+      formControlName="pageType"
+      aria-labelledby="radio-group-id"
+      class="pagetype-radio-group"
+    >
+      <mat-radio-button *ngFor="let d of pageTypes" [value]="d" class="pagetype-radio-button" >
         <span class="wrap-label-text">{{ d | titlecase }}</span>
       </mat-radio-button>
     </mat-radio-group>
-  
-    <hr>
 
-    <ng-container *ngIf="formGroup.controls['bindings'] && formGroup.controls['bindings']['controls']">
-      <div *ngFor="let d of formGroup.controls['bindings']['controls']; let i = index">
-        <app-binding-edit [formGroup]="d"></app-binding-edit>
-      </div>
-    </ng-container>
+    <ng-select
+      [items]="ontoVis$ | async"
+      bindLabel="function"
+      bindValue="id"
+      [multiple]="false"
+      [closeOnSelect]="true"
+      [searchable]="true"
+      formControlName="visId"
+      placeholder="VIS function"
+    >
+    </ng-select>
 
-    <button
-      (click)="onClickBindVis()" 
-      [matTooltipPosition]="'left'" 
-      class="btn btn-success btn-link float-left" 
-      mat-icon-button matTooltip="Bind vis function" 
-      type="button"
-    ><mat-icon>add_circle</mat-icon></button>
-    
+    <ng-select
+      [items]="ontoData$ | async"
+      bindLabel="endpoint"
+      bindValue="id"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      formControlName="dataIds"
+      placeholder="Data streams"
+    >
+    </ng-select>
+
+    <ng-select
+      [items]="ontoPages$ | async"
+      bindLabel="name"
+      bindValue="id"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      formControlName="pageIds"
+      placeholder="Links"
+    >
+    </ng-select>
+
     <mat-dialog-actions align="end">
-      <button 
-        mat-raised-button 
-        class="btn btn-warning" 
+      <button
+        mat-raised-button
+        class="btn btn-warning"
         [mat-dialog-close]="undefined"
       >
         Cancel
       </button>
 
       <button
-        mat-raised-button 
-        class="btn btn-primary" 
-        (click)="save()" 
-        [disabled]="!formGroup.valid" 
+        mat-raised-button
+        class="btn btn-primary"
+        (click)="save()"
+        [disabled]="!formGroup.valid"
         type="submit"
         >
           Save

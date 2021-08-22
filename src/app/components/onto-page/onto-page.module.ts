@@ -6,9 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { OntoPageEditComponent } from './edit/edit.component';
-import { BindingEditComponent } from './edit/binding-edit.component';
-import { BindDataEditComponent } from './edit/binddata-edit.component';
-import { Queryparam2EditComponent } from './edit/queryparam2-edit.component';
 import { DirectivesModule } from '../../directives/directives.module';
 import { CustomPipesModule } from '../../pipes/custom-pipes.module';
 import { CustomSingleSelectionModule } from '../custom-single-selection/custom-single-selection.module';
@@ -25,9 +22,6 @@ import { OntoPageExtGroupTableComponent } from './group-table/group-table.compon
         OntoPageGroupComponent,
         OntoPageExtGroupTableComponent,
         OntoPageEditComponent,
-        BindingEditComponent,
-        BindDataEditComponent,
-        Queryparam2EditComponent,
     ],
     imports: [
         CommonModule,

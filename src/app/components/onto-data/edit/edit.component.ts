@@ -4,11 +4,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 
-import { LocalNotificationService } from '../../../services/common/local-notification.service';
+import { LocalNotificationService } from '../../../services/local-notification.service';
 import { UtilService } from '../../../services/util.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
 import { DATA_TYPE } from '../../../models/ontology/onto-data-types';
-import { BaseFormComponent } from '../../forms/base-form.component';
 import { DataStreamKeywordsToDropdown } from '../../../services/ontology/data-stream-keywords.service';
 
 @Component({
@@ -16,12 +15,12 @@ import { DataStreamKeywordsToDropdown } from '../../../services/ontology/data-st
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
 })
-export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
+export class OntoDataEditComponent implements OnInit {
     @ViewChild('modalForm') modalForm: any;
 
     formGroup!: FormGroup;
     dialogType: 'edit' | 'new';
-    data: OntoData;
+    ontoData: OntoData;
     public dataTypes: string[] = [];
     public keywords: string[] = [];
 
@@ -42,23 +41,19 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
         private localNotificationService: LocalNotificationService,
         private utilService: UtilService
     ) {
-        super();
         this.dialogType = data.dialogType;
-        this.data = { ...data.data };
+        this.ontoData = { ...data.data };
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
     }
 
     ngOnInit(): void {
         this.formGroup = this.fb.group({
-            urlCode: new FormControl('', [Validators.required]),
-            endpoint: new FormControl('', [Validators.required]),
-            dataType: new FormControl('', [Validators.required]),
-            description: new FormControl('', [Validators.required]),
-            keywords: new FormControl([], [Validators.required]),
+            urlCode: new FormControl(this.ontoData.urlCode, [Validators.required]),
+            endpoint: new FormControl(this.ontoData.endpoint, [Validators.required]),
+            dataType: new FormControl(this.ontoData.dataType, [Validators.required]),
+            description: new FormControl(this.ontoData.description, [Validators.required]),
+            keywords: new FormControl(this.ontoData.keywords, [Validators.required]),
         });
-
-        this.setFormValues(this.data);
-
     }
 
     // Remove keywords chip
@@ -90,7 +85,7 @@ export class OntoDataEditComponent extends BaseFormComponent implements OnInit {
         }
 
         const result: OntoData = this.formGroup.value;
-        result.id = this.data.id;
+        result.id = this.ontoData.id;
         this.matDialogRef.close(result);
     }
 

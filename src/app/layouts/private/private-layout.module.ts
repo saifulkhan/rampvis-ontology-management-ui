@@ -8,7 +8,6 @@ import { SidebarModule } from '../../shared/sidebar/sidebar.module';
 import { FooterModule } from '../../shared/footer/footer.module';
 import { NavbarModule } from '../../shared/navbar/navbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
-import { FixedpluginModule } from '../../shared/fixedplugin/fixedplugin.module';
 
 @NgModule({
     imports: [
@@ -17,7 +16,6 @@ import { FixedpluginModule } from '../../shared/fixedplugin/fixedplugin.module';
         SidebarModule,
         NavbarModule,
         FooterModule,
-        FixedpluginModule,
         DirectivesModule
     ],
     declarations: [
