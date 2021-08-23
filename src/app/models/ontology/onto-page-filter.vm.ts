@@ -6,7 +6,6 @@ export class OntoPageFilterVm implements Deserializable {
     public pageSize!: number;
     public sortBy!: string;
     public sortOrder!: string;
-    public filterPageType!: PAGE_TYPE;
     public filterId!: string;
 
     deserialize(input: any) {

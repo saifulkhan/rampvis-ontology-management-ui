@@ -62,7 +62,7 @@ export class OntoPageEditComponent implements OnInit {
             .pipe(map((d: any) => d.data));
 
         this.ontoPages$ = this.ontoPageService
-            .getAllPages({ filterPageType: PAGE_TYPE.EXAMPLE } as OntoPageFilterVm)
+            .getAllPages(PAGE_TYPE.EXAMPLE)
             .pipe(
                 map((d: any) => {
                     return d.data.map((ontoPageExt: OntoPageExt) => {
