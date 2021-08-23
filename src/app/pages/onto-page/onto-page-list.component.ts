@@ -24,7 +24,7 @@ export class OntoPageListComponent implements OnInit {
     public ontoPagesTotalCount = 0;
     private ontoPageFilterVm!: OntoPageFilterVm;
 
-    filterPageType$ = new BehaviorSubject<PAGE_TYPE>(null as any);
+    pageType$ = new BehaviorSubject<PAGE_TYPE>(null as any);
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -39,7 +39,7 @@ export class OntoPageListComponent implements OnInit {
         this.activatedRoute.params.subscribe((d: any) => {
             console.log('OntoPageListComponent: ngOnInit:  route or pageType = ', d?.pageType);
             this.ontoPageExts = [];
-            this.filterPageType$.next(d?.pageType);
+            this.pageType$.next(d?.pageType);
             this.getOntoPages(this.ontoPageFilterVm);
         });
     }
@@ -83,13 +83,12 @@ export class OntoPageListComponent implements OnInit {
         this.ontoPageFilterVm = _ontoPageFilterVm;
         console.log('OntoPageListComponent:getOntoPages: ontoPageFilterVm = ', this.ontoPageFilterVm);
 
-        if (!this.filterPageType$.value || !this.ontoPageFilterVm) {
+        if (!this.pageType$.value || !this.ontoPageFilterVm) {
             return;
         }
-        this.ontoPageFilterVm.filterPageType = this.filterPageType$.value;
 
         this.ontologyService
-            .getAllPages(this.ontoPageFilterVm)
+            .getAllPages(this.pageType$.value, this.ontoPageFilterVm)
             .pipe(
                 catchError((err) => {
                     this.errorHandler2Service.handleError(err);

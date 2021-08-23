@@ -42,7 +42,7 @@ export class OntoDataGroupComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes?.add && this.add) {
-            console.log('OntoDataGroupComponent: ngOnChanges: this.addData = ', this.add);
+            // console.log('OntoDataGroupComponent: ngOnChanges: this.addData = ', this.add);
             if (this.data.findIndex((d: OntoData) => d.id === this.add.id) === -1) {
                 this.data.push(this.add);
                 this.table.renderRows();
@@ -50,7 +50,7 @@ export class OntoDataGroupComponent implements OnInit {
         }
 
         if (changes?.data && this.data) {
-            console.log('OntoDataGroupComponent: ngOnChanges: this.data = ', this.data);
+            // console.log('OntoDataGroupComponent: ngOnChanges: this.data = ', this.data);
             this.setDataSource();
         }
     }

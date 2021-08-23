@@ -7,7 +7,7 @@
             <div class="card-icon">
               <mat-icon>web</mat-icon>
             </div>
-            <h4 class="card-title">Pages - {{ filterPageType$.value | titlecase }}</h4>
+            <h4 class="card-title">Pages - {{ pageType$.value | titlecase }}</h4>
           </div>
 
           <div class="card-body">
@@ -15,7 +15,7 @@
               [totalCount]="ontoPagesTotalCount"
               [data]="ontoPageExts"
               [isEditable]="true"
-              [pageType]="(filterPageType$.value)"
+              [pageType]="(pageType$.value)"
               (onClickCreate)="onClickCreate()"
               (onClickEdit)="onClickEdit($event)"
               (onClickDelete)="onClickDelete($event)"
