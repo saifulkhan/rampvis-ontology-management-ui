@@ -105,7 +105,7 @@ export class OntoPageListComponent implements OnInit {
     private openPageEditModal(dialogType: string, ontoPageExt: OntoPageExt): void {
         console.log('OntoPageListComponent: openPageEditModal: dialogType = ', dialogType, ', ontoPageExt = ', ontoPageExt);
 
-        const dialogOpt = { width: '80%', data: { dialogType, ontoPageExt } };
+        const dialogOpt = { width: '50%', data: { dialogType, ontoPageExt } };
         const matDialogRef = this.matDialog.open(OntoPageEditComponent, dialogOpt);
 
         matDialogRef

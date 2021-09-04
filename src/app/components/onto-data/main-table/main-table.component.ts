@@ -108,7 +108,7 @@ export class OntoDataMainTableComponent implements OnInit {
     }
 
     public onClickShowData(data: OntoData) {
-        const dialogOpt = { width: '40%', data: data };
+        const dialogOpt = { width: '60%', data: data };
         this.matDialog.open(OntoDataShowComponent, dialogOpt);
     }
 

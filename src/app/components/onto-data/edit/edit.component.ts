@@ -7,7 +7,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { LocalNotificationService } from '../../../services/local-notification.service';
 import { UtilService } from '../../../services/util.service';
 import { OntoData } from '../../../models/ontology/onto-data.model';
-import { DATA_TYPE } from '../../../models/ontology/onto-data-types';
+import { DATA_TYPE, URL_CODE } from '../../../models/ontology/onto-data-types';
 import { DataStreamKeywordsToDropdown } from '../../../services/ontology/data-stream-keywords.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class OntoDataEditComponent implements OnInit {
     ontoData: OntoData;
     public dataTypes: string[] = [];
     public keywords: string[] = [];
+    public urlCodes: string[] = [];
 
     // chips related
     visible = true;
@@ -44,6 +45,7 @@ export class OntoDataEditComponent implements OnInit {
         this.dialogType = data.dialogType;
         this.ontoData = { ...data.data };
         this.dataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
+        this.urlCodes = (Object.keys(URL_CODE) as Array<keyof typeof URL_CODE>).map((d) => URL_CODE[d]);
     }
 
     ngOnInit(): void {
@@ -51,7 +53,7 @@ export class OntoDataEditComponent implements OnInit {
             urlCode: new FormControl(this.ontoData.urlCode, [Validators.required]),
             endpoint: new FormControl(this.ontoData.endpoint, [Validators.required]),
             dataType: new FormControl(this.ontoData.dataType, [Validators.required]),
-            description: new FormControl(this.ontoData.description, [Validators.required]),
+            description: new FormControl(this.ontoData.description),
             keywords: new FormControl(this.ontoData.keywords, [Validators.required]),
         });
     }

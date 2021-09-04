@@ -7,6 +7,11 @@ export enum DATA_TYPE {
     OTHER = 'other',
 }
 
+export enum URL_CODE {
+    API_JS = 'API_JS',
+    API_PY = 'API_PY',
+}
+
 export enum SOURCE {
     SCOTLAND = 'scotland',
     HOSPITAL = 'hospital',
@@ -24,3 +29,4 @@ export enum ANALYTICS {
     SIMILARITY = 'similarity',
     UNCERTAINTY = 'uncertainty',
 }
+

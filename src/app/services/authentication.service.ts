@@ -126,7 +126,7 @@ export class AuthenticationService {
 	}
 
 	private getUserUrl(): string {
-		return '/user/' + this.getId();
+		return '/me/';
 	}
 
 }

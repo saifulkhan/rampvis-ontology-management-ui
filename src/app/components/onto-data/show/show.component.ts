@@ -33,15 +33,11 @@ export class OntoDataShowComponent implements OnInit {
         const urlCode: string = this.data.urlCode;
         this.url = `${(environment.components as any)[urlCode]}${this.data.endpoint}`;
 
-        //let _url = new URL(this.url);
-        //let _search = _url.search;
-
-
         this.api.get(this.url).subscribe((res: any) => {
             console.log('OntoDataShowComponent: res = ', res);
 
             if (res && Array.isArray(res) && res.length > 0) {
-                this.jsonData$.next((res as any).slice(0, 10));
+                this.jsonData$.next((res as any).slice(Math.max(res.length - 10, 0)));
                 this.length$.next(res.length);
                 this.column$.next(Object.keys(res[0]) as any);
                 this.spinner = false;
