@@ -31,17 +31,10 @@ export class UserDetailsComponent implements OnInit {
 
 	ngOnInit() {
 		this.route.params.subscribe(params => {
-			if (params['external'] === 'external') {
-				this.userService.getMember(params['id_user']).subscribe(res => {
-					this.user = res;
-					this.isExternalUser = true;
-				});
-			} else {
-				this.userService.getUser(params['id_user']).subscribe(res => {
-					this.user = res;
-					this.isExternalUser = false;
-				});
-			}
+            this.userService.getUser(params['id_user']).subscribe(res => {
+                this.user = res;
+                this.isExternalUser = false;
+            });
 		});
 	}
 

@@ -21,3 +21,13 @@ npx ng serve
 > Note. To access from local network add '--host 0.0.0.0'
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.
+
+
+## Publication
+
+```
+Propagating Visual Designs to Numerous Plots and Dashboards
+Saiful Khan, Phong H. Nguyen, Alfie Abdul-Rahman, Benjamin Bach, Min Chen, Euan Freeman, Cagatay Turkay:
+In Proceedings of IEEE Visualization & Visual Analytics – VIS ’21, accepted to appear. 2021.
+```
+A PDF version can be found in [arXiv](https://arxiv.org/abs/2107.08882).
