@@ -43,11 +43,7 @@ export class UserService {
 		return this.api.put(`${this.url}/${user.id}`, user);
 	}
 
-	getMember(id: string) {
-		return this.api.get<User>(`/members/member/${id}`);
-	}
-
 	private loadUsers(): Observable<Array<User>> {
-		return this.api.get<Array<User>>(this.url);
+		return this.api.get<Array<User>>('/users');
 	}
 }
