@@ -29,12 +29,12 @@ export class OntoDataListComponent {
         private errorHandler2Service: ErrorHandler2Service
     ) {}
 
-    public onClickCreate(): void {
-        this.openVisEditModal('new', new OntoData());
+    public onClickAdd(): void {
+        this.openOntoDataEditModal('add', new OntoData());
     }
 
     public onClickEdit(data: OntoData): void {
-        this.openVisEditModal('edit', data);
+        this.openOntoDataEditModal('edit', data);
     }
 
     public onClickDelete(data: OntoData): void {
@@ -66,7 +66,7 @@ export class OntoDataListComponent {
             });
     }
 
-    private openVisEditModal(dialogType: string, data: OntoData): void {
+    private openOntoDataEditModal(dialogType: string, data: OntoData): void {
         const dialogOpt = {
             width: '40%',
             // minHeight: 'calc(100vh - 90px)', // TODO
@@ -81,7 +81,7 @@ export class OntoDataListComponent {
                 mergeMap(
                     (ontoData: null | OntoData): Observable<any> => {
                         if (!ontoData) return of(false);
-                        if (dialogType === 'new') return this.ontoDataService.createData(ontoData);
+                        if (dialogType === 'add') return this.ontoDataService.createData(ontoData);
                         if (dialogType === 'edit') return this.ontoDataService.updateData(ontoData);
                         return of(false);
                     }
