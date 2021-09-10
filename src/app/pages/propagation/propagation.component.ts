@@ -397,6 +397,7 @@ export class PropagationComponent implements OnInit {
     public onClickRemove(idx: number) {
         if (idx >= 0) {
             let res = this.discoveredOntoDataGroups.splice(idx, 1);
+            this.localNotificationService.warning({ message: 'Removed' });
         }
     }
 

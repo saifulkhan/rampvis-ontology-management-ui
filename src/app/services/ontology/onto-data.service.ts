@@ -14,7 +14,7 @@ import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '.
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
 import { ONTO_DATA_EXAMPLE_DATA_MOCK_3, ONTO_DATA_MATCHING_DATA_MOCK_3 } from '../../../assets/mock/onto-data-search-result-3.mock';
 import { MUST_KEYS_4, ONTO_DATA_EXAMPLE_DATA_MOCK_4, ONTO_DATA_MATCHING_DATA_MOCK_4 } from '../../../assets/mock/onto-data-search-result-4.mock';
-
+import { MUST_KEYS_MOCK,  EXAMPLE_DATA_MOCK, RESULT_MOCK } from '../../../assets/mock/simulate-error-stackbarchartwith6places.mock'
 
 @Injectable({
     providedIn: 'root',
@@ -94,16 +94,20 @@ export class OntoDataService {
         const mustKeys = query?.mustKeys;
         console.log('OntoDataService:searchMatchingGroups: mustKeys = ', mustKeys)
 
-        return this.api.post(url, query).pipe(map((d: any) => {
-            return this.processKeywords(mustKeys, d, example)
-        }));
+        if (true) {
+            return of(this.showGroupsWithUsingMockData())
+        } else {
+            return this.api.post(url, query).pipe(map((d: any) => {
+                return this.processKeywords(mustKeys, d, example)
+            }));
+        }
 
     }
 
-    getMockMatchingData(): any {
-        const mustKeys = MUST_KEYS_4;
-        const example = ONTO_DATA_EXAMPLE_DATA_MOCK_4;
-        const discovered = ONTO_DATA_MATCHING_DATA_MOCK_4;
+    showGroupsWithUsingMockData(): any {
+        const mustKeys = MUST_KEYS_MOCK;
+        const example = EXAMPLE_DATA_MOCK;
+        const discovered = RESULT_MOCK;
         return this.processKeywords(mustKeys, discovered, example)
     }
 
