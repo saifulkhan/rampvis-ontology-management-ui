@@ -3,10 +3,10 @@ export const environment: any = {
     staging: false,
     configuration: 'production',
     components: {
-        API_JS: 'http://vis.scrc.uk/api/v1', // Node
-        API_PY: 'http://vis.scrc.uk/stat/v1', // Python
+        API_JS: 'https://vis.scrc.uk/api/v1', // Node
+        API_PY: 'https://vis.scrc.uk/stat/v1', // Python
         sentry: '',
-        VIS_URL: 'http://vis.scrc.uk/page?id=',
+        VIS_URL: 'https://vis.scrc.uk/page?id=',
     },
     firebaseConfig: {
         apiKey: 'xx',
