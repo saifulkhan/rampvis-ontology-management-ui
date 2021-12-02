@@ -1,4 +1,4 @@
-<h5 mat-dialog-title>{{ dialogType | titlecase  }} Visualization Function</h5>
+<h5 mat-dialog-title>{{ dialogType | titlecase  }} VIS Function</h5>
 
 <mat-dialog-content>
   <form [formGroup]="form" #modalForm>
@@ -25,19 +25,19 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button 
+      <button
         mat-raised-button
         class="btn btn-warning"
-        [mat-dialog-close]="undefined" 
+        [mat-dialog-close]="undefined"
       >
         Cancel
       </button>
 
-      <button 
-        mat-raised-button 
+      <button
+        mat-raised-button
         class="btn btn-primary"
-        (click)="save()" 
-        [disabled]="!form.valid" 
+        (click)="save()"
+        [disabled]="!form.valid"
         type="submit"
       >
         Save

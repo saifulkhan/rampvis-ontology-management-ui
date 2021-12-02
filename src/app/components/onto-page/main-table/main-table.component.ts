@@ -120,29 +120,9 @@ export class OntoPageMainTableComponent implements OnInit {
     }
 
     public onClickNavigatePage(pageId: string) {
-        let link = `${this.visURL}/${pageId}`;
+        let link = `${this.visURL}${pageId}`;
         window.open(link, '_blank');
     }
-
-    // public onClickShowBindings(pageId: string) {
-    //     // Open in a new tab
-    //     // const url = this.router.serializeUrl(this.router.createUrlTree(['pages', 'page', `${pageId}`]));
-    //     // window.open(url, '_blank');
-
-    //     this.router.navigate(['pages', 'page', `${pageId}`]);
-    // }
-
-    //
-    // Toggle Rows
-    //
-
-    // toggleTableRows() {
-    //     this.isTableExpanded = !this.isTableExpanded;
-
-    //     this.data.forEach((row: any) => {
-    //         row.isExpanded = this.isTableExpanded;
-    //     });
-    // }
 
     checkExpanded(element: any): boolean {
         let flag = false;

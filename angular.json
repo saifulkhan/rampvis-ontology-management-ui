@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "rampvis-onto": {
+        "rampvis-ontology": {
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
@@ -13,12 +13,17 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/rampvis-onto",
+                        "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
+                            {
+                                "glob": "_redirects",
+                                "input": "src",
+                                "output": "/"
+                            },
                             "src/favicon.ico",
                             "src/assets",
                             "src/firebase-messaging-sw.js",
@@ -90,18 +95,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "rampvis-onto:build"
+                        "browserTarget": "rampvis-ontology:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "rampvis-onto:build:production"
+                            "browserTarget": "rampvis-ontology:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "rampvis-onto:build"
+                        "browserTarget": "rampvis-ontology:build"
                     }
                 },
                 "test": {
@@ -144,18 +149,14 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
-                        ],
+                        "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
             }
         }
     },
-    "defaultProject": "rampvis-onto",
+    "defaultProject": "rampvis-ontology",
     "cli": {
         "analytics": false
     }

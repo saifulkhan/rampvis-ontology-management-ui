@@ -3,17 +3,6 @@
 <mat-dialog-content>
   <form [formGroup]="formGroup" #modalForm>
 
-    <label id="radio-group-id">Page binding type</label>
-    <mat-radio-group
-      formControlName="pageType"
-      aria-labelledby="radio-group-id"
-      class="pagetype-radio-group"
-    >
-      <mat-radio-button *ngFor="let d of pageTypes" [value]="d" class="pagetype-radio-button" >
-        <span class="wrap-label-text">{{ d | titlecase }}</span>
-      </mat-radio-button>
-    </mat-radio-group>
-
     <ng-select
       [items]="ontoVis$ | async"
       bindLabel="function"
@@ -49,6 +38,17 @@
       placeholder="Links"
     >
     </ng-select>
+
+    <label id="radio-group-id">Page binding type</label>
+    <mat-radio-group
+      formControlName="pageType"
+      aria-labelledby="radio-group-id"
+      class="pagetype-radio-group"
+    >
+      <mat-radio-button *ngFor="let d of pageTypes" [value]="d" class="pagetype-radio-button" >
+        <span class="wrap-label-text">{{ d | titlecase }}</span>
+      </mat-radio-button>
+    </mat-radio-group>
 
     <mat-dialog-actions align="end">
       <button
