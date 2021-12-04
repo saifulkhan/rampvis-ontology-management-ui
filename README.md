@@ -21,10 +21,15 @@ npx ng serve
 
 Navigate to [localhost:4200](localhost:4200) to open the UI.
 
-# Publication
+## BibTeX
 
-### Propagating Visual Designs to Numerous Plots and Dashboards
+```sh
+@ARTICLE{Khan2021:IEEE-TVCG,
+  author= {Khan, Saiful and Nguyen, Phong H. and Abdul-Rahman, Alfie and Bach, Benjamin and Chen, Min and Freeman, Euan and Turkay, Cagatay},
+  title= {Propagating Visual Designs to Numerous Plots and Dashboards},
+  journal= {IEEE Transactions on Visualization and Computer Graphics},
+  year={2021},
+  doi={10.1109/TVCG.2021.3114828}}
+```
 
-**Saiful Khan, Phong H. Nguyen, Alfie Abdul-Rahman, Benjamin Bach, Min Chen, Euan Freeman, and Cagatay Turkay**\
-_IEEE Transactions on Visualization and Computer Graphics_, 2021, [PDF](https://arxiv.org/abs/2107.08882)\
-Presented at IEEE VIS 2021- [fast-forward](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s), [main presentation](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
+IEEE VIS 2021 Conference: [fast-forward](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s) & [main presentation](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
