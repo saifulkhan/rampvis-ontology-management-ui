@@ -10,11 +10,11 @@ import { DATA_TYPE } from '../../models/ontology/onto-data-types';
 import { OntoDataFilterVm } from '../../models/ontology/onto-data-filter.vm';
 import { OntoDataSearchFilterVm } from '../../models/ontology/onto-data-search-filter.vm';
 import { environment } from '../../../environments/environment';
-import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '../../../assets/mock/onto-data-search-result-1.mock';
-import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
-import { ONTO_DATA_EXAMPLE_DATA_MOCK_3, ONTO_DATA_MATCHING_DATA_MOCK_3 } from '../../../assets/mock/onto-data-search-result-3.mock';
-import { MUST_KEYS_4, ONTO_DATA_EXAMPLE_DATA_MOCK_4, ONTO_DATA_MATCHING_DATA_MOCK_4 } from '../../../assets/mock/onto-data-search-result-4.mock';
-import { MUST_KEYS_MOCK,  EXAMPLE_DATA_MOCK, RESULT_MOCK } from '../../../assets/mock/simulate-error-stackbarchartwith6places.mock'
+// import { ONTO_DATA_EXAMPLE_DATA_MOCK_1, ONTO_DATA_MATCHING_DATA_MOCK_1 } from '../../../assets/mock/onto-data-search-result-1.mock';
+// import { ONTO_DATA_EXAMPLE_DATA_MOCK_2, ONTO_DATA_MATCHING_DATA_MOCK_2 } from '../../../assets/mock/onto-data-search-result-2.mock';
+// import { ONTO_DATA_EXAMPLE_DATA_MOCK_3, ONTO_DATA_MATCHING_DATA_MOCK_3 } from '../../../assets/mock/onto-data-search-result-3.mock';
+// import { MUST_KEYS_4, ONTO_DATA_EXAMPLE_DATA_MOCK_4, ONTO_DATA_MATCHING_DATA_MOCK_4 } from '../../../assets/mock/onto-data-search-result-4.mock';
+import { MUST_KEYS_MOCK, EXAMPLE_DATA_MOCK, RESULT_MOCK } from '../../../assets/mock/simulate-error-stackbarchartwith6places.mock';
 
 @Injectable({
     providedIn: 'root',
@@ -92,23 +92,24 @@ export class OntoDataService {
         let url: string = `${this.py_url}/onto-data/search/group`;
 
         const mustKeys = query?.mustKeys;
-        console.log('OntoDataService:searchMatchingGroups: mustKeys = ', mustKeys)
+        console.log('OntoDataService:searchMatchingGroups: mustKeys = ', mustKeys);
 
-        if (true) {
-            return of(this.showGroupsWithUsingMockData())
+        if (false) {
+            return of(this.showGroupsWithUsingMockData());
         } else {
-            return this.api.post(url, query).pipe(map((d: any) => {
-                return this.processKeywords(mustKeys, d, example)
-            }));
+            return this.api.post(url, query).pipe(
+                map((d: any) => {
+                    return this.processKeywords(mustKeys, d, example);
+                })
+            );
         }
-
     }
 
     showGroupsWithUsingMockData(): any {
         const mustKeys = MUST_KEYS_MOCK;
         const example = EXAMPLE_DATA_MOCK;
         const discovered = RESULT_MOCK;
-        return this.processKeywords(mustKeys, discovered, example)
+        return this.processKeywords(mustKeys, discovered, example);
     }
 
     /**
@@ -118,25 +119,23 @@ export class OntoDataService {
      * TODO: any -> type
      */
     processKeywords(mustKeys: string[], discovered: any, example: any) {
-        console.log('OntoDataService:processKeywords: discovered = ', discovered)
+        console.log('OntoDataService:processKeywords: discovered = ', discovered);
 
         //
         // 1. Intersection of keywords of all discovered data stream.
         //
         const _intersectionAll: string[][] = discovered.map((d: any) => {
             const keywords: string[][] = d.group.map((d1: any) => {
-                const keywords = d1.keywords.split(', ').filter((d: string) => d)
+                const keywords = d1.keywords.split(', ').filter((d: string) => d);
                 return keywords;
             });
-            const intersection: string[]= _.intersection(...keywords);
+            const intersection: string[] = _.intersection(...keywords);
             return intersection;
         });
 
         const intersectionAll: string[] = _.intersection(..._intersectionAll);
         const intersectionAllDiffMustKeys: string[] = _.difference(intersectionAll, mustKeys);
         console.log('intersectionAll = ', intersectionAll, '\nintersectionAllDiffMustKeys = ', intersectionAllDiffMustKeys);
-
-
 
         const processedKeywords = discovered.map((d: any) => {
             //
@@ -150,13 +149,12 @@ export class OntoDataService {
             let _intersectionGroup: string[] = [];
             // If we have a single data stream in a group, then intersection of it will return all keywords in it.
             if (keywords.length > 1) {
-                 _intersectionGroup = _.intersection(...keywords);
+                _intersectionGroup = _.intersection(...keywords);
             }
 
             //const differenceGroup = _.difference(intersectionGroup, intersectionAll);
             const intersectionGroup = _.difference(_intersectionGroup, intersectionAllDiffMustKeys, intersectionAll);
             console.log('keywords = ', keywords, '\n_intersectionGroup = ', _intersectionGroup, '\nintersectionGroup = ', intersectionGroup);
-
 
             console.log('d.group = ', d.group);
 
@@ -172,8 +170,8 @@ export class OntoDataService {
                         iAll: intersectionAllDiffMustKeys,
                         iGroup: intersectionGroup,
                         iExample: [],
-                        iDataType: false
-                    }
+                        iDataType: false,
+                    };
                 }
 
                 //
@@ -181,31 +179,38 @@ export class OntoDataService {
                 //
                 const _intersectionExample: string[] = _.intersection(keywords, example[i].keywords);
                 const intersectionExample: string[] = _.difference(_intersectionExample, intersectionAll, intersectionAllDiffMustKeys, intersectionGroup);
-                console.log('example[i].keywords = ', example[i].keywords, '_intersectionExample = ', _intersectionExample, ', intersectionExample = ', intersectionExample);
+                console.log(
+                    'example[i].keywords = ',
+                    example[i].keywords,
+                    '_intersectionExample = ',
+                    _intersectionExample,
+                    ', intersectionExample = ',
+                    intersectionExample
+                );
 
-                const _processedKeywords =  {
+                const _processedKeywords = {
                     ...s,
-                    keywords: keywords.sort().sort((a: string, b: string) => this.sorter(intersectionAllDiffMustKeys, intersectionGroup, intersectionExample, a, b)),
+                    keywords: keywords
+                        .sort()
+                        .sort((a: string, b: string) => this.sorter(intersectionAllDiffMustKeys, intersectionGroup, intersectionExample, a, b)),
                     mustKeys: mustKeys,
                     iAll: intersectionAllDiffMustKeys,
                     iGroup: intersectionGroup,
                     iExample: intersectionExample,
-                    iDataType: (example[i].dataType === s.dataType)
+                    iDataType: example[i].dataType === s.dataType,
                 };
 
-                console.log('OntoDataService:processKeywords:_processedKeywords = ', _processedKeywords)
+                console.log('OntoDataService:processKeywords:_processedKeywords = ', _processedKeywords);
                 return _processedKeywords;
             });
 
-
-            console.log('\n')
+            console.log('\n');
             return { ...d, group: processedGroup };
         });
 
         //console.log('processedKeywords = ', processedKeywords);
         return processedKeywords;
     }
-
 
     // Sorting
     private sorter = (p1: string[], p2: string[], p3: string[], a: string, b: string) => {
