@@ -1,6 +1,6 @@
 # About
 
-RAMPVIS Ontology Management & Propagation UI: This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc. The key dependencies are,
+RAMPVIS Ontology Management & Propagation UI: This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc.
 
 ## Getting Started
 
@@ -8,9 +8,7 @@ RAMPVIS Ontology Management & Propagation UI: This is an Angular-based user inte
 
 - Node version 16.13.0
 - Angular 12
-- REST-API or backend server: https://github.com/ScottishCovidResponse/rampvis-api
-
-> Start the backend [server](https://github.com/ScottishCovidResponse/rampvis-api) first.
+- REST-APIs server: https://github.com/ScottishCovidResponse/rampvis-api. Start the backend servers before continuing.
 
 ### Start Development Instance
 
@@ -23,13 +21,20 @@ Navigate to [localhost:4200](localhost:4200) to open the UI.
 
 ## BibTeX
 
-```sh
-@ARTICLE{Khan2021:IEEE-TVCG,
-  author= {Khan, Saiful and Nguyen, Phong H. and Abdul-Rahman, Alfie and Bach, Benjamin and Chen, Min and Freeman, Euan and Turkay, Cagatay},
-  title= {Propagating Visual Designs to Numerous Plots and Dashboards},
-  journal= {IEEE Transactions on Visualization and Computer Graphics},
-  year={2021},
-  doi={10.1109/TVCG.2021.3114828}}
+```bash
+@article{Khan2022:IEEE-TVCG,,
+   author = {Saiful Khan and Phong Nguyen and Alfie Abdul-Rahman and Benjamin Bach and Min Chen and Euan Freeman and Cagatay Turkay},
+   doi = {10.1109/TVCG.2021.3114828},
+   issue = {1},
+   journal = { IEEE Transactions on Visualization and Computer Graphics},
+   pages = {86-95},
+   title = {Propagating Visual Designs to Numerous Plots and Dashboards},
+   volume = {28},
+   year = {2022},
+}
 ```
 
-IEEE VIS 2021 Conference: [fast-forward](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s) & [main presentation](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
+IEEE VIS 2021 Conference
+
+- [fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
+- [main presentation video](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
