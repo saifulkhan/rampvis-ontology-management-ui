@@ -11,6 +11,7 @@ export enum URL_CODE {
   API_JS = "API_JS",
   API_PY = "API_PY",
   API_EXTERNAL = "API_EXTERNAL",
+  API_GOVUK = "API_GOVUK,",
 }
 
 export enum SOURCE {
