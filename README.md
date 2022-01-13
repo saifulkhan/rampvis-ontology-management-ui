@@ -34,7 +34,7 @@ Navigate to [localhost:4200](localhost:4200) to open the UI.
 }
 ```
 
-IEEE VIS 2021 Conference
+IEEE VIS 2021 Conference:
 
-- [fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
-- [main presentation video](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
+- [Fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
+- [Main presentation video](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
