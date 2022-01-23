@@ -48,8 +48,9 @@
             (click)="onClickSearchOntoVis()"
             type="submit"
             [disabled]="!ontoVisSearchFormGroup.valid"
-          >Search</button>
-
+          >
+            Search
+          </button>
         </form>
 
         <!-- Example vis table-->
@@ -90,7 +91,6 @@
 
         <mat-accordion>
           <mat-expansion-panel [expanded]="referenceOntoVis.length > 0 && referenceOntoData.length > 0">
-
             <mat-expansion-panel-header>
               <mat-panel-title> </mat-panel-title>
               <mat-panel-description> </mat-panel-description>
@@ -121,7 +121,11 @@
                           [selectable]="false"
                           [removable]="true"
                           (removed)="onClickRemoveKeyword(d)"
-                          [ngClass]="keywordSelectionStateMap[d]?.state ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state : 'keyword-select-color'"
+                          [ngClass]="
+                            keywordSelectionStateMap[d]?.state
+                              ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state
+                              : 'keyword-select-color'
+                          "
                         >
                           {{ d }}
                           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -153,7 +157,11 @@
                               [selectable]="false"
                               [removable]="true"
                               (removed)="onClickRemoveKeyword(d)"
-                              [ngClass]="keywordSelectionStateMap[d]?.state ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state : 'keyword-select-color'"
+                              [ngClass]="
+                                keywordSelectionStateMap[d]?.state
+                                  ? 'keyword-select-color-' + keywordSelectionStateMap[d]?.state
+                                  : 'keyword-select-color'
+                              "
                             >
                               {{ d }}
                               <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -191,7 +199,10 @@
                           [selectable]="false"
                           [removable]="true"
                           (removed)="onClickRemoveKeyword(d)"
-                          [ngClass]="keywordSelectionStateMap[d]?.state && 'keyword-select-color-' + keywordSelectionStateMap[d]?.state"
+                          [ngClass]="
+                            keywordSelectionStateMap[d]?.state &&
+                            'keyword-select-color-' + keywordSelectionStateMap[d]?.state
+                          "
                         >
                           {{ d }}
                           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
@@ -245,7 +256,15 @@
 
                     <!-- <button mat-raised-button class="btn btn-primary" (click)="onClickSearchMatchingGroups()" type="submit" align="end">Search</button> -->
                     <mat-card-actions align="end">
-                      <button mat-raised-button class="btn btn-primary" cdkFocusInitial (click)="onClickSearchMatchingGroups()" type="submit">Search</button>
+                      <button
+                        mat-raised-button
+                        class="btn btn-primary"
+                        cdkFocusInitial
+                        (click)="onClickSearchMatchingGroups()"
+                        type="submit"
+                      >
+                        Search
+                      </button>
                     </mat-card-actions>
                   </form>
                 </mat-card>
@@ -293,7 +312,11 @@
                       [(ngModel)]="clusteringAlgorithm"
                       name="clusteringAlgorithm"
                     >
-                      <mat-radio-button class="cluster-algorithm-radio-button" *ngFor="let d of clusteringAlgorithms" [value]="d">
+                      <mat-radio-button
+                        class="cluster-algorithm-radio-button"
+                        *ngFor="let d of clusteringAlgorithms"
+                        [value]="d"
+                      >
                         {{ d }}
                       </mat-radio-button>
                     </mat-radio-group>
@@ -344,7 +367,6 @@
           </app-onto-page-ext-group-table>
         </mat-card>
         -->
-
       </div>
     </div>
 
