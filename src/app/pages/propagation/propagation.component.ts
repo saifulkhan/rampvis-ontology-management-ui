@@ -15,7 +15,7 @@ import { OntoData } from "../../models/ontology/onto-data.model";
 import { LocalNotificationService } from "../../services/local-notification.service";
 import { PROPAGATION_TYPE } from "../../models/ontology/propagation-type.enum";
 import { ErrorHandler2Service } from "../../services/error-handler-2.service";
-import { OntoPageExt, OntoPageExtSearchGroup } from "../../models/ontology/onto-page.model";
+import { OntoPage, OntoPageExt, OntoPageExtSearchGroup } from "../../models/ontology/onto-page.model";
 import { OntoVisSearchFilterVm } from "../../models/ontology/onto-vis-search-filter.vm";
 import { OntoPageService } from "../../services/ontology/onto-page.service";
 import { DataStreamKeywordsArr } from "../../services/ontology/data-stream-keywords.service";
@@ -371,17 +371,16 @@ export class PropagationComponent implements OnInit {
       return;
     }
 
-    const group = this.discoveredOntoDataGroups.splice(idx, 1);
-    if (!group[0]) {
+    const d = this.discoveredOntoDataGroups.splice(idx, 1)[0];
+    console.log("PropagationComponent:onClickPropagate: propagate data = ", d);
+    if (!d) {
       return;
     }
-
-    console.log("PropagationComponent:onClickPropagate: group = ", group);
 
     const ontoPage: any = {
       pageType: PAGE_TYPE.REVIEW,
       visId: this.referenceOntoVis[0]?.id,
-      dataIds: group[0].group.map((d: any) => d.id),
+      dataIds: d.group.map((d: any) => d.id),
     };
 
     this.ontoPageService.createPage(ontoPage).subscribe((res: any) => {
@@ -390,27 +389,37 @@ export class PropagationComponent implements OnInit {
     });
   }
 
+  public onClickPropagateAll() {
+    // prettier-ignore
+    console.log("PropagationComponent:onClickPropagateAll: num. discovered = ", this.discoveredOntoDataGroups?.length);
+    const d = this.discoveredOntoDataGroups.splice(0, 100);
+    // prettier-ignore
+    console.log("PropagationComponent:onClickPropagateAll: num. propagate = ", d.length);
+    if (!this.referenceOntoVis[0]?.id || !d?.length) {
+      return;
+    }
+
+    const ontoPages: any[] = d?.map((d: any) => {
+      return {
+        pageType: PAGE_TYPE.REVIEW,
+        visId: this.referenceOntoVis[0]?.id,
+        dataIds: d.group.map((d: any) => d.id),
+      };
+    });
+
+    this.ontoPageService.createPages(ontoPages).subscribe((res: any) => {
+      console.log("PropagationComponent:onClickPropagateAll: res = ", res);
+      this.localNotificationService.success({
+        message: `success: ${res?.success}, duplicate: ${res?.duplicate}, error: ${res?.error}`,
+      });
+    });
+  }
+
   public onClickRemove(idx: number) {
     if (idx >= 0) {
       let res = this.discoveredOntoDataGroups.splice(idx, 1);
       this.localNotificationService.warning({ message: "Removed" });
     }
-  }
-
-  public onClickPropagateAll() {
-    // const vis = this.ontoVisTableComponent?.getSelection();
-    // const data = this.ontoDataTableSComponent?.getSelection();
-    // if (!vis || vis.length === 0 || !data || data.length === 0 || !this.propagationType) {
-    //     this.localNotificationService.error({
-    //         message: 'Is VIS function, data and propagation type are selected?',
-    //     });
-    //     return;
-    // }
-    // console.log('PropagationComponent: vis = ', vis, '\ndata = ', data);
-    // this.dialogService.warn('Propagate', 'Are you sure you want to propagate this?', 'Propagate').then((result) => {
-    //     if (result.value) {
-    //     }
-    // });
   }
 
   /**

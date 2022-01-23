@@ -39,6 +39,10 @@ export class OntoPageService {
     return this.api.post<OntoPage>(`${this.url}/page`, ontoPage);
   }
 
+  public createPages(ontoPages: OntoPage[]): Observable<any> {
+    return this.api.post<any>(`${this.url}/pages`, ontoPages);
+  }
+
   public updatePage(ontoPage: OntoPage): Observable<OntoPage> {
     return this.api.put(`${this.url}/page/${ontoPage.id}`, ontoPage);
   }
