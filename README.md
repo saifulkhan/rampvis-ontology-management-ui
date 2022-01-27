@@ -23,18 +23,18 @@ Navigate to [localhost:4200](localhost:4200) to open the UI.
 
 ```bash
 @article{Khan2022:IEEE-TVCG,,
-   author = {Saiful Khan and Phong Nguyen and Alfie Abdul-Rahman and Benjamin Bach and Min Chen and Euan Freeman and Cagatay Turkay},
-   doi = {10.1109/TVCG.2021.3114828},
-   issue = {1},
-   journal = { IEEE Transactions on Visualization and Computer Graphics},
-   pages = {86-95},
+   author = {Saiful Khan, Phong Nguyen, Alfie Abdul-Rahman, Benjamin Bach, Min Chen, Euan Freeman, and Cagatay Turkay},
    title = {Propagating Visual Designs to Numerous Plots and Dashboards},
+   journal = {IEEE Transactions on Visualization and Computer Graphics},
+   issue = {1},
+   pages = {86-95},
    volume = {28},
    year = {2022},
+   doi = {10.1109/TVCG.2021.3114828},
+   arxiv = {https://arxiv.org/abs/2107.08882}
 }
 ```
 
 IEEE VIS 2021 Conference:
 
 - [Fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
-- [Main presentation video](https://www.youtube.com/watch?v=w2FoWyMrAYM&t=4s)
