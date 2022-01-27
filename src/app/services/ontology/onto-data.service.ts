@@ -93,7 +93,7 @@ export class OntoDataService {
    * TODO: any -> type
    */
   public searchMatchingGroups(query: any, example: any): Observable<any> {
-    let url: string = `${this.py_url}/propagation`;
+    let url: string = `${this.py_url}/propagation/group`;
 
     const mustKeys = query?.mustKeys;
     console.log("OntoDataService:searchMatchingGroups: mustKeys = ", mustKeys);
