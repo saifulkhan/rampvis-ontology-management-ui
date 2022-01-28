@@ -93,17 +93,15 @@ export class OntoDataService {
    * TODO: any -> type
    */
   public searchMatchingGroups(query: any, example: any): Observable<any> {
+    console.log("OntoDataService:searchMatchingGroups: query = ", query);
     let url: string = `${this.py_url}/propagation/group`;
-
-    const mustKeys = query?.mustKeys;
-    console.log("OntoDataService:searchMatchingGroups: mustKeys = ", mustKeys);
 
     if (false) {
       return of(this.showGroupsWithUsingMockData());
     } else {
       return this.api.post(url, query).pipe(
         map((d: any) => {
-          return this.processKeywords(mustKeys, d, example);
+          return this.processKeywords(query?.mustKeys, d, example);
         })
       );
     }

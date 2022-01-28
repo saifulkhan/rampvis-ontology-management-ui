@@ -32,15 +32,6 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <!-- <button
-            (click)="onClickSearchOntoVis()"
-            [disabled]="!ontoVisSearchFormGroup.valid"
-            class="btn btn-primary btn-round btn-fab float-right card-btn"
-            type="submit"
-          >
-            <mat-icon>search</mat-icon>
-          </button> -->
-
           <button
             mat-raised-button
             class="btn btn-primary"
@@ -105,13 +96,6 @@
             <div class="row">
               <div class="col-md-9">
                 <mat-card class="mat-card-data-search">
-                  <!--
-                  <mat-card-header>
-                  <mat-card-title>Search Query</mat-card-title>
-                  <mat-card-subtitle></mat-card-subtitle>
-                  </mat-card-header>
-                  -->
-
                   <form>
                     <mat-form-field>
                       <mat-label>Keywords (every stream / must)</mat-label>
@@ -134,17 +118,11 @@
                           placeholder="..."
                           #keywordInput1
                           [formControl]="keywordInputCtrl1"
-                          [matAutocomplete]="autoKeyword1"
                           [matChipInputFor]="keywordChipList1"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                          (matChipInputTokenEnd)="onEnterAddKeyword($event)"
+                          (matChipInputTokenEnd)="onEnterAddKeywordMust($event)"
                         />
                       </mat-chip-list>
-                      <mat-autocomplete #autoKeyword1="matAutocomplete" (optionSelected)="onAddKeyword($event, 1)">
-                        <mat-option *ngFor="let d of filteredKeywords1$ | async" [value]="d">
-                          {{ d }}
-                        </mat-option>
-                      </mat-autocomplete>
                     </mat-form-field>
 
                     <div class="row">
@@ -170,17 +148,11 @@
                               placeholder="..."
                               #keywordInput2
                               [formControl]="keywordInputCtrl2"
-                              [matAutocomplete]="autoKeyword2"
                               [matChipInputFor]="keywordChipList2"
                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                              (matChipInputTokenEnd)="onEnterAddKeyword($event)"
+                              (matChipInputTokenEnd)="onEnterAddKeywordShould($event)"
                             />
                           </mat-chip-list>
-                          <mat-autocomplete #autoKeyword2="matAutocomplete" (optionSelected)="onAddKeyword($event, 2)">
-                            <mat-option *ngFor="let d of filteredKeywords2$ | async" [value]="d">
-                              {{ d }}
-                            </mat-option>
-                          </mat-autocomplete>
                         </mat-form-field>
                       </div>
                       <div class="col-md-2">
@@ -211,17 +183,11 @@
                           placeholder="..."
                           #keywordInput3
                           [formControl]="keywordInputCtrl3"
-                          [matAutocomplete]="autoKeyword3"
                           [matChipInputFor]="keywordChipList3"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                          (matChipInputTokenEnd)="onEnterAddKeyword($event)"
+                          (matChipInputTokenEnd)="onEnterAddKeywordMustNot($event)"
                         />
                       </mat-chip-list>
-                      <mat-autocomplete #autoKeyword3="matAutocomplete" (optionSelected)="onAddKeyword($event, 3)">
-                        <mat-option *ngFor="let d of filteredKeywords3$ | async" [value]="d">
-                          {{ d }}
-                        </mat-option>
-                      </mat-autocomplete>
                     </mat-form-field>
 
                     <mat-form-field>
@@ -241,20 +207,13 @@
                           placeholder="..."
                           #dataTypeInput
                           [formControl]="dataTypeInputCtrl"
-                          [matAutocomplete]="autoDataType"
                           [matChipInputFor]="dataTypeChipList"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                           (matChipInputTokenEnd)="onEnterAddDataType($event)"
                         />
                       </mat-chip-list>
-                      <mat-autocomplete #autoDataType="matAutocomplete" (optionSelected)="onInputDataType($event)">
-                        <mat-option *ngFor="let d of filteredDataTypes$ | async" [value]="d">
-                          {{ d }}
-                        </mat-option>
-                      </mat-autocomplete>
                     </mat-form-field>
 
-                    <!-- <button mat-raised-button class="btn btn-primary" (click)="onClickSearchMatchingGroups()" type="submit" align="end">Search</button> -->
                     <mat-card-actions align="end">
                       <button
                         mat-raised-button
@@ -273,13 +232,6 @@
 
               <div class="col-md-3">
                 <mat-card>
-                  <!--
-                  <mat-card-header>
-                  <mat-card-title>Ranking Parameters</mat-card-title>
-                  <mat-card-subtitle></mat-card-subtitle>
-                  </mat-card-header>
-                  -->
-
                   <form>
                     <label id="cluster-algorithm-group-label">Assign weights for ranking</label>
                     <table cellspacing="0">
@@ -309,17 +261,48 @@
                     <mat-radio-group
                       aria-labelledby="example-radio-group-label"
                       class="cluster-algorithm-radio-group"
-                      [(ngModel)]="clusteringAlgorithm"
-                      name="clusteringAlgorithm"
+                      [(ngModel)]="selectedAlgorithm"
+                      name="algorithm"
                     >
                       <mat-radio-button
                         class="cluster-algorithm-radio-button"
-                        *ngFor="let d of clusteringAlgorithms"
+                        *ngFor="let d of allAlgorithms"
                         [value]="d"
+                        (change)="onAlgorithmRadioChange($event)"
                       >
                         {{ d }}
                       </mat-radio-button>
                     </mat-radio-group>
+
+                    <table cellspacing="0">
+                      <tr>
+                        <td>
+                          <label id="cluster-algorithm-group-label">Hardware</label>
+                          <mat-radio-group
+                            aria-labelledby="example-radio-group-label"
+                            class="cluster-algorithm-radio-group"
+                            [(ngModel)]="selectedProcessor"
+                            name="processor"
+                          >
+                            <mat-radio-button
+                              class="cluster-algorithm-radio-button"
+                              *ngFor="let d of allProcessor"
+                              [value]="d"
+                              (change)="onProcessorRadioChange($event)"
+                            >
+                              {{ d }}
+                            </mat-radio-button>
+                          </mat-radio-group>
+                        </td>
+
+                        <td>
+                          <mat-form-field>
+                            <mat-label>Maximum search window</mat-label>
+                            <input matInput placeholder="" [(ngModel)]="maxSearchWindow" name="maxSearchWindow" />
+                          </mat-form-field>
+                        </td>
+                      </tr>
+                    </table>
                   </form>
                 </mat-card>
               </div>

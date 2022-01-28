@@ -22,6 +22,7 @@ import { DataStreamKeywordsArr } from "../../services/ontology/data-stream-keywo
 import { PAGE_TYPE } from "../../models/ontology/page-type.enum";
 import { SEL_KW_STATE } from "../../models/selected-kw-state";
 import { SEL_DATATYPE_STATE } from "../../models/selected-datatype-state";
+import { MatRadioChange } from "@angular/material/radio";
 
 @Component({
   selector: "app-propagation",
@@ -43,10 +44,6 @@ export class PropagationComponent implements OnInit {
   public referenceOntoData: OntoData[] = [];
   public exampleLinks: OntoPageExt[] = [];
 
-  // Propagation
-  public propagationTypes!: string[];
-  public propagationType!: PROPAGATION_TYPE;
-
   constructor(
     private fb: FormBuilder,
     private ontoVisService: OntoVisService,
@@ -55,23 +52,17 @@ export class PropagationComponent implements OnInit {
     private errorHandler2Service: ErrorHandler2Service,
     private ngxUiLoaderService: NgxUiLoaderService,
     private ontoPageService: OntoPageService
-  ) {
-    this.propagationTypes = (Object.keys(PROPAGATION_TYPE) as Array<keyof typeof PROPAGATION_TYPE>).map(
-      (d) => PROPAGATION_TYPE[d]
-    );
-  }
+  ) {}
 
   ngOnInit(): void {
     this.ngOnInitVisSearch();
     this.ngOnInit_dataSearch();
   }
 
-  ngAfterViewInit(): void {
-    //this.ngAfterViewInitOntoDataSearchForm();
-  }
+  ngAfterViewInit(): void {}
 
   //
-  // VIS function search, example data, and example links
+  // VIS function search and reference data
   //
 
   ngOnInitVisSearch(): void {
@@ -163,75 +154,42 @@ export class PropagationComponent implements OnInit {
   //
 
   @ViewChild("keywordInput1") keywordInput1!: ElementRef<HTMLInputElement>;
-  //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
   keywordInputCtrl1 = new FormControl();
-  filteredKeywords1$!: Observable<string[]>;
-
   @ViewChild("keywordInput2") keywordInput2!: ElementRef<HTMLInputElement>;
-  //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
   keywordInputCtrl2 = new FormControl();
-  filteredKeywords2$!: Observable<string[]>;
-
   @ViewChild("keywordInput3") keywordInput3!: ElementRef<HTMLInputElement>;
-  //@ViewChild('auto1') matAutocomplete1!: MatAutocomplete;
   keywordInputCtrl3 = new FormControl();
-  filteredKeywords3$!: Observable<string[]>;
+  @ViewChild("dataTypeInput") dataTypeInput!: ElementRef<HTMLInputElement>;
+  dataTypeInputCtrl = new FormControl();
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
   allKeywords!: string[];
   allDataTypes!: string[];
 
+  // Keyword in search form, the state of the keywords are are,
+  // 1 => must, 2 => should, 3 => must not
+  keywordSelectionStateMap: any = {};
+  datatypeSelectionStateMap: any = {};
+
+  // Ranking parameters
+  public alpha: number = 1.0;
+  public beta: number = 0.0;
+  public theta: number = 0.0;
+  public minimumShouldMatch: number = 1;
+  public cluster: boolean = true;
+  allAlgorithms: string[] = ["Spectral-clustering", "K-means", "Brute-force"];
+  selectedAlgorithm: string = "Spectral-clustering";
+  allProcessor: string[] = ["CPU", "GPU"];
+  selectedProcessor: string = "CPU";
+  maxSearchWindow = 10000;
+
   ngOnInit_dataSearch() {
-    // keyword
     this.allKeywords = DataStreamKeywordsArr();
-
-    const _filterKeyword = (value: string): string[] => {
-      const filterValue = value.toLowerCase();
-      return this.allKeywords.filter((d) => d.toLowerCase().indexOf(filterValue) === 0);
-    };
-
-    this.filteredKeywords1$ = this.keywordInputCtrl1.valueChanges.pipe(
-      startWith(null),
-      map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
-    );
-
-    this.filteredKeywords2$ = this.keywordInputCtrl2.valueChanges.pipe(
-      startWith(null),
-      map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
-    );
-
-    this.filteredKeywords3$ = this.keywordInputCtrl3.valueChanges.pipe(
-      startWith(null),
-      map((d: string | null) => (d ? _filterKeyword(d) : this.allKeywords.slice()))
-    );
-
-    // data type
     this.allDataTypes = (Object.keys(DATA_TYPE) as Array<keyof typeof DATA_TYPE>).map((d) => DATA_TYPE[d]);
-
-    const _filterDataType = (value: string): string[] => {
-      const filterValue = value.toLowerCase();
-      return this.allDataTypes.filter((d) => d.toLowerCase().indexOf(filterValue) === 0);
-    };
-
-    this.filteredDataTypes$ = this.dataTypeInputCtrl.valueChanges.pipe(
-      startWith(null),
-      map((d: string | null) => (d ? _filterDataType(d) : this.allDataTypes.slice()))
-    );
 
     // Mock data
     // this.ontoDataMatchingGroups = this.ontoDataService.getMockMatchingData();
   }
-
-  /**
-   * Keyword in search form, the state of the keywords are are,
-   * 1 => must, 2 => should, 3 => must not
-   */
-
-  keywordSelectionStateMap: any = {};
-  selectedKeywords1: string[] = [];
-  selectedKeywords2: string[] = [];
-  selectedKeywords3: string[] = [];
 
   getSelectedKeywords(state: SEL_KW_STATE): string[] {
     return Object.keys(this.keywordSelectionStateMap).filter((d) => this.keywordSelectionStateMap[d].state === state);
@@ -245,38 +203,29 @@ export class PropagationComponent implements OnInit {
     delete this.keywordSelectionStateMap[kw];
   }
 
-  onAddKeyword(event: MatAutocompleteSelectedEvent, state: SEL_KW_STATE): void {
-    const kw = event.option.viewValue;
-    console.log("onAddKeyword: keyword = ", kw, ", state = ", state);
-
-    this.keywordSelectionStateMap[kw] = { state: state, from: "nw" };
-
-    // Clear the typed words
-    this.keywordInput1.nativeElement.value = "";
-    this.keywordInputCtrl1.setValue(null);
-    this.keywordInput2.nativeElement.value = "";
-    this.keywordInputCtrl2.setValue(null);
-    this.keywordInput3.nativeElement.value = "";
-    this.keywordInputCtrl3.setValue(null);
+  onEnterAddKeywordMust(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+    this.keywordSelectionStateMap[value] = { state: SEL_KW_STATE.MUST, from: "nw" };
+    this.keywordInput1.nativeElement.value = ""; // clear
   }
 
-  onEnterAddKeyword(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-    console.log("onEnterAddKeyword: ", input, value);
-    // not implemented
+  onEnterAddKeywordShould(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+    this.keywordSelectionStateMap[value] = { state: SEL_KW_STATE.SHOULD, from: "nw" };
+    this.keywordInput2.nativeElement.value = ""; // clear
   }
 
-  /**
-   * Data-type filter
-   */
+  onEnterAddKeywordMustNot(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+    this.keywordSelectionStateMap[value] = { state: SEL_KW_STATE.MUST_NOT, from: "nw" };
+    this.keywordInput3.nativeElement.value = ""; // clear
+  }
 
-  datatypeSelectionStateMap: any = {};
-
-  @ViewChild("dataTypeInput") dataTypeInput!: ElementRef<HTMLInputElement>;
-  //@ViewChild('auto') matAutocomplete!: MatAutocomplete;
-  dataTypeInputCtrl = new FormControl();
-  filteredDataTypes$!: Observable<string[]>;
+  onEnterAddDataType(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+    this.datatypeSelectionStateMap[value] = { state: SEL_DATATYPE_STATE.FILTER, from: "nw" };
+    this.dataTypeInput.nativeElement.value = "";
+  }
 
   getSelectedDataTypes(state: SEL_DATATYPE_STATE = 1): string[] {
     return Object.keys(this.datatypeSelectionStateMap).filter((d) => this.datatypeSelectionStateMap[d].state === state);
@@ -290,36 +239,28 @@ export class PropagationComponent implements OnInit {
     delete this.datatypeSelectionStateMap[dt];
   }
 
-  onInputDataType(event: MatAutocompleteSelectedEvent): void {
-    const dt = event.option.viewValue;
-    console.log("onInputDataType: dataType = ", dt);
-
-    this.datatypeSelectionStateMap[dt] = { state: SEL_DATATYPE_STATE.FILTER, from: "nw" };
-
-    this.dataTypeInput.nativeElement.value = "";
-    this.dataTypeInputCtrl.setValue(null);
+  onProcessorRadioChange(event: MatRadioChange) {
+    console.log("onProcessorRadioChange: event.value = ", event.value);
+    if (event.value === "GPU") {
+      this.selectedAlgorithm = "K-means";
+    }
   }
 
-  // not implemented
-  onEnterAddDataType(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-    console.log("onEnterAddDataTypeChip: ", input, value);
+  onAlgorithmRadioChange(event: MatRadioChange) {
+    console.log("onAlgorithmRadioChange: event.value = ", event.value);
+    if (event.value === "Spectral-clustering") {
+      this.selectedProcessor = "CPU";
+    }
   }
+
+  //
+  // Search result groups
+  //
 
   // Search data result in group
   public discoveredOntoDataGroups!: any; //OntoDataSearchGroup[];
   // Search page result in group
   public ontoPageExtSearchGroups!: OntoPageExtSearchGroup[];
-
-  // Ranking parameters
-  public alpha: number = 1.0;
-  public beta: number = 0.0;
-  public theta: number = 0.0;
-  public minimumShouldMatch: number = 1;
-  public cluster: boolean = true;
-  clusteringAlgorithm: string = "Spectral Graph";
-  clusteringAlgorithms: string[] = ["Brute-force", "Spectral Graph"];
 
   public onClickSearchMatchingGroups() {
     if (!this.referenceOntoVis || !this.referenceOntoVis[0]?.id) {
@@ -337,7 +278,9 @@ export class PropagationComponent implements OnInit {
       alpha: this.alpha,
       beta: this.beta,
       theta: this.theta,
-      clusteringAlgorithm: this.clusteringAlgorithm,
+      clusteringAlgorithm: this.selectedAlgorithm,
+      processor: this.selectedProcessor,
+      maxSearchWindow: this.maxSearchWindow,
     };
 
     console.log("PropagationComponent:onClickSearchMatchingGroups: query = ", query);
