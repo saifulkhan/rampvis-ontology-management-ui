@@ -25,28 +25,31 @@
       <input formControlName="description" matInput />
     </mat-form-field>
 
-    <ng-select
-      [items]="grpKeywords"
-      bindLabel="name"
-      bindValue="name"
-      groupBy="subGroup"
-      [multiple]="true"
-      [closeOnSelect]="true"
-      [selectableGroup]="true"
-      [selectableGroupAsModel]="false"
-      formControlName="keywords"
-      placeholder="Keywords"
-    >
-    <ng-template ng-optgroup-tmp let-item="item">
-      {{item.name}}
-    </ng-template>
-    <ng-template ng-option-tmp let-item="item">
-      {{item.name}}
-    </ng-template>
-    </ng-select>
+    <mat-form-field>
+      <mat-label>Keywords</mat-label>
+      <mat-chip-list #keywordsId aria-label="">
+        <mat-chip
+          *ngFor="let d of formGroup.get('keywords')?.value"
+          [selectable]="false"
+          [removable]="true"
+          (removed)="removeKeyword(d)"
+          color="primary"
+        >
+          {{ d }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="..."
+          #keywordInput1
+          formControlName="keyword"
+          [matChipInputFor]="keywordsId"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addKeyword($event)"
+        />
+      </mat-chip-list>
+    </mat-form-field>
 
     <!-- <small>Selected: {{formGroup.get('keywords')?.value | json}}</small> -->
-
 
     <mat-dialog-actions align="end">
       <button mat-raised-button class="btn btn-warning" [mat-dialog-close]="undefined">Cancel</button>
