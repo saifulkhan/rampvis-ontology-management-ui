@@ -12,8 +12,7 @@ This is a JavaScript and Angular-based application for RAMPVIS infrastructure ma
 ### Start Development Instance
 
 ```bash
-npm install
-npx ng serve
+docker compose up -d
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI and login:
