@@ -1,14 +1,13 @@
 # About
 
-RAMPVIS Ontology Management & Propagation UI: This is an Angular-based user interface for RAMPVIS operations, e.g., data and ontology management, propagation, etc.
+This is a JavaScript and Angular-based application for RAMPVIS infrastructure management, e.g., data management, ontology management, semi-automatic propagation of visualisation, etc.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node version 16.13.0
-- Angular 12
-- REST-APIs server: https://github.com/ScottishCovidResponse/rampvis-api. Start the backend servers before continuing.
+- This is tested in Ubuntu 22.04
+- Start the backend server; please visit https://github.com/ScottishCovidResponse/rampvis-api
 
 ### Start Development Instance
 
@@ -17,7 +16,30 @@ npm install
 npx ng serve
 ```
 
-Navigate to [localhost:4200](localhost:4200) to open the UI.
+Navigate to [localhost:4200](localhost:4200) to open the UI and login:
+
+```bash
+User: admin.test.com
+Password: pass123
+```
+
+### Start Development Instance Locally
+
+In order to start the UI server locally it require Node.js version 16.13.0+ installed in the local development machine.
+
+Install dependencies and start.
+
+```bash
+npm install
+npx ng serve
+```
+
+Navigate to [localhost:4200](localhost:4200) to open the UI and login:
+
+```bash
+User: admin.test.com
+Password: pass123
+```
 
 ## BibTeX
 
@@ -36,3 +58,8 @@ Navigate to [localhost:4200](localhost:4200) to open the UI.
 ```
 
 IEEE VIS 2021 [fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
+
+## Contact
+
+URL: https://sites.google.com/view/rampvis/teams
+Email: saiful.etc@gmail.com

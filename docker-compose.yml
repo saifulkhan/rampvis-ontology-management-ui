@@ -1,14 +1,18 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
-  angular:
-    container_name: ui-angular
+  rampvis-ontology-ui:
+    container_name: rampvis-ontology-ui
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - '.:/usr/src/ui'
-      - '/usr/src/ui/node_modules'
+      - ".:/usr/src/ui"
+      - "/usr/src/ui/node_modules"
     ports:
-      - '4200:4200'
+      - "4200:4200"
+
+networks:
+  default:
+    external: true
+    name: rampvis-api-network
