@@ -18,7 +18,7 @@ docker compose up -d
 Navigate to [localhost:4200](localhost:4200) to open the UI and login:
 
 ```bash
-User: admin.test.com
+User: admin@test.com
 Password: pass123
 ```
 
@@ -36,7 +36,7 @@ npx ng serve
 Navigate to [localhost:4200](localhost:4200) to open the UI and login:
 
 ```bash
-User: admin.test.com
+User: admin@test.com
 Password: pass123
 ```
 
