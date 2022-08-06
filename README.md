@@ -12,7 +12,10 @@ This is a JavaScript and Angular-based application for RAMPVIS infrastructure ma
 ### Start Development Instance
 
 ```bash
-docker compose up -d
+docker-compose up -d
+
+# see log to check if the server has started
+docker logs rampvis-ontology-ui --follow
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI and login:
