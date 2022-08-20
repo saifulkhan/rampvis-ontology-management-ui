@@ -15,10 +15,11 @@ ENV PATH /usr/src/ui/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json /usr/src/ui/package.json
-RUN npm install --force
+RUN npm install
+
 # to avoid typescript version error
-RUN npm install typescript@3.8.3
-RUN npm install -g @angular/cli@9.1.7
+#RUN npm install typescript@3.8.3
+#RUN npm install -g @angular/cli@9.1.7
 
 # add app
 COPY . /usr/src/ui

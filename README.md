@@ -27,7 +27,7 @@ Password: pass123
 
 ### Start Development Instance Locally
 
-In order to start the UI server locally it require Node.js version 16.13.0+ installed in the local development machine.
+In order to start the UI server locally it require Node.js version 12.17.0 installed in the local development machine.
 
 Install dependencies and start.
 
