@@ -17,7 +17,7 @@ docker-compose rm
 docker rmi rampvis-ontology-management-ui-rampvis-ontology-ui
 ```
 
-### Start Development Instance
+### Start Development Instance in Container
 
 Start the server
 
