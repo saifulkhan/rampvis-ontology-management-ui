@@ -7,15 +7,17 @@ This is a JavaScript and Angular-based application for RAMPVIS infrastructure ma
 - This is tested in Ubuntu 22.04 and WSL2
 - Start the backend server; please visit https://github.com/ScottishCovidResponse/rampvis-api
 
-### Start Development Instance
+### Stop & Clean (optional)
 
-Stop and clean everything if required. Example commands:
+Following commands will stop the container and and clean the image.
 
 ```sh
 docker-compose stop
 docker-compose rm
 docker rmi rampvis-ontology-management-ui-rampvis-ontology-ui
 ```
+
+### Start Development Instance
 
 Start the server
 
