@@ -4,18 +4,26 @@ This is a JavaScript and Angular-based application for RAMPVIS infrastructure ma
 
 ## Getting Started
 
-### Prerequisites
-
-- This is tested in Ubuntu 22.04
+- This is tested in Ubuntu 22.04 and WSL2
 - Start the backend server; please visit https://github.com/ScottishCovidResponse/rampvis-api
 
 ### Start Development Instance
 
+Stop and clean everything if required. Example commands:
+
+```sh
+docker-compose stop
+docker-compose rm
+docker rmi rampvis-ontology-management-ui-rampvis-ontology-ui
+```
+
+Start the server
+
 ```bash
 docker-compose up -d
 
-# see log to check if the server has started
-docker logs rampvis-ontology-ui --follow
+# see the log to check if the server has started
+docker logs rampvis-ontology-ui
 ```
 
 Navigate to [localhost:4200](localhost:4200) to open the UI and login:
