@@ -71,7 +71,4 @@ Password: pass123
 
 IEEE VIS 2021 [fast-forward video](https://www.youtube.com/watch?v=WVsrMdvjQlk&t=2s)
 
-## Contact
-
-URL: https://sites.google.com/view/rampvis/teams
-Email: saiful.etc@gmail.com
+ 
